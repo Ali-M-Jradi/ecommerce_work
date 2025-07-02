@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/cart_provider.dart';
+import '../../cart_page/cart_page.dart';
+import '../../../main.dart'; // Import to access navigatorKey
 import 'star_rating_widget.dart';
 
 class ProductDetailsDialogWidget extends StatefulWidget {
@@ -15,6 +19,18 @@ class ProductDetailsDialogWidget extends StatefulWidget {
 
 class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget> {
   double userRating = 0.0; // Local rating for this product
+
+  // Helper method to check if product is sold out
+  bool _isSoldOut() {
+    // Handle both formats: 'soldOut': bool and 'status': 'sold_out'
+    if (widget.product.containsKey('soldOut')) {
+      return widget.product['soldOut'] == true;
+    }
+    if (widget.product.containsKey('status')) {
+      return widget.product['status'] == 'sold_out';
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +73,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               SizedBox(height: 16),
               // Brand
               Text(
-                widget.product['brand'],
+                widget.product['brand'] ?? 'Unknown Brand',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.deepPurple.shade600,
@@ -67,7 +83,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               SizedBox(height: 8),
               // Product Name (Full)
               Text(
-                widget.product['name'],
+                widget.product['name'] ?? 'Unknown Product',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -85,20 +101,21 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                 ),
               SizedBox(height: 8),
               // Size
-              Text(
-                'Size: ${widget.product['size']}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey.shade600,
+              if (widget.product['size'] != null)
+                Text(
+                  'Size: ${widget.product['size']}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey.shade600,
+                  ),
                 ),
-              ),
               SizedBox(height: 16),
               // Price and Current Rating
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '\$${widget.product['price']}',
+                    '\$${widget.product['price'] ?? 0}',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -109,7 +126,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                     children: [
                       Icon(Icons.star, color: Colors.orange, size: 18),
                       Text(
-                        '${widget.product['rating']}',
+                        '${widget.product['rating'] ?? 0}',
                         style: TextStyle(fontSize: 16),
                       ),
                       Text(
@@ -206,17 +223,37 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: widget.product['soldOut'] ? null : () {
+                  onPressed: _isSoldOut() ? null : () {
+                    // Add to cart using CartProvider
+                    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+                    cartProvider.addItem(widget.product);
+                    
+                    // Pop the dialog first
                     Navigator.of(context).pop();
+                    
+                    // Show snackbar with simple navigation
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('${widget.product['name']} added to cart!'),
+                        content: Text('${widget.product['name'] ?? 'Product'} added to cart!'),
                         backgroundColor: Colors.deepPurple.shade600,
+                        duration: const Duration(seconds: 4),
+                        action: SnackBarAction(
+                          label: 'VIEW CART',
+                          textColor: Colors.white,
+                          onPressed: () {
+                            // Use the global navigator key for guaranteed navigation
+                            navigatorKey.currentState?.push(
+                              MaterialPageRoute(
+                                builder: (context) => const CartPage(),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: widget.product['soldOut'] 
+                    backgroundColor: _isSoldOut() 
                         ? Colors.grey 
                         : Color(0xFF4A154B),
                     foregroundColor: Colors.white,
@@ -226,7 +263,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                     ),
                   ),
                   child: Text(
-                    widget.product['soldOut'] ? 'SOLD OUT' : 'ADD TO CART',
+                    _isSoldOut() ? 'SOLD OUT' : 'ADD TO CART',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce/pages/products_page/products_page.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/cart_provider.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
-  const AppBarWidget({super.key});
+  final int selectedIndex;
+  final Function(int) onNavigationTap;
+  
+  const AppBarWidget({
+    super.key,
+    this.selectedIndex = -1,
+    required this.onNavigationTap,
+  });
 
   @override
   State<AppBarWidget> createState() => _AppBarWidgetState();
@@ -12,8 +20,6 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppBarWidgetState extends State<AppBarWidget> {
-  int _selectedIndex = 0;
-
   void _showComingSoonDialog(String feature) {
     showDialog(
       context: context,
@@ -62,32 +68,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   }
 
   void _onNavigationTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        // Home - Stay on current page (already on home)
-        break;
-      case 1:
-        // Cart - Coming soon
-        _showComingSoonDialog('Shopping Cart');
-        break;
-      case 2:
-        // Products - Navigate to products page
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ProductsPage(),
-          ),
-        );
-        break;
-      case 3:
-        // Profile - Coming soon
-        _showComingSoonDialog('User Profile');
-        break;
-    }
+    // Call the parent's navigation handler
+    widget.onNavigationTap(index);
   }
 
   @override
@@ -152,23 +134,31 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: NavigationBar(
-          selectedIndex: _selectedIndex,
+          selectedIndex: widget.selectedIndex >= 0 ? widget.selectedIndex : 0,
           onDestinationSelected: _onNavigationTap,
           destinations: [
             NavigationDestination(
-              icon: Icon(Icons.home, color: Colors.deepPurpleAccent.shade700),
-              label: 'Home',
+              icon: Icon(Icons.search, color: Colors.deepPurpleAccent.shade700),
+              label: 'Search',
             ),
             NavigationDestination(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.deepPurpleAccent.shade700,
+              icon: Consumer<CartProvider>(
+                builder: (context, cart, child) {
+                  return Badge(
+                    label: Text(cart.itemCount.toString()),
+                    isLabelVisible: cart.itemCount > 0,
+                    child: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.deepPurpleAccent.shade700,
+                    ),
+                  );
+                },
               ),
               label: 'Cart',
             ),
             NavigationDestination(
               icon: Icon(
-                Icons.business_center,
+                Icons.shopping_bag,
                 color: Colors.deepPurpleAccent.shade700,
               ),
               label: 'Products',

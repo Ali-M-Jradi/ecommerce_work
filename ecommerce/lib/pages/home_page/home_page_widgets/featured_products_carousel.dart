@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../products_page/products_page_widgets/product_details_dialog_widget.dart';
 
 class FeaturedProductsCarousel extends StatefulWidget {
   const FeaturedProductsCarousel({super.key});
@@ -23,6 +24,8 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
       'description': 'Soin rénovation peaux grasses anti-oxydation anti-sébum',
       'status': 'sold_out',
       'fcfa': '0 FCFA',
+      'size': 'Not specified',
+      'category': 'face_care',
     },
     {
       'name': 'Pure Vitamin C Légère Soin anti-rides',
@@ -34,6 +37,8 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
       'description': 'éclat peaux normales à mixtes tube 40 ml',
       'status': 'sold_out',
       'fcfa': '0 FCFA',
+      'size': '40 ml',
+      'category': 'face_care',
     },
     {
       'name': 'LA ROCHE POSAY EFFACLAR H',
@@ -45,6 +50,8 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
       'description': 'Crème lavante purifiante compensatrice',
       'status': 'sold_out',
       'fcfa': '0 FCFA',
+      'size': 'Not specified',
+      'category': 'face_care',
     },
     {
       'name': 'ANTHELIOS UV MUNE 400',
@@ -56,6 +63,8 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
       'description': 'Fluide Invisible Teinté avec parfum SPF50+',
       'status': 'sold_out',
       'fcfa': '0 FCFA',
+      'size': 'Not specified',
+      'category': 'face_care',
     },
   ];
 
@@ -109,22 +118,24 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
       ],
     );
   }
-
   Widget _buildProductCard(Map<String, dynamic> product) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 15,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
+    return GestureDetector(
+      onTap: () => _showProductDetails(product),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 15,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Product Image
@@ -178,6 +189,23 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                         ),
                       ),
                     ),
+                  // Tap to view indicator
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurple.shade600.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.visibility,
+                        size: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -274,6 +302,16 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
           ),
         ],
       ),
+      ),
+    );
+  }
+
+  void _showProductDetails(Map<String, dynamic> product) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ProductDetailsDialogWidget(product: product);
+      },
     );
   }
 }

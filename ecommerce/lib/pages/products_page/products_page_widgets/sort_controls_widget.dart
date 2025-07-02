@@ -5,6 +5,8 @@ class SortControlsWidget extends StatelessWidget {
   final bool isGridView;
   final Function(String?) onSortChanged;
   final Function(bool) onViewChanged;
+  final VoidCallback? onFilterPressed;
+  final bool hasActiveFilters;
 
   const SortControlsWidget({
     super.key,
@@ -12,6 +14,8 @@ class SortControlsWidget extends StatelessWidget {
     required this.isGridView,
     required this.onSortChanged,
     required this.onViewChanged,
+    this.onFilterPressed,
+    this.hasActiveFilters = false,
   });
 
   @override
@@ -114,6 +118,42 @@ class SortControlsWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+              ],
+            ),
+          ),
+          SizedBox(width: 12.0),
+          // Filter button
+          Container(
+            height: 40,
+            decoration: BoxDecoration(
+              color: hasActiveFilters ? Colors.deepPurple.shade700 : Colors.white,
+              border: Border.all(color: Colors.deepPurple.shade300),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Stack(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.filter_list,
+                    color: hasActiveFilters ? Colors.white : Colors.deepPurple.shade700,
+                    size: 20,
+                  ),
+                  onPressed: onFilterPressed,
+                  tooltip: 'Filters',
+                ),
+                if (hasActiveFilters)
+                  Positioned(
+                    right: 8,
+                    top: 8,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),

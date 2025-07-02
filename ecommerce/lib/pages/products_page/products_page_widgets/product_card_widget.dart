@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'highlighted_text_widget.dart';
 
 class ProductCardWidget extends StatelessWidget {
   final Map<String, dynamic> product;
   final VoidCallback onTap;
+  final String? searchQuery;
 
   const ProductCardWidget({
     super.key,
     required this.product,
     required this.onTap,
+    this.searchQuery,
   });
 
   @override
@@ -84,8 +87,9 @@ class ProductCardWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // Brand
-                    Text(
-                      product['brand'],
+                    HighlightedText(
+                      text: product['brand'],
+                      highlight: searchQuery ?? '',
                       style: TextStyle(
                         fontSize: 11,
                         color: Colors.deepPurple.shade600,
@@ -93,18 +97,21 @@ class ProductCardWidget extends StatelessWidget {
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      highlightColor: Colors.yellow,
                     ),
                     SizedBox(height: 2),
                     // Product Name
                     Expanded(
-                      child: Text(
-                        product['name'],
+                      child: HighlightedText(
+                        text: product['name'],
+                        highlight: searchQuery ?? '',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
+                        highlightColor: Colors.yellow,
                       ),
                     ),
                     // Size

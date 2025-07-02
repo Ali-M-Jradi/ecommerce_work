@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:ecommerce/pages/base_page/base_page_widgets/floating_action_buttons_widget.dart';
+import '../cart_page/cart_page.dart';
+import '../../../main.dart'; // Import for global navigator key
 import 'products_page_widgets/products_app_bar_widget.dart';
 import 'products_page_widgets/products_grid_view_widget.dart';
 import 'products_page_widgets/products_list_view_widget.dart';
 import 'products_page_widgets/product_details_dialog_widget.dart';
 import 'products_page_widgets/sort_controls_widget.dart';
+import 'products_page_widgets/search_bar_widget.dart';
+import 'products_page_widgets/filter_bottom_sheet.dart';
 import 'products_page_widgets/products_page_controller.dart';
 import 'products_page_widgets/products_page_constants.dart';
 
 class ProductsPage extends StatefulWidget {
-  const ProductsPage({super.key});
+  final String? category;
+  final String? categoryTitle;
+  final bool autoFocusSearch;
+  
+  const ProductsPage({
+    super.key,
+    this.category,
+    this.categoryTitle,
+    this.autoFocusSearch = false,
+  });
 
   @override
   State<ProductsPage> createState() => _ProductsPageState();
@@ -23,7 +36,15 @@ class _ProductsPageState extends State<ProductsPage> {
     super.initState();
     _controller = ProductsPageController(
       onStateChanged: () => setState(() {}),
+      category: widget.category,
     );
+    
+    // Auto-focus search if requested
+    if (widget.autoFocusSearch) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.focusSearch();
+      });
+    }
   }
 
   @override
@@ -38,12 +59,29 @@ class _ProductsPageState extends State<ProductsPage> {
       appBar: ProductsAppBarWidget(
         onBackPressed: () => Navigator.of(context).pop(),
         onCartPressed: () {
-          // Handle shopping cart action
+          // Navigate to cart page using global navigator key
+          navigatorKey.currentState?.push(
+            MaterialPageRoute(
+              builder: (context) => const CartPage(),
+            ),
+          );
         },
+        title: widget.categoryTitle ?? 'Products',
       ),
       backgroundColor: ProductsPageConstants.backgroundColor,
       body: Column(
         children: [
+          // Search bar
+          SearchBarWidget(
+            controller: _controller.searchController,
+            focusNode: _controller.searchFocusNode,
+            onChanged: (value) {
+              _controller.updateSearchQuery(value);
+            },
+            onClear: () {
+              _controller.clearSearch();
+            },
+          ),
           // Top controls row
           SortControlsWidget(
             sortBy: _controller.sortBy,
@@ -54,6 +92,8 @@ class _ProductsPageState extends State<ProductsPage> {
             onViewChanged: (bool isGrid) {
               _controller.updateViewMode(isGrid);
             },
+            onFilterPressed: _showFilterBottomSheet,
+            hasActiveFilters: _controller.hasActiveFilters,
           ),
           // Content area
           Expanded(
@@ -62,17 +102,40 @@ class _ProductsPageState extends State<ProductsPage> {
                   scrollController: _controller.scrollController,
                   sortBy: _controller.sortBy,
                   onProductTap: _showProductDetails,
+                  category: _controller.category,
+                  searchQuery: _controller.searchQuery,
+                  brand: _controller.selectedBrand,
+                  minPrice: _controller.minPrice,
+                  maxPrice: _controller.maxPrice,
+                  minRating: _controller.minRating,
+                  showOnlyInStock: _controller.showOnlyInStock,
+                  onClearFilters: () {
+                    _controller.clearAllFilters();
+                    _controller.clearSearch();
+                  },
                 )
               : ProductsListViewWidget(
                   scrollController: _controller.scrollController,
                   sortBy: _controller.sortBy,
                   onProductTap: _showProductDetails,
+                  category: _controller.category,
+                  searchQuery: _controller.searchQuery,
+                  brand: _controller.selectedBrand,
+                  minPrice: _controller.minPrice,
+                  maxPrice: _controller.maxPrice,
+                  minRating: _controller.minRating,
+                  showOnlyInStock: _controller.showOnlyInStock,
+                  onClearFilters: () {
+                    _controller.clearAllFilters();
+                    _controller.clearSearch();
+                  },
                 ),
           ),
         ],
       ),
       floatingActionButton: _controller.showFloatingButtons 
         ? FloatingActionButtonsWidget(
+            heroTagPrefix: 'products_page',
             onLoyaltyPressed: () {
               // Handle loyalty program
             },
@@ -90,6 +153,29 @@ class _ProductsPageState extends State<ProductsPage> {
       context: context,
       builder: (BuildContext context) {
         return ProductDetailsDialogWidget(product: product);
+      },
+    );
+  }
+
+  void _showFilterBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return FilterBottomSheet(
+          selectedCategory: _controller.category,
+          selectedBrand: _controller.selectedBrand,
+          minPrice: _controller.minPrice,
+          maxPrice: _controller.maxPrice,
+          minRating: _controller.minRating,
+          showOnlyInStock: _controller.showOnlyInStock,
+          onApplyFilters: (filters) {
+            _controller.updateFilters(filters);
+          },
+        );
       },
     );
   }

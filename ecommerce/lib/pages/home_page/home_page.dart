@@ -2,20 +2,53 @@ import 'package:flutter/material.dart';
 import 'home_page_widgets/featured_products_carousel.dart';
 import 'home_page_widgets/hero_banner_carousel.dart';
 import '../base_page/base_page_widgets/footer_widget.dart';
+import '../products_page/products_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Function(bool)? onFloatingButtonVisibilityChanged;
+  
+  const HomePage({super.key, this.onFloatingButtonVisibilityChanged});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final ScrollController _scrollController = ScrollController();
+  bool _lastVisibilityState = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    final threshold = maxScroll * 0.85; // Hide when 85% scrolled
+
+    bool shouldShow = currentScroll < threshold;
+
+    if (shouldShow != _lastVisibilityState) {
+      _lastVisibilityState = shouldShow;
+      widget.onFloatingButtonVisibilityChanged?.call(shouldShow);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFBFF),
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: [
           // Hero Banner Carousel
           SliverToBoxAdapter(
@@ -24,20 +57,46 @@ class _HomePageState extends State<HomePage> {
           
           // Featured Products Section
           SliverToBoxAdapter(
-            child: const Padding(
-              padding: EdgeInsets.all(20.0),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Featured Products',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1B1B1B),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Featured Products',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1B1B1B),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProductsPage(
+                                categoryTitle: 'All Products',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'View All',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.deepPurple.shade600,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'highlighted_text_widget.dart';
 
 class ProductListItemWidget extends StatelessWidget {
   final Map<String, dynamic> product;
   final VoidCallback onTap;
+  final String? searchQuery;
 
   const ProductListItemWidget({
     super.key,
     required this.product,
     required this.onTap,
+    this.searchQuery,
   });
 
   @override
@@ -75,27 +78,33 @@ class ProductListItemWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      product['brand'],
+                    HighlightedText(
+                      text: product['brand'],
+                      highlight: searchQuery ?? '',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.deepPurple.shade600,
                         fontWeight: FontWeight.w500,
                       ),
+                      highlightColor: Colors.yellow,
                     ),
                     SizedBox(height: 4),
-                    Text(
-                      product['name'],
+                    HighlightedText(
+                      text: product['name'],
+                      highlight: searchQuery ?? '',
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      highlightColor: Colors.yellow,
                     ),
                     SizedBox(height: 4),
-                    Text(
-                      product['description'],
+                    HighlightedText(
+                      text: product['description'],
+                      highlight: searchQuery ?? '',
                       style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      highlightColor: Colors.yellow,
                     ),
                     SizedBox(height: 4),
                     Text(

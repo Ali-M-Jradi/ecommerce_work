@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/cart_provider.dart';
 
 class ProductsAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBackPressed;
   final VoidCallback? onCartPressed;
+  final String? title;
 
   const ProductsAppBarWidget({
     super.key,
     this.onBackPressed,
     this.onCartPressed,
+    this.title,
   });
 
   @override
@@ -18,14 +22,25 @@ class ProductsAppBarWidget extends StatelessWidget implements PreferredSizeWidge
         onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
       ),
       title: Text(
-        'Products',
+        title ?? 'Products',
         style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
       backgroundColor: Colors.deepPurpleAccent.shade700,
       elevation: 0,
       actions: [
         IconButton(
-          icon: Icon(Icons.shopping_cart, color: Colors.white),
+          icon: Consumer<CartProvider>(
+            builder: (context, cart, child) {
+              return Badge(
+                label: Text(cart.itemCount.toString()),
+                isLabelVisible: cart.itemCount > 0,
+                child: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                ),
+              );
+            },
+          ),
           onPressed: onCartPressed ?? () {
             // Handle shopping cart action
           },

@@ -1,0 +1,290 @@
+import 'package:flutter/material.dart';
+
+class FilterBottomSheet extends StatefulWidget {
+  final String? selectedCategory;
+  final String? selectedBrand;
+  final double? minPrice;
+  final double? maxPrice;
+  final double? minRating;
+  final bool? showOnlyInStock;
+  final Function(Map<String, dynamic>) onApplyFilters;
+
+  const FilterBottomSheet({
+    super.key,
+    this.selectedCategory,
+    this.selectedBrand,
+    this.minPrice,
+    this.maxPrice,
+    this.minRating,
+    this.showOnlyInStock,
+    required this.onApplyFilters,
+  });
+
+  @override
+  State<FilterBottomSheet> createState() => _FilterBottomSheetState();
+}
+
+class _FilterBottomSheetState extends State<FilterBottomSheet> {
+  String? _selectedCategory;
+  String? _selectedBrand;
+  RangeValues _priceRange = const RangeValues(0, 100);
+  double _minRating = 0;
+  bool _showOnlyInStock = false;
+
+  final List<String> _categories = [
+    'All Categories',
+    'Face Care',
+    'Body Care',
+    'Hair Care',
+  ];
+
+  final List<String> _brands = [
+    'All Brands',
+    'Avène',
+    'La Roche-Posay',
+    'Vichy',
+    'Eucerin',
+    'CeraVe',
+    'Neutrogena',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedCategory = widget.selectedCategory ?? 'All Categories';
+    _selectedBrand = widget.selectedBrand ?? 'All Brands';
+    _priceRange = RangeValues(
+      widget.minPrice ?? 0,
+      widget.maxPrice ?? 100,
+    );
+    _minRating = widget.minRating ?? 0;
+    _showOnlyInStock = widget.showOnlyInStock ?? false;
+  }
+
+  String _getCategoryValue(String displayName) {
+    switch (displayName) {
+      case 'Face Care':
+        return 'face_care';
+      case 'Body Care':
+        return 'body_care';
+      case 'Hair Care':
+        return 'hair_care';
+      default:
+        return '';
+    }
+  }
+
+  void _applyFilters() {
+    final filters = <String, dynamic>{
+      'category': _selectedCategory == 'All Categories' || _selectedCategory == null 
+          ? null 
+          : _getCategoryValue(_selectedCategory!),
+      'brand': _selectedBrand == 'All Brands' || _selectedBrand == null 
+          ? null 
+          : _selectedBrand,
+      'minPrice': _priceRange.start,
+      'maxPrice': _priceRange.end,
+      'minRating': _minRating,
+      'showOnlyInStock': _showOnlyInStock,
+    };
+    
+    widget.onApplyFilters(filters);
+    Navigator.pop(context);
+  }
+
+  void _clearFilters() {
+    setState(() {
+      _selectedCategory = 'All Categories';
+      _selectedBrand = 'All Brands';
+      _priceRange = const RangeValues(0, 100);
+      _minRating = 0;
+      _showOnlyInStock = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Filters',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple.shade700,
+                ),
+              ),
+              TextButton(
+                onPressed: _clearFilters,
+                child: Text(
+                  'Clear All',
+                  style: TextStyle(
+                    color: Colors.deepPurple.shade600,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Category Filter
+          Text(
+            'Category',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade700,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: _categories.map((category) {
+              final isSelected = _selectedCategory == category;
+              return FilterChip(
+                label: Text(category),
+                selected: isSelected,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedCategory = category;
+                  });
+                },
+                selectedColor: Colors.deepPurple.shade100,
+                checkmarkColor: Colors.deepPurple.shade600,
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 20),
+
+          // Brand Filter
+          Text(
+            'Brand',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade700,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: _brands.map((brand) {
+              final isSelected = _selectedBrand == brand;
+              return FilterChip(
+                label: Text(brand),
+                selected: isSelected,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedBrand = brand;
+                  });
+                },
+                selectedColor: Colors.deepPurple.shade100,
+                checkmarkColor: Colors.deepPurple.shade600,
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 20),
+
+          // Price Range Filter
+          Text(
+            'Price Range: \$${_priceRange.start.round()} - \$${_priceRange.end.round()}',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade700,
+            ),
+          ),
+          RangeSlider(
+            values: _priceRange,
+            min: 0,
+            max: 100,
+            divisions: 20,
+            activeColor: Colors.deepPurple.shade600,
+            inactiveColor: Colors.grey.shade300,
+            onChanged: (values) {
+              setState(() {
+                _priceRange = values;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+
+          // Rating Filter
+          Text(
+            'Minimum Rating: ${_minRating.toStringAsFixed(1)} stars',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade700,
+            ),
+          ),
+          Slider(
+            value: _minRating,
+            min: 0,
+            max: 5,
+            divisions: 10,
+            activeColor: Colors.deepPurple.shade600,
+            inactiveColor: Colors.grey.shade300,
+            onChanged: (value) {
+              setState(() {
+                _minRating = value;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+
+          // Stock Filter
+          CheckboxListTile(
+            title: const Text('Show only products in stock'),
+            value: _showOnlyInStock,
+            onChanged: (value) {
+              setState(() {
+                _showOnlyInStock = value ?? false;
+              });
+            },
+            activeColor: Colors.deepPurple.shade600,
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          const SizedBox(height: 30),
+
+          // Apply Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: _applyFilters,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple.shade600,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                'Apply Filters',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+}
