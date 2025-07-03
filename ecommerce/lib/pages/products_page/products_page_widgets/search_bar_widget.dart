@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final TextEditingController controller;
@@ -12,7 +13,7 @@ class SearchBarWidget extends StatefulWidget {
     required this.controller,
     this.focusNode,
     required this.onChanged,
-    this.hintText = 'Search products...',
+    this.hintText = '',
     this.onClear,
   });
 
@@ -38,7 +39,9 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           setState(() {}); // Trigger rebuild to show/hide clear button
         },
         decoration: InputDecoration(
-          hintText: widget.hintText,
+          hintText: widget.hintText.isEmpty 
+              ? AppLocalizationsHelper.of(context).searchProductsHint 
+              : widget.hintText,
           hintStyle: TextStyle(color: Colors.grey[600] ?? Colors.grey.shade600),
           prefixIcon: Icon(
             Icons.search,

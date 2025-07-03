@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class NoProductsFoundWidget extends StatelessWidget {
   final String? searchQuery;
@@ -28,7 +29,7 @@ class NoProductsFoundWidget extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'No Products Found',
+              AppLocalizationsHelper.of(context).noProductsFound,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -38,7 +39,7 @@ class NoProductsFoundWidget extends StatelessWidget {
             const SizedBox(height: 12),
             if (searchQuery != null && searchQuery!.isNotEmpty)
               Text(
-                'No products match your search for "${searchQuery!}"',
+                AppLocalizationsHelper.of(context).noProductsMatchSearch(searchQuery!),
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey.shade600,
@@ -47,7 +48,7 @@ class NoProductsFoundWidget extends StatelessWidget {
               )
             else if (hasActiveFilters)
               Text(
-                'No products match your current filters',
+                AppLocalizationsHelper.of(context).noProductsMatchFilters,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey.shade600,
@@ -56,7 +57,7 @@ class NoProductsFoundWidget extends StatelessWidget {
               )
             else
               Text(
-                'No products available at the moment',
+                AppLocalizationsHelper.of(context).noProductsAvailable,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey.shade600,
@@ -69,7 +70,7 @@ class NoProductsFoundWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Try adjusting your search or filters',
+                    AppLocalizationsHelper.of(context).tryAdjustingFilters,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey.shade500,
@@ -80,7 +81,7 @@ class NoProductsFoundWidget extends StatelessWidget {
                     ElevatedButton.icon(
                       onPressed: onClearFilters,
                       icon: const Icon(Icons.clear_all),
-                      label: const Text('Clear All Filters'),
+                      label: Text(AppLocalizationsHelper.of(context).clearAllFilters),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple.shade600,
                         foregroundColor: Colors.white,

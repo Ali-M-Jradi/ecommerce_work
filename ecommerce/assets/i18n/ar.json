@@ -1,0 +1,76 @@
+{
+  "appTitle": "تطبيق التجارة الإلكترونية",
+  "checkout": {
+    "title": "إتمام الشراء",
+    "steps": {
+      "address": "عنوان الشحن",
+      "payment": "طريقة الدفع",
+      "review": "مراجعة الطلب",
+      "confirmation": "تم تأكيد الطلب"
+    },
+    "buttons": {
+      "back": "رجوع",
+      "continue": "متابعة",
+      "placeOrder": "تقديم الطلب"
+    },
+    "address": {
+      "shippingAddress": "عنوان الشحن",
+      "billingAddress": "عنوان الفوترة",
+      "noAddresses": "لا توجد عناوين متاحة. يرجى إضافة عنوان للمتابعة.",
+      "selectShipping": "يرجى اختيار عنوان شحن للمتابعة",
+      "selectBilling": "يرجى اختيار عنوان فوترة للمتابعة",
+      "useShippingForBilling": "استخدام عنوان الشحن للفوترة",
+      "addAddress": "إضافة عنوان",
+      "editAddress": "تعديل العنوان"
+    },
+    "validation": {
+      "addressRequired": "يرجى إضافة عنوان قبل المتابعة.",
+      "shippingAddressRequired": "يرجى اختيار عنوان شحن للمتابعة.",
+      "billingAddressRequired": "يرجى اختيار عنوان فوترة للمتابعة.",
+      "addressIncomplete": "يرجى إكمال معلومات العنوان.",
+      "paymentRequired": "يرجى اختيار طريقة دفع للمتابعة.",
+      "reviewIncomplete": "يرجى إكمال جميع المعلومات المطلوبة قبل تقديم طلبك."
+    }
+  },
+  "address": {
+    "fullName": "الاسم الكامل",
+    "streetAddress": "عنوان الشارع",
+    "addressLine2": "سطر العنوان 2 (اختياري)",
+    "city": "المدينة",
+    "state": "الولاية",
+    "stateProvince": "الولاية/المقاطعة/المنطقة",
+    "zipCode": "الرمز البريدي",
+    "country": "الدولة",
+    "phoneNumber": "رقم الهاتف (اختياري)",
+    "defaultAddress": "تعيين كعنوان افتراضي",
+    "save": "حفظ",
+    "cancel": "إلغاء"
+  },
+  "payment": {
+    "title": "طريقة الدفع",
+    "creditCard": "بطاقة ائتمان",
+    "paypal": "باي بال",
+    "addNew": "إضافة طريقة دفع جديدة"
+  },
+  "review": {
+    "title": "مراجعة الطلب",
+    "shippingInfo": "معلومات الشحن",
+    "billingInfo": "معلومات الفوترة",
+    "paymentInfo": "معلومات الدفع",
+    "orderSummary": "ملخص الطلب",
+    "subtotal": "المجموع الفرعي",
+    "shipping": "الشحن",
+    "tax": "الضريبة",
+    "total": "المجموع",
+    "notes": "ملاحظات الطلب (اختياري)",
+    "edit": "تعديل"
+  },
+  "confirmation": {
+    "title": "تم تأكيد الطلب!",
+    "orderNumber": "رقم الطلب",
+    "thankYou": "شكراً لشرائك!",
+    "emailSent": "تم إرسال تأكيد بالبريد الإلكتروني إلى عنوان بريدك الإلكتروني.",
+    "trackOrder": "تتبع الطلب",
+    "continueShopping": "مواصلة التسوق"
+  }
+}

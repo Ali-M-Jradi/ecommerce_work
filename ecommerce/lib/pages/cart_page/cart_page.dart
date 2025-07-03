@@ -105,7 +105,7 @@ class CartPage extends StatelessWidget {
               // Cart Summary
               CartSummaryWidget(
                 onCheckout: () {
-                  _showCheckoutDialog(context, cart);
+                  _navigateToCheckout(context, cart);
                 },
               ),
             ],
@@ -167,73 +167,18 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  void _showCheckoutDialog(BuildContext context, CartProvider cart) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          title: Row(
-            children: [
-              Icon(
-                Icons.shopping_cart_checkout,
-                color: Colors.deepPurple.shade600,
-              ),
-              const SizedBox(width: 8),
-              const Text('Checkout'),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Order Summary:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text('Items: ${cart.itemCount}'),
-              Text('Total: ${cart.formattedTotalAmount}'),
-              const SizedBox(height: 16),
-              const Text(
-                'Checkout functionality is coming soon!',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(
-                'Continue Shopping',
-                style: TextStyle(color: Colors.grey.shade600),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // TODO: Implement actual checkout
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('Checkout feature coming soon!'),
-                    backgroundColor: Colors.deepPurple.shade600,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Proceed'),
-            ),
-          ],
-        );
-      },
-    );
+  void _navigateToCheckout(BuildContext context, CartProvider cart) {
+    if (cart.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Your cart is empty!'),
+          backgroundColor: Colors.orange.shade600,
+        ),
+      );
+      return;
+    }
+
+    // Navigate to checkout page
+    Navigator.of(context).pushNamed('/checkout');
   }
 }

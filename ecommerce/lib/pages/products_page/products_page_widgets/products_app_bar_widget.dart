@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/cart_provider.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class ProductsAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBackPressed;
@@ -22,7 +23,7 @@ class ProductsAppBarWidget extends StatelessWidget implements PreferredSizeWidge
         onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
       ),
       title: Text(
-        title ?? 'Products',
+        title ?? AppLocalizationsHelper.of(context).productsPageTitle,
         style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
       backgroundColor: Colors.deepPurpleAccent.shade700,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 class HeroBannerCarousel extends StatefulWidget {
   const HeroBannerCarousel({super.key});
@@ -14,56 +15,64 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
   Timer? _autoPlayTimer;
 
   // Banner data with featured product campaigns based on your website
-  final List<Map<String, dynamic>> banners = [
-    {
-      'title': 'LA ROCHE-POSAY',
-      'subtitle': 'Laboratoire Dermatologique',
-      'description': 'Toleriane & Effaclar Collections\nAdvanced skincare solutions',
-      'buttonText': 'Shop Collection',
-      'products': [
-        'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_267ad068.jpg',
-        'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_33c0f20c.jpg',
-      ],
-      'backgroundColor': const Color(0xFFF8F9FA),
-      'textColor': const Color(0xFF1B365D),
-      'buttonColor': const Color(0xFF1B365D),
-      'action': () {
-        // Navigate to La Roche-Posay products
+  late List<Map<String, dynamic>> banners;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    // Initialize banners with localized strings
+    banners = [
+      {
+        'title': AppLocalizationsHelper.of(context).laRochePosay,
+        'subtitle': AppLocalizationsHelper.of(context).laboratoireDermatologique,
+        'description': AppLocalizationsHelper.of(context).tolerianeEffaclar,
+        'buttonText': AppLocalizationsHelper.of(context).shopCollection,
+        'products': [
+          'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_267ad068.jpg',
+          'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_33c0f20c.jpg',
+        ],
+        'backgroundColor': const Color(0xFFF8F9FA),
+        'textColor': const Color(0xFF1B365D),
+        'buttonColor': const Color(0xFF1B365D),
+        'action': () {
+          // Navigate to La Roche-Posay products
+        },
       },
-    },
-    {
-      'title': 'DERMOCOSMETIQUE',
-      'subtitle': 'by PH.MARIAM',
-      'description': 'Premium French Pharmacy Brands\nAuthentic • Professional • Trusted',
-      'buttonText': 'Explore Brands',
-      'products': [
-        'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_1f1fc92c.jpg',
-        'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_21a37162.jpg',
-      ],
-      'backgroundColor': const Color(0xFF6B73FF),
-      'textColor': Colors.white,
-      'buttonColor': Colors.white,
-      'action': () {
-        // Navigate to all products
+      {
+        'title': AppLocalizationsHelper.of(context).dermocosmetique,
+        'subtitle': AppLocalizationsHelper.of(context).byPhMariam,
+        'description': AppLocalizationsHelper.of(context).premiumFrenchPharmacy,
+        'buttonText': AppLocalizationsHelper.of(context).exploreBrands,
+        'products': [
+          'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_1f1fc92c.jpg',
+          'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_21a37162.jpg',
+        ],
+        'backgroundColor': const Color(0xFF6B73FF),
+        'textColor': Colors.white,
+        'buttonColor': Colors.white,
+        'action': () {
+          // Navigate to all products
+        },
       },
-    },
-    {
-      'title': 'SPECIAL OFFERS',
-      'subtitle': 'Limited Time Only',
-      'description': 'Up to 30% OFF on selected items\nFree shipping on orders over \$50',
-      'buttonText': 'View Offers',
-      'products': [
-        'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
-        'assets/images/three_leaves.png',
-      ],
-      'backgroundColor': const Color(0xFFE8F5E8),
-      'textColor': const Color(0xFF2D5A27),
-      'buttonColor': const Color(0xFF2D5A27),
-      'action': () {
-        // Navigate to offers page
+      {
+        'title': AppLocalizationsHelper.of(context).specialOffers,
+        'subtitle': AppLocalizationsHelper.of(context).limitedTimeOnly,
+        'description': AppLocalizationsHelper.of(context).specialOffersDesc,
+        'buttonText': AppLocalizationsHelper.of(context).viewOffers,
+        'products': [
+          'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
+          'assets/images/three_leaves.png',
+        ],
+        'backgroundColor': const Color(0xFFE8F5E8),
+        'textColor': const Color(0xFF2D5A27),
+        'buttonColor': const Color(0xFF2D5A27),
+        'action': () {
+          // Navigate to offers page
+        },
       },
-    },
-  ];
+    ];
+  }
 
   @override
   void initState() {

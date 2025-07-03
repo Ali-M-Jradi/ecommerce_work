@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class FloatingActionButtonsWidget extends StatelessWidget {
   final VoidCallback? onLoyaltyPressed;
@@ -33,7 +34,7 @@ class FloatingActionButtonsWidget extends StatelessWidget {
             ),
               SizedBox(width: 8.0),
               Text(
-                'Loyalty Program',
+                AppLocalizationsHelper.of(context).loyaltyProgram,
                 style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             ],
@@ -46,13 +47,13 @@ class FloatingActionButtonsWidget extends StatelessWidget {
           onPressed: onContactPressed ?? () {
             // Handle contact us action
           },
-        tooltip: 'Contact Us',
+        tooltip: AppLocalizationsHelper.of(context).contactUs,
         backgroundColor: Colors.deepPurpleAccent.shade700,
         label: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Contact Us',
+              AppLocalizationsHelper.of(context).contactUs,
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
             SizedBox(width: 8.0),

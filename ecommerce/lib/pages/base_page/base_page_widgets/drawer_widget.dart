@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class DrawerWidget extends StatefulWidget {
   final Function(String)? onNavigationTap;
@@ -34,7 +35,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Welcome!',
+                  AppLocalizationsHelper.of(context).welcome,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -42,7 +43,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
                 Text(
-                  'user@example.com',
+                  AppLocalizationsHelper.of(context).userEmail,
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 14,
@@ -54,33 +55,33 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // Shop by Category
           ExpansionTile(
             leading: Icon(Icons.category, color: Colors.deepPurpleAccent.shade700),
-            title: Text('Shop by Category'),
+            title: Text(AppLocalizationsHelper.of(context).shopByCategoryMenu),
             children: [
               ListTile(
                 leading: SizedBox(width: 20),
-                title: Text('Face Care'),
+                title: Text(AppLocalizationsHelper.of(context).faceCare),
                 onTap: () {
                   widget.onNavigationTap?.call('face_care');
                 },
               ),
               ListTile(
                 leading: SizedBox(width: 20),
-                title: Text('Body Care'),
+                title: Text(AppLocalizationsHelper.of(context).bodyCare),
                 onTap: () {
                   widget.onNavigationTap?.call('body_care');
                 },
               ),
               ListTile(
                 leading: SizedBox(width: 20),
-                title: Text('Hair Care'),
+                title: Text(AppLocalizationsHelper.of(context).hairCareCategory),
                 onTap: () {
                   widget.onNavigationTap?.call('hair_care');
                 },
               ),
               ListTile(
                 leading: SizedBox(width: 20),
-                title: Text('Brands'),
-                subtitle: Text('La Roche Posay, Vichy, Bioderma...'),
+                title: Text(AppLocalizationsHelper.of(context).allBrands),
+                subtitle: Text(AppLocalizationsHelper.of(context).brandExamples),
                 onTap: () {
                   widget.onNavigationTap?.call('brands');
                 },
@@ -91,8 +92,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // Loyalty Program
           ListTile(
             leading: Icon(Icons.card_giftcard, color: Colors.deepPurpleAccent.shade700),
-            title: Text('Loyalty Program'),
-            subtitle: Text('Earn points & rewards'),
+            title: Text(AppLocalizationsHelper.of(context).loyaltyProgram),
+            subtitle: Text(AppLocalizationsHelper.of(context).earnPointsRewards),
             onTap: () {
               widget.onNavigationTap?.call('loyalty_program');
             },
@@ -101,8 +102,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // Special Offers
           ListTile(
             leading: Icon(Icons.local_offer, color: Colors.deepPurpleAccent.shade700),
-            title: Text('Special Offers'),
-            subtitle: Text('Discounts & promotions'),
+            title: Text(AppLocalizationsHelper.of(context).specialOffersMenu),
+            subtitle: Text(AppLocalizationsHelper.of(context).discountsPromotions),
             onTap: () {
               widget.onNavigationTap?.call('special_offers');
             },
@@ -113,7 +114,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // Contact Us
           ListTile(
             leading: Icon(Icons.contact_support, color: Colors.deepPurpleAccent.shade700),
-            title: Text('Contact Us'),
+            title: Text(AppLocalizationsHelper.of(context).contactUs),
             onTap: () {
               widget.onNavigationTap?.call('contact_us');
             },
@@ -122,7 +123,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // About Us
           ListTile(
             leading: Icon(Icons.info, color: Colors.deepPurpleAccent.shade700),
-            title: Text('About Us'),
+            title: Text(AppLocalizationsHelper.of(context).aboutUs),
             onTap: () {
               widget.onNavigationTap?.call('about_us');
             },
@@ -131,8 +132,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // Account Settings
           ListTile(
             leading: Icon(Icons.person, color: Colors.deepPurpleAccent.shade700),
-            title: Text('Account Settings'),
-            subtitle: Text('Profile & preferences'),
+            title: Text(AppLocalizationsHelper.of(context).accountSettings),
+            subtitle: Text(AppLocalizationsHelper.of(context).profilePreferences),
             onTap: () {
               widget.onNavigationTap?.call('account_settings');
             },

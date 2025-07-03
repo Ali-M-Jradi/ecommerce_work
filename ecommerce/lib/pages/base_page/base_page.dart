@@ -5,6 +5,7 @@ import 'package:ecommerce/pages/home_page/home_page.dart';
 import 'package:ecommerce/pages/products_page/products_page.dart';
 import 'package:ecommerce/pages/cart_page/cart_page.dart';
 import 'package:flutter/material.dart';
+import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key, required this.title});
@@ -35,76 +36,72 @@ class _BasePageState extends State<BasePage> {
       case 'face_care':
         setState(() {
           _bottomNavIndex = 2; // Products index
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ProductsPage(
-              category: 'face_care',
-              categoryTitle: 'Face Care',
+        });          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductsPage(
+                category: 'face_care',
+                categoryTitle: AppLocalizationsHelper.of(context).faceCare,
+              ),
             ),
-          ),
-        );
+          );
         break;
       case 'body_care':
         setState(() {
           _bottomNavIndex = 2; // Products index
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ProductsPage(
-              category: 'body_care',
-              categoryTitle: 'Body Care',
+        });          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductsPage(
+                category: 'body_care',
+                categoryTitle: AppLocalizationsHelper.of(context).bodyCare,
+              ),
             ),
-          ),
-        );
+          );
         break;
       case 'hair_care':
         setState(() {
           _bottomNavIndex = 2; // Products index
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ProductsPage(
-              category: 'hair_care',
-              categoryTitle: 'Hair Care',
+        });          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductsPage(
+                category: 'hair_care',
+                categoryTitle: AppLocalizationsHelper.of(context).hairCareCategory,
+              ),
             ),
-          ),
-        );
+          );
         break;
       case 'brands':
         setState(() {
           _bottomNavIndex = 2; // Products index
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ProductsPage(
-              categoryTitle: 'All Brands',
+        });          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductsPage(
+                categoryTitle: AppLocalizationsHelper.of(context).allBrands,
+              ),
             ),
-          ),
-        );
+          );
         break;
       case 'loyalty_program':
-        _showComingSoonDialog('Loyalty Program');
+        _showComingSoonDialog(AppLocalizationsHelper.of(context).loyaltyProgram);
         break;
       case 'special_offers':
-        _showComingSoonDialog('Special Offers');
+        _showComingSoonDialog(AppLocalizationsHelper.of(context).specialOffersMenu);
         break;
       case 'contact_us':
-        _showComingSoonDialog('Contact Us');
+        _showComingSoonDialog(AppLocalizationsHelper.of(context).contactUs);
         break;
       case 'about_us':
-        _showComingSoonDialog('About Us');
+        _showComingSoonDialog(AppLocalizationsHelper.of(context).aboutUs);
         break;
       case 'account_settings':
         // This should go to Profile page
         setState(() {
           _bottomNavIndex = 3; // Profile index
         });
-        _showComingSoonDialog('Account Settings');
+        _showComingSoonDialog(AppLocalizationsHelper.of(context).accountSettings);
         break;
     }
   }
@@ -120,8 +117,8 @@ class _BasePageState extends State<BasePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ProductsPage(
-              categoryTitle: 'Search Products',
+            builder: (context) => ProductsPage(
+              categoryTitle: AppLocalizationsHelper.of(context).searchProducts,
               autoFocusSearch: true,
             ),
           ),
@@ -139,14 +136,14 @@ class _BasePageState extends State<BasePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ProductsPage(
-              categoryTitle: 'All Products',
+            builder: (context) => ProductsPage(
+              categoryTitle: AppLocalizationsHelper.of(context).allProducts,
             ),
           ),
         );
         break;
       case 3: // Profile
-        _showComingSoonDialog('User Profile');
+        _showComingSoonDialog(AppLocalizationsHelper.of(context).userProfile);
         break;
     }
   }
@@ -166,9 +163,9 @@ class _BasePageState extends State<BasePage> {
                 color: Colors.deepPurpleAccent.shade700,
               ),
               const SizedBox(width: 8),
-              const Text(
-                'Coming Soon',
-                style: TextStyle(
+              Text(
+                AppLocalizationsHelper.of(context).comingSoon,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -176,7 +173,7 @@ class _BasePageState extends State<BasePage> {
             ],
           ),
           content: Text(
-            '$feature is under development and will be available soon!',
+            AppLocalizationsHelper.of(context).comingSoonMessage(feature),
             style: const TextStyle(fontSize: 14),
           ),
           actions: [
@@ -185,7 +182,7 @@ class _BasePageState extends State<BasePage> {
                 Navigator.of(context).pop();
               },
               child: Text(
-                'OK',
+                AppLocalizationsHelper.of(context).okButton,
                 style: TextStyle(
                   color: Colors.deepPurpleAccent.shade700,
                   fontWeight: FontWeight.w600,

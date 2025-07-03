@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class SortControlsWidget extends StatelessWidget {
   final String sortBy;
@@ -48,19 +49,19 @@ class SortControlsWidget extends StatelessWidget {
                   items: [
                     DropdownMenuItem(
                       value: 'A to Z',
-                      child: Text('Sort: A to Z'),
+                      child: Text(AppLocalizationsHelper.of(context).sortAtoZ),
                     ),
                     DropdownMenuItem(
                       value: 'Z to A',
-                      child: Text('Sort: Z to A'),
+                      child: Text(AppLocalizationsHelper.of(context).sortZtoA),
                     ),
                     DropdownMenuItem(
                       value: 'Price Low',
-                      child: Text('Sort: Price Low'),
+                      child: Text(AppLocalizationsHelper.of(context).sortPriceLow),
                     ),
                     DropdownMenuItem(
                       value: 'Price High',
-                      child: Text('Sort: Price High'),
+                      child: Text(AppLocalizationsHelper.of(context).sortPriceHigh),
                     ),
                   ],
                   onChanged: onSortChanged,
@@ -81,9 +82,9 @@ class SortControlsWidget extends StatelessWidget {
                       color: isGridView
                           ? Colors.deepPurple.shade700
                           : Colors.deepPurple.shade300,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8.0),
-                        bottomLeft: Radius.circular(8.0),
+                      borderRadius: BorderRadiusDirectional.only(
+                        topStart: Radius.circular(8.0),
+                        bottomStart: Radius.circular(8.0),
                       ),
                     ),
                     child: IconButton(
@@ -92,6 +93,7 @@ class SortControlsWidget extends StatelessWidget {
                         color: Colors.white,
                         size: 20,
                       ),
+                      tooltip: AppLocalizationsHelper.of(context).gridViewTooltip,
                       onPressed: () => onViewChanged(true),
                     ),
                   ),
@@ -103,9 +105,9 @@ class SortControlsWidget extends StatelessWidget {
                       color: !isGridView
                           ? Colors.deepPurple.shade700
                           : Colors.deepPurple.shade300,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(8.0),
-                        bottomRight: Radius.circular(8.0),
+                      borderRadius: BorderRadiusDirectional.only(
+                        topEnd: Radius.circular(8.0),
+                        bottomEnd: Radius.circular(8.0),
                       ),
                     ),
                     child: IconButton(
@@ -114,6 +116,7 @@ class SortControlsWidget extends StatelessWidget {
                         color: Colors.white,
                         size: 20,
                       ),
+                      tooltip: AppLocalizationsHelper.of(context).listViewTooltip,
                       onPressed: () => onViewChanged(false),
                     ),
                   ),
@@ -138,8 +141,8 @@ class SortControlsWidget extends StatelessWidget {
                     color: hasActiveFilters ? Colors.white : Colors.deepPurple.shade700,
                     size: 20,
                   ),
+                  tooltip: AppLocalizationsHelper.of(context).filtersTooltip,
                   onPressed: onFilterPressed,
-                  tooltip: 'Filters',
                 ),
                 if (hasActiveFilters)
                   Positioned(

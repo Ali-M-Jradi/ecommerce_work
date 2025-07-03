@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'highlighted_text_widget.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class ProductCardWidget extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -65,7 +66,7 @@ class ProductCardWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          'SOLD OUT',
+                          AppLocalizationsHelper.of(context).soldOut,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 8,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final String? selectedCategory;
@@ -61,6 +62,30 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     _showOnlyInStock = widget.showOnlyInStock ?? false;
   }
 
+  String _getCategoryDisplayName(BuildContext context, String category) {
+    switch (category) {
+      case 'All Categories':
+        return AppLocalizationsHelper.of(context).allCategories;
+      case 'Face Care':
+        return 'Face Care'; // Keep as English for now since key doesn't exist
+      case 'Body Care':
+        return 'Body Care'; // Keep as English for now since key doesn't exist
+      case 'Hair Care':
+        return 'Hair Care'; // Keep as English for now since key doesn't exist
+      default:
+        return category;
+    }
+  }
+
+  String _getBrandDisplayName(BuildContext context, String brand) {
+    switch (brand) {
+      case 'All Brands':
+        return AppLocalizationsHelper.of(context).allBrandsFilter;
+      default:
+        return brand; // Keep brand names in English
+    }
+  }
+
   String _getCategoryValue(String displayName) {
     switch (displayName) {
       case 'Face Care':
@@ -119,7 +144,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Filters',
+                AppLocalizationsHelper.of(context).filtersTitle,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -129,7 +154,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               TextButton(
                 onPressed: _clearFilters,
                 child: Text(
-                  'Clear All',
+                  AppLocalizationsHelper.of(context).clearAll,
                   style: TextStyle(
                     color: Colors.deepPurple.shade600,
                     fontWeight: FontWeight.w600,
@@ -142,7 +167,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
           // Category Filter
           Text(
-            'Category',
+            AppLocalizationsHelper.of(context).categoryFilter,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -155,7 +180,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             children: _categories.map((category) {
               final isSelected = _selectedCategory == category;
               return FilterChip(
-                label: Text(category),
+                label: Text(_getCategoryDisplayName(context, category)),
                 selected: isSelected,
                 onSelected: (selected) {
                   setState(() {
@@ -171,7 +196,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
           // Brand Filter
           Text(
-            'Brand',
+            AppLocalizationsHelper.of(context).brandFilter,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -184,7 +209,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             children: _brands.map((brand) {
               final isSelected = _selectedBrand == brand;
               return FilterChip(
-                label: Text(brand),
+                label: Text(_getBrandDisplayName(context, brand)),
                 selected: isSelected,
                 onSelected: (selected) {
                   setState(() {
@@ -200,7 +225,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
           // Price Range Filter
           Text(
-            'Price Range: \$${_priceRange.start.round()} - \$${_priceRange.end.round()}',
+            AppLocalizationsHelper.of(context).priceRange(_priceRange.start.round(), _priceRange.end.round()),
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,

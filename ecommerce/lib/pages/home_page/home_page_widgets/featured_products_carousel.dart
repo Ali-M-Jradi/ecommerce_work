@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../products_page/products_page_widgets/product_details_dialog_widget.dart';
+import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 class FeaturedProductsCarousel extends StatefulWidget {
   const FeaturedProductsCarousel({super.key});
@@ -179,9 +180,9 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                           color: const Color(0xFF1B365D),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: const Text(
-                          'Soldout',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizationsHelper.of(context).soldOut,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
                             fontWeight: FontWeight.w600,

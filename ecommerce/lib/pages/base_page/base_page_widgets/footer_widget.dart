@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class FooterWidget extends StatelessWidget {
   const FooterWidget({super.key});
@@ -59,8 +60,8 @@ class FooterWidget extends StatelessWidget {
                     ),
                     SizedBox(width: 8),
                     Text(
-                      'DERMOCOSMETIQUE',
-                      style: TextStyle(
+                      AppLocalizationsHelper.of(context).appTitle,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -70,8 +71,8 @@ class FooterWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  'BY PH.MARIAM',
-                  style: TextStyle(
+                  AppLocalizationsHelper.of(context).appSubtitle,
+                  style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
                     fontWeight: FontWeight.w300,
@@ -85,35 +86,35 @@ class FooterWidget extends StatelessWidget {
                   children: [
                     _FooterLink(
                       icon: Icons.info_outline,
-                      label: 'About Us',
+                      label: AppLocalizationsHelper.of(context).aboutUsFooter,
                       onTap: () {
                         // Handle About Us
                       },
                     ),
                     _FooterLink(
                       icon: Icons.card_giftcard,
-                      label: 'Loyalty',
+                      label: AppLocalizationsHelper.of(context).loyaltyFooter,
                       onTap: () {
                         // Handle Loyalty Program
                       },
                     ),
                     _FooterLink(
                       icon: Icons.support_agent,
-                      label: 'Support',
+                      label: AppLocalizationsHelper.of(context).supportFooter,
                       onTap: () {
                         // Handle Support
                       },
                     ),
                     _FooterLink(
                       icon: Icons.privacy_tip_outlined,
-                      label: 'Privacy',
+                      label: AppLocalizationsHelper.of(context).privacyFooter,
                       onTap: () {
                         // Handle Privacy
                       },
                     ),
                     _FooterLink(
                       icon: Icons.article_outlined,
-                      label: 'Terms',
+                      label: AppLocalizationsHelper.of(context).termsFooter,
                       onTap: () {
                         // Handle Terms
                       },
@@ -128,8 +129,8 @@ class FooterWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Follow us: ',
-                      style: TextStyle(
+                      AppLocalizationsHelper.of(context).followUs,
+                      style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 14,
                       ),
@@ -174,15 +175,15 @@ class FooterWidget extends StatelessWidget {
                 Divider(color: Colors.white24),
                 SizedBox(height: 10),
                 Text(
-                  '© 2025 Dermocosmetique by Ph.Mariam',
-                  style: TextStyle(
+                  AppLocalizationsHelper.of(context).copyrightText,
+                  style: const TextStyle(
                     color: Colors.white60,
                     fontSize: 12,
                   ),
                 ),
                 Text(
-                  'All rights reserved',
-                  style: TextStyle(
+                  AppLocalizationsHelper.of(context).allRightsReserved,
+                  style: const TextStyle(
                     color: Colors.white60,
                     fontSize: 10,
                   ),

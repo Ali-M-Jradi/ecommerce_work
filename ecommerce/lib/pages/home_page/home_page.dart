@@ -3,6 +3,8 @@ import 'home_page_widgets/featured_products_carousel.dart';
 import 'home_page_widgets/hero_banner_carousel.dart';
 import '../base_page/base_page_widgets/footer_widget.dart';
 import '../products_page/products_page.dart';
+import 'package:ecommerce/l10n/app_localizations.dart';
+import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 class HomePage extends StatefulWidget {
   final Function(bool)? onFloatingButtonVisibilityChanged;
@@ -65,9 +67,9 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Featured Products',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizationsHelper.of(context).featuredProducts,
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF1B1B1B),
@@ -78,14 +80,14 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ProductsPage(
-                                categoryTitle: 'All Products',
+                              builder: (context) => ProductsPage(
+                                categoryTitle: AppLocalizationsHelper.of(context).allProducts,
                               ),
                             ),
                           );
                         },
                         child: Text(
-                          'View All',
+                          AppLocalizationsHelper.of(context).viewAll,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -116,9 +118,9 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Shop by Category',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizationsHelper.of(context).shopByCategory,
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF1B1B1B),
@@ -134,22 +136,22 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSpacing: 16,
                     children: [
                       _buildCategoryCard(
-                        'Skincare',
+                        AppLocalizationsHelper.of(context).skincare,
                         'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
                         const Color(0xFFE8F5E8),
                       ),
                       _buildCategoryCard(
-                        'Makeup',
+                        AppLocalizationsHelper.of(context).makeup,
                         'assets/images/digital-art-style-mental-health-day-awareness-illustration.png',
                         const Color(0xFFFFF2E8),
                       ),
                       _buildCategoryCard(
-                        'Hair Care',
+                        AppLocalizationsHelper.of(context).hairCare,
                         'assets/images/three_leaves.png',
                         const Color(0xFFE8F0FF),
                       ),
                       _buildCategoryCard(
-                        'Fragrance',
+                        AppLocalizationsHelper.of(context).fragrance,
                         'assets/images/gift_icon.jpg',
                         const Color(0xFFF8E8FF),
                       ),
@@ -177,9 +179,9 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Why Choose Us?',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizationsHelper.of(context).whyChooseUs,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF1B1B1B),
@@ -188,20 +190,20 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 16),
                   _buildFeatureItem(
                     Icons.verified_user,
-                    'Authentic Products',
-                    'All products are 100% authentic and sourced directly from brands',
+                    AppLocalizationsHelper.of(context).authenticProducts,
+                    AppLocalizationsHelper.of(context).authenticProductsDesc,
                   ),
                   const SizedBox(height: 12),
                   _buildFeatureItem(
                     Icons.local_shipping,
-                    'Fast Delivery',
-                    'Quick and secure delivery to your doorstep',
+                    AppLocalizationsHelper.of(context).fastDelivery,
+                    AppLocalizationsHelper.of(context).fastDeliveryDesc,
                   ),
                   const SizedBox(height: 12),
                   _buildFeatureItem(
                     Icons.support_agent,
-                    'Expert Support',
-                    'Professional skincare consultation and support',
+                    AppLocalizationsHelper.of(context).expertSupport,
+                    AppLocalizationsHelper.of(context).expertSupportDesc,
                   ),
                 ],
               ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/cart_provider.dart';
+import '../../../widgets/language_switcher.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final int selectedIndex;
@@ -35,9 +37,9 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                 color: Colors.deepPurpleAccent.shade700,
               ),
               const SizedBox(width: 8),
-              const Text(
-                'Coming Soon',
-                style: TextStyle(
+              Text(
+                AppLocalizationsHelper.of(context).comingSoon,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -45,7 +47,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             ],
           ),
           content: Text(
-            '$feature is under development and will be available soon!',
+            AppLocalizationsHelper.of(context).comingSoonMessage(feature),
             style: const TextStyle(fontSize: 14),
           ),
           actions: [
@@ -54,7 +56,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                 Navigator.of(context).pop();
               },
               child: Text(
-                'OK',
+                AppLocalizationsHelper.of(context).okButton,
                 style: TextStyle(
                   color: Colors.deepPurpleAccent.shade700,
                   fontWeight: FontWeight.w600,
@@ -99,7 +101,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               SizedBox(width: 6),
               Flexible(
                 child: Text(
-                  'DERMOCOSMETIQUE',
+                  AppLocalizationsHelper.of(context).appTitle,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
@@ -111,7 +113,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             ],
           ),
           Text(
-            'BY PH.MARIAM',
+            AppLocalizationsHelper.of(context).appSubtitle,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
@@ -127,9 +129,12 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             color: Colors.deepPurpleAccent.shade700,
           ),
           onPressed: () {
-            _showComingSoonDialog('Notifications');
+            _showComingSoonDialog(AppLocalizationsHelper.of(context).notifications);
           },
         ),
+        // Import at the top of the file: import '../../../widgets/language_switcher.dart';
+        LanguageSwitcher(),
+        const SizedBox(width: 8),
       ],
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(80),
@@ -139,7 +144,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           destinations: [
             NavigationDestination(
               icon: Icon(Icons.search, color: Colors.deepPurpleAccent.shade700),
-              label: 'Search',
+              label: AppLocalizationsHelper.of(context).searchLabel,
             ),
             NavigationDestination(
               icon: Consumer<CartProvider>(
@@ -154,18 +159,18 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   );
                 },
               ),
-              label: 'Cart',
+              label: AppLocalizationsHelper.of(context).cartLabel,
             ),
             NavigationDestination(
               icon: Icon(
                 Icons.shopping_bag,
                 color: Colors.deepPurpleAccent.shade700,
               ),
-              label: 'Products',
+              label: AppLocalizationsHelper.of(context).productsLabel,
             ),
             NavigationDestination(
               icon: Icon(Icons.person, color: Colors.deepPurpleAccent.shade700),
-              label: 'Profile',
+              label: AppLocalizationsHelper.of(context).profileLabel,
             ),
           ],
         ),

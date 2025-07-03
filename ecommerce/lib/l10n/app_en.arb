@@ -1,0 +1,802 @@
+{
+  "@@locale": "en",
+  "ecommerceAppTitle": "E-Commerce App",
+  "@ecommerceAppTitle": {
+    "description": "The title of the application"
+  },
+  "checkoutTitle": "Checkout",
+  "@checkoutTitle": {
+    "description": "The title of the checkout page"
+  },
+  "addressStep": "Shipping Address",
+  "@addressStep": {
+    "description": "The address step title in checkout"
+  },
+  "paymentStep": "Payment Method",
+  "@paymentStep": {
+    "description": "The payment step title in checkout"
+  },
+  "reviewStep": "Review Order",
+  "@reviewStep": {
+    "description": "The review step title in checkout"
+  },
+  "confirmationStep": "Order Confirmed",
+  "@confirmationStep": {
+    "description": "The confirmation step title in checkout"
+  },
+  "backButton": "Back",
+  "@backButton": {
+    "description": "Back button label"
+  },
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button label"
+  },
+  "placeOrderButton": "Place Order",
+  "@placeOrderButton": {
+    "description": "Place order button label"
+  },
+  "shippingAddressTitle": "Shipping Address",
+  "@shippingAddressTitle": {
+    "description": "Shipping address section title"
+  },
+  "billingAddressTitle": "Billing Address",
+  "@billingAddressTitle": {
+    "description": "Billing address section title"
+  },
+  "noAddressesMessage": "No addresses available. Please add an address to continue.",
+  "@noAddressesMessage": {
+    "description": "Message shown when no addresses are available"
+  },
+  "selectShippingMessage": "Please select a shipping address to continue",
+  "@selectShippingMessage": {
+    "description": "Message shown when shipping address is not selected"
+  },
+  "selectBillingMessage": "Please select a billing address to continue",
+  "@selectBillingMessage": {
+    "description": "Message shown when billing address is not selected"
+  },
+  "useSameAddressLabel": "Use shipping address for billing",
+  "@useSameAddressLabel": {
+    "description": "Label for using same address for billing checkbox"
+  },
+  "addAddressButton": "Add Address",
+  "@addAddressButton": {
+    "description": "Add address button label"
+  },
+  "editAddressButton": "Edit Address",
+  "@editAddressButton": {
+    "description": "Edit address button label"
+  },
+  "fullNameLabel": "Full Name",
+  "@fullNameLabel": {
+    "description": "Full name field label"
+  },
+  "streetAddressLabel": "Street Address",
+  "@streetAddressLabel": {
+    "description": "Street address field label"
+  },
+  "addressLine2Label": "Address Line 2 (Optional)",
+  "@addressLine2Label": {
+    "description": "Address line 2 field label"
+  },
+  "cityLabel": "City",
+  "@cityLabel": {
+    "description": "City field label"
+  },
+  "stateLabel": "State",
+  "@stateLabel": {
+    "description": "State field label"
+  },
+  "stateProvinceLabel": "State/Province/Region",
+  "@stateProvinceLabel": {
+    "description": "State/Province/Region field label"
+  },
+  "zipCodeLabel": "ZIP Code",
+  "@zipCodeLabel": {
+    "description": "ZIP code field label"
+  },
+  "countryLabel": "Country",
+  "@countryLabel": {
+    "description": "Country field label"
+  },
+  "phoneNumberLabel": "Phone Number (Optional)",
+  "@phoneNumberLabel": {
+    "description": "Phone number field label"
+  },
+  "defaultAddressLabel": "Set as default address",
+  "@defaultAddressLabel": {
+    "description": "Default address checkbox label"
+  },
+  "saveButton": "Save",
+  "@saveButton": {
+    "description": "Save button label"
+  },
+  "cancelButton": "Cancel",
+  "@cancelButton": {
+    "description": "Cancel button label"
+  },
+  "paymentMethodsTitle": "Payment Methods",
+  "@paymentMethodsTitle": {
+    "description": "Payment methods section title"
+  },
+  "addNewPaymentMethodButton": "Add New Payment Method",
+  "@addNewPaymentMethodButton": {
+    "description": "Add new payment method button label"
+  },
+  "defaultLabel": "Default",
+  "@defaultLabel": {
+    "description": "Default payment method label"
+  },
+  "expiresLabel": "Expires {month}/{year}",
+  "@expiresLabel": {
+    "description": "Card expiration date format",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "editAction": "Edit",
+  "@editAction": {
+    "description": "Edit action label"
+  },
+  "deleteAction": "Delete",
+  "@deleteAction": {
+    "description": "Delete action label"
+  },
+  "deletePaymentMethodTitle": "Delete Payment Method",
+  "@deletePaymentMethodTitle": {
+    "description": "Delete payment method dialog title"
+  },
+  "deletePaymentMethodMessage": "Are you sure you want to delete this payment method?",
+  "@deletePaymentMethodMessage": {
+    "description": "Delete payment method confirmation message"
+  },
+  "addPaymentMethodTitle": "Add Payment Method",
+  "@addPaymentMethodTitle": {
+    "description": "Add payment method dialog title"
+  },
+  "editPaymentMethodTitle": "Edit Payment Method",
+  "@editPaymentMethodTitle": {
+    "description": "Edit payment method dialog title"
+  },
+  "paymentTypeLabel": "Payment Type",
+  "@paymentTypeLabel": {
+    "description": "Payment type field label"
+  },
+  "creditDebitCardOption": "Credit/Debit Card",
+  "@creditDebitCardOption": {
+    "description": "Credit/Debit card option"
+  },
+  "paypalOption": "PayPal",
+  "@paypalOption": {
+    "description": "PayPal option"
+  },
+  "applePayOption": "Apple Pay",
+  "@applePayOption": {
+    "description": "Apple Pay option"
+  },
+  "googlePayOption": "Google Pay",
+  "@googlePayOption": {
+    "description": "Google Pay option"
+  },
+  "cardNumberLabel": "Card Number",
+  "@cardNumberLabel": {
+    "description": "Card number field label"
+  },
+  "cardholderNameLabel": "Cardholder Name",
+  "@cardholderNameLabel": {
+    "description": "Cardholder name field label"
+  },
+  "expiryMonthLabel": "MM",
+  "@expiryMonthLabel": {
+    "description": "Expiry month field label"
+  },
+  "expiryYearLabel": "YYYY",
+  "@expiryYearLabel": {
+    "description": "Expiry year field label"
+  },
+  "cvvLabel": "CVV",
+  "@cvvLabel": {
+    "description": "CVV field label"
+  },
+  "cardBrandLabel": "Card Brand",
+  "@cardBrandLabel": {
+    "description": "Card brand field label"
+  },
+  "visaOption": "Visa",
+  "@visaOption": {
+    "description": "Visa option"
+  },
+  "mastercardOption": "Mastercard",
+  "@mastercardOption": {
+    "description": "Mastercard option"
+  },
+  "amexOption": "American Express",
+  "@amexOption": {
+    "description": "American Express option"
+  },
+  "discoverOption": "Discover",
+  "@discoverOption": {
+    "description": "Discover option"
+  },
+  "paypalEmailLabel": "PayPal Email",
+  "@paypalEmailLabel": {
+    "description": "PayPal email field label"
+  },
+  "defaultPaymentMethodLabel": "Set as default payment method",
+  "@defaultPaymentMethodLabel": {
+    "description": "Default payment method checkbox label"
+  },
+  "requiredField": "Required",
+  "@requiredField": {
+    "description": "Required field error message"
+  },
+  "invalidMonth": "Invalid month",
+  "@invalidMonth": {
+    "description": "Invalid month error message"
+  },
+  "invalidYear": "Invalid year",
+  "@invalidYear": {
+    "description": "Invalid year error message"
+  },
+  "invalidCVV": "Invalid CVV",
+  "@invalidCVV": {
+    "description": "Invalid CVV error message"
+  },
+  "pleaseEnterCardNumber": "Please enter your card number",
+  "@pleaseEnterCardNumber": {
+    "description": "Card number required error message"
+  },
+  "cardNumberMinLength": "Card number must be at least 16 digits",
+  "@cardNumberMinLength": {
+    "description": "Card number min length error message"
+  },
+  "pleaseEnterCardholderName": "Please enter the cardholder name",
+  "@pleaseEnterCardholderName": {
+    "description": "Cardholder name required error message"
+  },
+  "pleaseEnterPaypalEmail": "Please enter your PayPal email",
+  "@pleaseEnterPaypalEmail": {
+    "description": "PayPal email required error message"
+  },
+  "pleaseEnterValidEmail": "Please enter a valid email",
+  "@pleaseEnterValidEmail": {
+    "description": "Invalid email error message"
+  },
+  "completeAddressMessage": "Please complete the address information.",
+  "@completeAddressMessage": {
+    "description": "Message shown when address information is incomplete"
+  },
+  "selectPaymentMethodMessage": "Please select a payment method to continue.",
+  "@selectPaymentMethodMessage": {
+    "description": "Message shown when payment method is not selected"
+  },
+  "completeOrderInformationMessage": "Please complete all required information before placing your order.",
+  "@completeOrderInformationMessage": {
+    "description": "Message shown when order information is incomplete"
+  },
+  "okButton": "OK",
+  "@okButton": {
+    "description": "OK button label"
+  },
+  "orderItemsTitle": "Order Items",
+  "@orderItemsTitle": {
+    "description": "Order items section title"
+  },
+  "noItemsInCart": "No items in cart",
+  "@noItemsInCart": {
+    "description": "Message when cart is empty"
+  },
+  "quantityLabel": "Quantity: {quantity}",
+  "@quantityLabel": {
+    "description": "Quantity label with placeholder",
+    "placeholders": {
+      "quantity": {
+        "type": "int"
+      }
+    }
+  },
+  "sameAsShippingAddress": "Same as shipping address",
+  "@sameAsShippingAddress": {
+    "description": "Text when billing address is same as shipping"
+  },
+  "noShippingAddress": "No shipping address selected",
+  "@noShippingAddress": {
+    "description": "Text when no shipping address is selected"
+  },
+  "noPaymentMethod": "No payment method selected",
+  "@noPaymentMethod": {
+    "description": "Text when no payment method is selected"
+  },
+  "orderNotesLabel": "Order Notes (Optional)",
+  "@orderNotesLabel": {
+    "description": "Order notes field label"
+  },
+  "orderNotesHint": "Special instructions for your order...",
+  "@orderNotesHint": {
+    "description": "Order notes field hint"
+  },
+  "orderSummaryTitle": "Order Summary",
+  "@orderSummaryTitle": {
+    "description": "Order summary section title"
+  },
+  "subtotalLabel": "Subtotal",
+  "@subtotalLabel": {
+    "description": "Subtotal label in order summary"
+  },
+  "taxLabel": "Tax",
+  "@taxLabel": {
+    "description": "Tax label in order summary"
+  },
+  "shippingLabel": "Shipping",
+  "@shippingLabel": {
+    "description": "Shipping label in order summary"
+  },
+  "discountLabel": "Discount",
+  "@discountLabel": {
+    "description": "Discount label in order summary"
+  },
+  "totalLabel": "Total",
+  "@totalLabel": {
+    "description": "Total label in order summary"
+  },
+  "orderConfirmedTitle": "Order Confirmed!",
+  "@orderConfirmedTitle": {
+    "description": "Order confirmed title"
+  },
+  "orderConfirmedMessage": "Thank you for your order. We'll send you a confirmation email shortly.",
+  "@orderConfirmedMessage": {
+    "description": "Order confirmed message"
+  },
+  "orderDetailsTitle": "Order Details",
+  "@orderDetailsTitle": {
+    "description": "Order details section title"
+  },
+  "orderNumberLabel": "Order Number",
+  "@orderNumberLabel": {
+    "description": "Order number label"
+  },
+  "orderDateLabel": "Order Date",
+  "@orderDateLabel": {
+    "description": "Order date label"
+  },
+  "statusLabel": "Status",
+  "@statusLabel": {
+    "description": "Status label"
+  },
+  "totalItemsLabel": "Total Items",
+  "@totalItemsLabel": {
+    "description": "Total items label"
+  },
+  "totalAmountLabel": "Total Amount",
+  "@totalAmountLabel": {
+    "description": "Total amount label"
+  },
+  "estimatedDeliveryLabel": "Estimated Delivery",
+  "@estimatedDeliveryLabel": {
+    "description": "Estimated delivery label"
+  },
+  "viewOrderDetailsButton": "View Order Details",
+  "@viewOrderDetailsButton": {
+    "description": "View order details button label"
+  },
+  "continueShoppingButton": "Continue Shopping",
+  "@continueShoppingButton": {
+    "description": "Continue shopping button label"
+  },
+  "orderUpdatesTitle": "Order Updates",
+  "@orderUpdatesTitle": {
+    "description": "Order updates section title"
+  },
+  "orderUpdatesMessage": "We'll send you email updates about your order status and tracking information.",
+  "@orderUpdatesMessage": {
+    "description": "Order updates message"
+  },
+  "closeButton": "Close",
+  "@closeButton": {
+    "description": "Close button label"
+  },
+
+  "featuredProducts": "Featured Products",
+  "@featuredProducts": {
+    "description": "Title for featured products section"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Link to view all products"
+  },
+  "shopByCategory": "Shop by Category",
+  "@shopByCategory": {
+    "description": "Title for shop by category section"
+  },
+  "skincare": "Skincare",
+  "@skincare": {
+    "description": "Skincare category name"
+  },
+  "makeup": "Makeup",
+  "@makeup": {
+    "description": "Makeup category name"
+  },
+  "hairCare": "Hair Care",
+  "@hairCare": {
+    "description": "Hair care category name"
+  },
+  "fragrance": "Fragrance",
+  "@fragrance": {
+    "description": "Fragrance category name"
+  },
+  "whyChooseUs": "Why Choose Us?",
+  "@whyChooseUs": {
+    "description": "Title for why choose us section"
+  },
+  "authenticProducts": "Authentic Products",
+  "@authenticProducts": {
+    "description": "Feature item for authentic products"
+  },
+  "authenticProductsDesc": "All products are 100% authentic and sourced directly from brands",
+  "@authenticProductsDesc": {
+    "description": "Description for authentic products"
+  },
+  "fastDelivery": "Fast Delivery",
+  "@fastDelivery": {
+    "description": "Feature item for fast delivery"
+  },
+  "fastDeliveryDesc": "Quick and secure delivery to your doorstep",
+  "@fastDeliveryDesc": {
+    "description": "Description for fast delivery"
+  },
+  "expertSupport": "Expert Support",
+  "@expertSupport": {
+    "description": "Feature item for expert support"
+  },
+  "expertSupportDesc": "Professional skincare consultation and support",
+  "@expertSupportDesc": {
+    "description": "Description for expert support"
+  },
+  "laRochePosay": "LA ROCHE-POSAY",
+  "@laRochePosay": {
+    "description": "LA ROCHE-POSAY brand name"
+  },
+  "laboratoireDermatologique": "Laboratoire Dermatologique",
+  "@laboratoireDermatologique": {
+    "description": "Subtitle for LA ROCHE-POSAY"
+  },
+  "tolerianeEffaclar": "Toleriane & Effaclar Collections\nAdvanced skincare solutions",
+  "@tolerianeEffaclar": {
+    "description": "Description for LA ROCHE-POSAY banner"
+  },
+  "shopCollection": "Shop Collection",
+  "@shopCollection": {
+    "description": "Button text for shop collection"
+  },
+  "dermocosmetique": "DERMOCOSMETIQUE",
+  "@dermocosmetique": {
+    "description": "DERMOCOSMETIQUE brand name"
+  },
+  "byPhMariam": "by PH.MARIAM",
+  "@byPhMariam": {
+    "description": "Subtitle for DERMOCOSMETIQUE"
+  },
+  "premiumFrenchPharmacy": "Premium French Pharmacy Brands\nAuthentic • Professional • Trusted",
+  "@premiumFrenchPharmacy": {
+    "description": "Description for DERMOCOSMETIQUE banner"
+  },
+  "exploreBrands": "Explore Brands",
+  "@exploreBrands": {
+    "description": "Button text for explore brands"
+  },
+  "specialOffers": "SPECIAL OFFERS",
+  "@specialOffers": {
+    "description": "Special offers title"
+  },
+  "limitedTimeOnly": "Limited Time Only",
+  "@limitedTimeOnly": {
+    "description": "Subtitle for special offers"
+  },
+  "specialOffersDesc": "Up to 30% OFF on selected items\nFree shipping on orders over $50",
+  "@specialOffersDesc": {
+    "description": "Description for special offers banner"
+  },
+  "viewOffers": "View Offers",
+  "@viewOffers": {
+    "description": "Button text for view offers"
+  },
+  "allProducts": "All Products",
+  "@allProducts": {
+    "description": "Title for all products page"
+  },
+  "comingSoon": "Coming Soon",
+  "@comingSoon": {
+    "description": "Title for coming soon dialog"
+  },
+  "comingSoonMessage": "{feature} is under development and will be available soon!",
+  "@comingSoonMessage": {
+    "description": "Message for coming soon dialog",
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      }
+    }
+  },
+  "faceCare": "Face Care",
+  "@faceCare": {
+    "description": "Face care category name"
+  },
+  "bodyCare": "Body Care",
+  "@bodyCare": {
+    "description": "Body care category name"
+  },
+  "hairCareCategory": "Hair Care",
+  "@hairCareCategory": {
+    "description": "Hair care category name"
+  },
+  "allBrands": "All Brands",
+  "@allBrands": {
+    "description": "All brands category title"
+  },
+  "loyaltyProgram": "Loyalty Program",
+  "@loyaltyProgram": {
+    "description": "Loyalty program menu item"
+  },
+  "specialOffersMenu": "Special Offers",
+  "@specialOffersMenu": {
+    "description": "Special offers menu item"
+  },
+  "contactUs": "Contact Us",
+  "@contactUs": {
+    "description": "Contact us menu item"
+  },
+  "aboutUs": "About Us",
+  "@aboutUs": {
+    "description": "About us menu item"
+  },
+  "accountSettings": "Account Settings",
+  "@accountSettings": {
+    "description": "Account settings menu item"
+  },
+  "userProfile": "User Profile",
+  "@userProfile": {
+    "description": "User profile menu item"
+  },
+  "appTitle": "DERMOCOSMETIQUE",
+  "@appTitle": {
+    "description": "App title"
+  },
+  "appSubtitle": "BY PH.MARIAM",
+  "@appSubtitle": {
+    "description": "App subtitle"
+  },
+  "searchLabel": "Search",
+  "@searchLabel": {
+    "description": "Search navigation label"
+  },
+  "cartLabel": "Cart",
+  "@cartLabel": {
+    "description": "Cart navigation label"
+  },
+  "productsLabel": "Products",
+  "@productsLabel": {
+    "description": "Products navigation label"
+  },
+  "profileLabel": "Profile",
+  "@profileLabel": {
+    "description": "Profile navigation label"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications feature name"
+  },
+  "welcome": "Welcome!",
+  "@welcome": {
+    "description": "Welcome text in drawer header"
+  },
+  "userEmail": "user@example.com",
+  "@userEmail": {
+    "description": "User email in drawer header"
+  },
+  "shopByCategoryMenu": "Shop by Category",
+  "@shopByCategoryMenu": {
+    "description": "Shop by category menu item"
+  },
+  "brandExamples": "La Roche Posay, Vichy, Bioderma...",
+  "@brandExamples": {
+    "description": "Brand examples"
+  },
+  "earnPointsRewards": "Earn points & rewards",
+  "@earnPointsRewards": {
+    "description": "Loyalty program subtitle"
+  },
+  "discountsPromotions": "Discounts & promotions",
+  "@discountsPromotions": {
+    "description": "Special offers subtitle"
+  },
+  "profilePreferences": "Profile & preferences",
+  "@profilePreferences": {
+    "description": "Account settings subtitle"
+  },
+  "searchProducts": "Search Products",
+  "@searchProducts": {
+    "description": "Search products title"
+  },
+  "aboutUsFooter": "About Us",
+  "@aboutUsFooter": {
+    "description": "About us footer link"
+  },
+  "loyaltyFooter": "Loyalty",
+  "@loyaltyFooter": {
+    "description": "Loyalty footer link"
+  },
+  "supportFooter": "Support",
+  "@supportFooter": {
+    "description": "Support footer link"
+  },
+  "privacyFooter": "Privacy",
+  "@privacyFooter": {
+    "description": "Privacy footer link"
+  },
+  "termsFooter": "Terms",
+  "@termsFooter": {
+    "description": "Terms footer link"
+  },
+  "followUs": "Follow us: ",
+  "@followUs": {
+    "description": "Follow us text in footer"
+  },
+  "copyrightText": "© 2025 Dermocosmetique by Ph.Mariam",
+  "@copyrightText": {
+    "description": "Copyright text in footer"
+  },
+  "allRightsReserved": "All rights reserved",
+  "@allRightsReserved": {
+    "description": "All rights reserved text in footer"
+  },
+
+  "productsPageTitle": "Products",
+  "@productsPageTitle": {
+    "description": "Default products page title"
+  },
+  "searchProductsHint": "Search products...",
+  "@searchProductsHint": {
+    "description": "Search bar hint text"
+  },
+  "sortAtoZ": "Sort: A to Z",
+  "@sortAtoZ": {
+    "description": "Sort option A to Z"
+  },
+  "sortZtoA": "Sort: Z to A",
+  "@sortZtoA": {
+    "description": "Sort option Z to A"
+  },
+  "sortPriceLow": "Sort: Price Low",
+  "@sortPriceLow": {
+    "description": "Sort option price low to high"
+  },
+  "sortPriceHigh": "Sort: Price High",
+  "@sortPriceHigh": {
+    "description": "Sort option price high to low"
+  },
+  "filtersTooltip": "Filters",
+  "@filtersTooltip": {
+    "description": "Tooltip for filters button"
+  },
+  "filtersTitle": "Filters",
+  "@filtersTitle": {
+    "description": "Filters bottom sheet title"
+  },
+  "clearAll": "Clear All",
+  "@clearAll": {
+    "description": "Clear all filters button"
+  },
+  "categoryFilter": "Category",
+  "@categoryFilter": {
+    "description": "Category filter label"
+  },
+  "brandFilter": "Brand",
+  "@brandFilter": {
+    "description": "Brand filter label"
+  },
+  "allCategories": "All Categories",
+  "@allCategories": {
+    "description": "All categories filter option"
+  },
+  "allBrandsFilter": "All Brands",
+  "@allBrandsFilter": {
+    "description": "All brands filter option"
+  },
+  "priceRange": "Price Range: ${start} - ${end}",
+  "@priceRange": {
+    "description": "Price range filter label",
+    "placeholders": {
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "minimumRating": "Minimum Rating: {rating} stars",
+  "@minimumRating": {
+    "description": "Minimum rating filter label",
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "showOnlyInStock": "Show only products in stock",
+  "@showOnlyInStock": {
+    "description": "In stock filter label"
+  },
+  "applyFilters": "Apply Filters",
+  "@applyFilters": {
+    "description": "Apply filters button"
+  },
+  "avene": "Avène",
+  "@avene": {
+    "description": "Avène brand name"
+  },
+  "vichy": "Vichy",
+  "@vichy": {
+    "description": "Vichy brand name"
+  },
+  "eucerin": "Eucerin",
+  "@eucerin": {
+    "description": "Eucerin brand name"
+  },
+  "cerave": "CeraVe",
+  "@cerave": {
+    "description": "CeraVe brand name"
+  },
+  "neutrogena": "Neutrogena",
+  "@neutrogena": {
+    "description": "Neutrogena brand name"
+  },
+
+  "soldOut": "SOLD OUT",
+  "@soldOut": {
+    "description": "Sold out label for products"
+  },
+  "noProductsFound": "No Products Found",
+  "@noProductsFound": {
+    "description": "No products found message title"
+  },
+  "noProductsMatchSearch": "No products match your search for \"{searchQuery}\"",
+  "@noProductsMatchSearch": {
+    "description": "No products found for search query message",
+    "placeholders": {
+      "searchQuery": {
+        "type": "String"
+      }
+    }
+  },
+  "noProductsMatchFilters": "No products match your current filters",
+  "@noProductsMatchFilters": {
+    "description": "No products found for current filters message"
+  },
+  "noProductsAvailable": "No products available at the moment",
+  "@noProductsAvailable": {
+    "description": "No products available message"
+  },
+  "tryAdjustingFilters": "Try adjusting your search or filters",
+  "@tryAdjustingFilters": {
+    "description": "Suggestion to adjust search or filters"
+  },
+  "clearAllFilters": "Clear All Filters",
+  "@clearAllFilters": {
+    "description": "Clear all filters button"
+  },
+  "gridViewTooltip": "Grid View",
+  "@gridViewTooltip": {
+    "description": "Tooltip for grid view button"
+  },
+  "listViewTooltip": "List View",
+  "@listViewTooltip": {
+    "description": "Tooltip for list view button"
+  }
+}

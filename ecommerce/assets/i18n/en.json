@@ -1,0 +1,76 @@
+{
+  "appTitle": "E-Commerce App",
+  "checkout": {
+    "title": "Checkout",
+    "steps": {
+      "address": "Shipping Address",
+      "payment": "Payment Method",
+      "review": "Review Order",
+      "confirmation": "Order Confirmed"
+    },
+    "buttons": {
+      "back": "Back",
+      "continue": "Continue",
+      "placeOrder": "Place Order"
+    },
+    "address": {
+      "shippingAddress": "Shipping Address",
+      "billingAddress": "Billing Address",
+      "noAddresses": "No addresses available. Please add an address to continue.",
+      "selectShipping": "Please select a shipping address to continue",
+      "selectBilling": "Please select a billing address to continue",
+      "useShippingForBilling": "Use shipping address for billing",
+      "addAddress": "Add Address",
+      "editAddress": "Edit Address"
+    },
+    "validation": {
+      "addressRequired": "Please add an address before continuing.",
+      "shippingAddressRequired": "Please select a shipping address to continue.",
+      "billingAddressRequired": "Please select a billing address to continue.",
+      "addressIncomplete": "Please complete the address information.",
+      "paymentRequired": "Please select a payment method to continue.",
+      "reviewIncomplete": "Please complete all required information before placing your order."
+    }
+  },
+  "address": {
+    "fullName": "Full Name",
+    "streetAddress": "Street Address",
+    "addressLine2": "Address Line 2 (Optional)",
+    "city": "City",
+    "state": "State",
+    "stateProvince": "State/Province/Region",
+    "zipCode": "ZIP Code",
+    "country": "Country",
+    "phoneNumber": "Phone Number (Optional)",
+    "defaultAddress": "Set as default address",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "payment": {
+    "title": "Payment Method",
+    "creditCard": "Credit Card",
+    "paypal": "PayPal",
+    "addNew": "Add New Payment Method"
+  },
+  "review": {
+    "title": "Review Order",
+    "shippingInfo": "Shipping Information",
+    "billingInfo": "Billing Information",
+    "paymentInfo": "Payment Information",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "tax": "Tax",
+    "total": "Total",
+    "notes": "Order Notes (Optional)",
+    "edit": "Edit"
+  },
+  "confirmation": {
+    "title": "Order Confirmed!",
+    "orderNumber": "Order Number",
+    "thankYou": "Thank you for your purchase!",
+    "emailSent": "An email confirmation has been sent to your email address.",
+    "trackOrder": "Track Order",
+    "continueShopping": "Continue Shopping"
+  }
+}
