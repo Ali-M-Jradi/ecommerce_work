@@ -249,7 +249,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
           // Rating Filter
           Text(
-            'Minimum Rating: ${_minRating.toStringAsFixed(1)} stars',
+            AppLocalizationsHelper.of(context).minimumRating(_minRating.toStringAsFixed(1)),
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -273,7 +273,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
           // Stock Filter
           CheckboxListTile(
-            title: const Text('Show only products in stock'),
+            title: Text(AppLocalizationsHelper.of(context).showOnlyInStock),
             value: _showOnlyInStock,
             onChanged: (value) {
               setState(() {
@@ -298,8 +298,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: const Text(
-                'Apply Filters',
+              child: Text(
+                AppLocalizationsHelper.of(context).applyFilters,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
