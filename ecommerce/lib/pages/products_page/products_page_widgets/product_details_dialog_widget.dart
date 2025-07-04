@@ -4,6 +4,8 @@ import '../../../providers/cart_provider.dart';
 import '../../cart_page/cart_page.dart';
 import '../../../main.dart'; // Import to access navigatorKey
 import 'star_rating_widget.dart';
+import '../../../localization/app_localizations_helper.dart';
+import 'products_data_provider.dart';
 
 class ProductDetailsDialogWidget extends StatefulWidget {
   final Map<String, dynamic> product;
@@ -83,7 +85,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               SizedBox(height: 8),
               // Product Name (Full)
               Text(
-                widget.product['name'] ?? 'Unknown Product',
+                ProductsDataProvider.getLocalizedName(widget.product, context),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -91,9 +93,9 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               ),
               SizedBox(height: 8),
               // Description (Full)
-              if (widget.product['description'] != null)
+              if (ProductsDataProvider.getLocalizedDescription(widget.product, context).isNotEmpty)
                 Text(
-                  widget.product['description'],
+                  ProductsDataProvider.getLocalizedDescription(widget.product, context),
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey.shade700,
@@ -101,14 +103,13 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                 ),
               SizedBox(height: 8),
               // Size
-              if (widget.product['size'] != null)
-                Text(
-                  'Size: ${widget.product['size']}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey.shade600,
-                  ),
+              Text(
+                '${AppLocalizationsHelper.of(context).sizeLabel}: ${_getDisplaySize()}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey.shade600,
                 ),
+              ),
               SizedBox(height: 16),
               // Price and Current Rating
               Row(
@@ -130,7 +131,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                         style: TextStyle(fontSize: 16),
                       ),
                       Text(
-                        ' (current)',
+                        ' (${AppLocalizationsHelper.of(context).currentRating})',
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey.shade600,
@@ -143,7 +144,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               SizedBox(height: 20),
               // User Rating Section
               Text(
-                'Rate this product:',
+                AppLocalizationsHelper.of(context).rateThisProduct,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -153,7 +154,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               SizedBox(height: 8),
               // Instructions
               Text(
-                'Tap stars to rate (tap twice for half-star)',
+                AppLocalizationsHelper.of(context).ratingInstructions,
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey.shade600,
@@ -177,8 +178,13 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               Center(
                 child: Text(
                   userRating == 0.0 
-                      ? 'No rating selected' 
-                      : 'Your rating: ${userRating.toString()} ${userRating == 1.0 ? 'star' : 'stars'}',
+                      ? AppLocalizationsHelper.of(context).noRatingSelected
+                      : AppLocalizationsHelper.of(context).yourRating(
+                          userRating.toString(), 
+                          userRating == 1.0 
+                            ? AppLocalizationsHelper.of(context).star 
+                            : AppLocalizationsHelper.of(context).stars
+                        ),
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.deepPurple.shade600,
@@ -196,7 +202,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                       Navigator.of(context).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Rating submitted: ${userRating.toString()} stars!'),
+                          content: Text(AppLocalizationsHelper.of(context).ratingSubmitted(userRating.toString())),
                           backgroundColor: Colors.deepPurple.shade600,
                         ),
                       );
@@ -210,7 +216,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                       ),
                     ),
                     child: Text(
-                      'SUBMIT RATING',
+                      AppLocalizationsHelper.of(context).submitRating,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -226,7 +232,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                   onPressed: _isSoldOut() ? null : () {
                     // Add to cart using CartProvider
                     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-                    cartProvider.addItem(widget.product);
+                    cartProvider.addItem(widget.product, context: context);
                     
                     // Pop the dialog first
                     Navigator.of(context).pop();
@@ -234,11 +240,11 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                     // Show snackbar with simple navigation
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('${widget.product['name'] ?? 'Product'} added to cart!'),
+                        content: Text(AppLocalizationsHelper.of(context).addedToCart(ProductsDataProvider.getLocalizedName(widget.product, context))),
                         backgroundColor: Colors.deepPurple.shade600,
                         duration: const Duration(seconds: 4),
                         action: SnackBarAction(
-                          label: 'VIEW CART',
+                          label: AppLocalizationsHelper.of(context).viewCart,
                           textColor: Colors.white,
                           onPressed: () {
                             // Use the global navigator key for guaranteed navigation
@@ -263,7 +269,9 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                     ),
                   ),
                   child: Text(
-                    _isSoldOut() ? 'SOLD OUT' : 'ADD TO CART',
+                    _isSoldOut() 
+                      ? AppLocalizationsHelper.of(context).soldOut 
+                      : AppLocalizationsHelper.of(context).addToCart,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -278,7 +286,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                 child: TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
-                    'CLOSE',
+                    AppLocalizationsHelper.of(context).closeDialog,
                     style: TextStyle(
                       color: Color(0xFF4A154B),
                       fontSize: 16,
@@ -292,5 +300,14 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
         ),
       ),
     );
+  }
+
+  // Helper method to get display size with localization
+  String _getDisplaySize() {
+    final size = widget.product['size'];
+    if (size == null || size.toString().isEmpty || size.toString() == 'Not specified') {
+      return AppLocalizationsHelper.of(context).notSpecified;
+    }
+    return size.toString();
   }
 }

@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/cart_provider.dart';
+import '../../providers/language_provider.dart';
 import 'cart_page_widgets/cart_item_widget.dart';
 import 'cart_page_widgets/cart_summary_widget.dart';
 import 'cart_page_widgets/empty_cart_widget.dart';
+import '../../localization/app_localizations_helper.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFBFF),
-      appBar: AppBar(
+    return Consumer<LanguageProvider>(
+      builder: (context, languageProvider, child) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFFFFBFF),
+          appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Shopping Cart',
+          AppLocalizationsHelper.of(context).shoppingCartTitle,
           style: TextStyle(
             color: Colors.deepPurple.shade700,
             fontWeight: FontWeight.bold,
@@ -37,7 +41,7 @@ class CartPage extends StatelessWidget {
                     _showClearCartDialog(context, cart);
                   },
                   child: Text(
-                    'Clear All',
+                    AppLocalizationsHelper.of(context).clearAll, // This key exists
                     style: TextStyle(
                       color: Colors.red.shade600,
                       fontWeight: FontWeight.w600,
@@ -74,24 +78,29 @@ class CartPage extends StatelessWidget {
                         cart.removeItem(cartItem.id);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('${cartItem.name} removed from cart'),
+                            content: Text(AppLocalizationsHelper.of(context).itemRemovedFromCart(cartItem.name)),
                             backgroundColor: Colors.deepPurple.shade600,
                             duration: const Duration(seconds: 2),
                             action: SnackBarAction(
-                              label: 'UNDO',
+                              label: AppLocalizationsHelper.of(context).undo,
                               textColor: Colors.white,
                               onPressed: () {
-                                // Re-add the item
-                                cart.addItem({
-                                  'id': cartItem.productId,
-                                  'name': cartItem.name,
-                                  'brand': cartItem.brand,
-                                  'price': cartItem.price,
-                                  'image': cartItem.image,
-                                  'size': cartItem.size,
-                                  'category': cartItem.category,
-                                  'description': cartItem.description,
-                                }, quantity: cartItem.quantity);
+                                // Re-add the item using original product data if available
+                                if (cartItem.originalProduct != null) {
+                                  cart.addItem(cartItem.originalProduct!, quantity: cartItem.quantity, context: context);
+                                } else {
+                                  // Fallback to recreating from cart item data
+                                  cart.addItem({
+                                    'id': cartItem.productId,
+                                    'name': cartItem.name,
+                                    'brand': cartItem.brand,
+                                    'price': cartItem.price,
+                                    'image': cartItem.image,
+                                    'size': cartItem.size,
+                                    'category': cartItem.category,
+                                    'description': cartItem.description,
+                                  }, quantity: cartItem.quantity, context: context);
+                                }
                               },
                             ),
                           ),
@@ -113,6 +122,8 @@ class CartPage extends StatelessWidget {
         },
       ),
     );
+      }, // Consumer<LanguageProvider>
+    ); // Consumer<LanguageProvider>
   }
 
   void _showClearCartDialog(BuildContext context, CartProvider cart) {

@@ -262,6 +262,1368 @@ abstract class AppLocalizations {
   /// **'Set as default address'**
   String get defaultAddressLabel;
 
+  /// Full name required validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Full name is required'**
+  String get fullNameRequired;
+
+  /// Full name too short validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Full name must be at least 2 characters'**
+  String get fullNameTooShort;
+
+  /// Full name too long validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Full name must be less than 50 characters'**
+  String get fullNameTooLong;
+
+  /// Full name invalid characters validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Full name can only contain letters, spaces, hyphens, and apostrophes'**
+  String get fullNameInvalidCharacters;
+
+  /// Full name missing last name validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter both first and last name'**
+  String get fullNameMissingLastName;
+
+  /// Street address required validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Street address is required'**
+  String get streetAddressRequired;
+
+  /// Street address too short validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Street address must be at least 5 characters'**
+  String get streetAddressTooShort;
+
+  /// Street address too long validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Street address must be less than 100 characters'**
+  String get streetAddressTooLong;
+
+  /// Street address invalid characters validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Street address contains invalid characters'**
+  String get streetAddressInvalidCharacters;
+
+  /// City required validation error
+  ///
+  /// In en, this message translates to:
+  /// **'City is required'**
+  String get cityRequired;
+
+  /// City too short validation error
+  ///
+  /// In en, this message translates to:
+  /// **'City name must be at least 2 characters'**
+  String get cityTooShort;
+
+  /// City too long validation error
+  ///
+  /// In en, this message translates to:
+  /// **'City name must be less than 50 characters'**
+  String get cityTooLong;
+
+  /// City invalid characters validation error
+  ///
+  /// In en, this message translates to:
+  /// **'City name can only contain letters, spaces, hyphens, and apostrophes'**
+  String get cityInvalidCharacters;
+
+  /// State required validation error
+  ///
+  /// In en, this message translates to:
+  /// **'State/Province is required'**
+  String get stateRequired;
+
+  /// Invalid US state validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a valid US state'**
+  String get stateInvalidUS;
+
+  /// Invalid Canadian province validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a valid Canadian province'**
+  String get stateInvalidCanada;
+
+  /// State too short validation error
+  ///
+  /// In en, this message translates to:
+  /// **'State/Province must be at least 2 characters'**
+  String get stateTooShort;
+
+  /// State too long validation error
+  ///
+  /// In en, this message translates to:
+  /// **'State/Province must be less than 50 characters'**
+  String get stateTooLong;
+
+  /// State invalid characters validation error
+  ///
+  /// In en, this message translates to:
+  /// **'State/Province can only contain letters, spaces, hyphens, and apostrophes'**
+  String get stateInvalidCharacters;
+
+  /// ZIP code required validation error
+  ///
+  /// In en, this message translates to:
+  /// **'ZIP/Postal code is required'**
+  String get zipCodeRequired;
+
+  /// Invalid US ZIP code validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid US ZIP code (5 or 9 digits)'**
+  String get zipCodeInvalidUS;
+
+  /// Invalid Canadian postal code validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid Canadian postal code (e.g., A1A 1A1)'**
+  String get zipCodeInvalidCanada;
+
+  /// Invalid UK postal code validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid UK postal code'**
+  String get zipCodeInvalidUK;
+
+  /// Invalid German postal code validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid German postal code (5 digits)'**
+  String get zipCodeInvalidGermany;
+
+  /// Invalid French postal code validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid French postal code (5 digits)'**
+  String get zipCodeInvalidFrance;
+
+  /// Invalid Australian postal code validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid Australian postal code (4 digits)'**
+  String get zipCodeInvalidAustralia;
+
+  /// General invalid postal code validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid postal code'**
+  String get zipCodeInvalidGeneral;
+
+  /// Invalid postal code characters validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Postal code can only contain letters, numbers, spaces, and hyphens'**
+  String get zipCodeInvalidCharacters;
+
+  /// ZIP code too long validation error
+  ///
+  /// In en, this message translates to:
+  /// **'ZIP/Postal code must be less than 20 characters'**
+  String get zipCodeTooLong;
+
+  /// Country required validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Country is required'**
+  String get countryRequired;
+
+  /// Invalid country validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a valid country'**
+  String get countryInvalid;
+
+  /// Invalid phone number validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number'**
+  String get phoneNumberInvalid;
+
+  /// No description provided for @countryAF.
+  ///
+  /// In en, this message translates to:
+  /// **'Afghanistan'**
+  String get countryAF;
+
+  /// No description provided for @countryAL.
+  ///
+  /// In en, this message translates to:
+  /// **'Albania'**
+  String get countryAL;
+
+  /// No description provided for @countryDZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Algeria'**
+  String get countryDZ;
+
+  /// No description provided for @countryAD.
+  ///
+  /// In en, this message translates to:
+  /// **'Andorra'**
+  String get countryAD;
+
+  /// No description provided for @countryAO.
+  ///
+  /// In en, this message translates to:
+  /// **'Angola'**
+  String get countryAO;
+
+  /// No description provided for @countryAG.
+  ///
+  /// In en, this message translates to:
+  /// **'Antigua and Barbuda'**
+  String get countryAG;
+
+  /// No description provided for @countryAR.
+  ///
+  /// In en, this message translates to:
+  /// **'Argentina'**
+  String get countryAR;
+
+  /// No description provided for @countryAM.
+  ///
+  /// In en, this message translates to:
+  /// **'Armenia'**
+  String get countryAM;
+
+  /// No description provided for @countryAU.
+  ///
+  /// In en, this message translates to:
+  /// **'Australia'**
+  String get countryAU;
+
+  /// No description provided for @countryAT.
+  ///
+  /// In en, this message translates to:
+  /// **'Austria'**
+  String get countryAT;
+
+  /// No description provided for @countryAZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Azerbaijan'**
+  String get countryAZ;
+
+  /// No description provided for @countryBS.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahamas'**
+  String get countryBS;
+
+  /// No description provided for @countryBH.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahrain'**
+  String get countryBH;
+
+  /// No description provided for @countryBD.
+  ///
+  /// In en, this message translates to:
+  /// **'Bangladesh'**
+  String get countryBD;
+
+  /// No description provided for @countryBB.
+  ///
+  /// In en, this message translates to:
+  /// **'Barbados'**
+  String get countryBB;
+
+  /// No description provided for @countryBY.
+  ///
+  /// In en, this message translates to:
+  /// **'Belarus'**
+  String get countryBY;
+
+  /// No description provided for @countryBE.
+  ///
+  /// In en, this message translates to:
+  /// **'Belgium'**
+  String get countryBE;
+
+  /// No description provided for @countryBZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Belize'**
+  String get countryBZ;
+
+  /// No description provided for @countryBJ.
+  ///
+  /// In en, this message translates to:
+  /// **'Benin'**
+  String get countryBJ;
+
+  /// No description provided for @countryBT.
+  ///
+  /// In en, this message translates to:
+  /// **'Bhutan'**
+  String get countryBT;
+
+  /// No description provided for @countryBO.
+  ///
+  /// In en, this message translates to:
+  /// **'Bolivia'**
+  String get countryBO;
+
+  /// No description provided for @countryBA.
+  ///
+  /// In en, this message translates to:
+  /// **'Bosnia and Herzegovina'**
+  String get countryBA;
+
+  /// No description provided for @countryBW.
+  ///
+  /// In en, this message translates to:
+  /// **'Botswana'**
+  String get countryBW;
+
+  /// No description provided for @countryBR.
+  ///
+  /// In en, this message translates to:
+  /// **'Brazil'**
+  String get countryBR;
+
+  /// No description provided for @countryBN.
+  ///
+  /// In en, this message translates to:
+  /// **'Brunei'**
+  String get countryBN;
+
+  /// No description provided for @countryBG.
+  ///
+  /// In en, this message translates to:
+  /// **'Bulgaria'**
+  String get countryBG;
+
+  /// No description provided for @countryBF.
+  ///
+  /// In en, this message translates to:
+  /// **'Burkina Faso'**
+  String get countryBF;
+
+  /// No description provided for @countryBI.
+  ///
+  /// In en, this message translates to:
+  /// **'Burundi'**
+  String get countryBI;
+
+  /// No description provided for @countryCV.
+  ///
+  /// In en, this message translates to:
+  /// **'Cabo Verde'**
+  String get countryCV;
+
+  /// No description provided for @countryKH.
+  ///
+  /// In en, this message translates to:
+  /// **'Cambodia'**
+  String get countryKH;
+
+  /// No description provided for @countryCM.
+  ///
+  /// In en, this message translates to:
+  /// **'Cameroon'**
+  String get countryCM;
+
+  /// No description provided for @countryCA.
+  ///
+  /// In en, this message translates to:
+  /// **'Canada'**
+  String get countryCA;
+
+  /// No description provided for @countryCF.
+  ///
+  /// In en, this message translates to:
+  /// **'Central African Republic'**
+  String get countryCF;
+
+  /// No description provided for @countryTD.
+  ///
+  /// In en, this message translates to:
+  /// **'Chad'**
+  String get countryTD;
+
+  /// No description provided for @countryCL.
+  ///
+  /// In en, this message translates to:
+  /// **'Chile'**
+  String get countryCL;
+
+  /// No description provided for @countryCN.
+  ///
+  /// In en, this message translates to:
+  /// **'China'**
+  String get countryCN;
+
+  /// No description provided for @countryCO.
+  ///
+  /// In en, this message translates to:
+  /// **'Colombia'**
+  String get countryCO;
+
+  /// No description provided for @countryKM.
+  ///
+  /// In en, this message translates to:
+  /// **'Comoros'**
+  String get countryKM;
+
+  /// No description provided for @countryCG.
+  ///
+  /// In en, this message translates to:
+  /// **'Congo'**
+  String get countryCG;
+
+  /// No description provided for @countryCD.
+  ///
+  /// In en, this message translates to:
+  /// **'Congo (Democratic Republic)'**
+  String get countryCD;
+
+  /// No description provided for @countryCR.
+  ///
+  /// In en, this message translates to:
+  /// **'Costa Rica'**
+  String get countryCR;
+
+  /// No description provided for @countryCI.
+  ///
+  /// In en, this message translates to:
+  /// **'Côte d\'Ivoire'**
+  String get countryCI;
+
+  /// No description provided for @countryHR.
+  ///
+  /// In en, this message translates to:
+  /// **'Croatia'**
+  String get countryHR;
+
+  /// No description provided for @countryCU.
+  ///
+  /// In en, this message translates to:
+  /// **'Cuba'**
+  String get countryCU;
+
+  /// No description provided for @countryCY.
+  ///
+  /// In en, this message translates to:
+  /// **'Cyprus'**
+  String get countryCY;
+
+  /// No description provided for @countryCZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Czech Republic'**
+  String get countryCZ;
+
+  /// No description provided for @countryDK.
+  ///
+  /// In en, this message translates to:
+  /// **'Denmark'**
+  String get countryDK;
+
+  /// No description provided for @countryDJ.
+  ///
+  /// In en, this message translates to:
+  /// **'Djibouti'**
+  String get countryDJ;
+
+  /// No description provided for @countryDM.
+  ///
+  /// In en, this message translates to:
+  /// **'Dominica'**
+  String get countryDM;
+
+  /// No description provided for @countryDO.
+  ///
+  /// In en, this message translates to:
+  /// **'Dominican Republic'**
+  String get countryDO;
+
+  /// No description provided for @countryEC.
+  ///
+  /// In en, this message translates to:
+  /// **'Ecuador'**
+  String get countryEC;
+
+  /// No description provided for @countryEG.
+  ///
+  /// In en, this message translates to:
+  /// **'Egypt'**
+  String get countryEG;
+
+  /// No description provided for @countrySV.
+  ///
+  /// In en, this message translates to:
+  /// **'El Salvador'**
+  String get countrySV;
+
+  /// No description provided for @countryGQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Equatorial Guinea'**
+  String get countryGQ;
+
+  /// No description provided for @countryER.
+  ///
+  /// In en, this message translates to:
+  /// **'Eritrea'**
+  String get countryER;
+
+  /// No description provided for @countryEE.
+  ///
+  /// In en, this message translates to:
+  /// **'Estonia'**
+  String get countryEE;
+
+  /// No description provided for @countryET.
+  ///
+  /// In en, this message translates to:
+  /// **'Ethiopia'**
+  String get countryET;
+
+  /// No description provided for @countryFJ.
+  ///
+  /// In en, this message translates to:
+  /// **'Fiji'**
+  String get countryFJ;
+
+  /// No description provided for @countryFI.
+  ///
+  /// In en, this message translates to:
+  /// **'Finland'**
+  String get countryFI;
+
+  /// No description provided for @countryFR.
+  ///
+  /// In en, this message translates to:
+  /// **'France'**
+  String get countryFR;
+
+  /// No description provided for @countryGA.
+  ///
+  /// In en, this message translates to:
+  /// **'Gabon'**
+  String get countryGA;
+
+  /// No description provided for @countryGM.
+  ///
+  /// In en, this message translates to:
+  /// **'Gambia'**
+  String get countryGM;
+
+  /// No description provided for @countryGE.
+  ///
+  /// In en, this message translates to:
+  /// **'Georgia'**
+  String get countryGE;
+
+  /// No description provided for @countryDE.
+  ///
+  /// In en, this message translates to:
+  /// **'Germany'**
+  String get countryDE;
+
+  /// No description provided for @countryGH.
+  ///
+  /// In en, this message translates to:
+  /// **'Ghana'**
+  String get countryGH;
+
+  /// No description provided for @countryGR.
+  ///
+  /// In en, this message translates to:
+  /// **'Greece'**
+  String get countryGR;
+
+  /// No description provided for @countryGD.
+  ///
+  /// In en, this message translates to:
+  /// **'Grenada'**
+  String get countryGD;
+
+  /// No description provided for @countryGT.
+  ///
+  /// In en, this message translates to:
+  /// **'Guatemala'**
+  String get countryGT;
+
+  /// No description provided for @countryGN.
+  ///
+  /// In en, this message translates to:
+  /// **'Guinea'**
+  String get countryGN;
+
+  /// No description provided for @countryGW.
+  ///
+  /// In en, this message translates to:
+  /// **'Guinea-Bissau'**
+  String get countryGW;
+
+  /// No description provided for @countryGY.
+  ///
+  /// In en, this message translates to:
+  /// **'Guyana'**
+  String get countryGY;
+
+  /// No description provided for @countryHT.
+  ///
+  /// In en, this message translates to:
+  /// **'Haiti'**
+  String get countryHT;
+
+  /// No description provided for @countryHN.
+  ///
+  /// In en, this message translates to:
+  /// **'Honduras'**
+  String get countryHN;
+
+  /// No description provided for @countryHU.
+  ///
+  /// In en, this message translates to:
+  /// **'Hungary'**
+  String get countryHU;
+
+  /// No description provided for @countryIS.
+  ///
+  /// In en, this message translates to:
+  /// **'Iceland'**
+  String get countryIS;
+
+  /// No description provided for @countryIN.
+  ///
+  /// In en, this message translates to:
+  /// **'India'**
+  String get countryIN;
+
+  /// No description provided for @countryID.
+  ///
+  /// In en, this message translates to:
+  /// **'Indonesia'**
+  String get countryID;
+
+  /// No description provided for @countryIR.
+  ///
+  /// In en, this message translates to:
+  /// **'Iran'**
+  String get countryIR;
+
+  /// No description provided for @countryIQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Iraq'**
+  String get countryIQ;
+
+  /// No description provided for @countryIE.
+  ///
+  /// In en, this message translates to:
+  /// **'Ireland'**
+  String get countryIE;
+
+  /// No description provided for @countryIL.
+  ///
+  /// In en, this message translates to:
+  /// **'Israel'**
+  String get countryIL;
+
+  /// No description provided for @countryIT.
+  ///
+  /// In en, this message translates to:
+  /// **'Italy'**
+  String get countryIT;
+
+  /// No description provided for @countryJM.
+  ///
+  /// In en, this message translates to:
+  /// **'Jamaica'**
+  String get countryJM;
+
+  /// No description provided for @countryJP.
+  ///
+  /// In en, this message translates to:
+  /// **'Japan'**
+  String get countryJP;
+
+  /// No description provided for @countryJO.
+  ///
+  /// In en, this message translates to:
+  /// **'Jordan'**
+  String get countryJO;
+
+  /// No description provided for @countryKZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Kazakhstan'**
+  String get countryKZ;
+
+  /// No description provided for @countryKE.
+  ///
+  /// In en, this message translates to:
+  /// **'Kenya'**
+  String get countryKE;
+
+  /// No description provided for @countryKI.
+  ///
+  /// In en, this message translates to:
+  /// **'Kiribati'**
+  String get countryKI;
+
+  /// No description provided for @countryKW.
+  ///
+  /// In en, this message translates to:
+  /// **'Kuwait'**
+  String get countryKW;
+
+  /// No description provided for @countryKG.
+  ///
+  /// In en, this message translates to:
+  /// **'Kyrgyzstan'**
+  String get countryKG;
+
+  /// No description provided for @countryLA.
+  ///
+  /// In en, this message translates to:
+  /// **'Laos'**
+  String get countryLA;
+
+  /// No description provided for @countryLV.
+  ///
+  /// In en, this message translates to:
+  /// **'Latvia'**
+  String get countryLV;
+
+  /// No description provided for @countryLB.
+  ///
+  /// In en, this message translates to:
+  /// **'Lebanon'**
+  String get countryLB;
+
+  /// No description provided for @countryLS.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesotho'**
+  String get countryLS;
+
+  /// No description provided for @countryLR.
+  ///
+  /// In en, this message translates to:
+  /// **'Liberia'**
+  String get countryLR;
+
+  /// No description provided for @countryLY.
+  ///
+  /// In en, this message translates to:
+  /// **'Libya'**
+  String get countryLY;
+
+  /// No description provided for @countryLI.
+  ///
+  /// In en, this message translates to:
+  /// **'Liechtenstein'**
+  String get countryLI;
+
+  /// No description provided for @countryLT.
+  ///
+  /// In en, this message translates to:
+  /// **'Lithuania'**
+  String get countryLT;
+
+  /// No description provided for @countryLU.
+  ///
+  /// In en, this message translates to:
+  /// **'Luxembourg'**
+  String get countryLU;
+
+  /// No description provided for @countryMK.
+  ///
+  /// In en, this message translates to:
+  /// **'North Macedonia'**
+  String get countryMK;
+
+  /// No description provided for @countryMG.
+  ///
+  /// In en, this message translates to:
+  /// **'Madagascar'**
+  String get countryMG;
+
+  /// No description provided for @countryMW.
+  ///
+  /// In en, this message translates to:
+  /// **'Malawi'**
+  String get countryMW;
+
+  /// No description provided for @countryMY.
+  ///
+  /// In en, this message translates to:
+  /// **'Malaysia'**
+  String get countryMY;
+
+  /// No description provided for @countryMV.
+  ///
+  /// In en, this message translates to:
+  /// **'Maldives'**
+  String get countryMV;
+
+  /// No description provided for @countryML.
+  ///
+  /// In en, this message translates to:
+  /// **'Mali'**
+  String get countryML;
+
+  /// No description provided for @countryMT.
+  ///
+  /// In en, this message translates to:
+  /// **'Malta'**
+  String get countryMT;
+
+  /// No description provided for @countryMH.
+  ///
+  /// In en, this message translates to:
+  /// **'Marshall Islands'**
+  String get countryMH;
+
+  /// No description provided for @countryMR.
+  ///
+  /// In en, this message translates to:
+  /// **'Mauritania'**
+  String get countryMR;
+
+  /// No description provided for @countryMU.
+  ///
+  /// In en, this message translates to:
+  /// **'Mauritius'**
+  String get countryMU;
+
+  /// No description provided for @countryMX.
+  ///
+  /// In en, this message translates to:
+  /// **'Mexico'**
+  String get countryMX;
+
+  /// No description provided for @countryFM.
+  ///
+  /// In en, this message translates to:
+  /// **'Micronesia'**
+  String get countryFM;
+
+  /// No description provided for @countryMD.
+  ///
+  /// In en, this message translates to:
+  /// **'Moldova'**
+  String get countryMD;
+
+  /// No description provided for @countryMC.
+  ///
+  /// In en, this message translates to:
+  /// **'Monaco'**
+  String get countryMC;
+
+  /// No description provided for @countryMN.
+  ///
+  /// In en, this message translates to:
+  /// **'Mongolia'**
+  String get countryMN;
+
+  /// No description provided for @countryME.
+  ///
+  /// In en, this message translates to:
+  /// **'Montenegro'**
+  String get countryME;
+
+  /// No description provided for @countryMA.
+  ///
+  /// In en, this message translates to:
+  /// **'Morocco'**
+  String get countryMA;
+
+  /// No description provided for @countryMZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Mozambique'**
+  String get countryMZ;
+
+  /// No description provided for @countryMM.
+  ///
+  /// In en, this message translates to:
+  /// **'Myanmar'**
+  String get countryMM;
+
+  /// No description provided for @countryNA.
+  ///
+  /// In en, this message translates to:
+  /// **'Namibia'**
+  String get countryNA;
+
+  /// No description provided for @countryNR.
+  ///
+  /// In en, this message translates to:
+  /// **'Nauru'**
+  String get countryNR;
+
+  /// No description provided for @countryNP.
+  ///
+  /// In en, this message translates to:
+  /// **'Nepal'**
+  String get countryNP;
+
+  /// No description provided for @countryNL.
+  ///
+  /// In en, this message translates to:
+  /// **'Netherlands'**
+  String get countryNL;
+
+  /// No description provided for @countryNZ.
+  ///
+  /// In en, this message translates to:
+  /// **'New Zealand'**
+  String get countryNZ;
+
+  /// No description provided for @countryNI.
+  ///
+  /// In en, this message translates to:
+  /// **'Nicaragua'**
+  String get countryNI;
+
+  /// No description provided for @countryNE.
+  ///
+  /// In en, this message translates to:
+  /// **'Niger'**
+  String get countryNE;
+
+  /// No description provided for @countryNG.
+  ///
+  /// In en, this message translates to:
+  /// **'Nigeria'**
+  String get countryNG;
+
+  /// No description provided for @countryKP.
+  ///
+  /// In en, this message translates to:
+  /// **'North Korea'**
+  String get countryKP;
+
+  /// No description provided for @countryNO.
+  ///
+  /// In en, this message translates to:
+  /// **'Norway'**
+  String get countryNO;
+
+  /// No description provided for @countryOM.
+  ///
+  /// In en, this message translates to:
+  /// **'Oman'**
+  String get countryOM;
+
+  /// No description provided for @countryPK.
+  ///
+  /// In en, this message translates to:
+  /// **'Pakistan'**
+  String get countryPK;
+
+  /// No description provided for @countryPW.
+  ///
+  /// In en, this message translates to:
+  /// **'Palau'**
+  String get countryPW;
+
+  /// No description provided for @countryPA.
+  ///
+  /// In en, this message translates to:
+  /// **'Panama'**
+  String get countryPA;
+
+  /// No description provided for @countryPG.
+  ///
+  /// In en, this message translates to:
+  /// **'Papua New Guinea'**
+  String get countryPG;
+
+  /// No description provided for @countryPY.
+  ///
+  /// In en, this message translates to:
+  /// **'Paraguay'**
+  String get countryPY;
+
+  /// No description provided for @countryPE.
+  ///
+  /// In en, this message translates to:
+  /// **'Peru'**
+  String get countryPE;
+
+  /// No description provided for @countryPH.
+  ///
+  /// In en, this message translates to:
+  /// **'Philippines'**
+  String get countryPH;
+
+  /// No description provided for @countryPL.
+  ///
+  /// In en, this message translates to:
+  /// **'Poland'**
+  String get countryPL;
+
+  /// No description provided for @countryPT.
+  ///
+  /// In en, this message translates to:
+  /// **'Portugal'**
+  String get countryPT;
+
+  /// No description provided for @countryQA.
+  ///
+  /// In en, this message translates to:
+  /// **'Qatar'**
+  String get countryQA;
+
+  /// No description provided for @countryRO.
+  ///
+  /// In en, this message translates to:
+  /// **'Romania'**
+  String get countryRO;
+
+  /// No description provided for @countryRU.
+  ///
+  /// In en, this message translates to:
+  /// **'Russia'**
+  String get countryRU;
+
+  /// No description provided for @countryRW.
+  ///
+  /// In en, this message translates to:
+  /// **'Rwanda'**
+  String get countryRW;
+
+  /// No description provided for @countryKN.
+  ///
+  /// In en, this message translates to:
+  /// **'Saint Kitts and Nevis'**
+  String get countryKN;
+
+  /// No description provided for @countryLC.
+  ///
+  /// In en, this message translates to:
+  /// **'Saint Lucia'**
+  String get countryLC;
+
+  /// No description provided for @countryVC.
+  ///
+  /// In en, this message translates to:
+  /// **'Saint Vincent and the Grenadines'**
+  String get countryVC;
+
+  /// No description provided for @countryWS.
+  ///
+  /// In en, this message translates to:
+  /// **'Samoa'**
+  String get countryWS;
+
+  /// No description provided for @countrySM.
+  ///
+  /// In en, this message translates to:
+  /// **'San Marino'**
+  String get countrySM;
+
+  /// No description provided for @countryST.
+  ///
+  /// In en, this message translates to:
+  /// **'São Tomé and Príncipe'**
+  String get countryST;
+
+  /// No description provided for @countrySA.
+  ///
+  /// In en, this message translates to:
+  /// **'Saudi Arabia'**
+  String get countrySA;
+
+  /// No description provided for @countrySN.
+  ///
+  /// In en, this message translates to:
+  /// **'Senegal'**
+  String get countrySN;
+
+  /// No description provided for @countryRS.
+  ///
+  /// In en, this message translates to:
+  /// **'Serbia'**
+  String get countryRS;
+
+  /// No description provided for @countrySC.
+  ///
+  /// In en, this message translates to:
+  /// **'Seychelles'**
+  String get countrySC;
+
+  /// No description provided for @countrySL.
+  ///
+  /// In en, this message translates to:
+  /// **'Sierra Leone'**
+  String get countrySL;
+
+  /// No description provided for @countrySG.
+  ///
+  /// In en, this message translates to:
+  /// **'Singapore'**
+  String get countrySG;
+
+  /// No description provided for @countrySK.
+  ///
+  /// In en, this message translates to:
+  /// **'Slovakia'**
+  String get countrySK;
+
+  /// No description provided for @countrySI.
+  ///
+  /// In en, this message translates to:
+  /// **'Slovenia'**
+  String get countrySI;
+
+  /// No description provided for @countrySB.
+  ///
+  /// In en, this message translates to:
+  /// **'Solomon Islands'**
+  String get countrySB;
+
+  /// No description provided for @countrySO.
+  ///
+  /// In en, this message translates to:
+  /// **'Somalia'**
+  String get countrySO;
+
+  /// No description provided for @countryZA.
+  ///
+  /// In en, this message translates to:
+  /// **'South Africa'**
+  String get countryZA;
+
+  /// No description provided for @countryKR.
+  ///
+  /// In en, this message translates to:
+  /// **'South Korea'**
+  String get countryKR;
+
+  /// No description provided for @countrySS.
+  ///
+  /// In en, this message translates to:
+  /// **'South Sudan'**
+  String get countrySS;
+
+  /// No description provided for @countryES.
+  ///
+  /// In en, this message translates to:
+  /// **'Spain'**
+  String get countryES;
+
+  /// No description provided for @countryLK.
+  ///
+  /// In en, this message translates to:
+  /// **'Sri Lanka'**
+  String get countryLK;
+
+  /// No description provided for @countrySD.
+  ///
+  /// In en, this message translates to:
+  /// **'Sudan'**
+  String get countrySD;
+
+  /// No description provided for @countrySR.
+  ///
+  /// In en, this message translates to:
+  /// **'Suriname'**
+  String get countrySR;
+
+  /// No description provided for @countrySZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Eswatini'**
+  String get countrySZ;
+
+  /// No description provided for @countrySE.
+  ///
+  /// In en, this message translates to:
+  /// **'Sweden'**
+  String get countrySE;
+
+  /// No description provided for @countryCH.
+  ///
+  /// In en, this message translates to:
+  /// **'Switzerland'**
+  String get countryCH;
+
+  /// No description provided for @countrySY.
+  ///
+  /// In en, this message translates to:
+  /// **'Syria'**
+  String get countrySY;
+
+  /// No description provided for @countryTW.
+  ///
+  /// In en, this message translates to:
+  /// **'Taiwan'**
+  String get countryTW;
+
+  /// No description provided for @countryTJ.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajikistan'**
+  String get countryTJ;
+
+  /// No description provided for @countryTZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Tanzania'**
+  String get countryTZ;
+
+  /// No description provided for @countryTH.
+  ///
+  /// In en, this message translates to:
+  /// **'Thailand'**
+  String get countryTH;
+
+  /// No description provided for @countryTL.
+  ///
+  /// In en, this message translates to:
+  /// **'Timor-Leste'**
+  String get countryTL;
+
+  /// No description provided for @countryTG.
+  ///
+  /// In en, this message translates to:
+  /// **'Togo'**
+  String get countryTG;
+
+  /// No description provided for @countryTO.
+  ///
+  /// In en, this message translates to:
+  /// **'Tonga'**
+  String get countryTO;
+
+  /// No description provided for @countryTT.
+  ///
+  /// In en, this message translates to:
+  /// **'Trinidad and Tobago'**
+  String get countryTT;
+
+  /// No description provided for @countryTN.
+  ///
+  /// In en, this message translates to:
+  /// **'Tunisia'**
+  String get countryTN;
+
+  /// No description provided for @countryTR.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkey'**
+  String get countryTR;
+
+  /// No description provided for @countryTM.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkmenistan'**
+  String get countryTM;
+
+  /// No description provided for @countryTV.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuvalu'**
+  String get countryTV;
+
+  /// No description provided for @countryUG.
+  ///
+  /// In en, this message translates to:
+  /// **'Uganda'**
+  String get countryUG;
+
+  /// No description provided for @countryUA.
+  ///
+  /// In en, this message translates to:
+  /// **'Ukraine'**
+  String get countryUA;
+
+  /// No description provided for @countryAE.
+  ///
+  /// In en, this message translates to:
+  /// **'United Arab Emirates'**
+  String get countryAE;
+
+  /// No description provided for @countryGB.
+  ///
+  /// In en, this message translates to:
+  /// **'United Kingdom'**
+  String get countryGB;
+
+  /// No description provided for @countryUS.
+  ///
+  /// In en, this message translates to:
+  /// **'United States'**
+  String get countryUS;
+
+  /// No description provided for @countryUY.
+  ///
+  /// In en, this message translates to:
+  /// **'Uruguay'**
+  String get countryUY;
+
+  /// No description provided for @countryUZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Uzbekistan'**
+  String get countryUZ;
+
+  /// No description provided for @countryVU.
+  ///
+  /// In en, this message translates to:
+  /// **'Vanuatu'**
+  String get countryVU;
+
+  /// No description provided for @countryVA.
+  ///
+  /// In en, this message translates to:
+  /// **'Vatican City'**
+  String get countryVA;
+
+  /// No description provided for @countryVE.
+  ///
+  /// In en, this message translates to:
+  /// **'Venezuela'**
+  String get countryVE;
+
+  /// No description provided for @countryVN.
+  ///
+  /// In en, this message translates to:
+  /// **'Vietnam'**
+  String get countryVN;
+
+  /// No description provided for @countryYE.
+  ///
+  /// In en, this message translates to:
+  /// **'Yemen'**
+  String get countryYE;
+
+  /// No description provided for @countryZM.
+  ///
+  /// In en, this message translates to:
+  /// **'Zambia'**
+  String get countryZM;
+
+  /// No description provided for @countryZW.
+  ///
+  /// In en, this message translates to:
+  /// **'Zimbabwe'**
+  String get countryZW;
+
   /// Save button label
   ///
   /// In en, this message translates to:
@@ -675,6 +2037,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We\'ll send you email updates about your order status and tracking information.'**
   String get orderUpdatesMessage;
+
+  /// Order details dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Order Details'**
+  String get orderDetailsDialogTitle;
+
+  /// Order email updates message
+  ///
+  /// In en, this message translates to:
+  /// **'You will receive email updates about your order status and tracking information.'**
+  String get orderEmailUpdatesMessage;
+
+  /// Generic card label
+  ///
+  /// In en, this message translates to:
+  /// **'CARD'**
+  String get cardLabel;
+
+  /// Order status: Pending
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get orderStatusPending;
+
+  /// Order status: Confirmed
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get orderStatusConfirmed;
+
+  /// Order status: Processing
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get orderStatusProcessing;
+
+  /// Order status: Shipped
+  ///
+  /// In en, this message translates to:
+  /// **'Shipped'**
+  String get orderStatusShipped;
+
+  /// Order status: Delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get orderStatusDelivered;
+
+  /// Order status: Cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get orderStatusCancelled;
+
+  /// Order status: Refunded
+  ///
+  /// In en, this message translates to:
+  /// **'Refunded'**
+  String get orderStatusRefunded;
+
+  /// Face Care category
+  ///
+  /// In en, this message translates to:
+  /// **'Face Care'**
+  String get categoryFaceCare;
+
+  /// Body Care category
+  ///
+  /// In en, this message translates to:
+  /// **'Body Care'**
+  String get categoryBodyCare;
+
+  /// Hair Care category
+  ///
+  /// In en, this message translates to:
+  /// **'Hair Care'**
+  String get categoryHairCare;
 
   /// Close button label
   ///
@@ -1239,6 +2679,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'List View'**
   String get listViewTooltip;
+
+  /// Size label for product details
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get sizeLabel;
+
+  /// Current rating indicator
+  ///
+  /// In en, this message translates to:
+  /// **'current'**
+  String get currentRating;
+
+  /// Rate this product label
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this product:'**
+  String get rateThisProduct;
+
+  /// Instructions for rating products
+  ///
+  /// In en, this message translates to:
+  /// **'Tap stars to rate (tap twice for half-star)'**
+  String get ratingInstructions;
+
+  /// No rating selected message
+  ///
+  /// In en, this message translates to:
+  /// **'No rating selected'**
+  String get noRatingSelected;
+
+  /// Your rating display
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating: {rating} {stars}'**
+  String yourRating(String rating, String stars);
+
+  /// Singular star
+  ///
+  /// In en, this message translates to:
+  /// **'star'**
+  String get star;
+
+  /// Plural stars
+  ///
+  /// In en, this message translates to:
+  /// **'stars'**
+  String get stars;
+
+  /// Submit rating button
+  ///
+  /// In en, this message translates to:
+  /// **'SUBMIT RATING'**
+  String get submitRating;
+
+  /// Rating submitted confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Rating submitted: {rating} stars!'**
+  String ratingSubmitted(String rating);
+
+  /// Add to cart button
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TO CART'**
+  String get addToCart;
+
+  /// Product added to cart message
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} added to cart!'**
+  String addedToCart(String productName);
+
+  /// View cart button
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW CART'**
+  String get viewCart;
+
+  /// Close dialog button
+  ///
+  /// In en, this message translates to:
+  /// **'CLOSE'**
+  String get closeDialog;
+
+  /// Text shown when product size or other field is not specified
+  ///
+  /// In en, this message translates to:
+  /// **'Not specified'**
+  String get notSpecified;
+
+  /// Shopping cart page title
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping Cart'**
+  String get shoppingCartTitle;
+
+  /// Empty cart message
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get cartEmpty;
+
+  /// Empty cart suggestion message
+  ///
+  /// In en, this message translates to:
+  /// **'Add some products to get started'**
+  String get addProductsToStart;
+
+  /// Continue shopping button in empty cart
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Shopping'**
+  String get continueShopping;
+
+  /// Snackbar message when item is removed from cart
+  ///
+  /// In en, this message translates to:
+  /// **'{itemName} removed from cart'**
+  String itemRemovedFromCart(String itemName);
+
+  /// Undo action button
+  ///
+  /// In en, this message translates to:
+  /// **'UNDO'**
+  String get undo;
+
+  /// Subtotal with item count in cart summary
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal ({itemCount} items)'**
+  String subtotalItems(int itemCount);
+
+  /// Shipping label in cart summary
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping'**
+  String get shipping;
+
+  /// Free shipping label
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get free;
+
+  /// Total label in cart summary
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// Proceed to checkout button
+  ///
+  /// In en, this message translates to:
+  /// **'PROCEED TO CHECKOUT'**
+  String get proceedToCheckout;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ecommerce/l10n/app_localizations.dart';
+import '../models/order.dart';
 
 class AppLocalizationsHelper {
   // Private constructor
@@ -25,4 +26,25 @@ class AppLocalizationsHelper {
   // Get the delegate for localization
   static const LocalizationsDelegate<AppLocalizations> delegate =
       AppLocalizations.delegate;
+
+  // Get localized order status text
+  static String getLocalizedOrderStatus(BuildContext context, OrderStatus status) {
+    final localizations = of(context);
+    switch (status) {
+      case OrderStatus.pending:
+        return localizations.orderStatusPending;
+      case OrderStatus.confirmed:
+        return localizations.orderStatusConfirmed;
+      case OrderStatus.processing:
+        return localizations.orderStatusProcessing;
+      case OrderStatus.shipped:
+        return localizations.orderStatusShipped;
+      case OrderStatus.delivered:
+        return localizations.orderStatusDelivered;
+      case OrderStatus.cancelled:
+        return localizations.orderStatusCancelled;
+      case OrderStatus.refunded:
+        return localizations.orderStatusRefunded;
+    }
+  }
 }

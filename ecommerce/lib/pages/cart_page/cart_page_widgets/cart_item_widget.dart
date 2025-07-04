@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/cart_item.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItem cartItem;
@@ -76,7 +77,7 @@ class CartItemWidget extends StatelessWidget {
                   
                   // Product Name
                   Text(
-                    cartItem.name,
+                    cartItem.getLocalizedName(context),
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -90,7 +91,15 @@ class CartItemWidget extends StatelessWidget {
                   // Size (if available)
                   if (cartItem.size != null && cartItem.size!.isNotEmpty)
                     Text(
-                      'Size: ${cartItem.size}',
+                      '${AppLocalizationsHelper.of(context).sizeLabel}: ${cartItem.size}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
+                    )
+                  else if (cartItem.size == null)
+                    Text(
+                      '${AppLocalizationsHelper.of(context).sizeLabel}: ${AppLocalizationsHelper.of(context).notSpecified}',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey.shade600,

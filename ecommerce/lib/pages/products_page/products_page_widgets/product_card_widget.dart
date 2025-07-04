@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'highlighted_text_widget.dart';
 import '../../../localization/app_localizations_helper.dart';
+import 'products_data_provider.dart';
 
 class ProductCardWidget extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -104,7 +105,7 @@ class ProductCardWidget extends StatelessWidget {
                     // Product Name
                     Expanded(
                       child: HighlightedText(
-                        text: product['name'],
+                        text: ProductsDataProvider.getLocalizedName(product, context),
                         highlight: searchQuery ?? '',
                         style: TextStyle(
                           fontSize: 12,
@@ -117,7 +118,7 @@ class ProductCardWidget extends StatelessWidget {
                     ),
                     // Size
                     Text(
-                      product['size'],
+                      _getDisplaySize(context),
                       style: TextStyle(fontSize: 10, color: Colors.grey.shade600),
                     ),
                     SizedBox(height: 4),
@@ -161,5 +162,14 @@ class ProductCardWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Helper method to get display size with localization
+  String _getDisplaySize(BuildContext context) {
+    final size = product['size'];
+    if (size == null || size.toString().isEmpty || size.toString() == 'Not specified') {
+      return AppLocalizationsHelper.of(context).notSpecified;
+    }
+    return size.toString();
   }
 }

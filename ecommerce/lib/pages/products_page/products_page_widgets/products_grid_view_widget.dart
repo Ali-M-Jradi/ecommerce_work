@@ -36,6 +36,7 @@ class ProductsGridViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final products = ProductsDataProvider.getSortedProducts(
       sortBy, 
+      context: context,
       category: category, 
       searchQuery: searchQuery,
       brand: brand,

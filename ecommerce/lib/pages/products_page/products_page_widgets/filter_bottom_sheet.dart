@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../localization/app_localizations_helper.dart';
+import 'products_page_service.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final String? selectedCategory;
@@ -32,12 +33,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   double _minRating = 0;
   bool _showOnlyInStock = false;
 
-  final List<String> _categories = [
-    'All Categories',
-    'Face Care',
-    'Body Care',
-    'Hair Care',
-  ];
+  late List<String> _categories;
 
   final List<String> _brands = [
     'All Brands',
@@ -52,6 +48,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   @override
   void initState() {
     super.initState();
+    
+    // Initialize categories list dynamically
+    final availableCategories = ProductsPageService().getAvailableCategories();
+    _categories = ['All Categories', ...availableCategories];
+    
     _selectedCategory = widget.selectedCategory ?? 'All Categories';
     _selectedBrand = widget.selectedBrand ?? 'All Brands';
     _priceRange = RangeValues(
@@ -66,14 +67,21 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     switch (category) {
       case 'All Categories':
         return AppLocalizationsHelper.of(context).allCategories;
-      case 'Face Care':
-        return 'Face Care'; // Keep as English for now since key doesn't exist
-      case 'Body Care':
-        return 'Body Care'; // Keep as English for now since key doesn't exist
-      case 'Hair Care':
-        return 'Hair Care'; // Keep as English for now since key doesn't exist
+      case 'face_care':
+        return AppLocalizationsHelper.of(context).categoryFaceCare;
+      case 'body_care':
+        return AppLocalizationsHelper.of(context).categoryBodyCare;
+      case 'hair_care':
+        return AppLocalizationsHelper.of(context).categoryHairCare;
       default:
-        return category;
+        // For any new categories that don't have localization yet,
+        // format them nicely (replace underscores with spaces and capitalize)
+        return category.replaceAll('_', ' ')
+            .split(' ')
+            .map((word) => word.isNotEmpty 
+                ? word[0].toUpperCase() + word.substring(1).toLowerCase()
+                : word)
+            .join(' ');
     }
   }
 
@@ -86,17 +94,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     }
   }
 
-  String _getCategoryValue(String displayName) {
-    switch (displayName) {
-      case 'Face Care':
-        return 'face_care';
-      case 'Body Care':
-        return 'body_care';
-      case 'Hair Care':
-        return 'hair_care';
-      default:
-        return '';
-    }
+  String _getCategoryValue(String category) {
+    // Since we're now using database values directly, just return as-is
+    // except for the "All Categories" case
+    return category == 'All Categories' ? '' : category;
   }
 
   void _applyFilters() {

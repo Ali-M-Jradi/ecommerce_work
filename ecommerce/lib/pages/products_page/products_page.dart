@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ecommerce/providers/language_provider.dart';
 import 'package:ecommerce/pages/base_page/base_page_widgets/floating_action_buttons_widget.dart';
 import '../cart_page/cart_page.dart';
 import '../../../main.dart'; // Import for global navigator key
@@ -55,20 +57,22 @@ class _ProductsPageState extends State<ProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: ProductsAppBarWidget(
-        onBackPressed: () => Navigator.of(context).pop(),
-        onCartPressed: () {
-          // Navigate to cart page using global navigator key
-          navigatorKey.currentState?.push(
-            MaterialPageRoute(
-              builder: (context) => const CartPage(),
-            ),
-          );
-        },
-        title: widget.categoryTitle ?? 'Products',
-      ),
-      backgroundColor: ProductsPageConstants.backgroundColor,
+    return Consumer<LanguageProvider>(
+      builder: (context, languageProvider, child) {
+        return Scaffold(
+          appBar: ProductsAppBarWidget(
+            onBackPressed: () => Navigator.of(context).pop(),
+            onCartPressed: () {
+              // Navigate to cart page using global navigator key
+              navigatorKey.currentState?.push(
+                MaterialPageRoute(
+                  builder: (context) => const CartPage(),
+                ),
+              );
+            },
+            title: widget.categoryTitle ?? 'Products',
+          ),
+          backgroundColor: ProductsPageConstants.backgroundColor,
       body: Column(
         children: [
           // Search bar
@@ -145,6 +149,8 @@ class _ProductsPageState extends State<ProductsPage> {
           )
         : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        );
+      },
     );
   }
 

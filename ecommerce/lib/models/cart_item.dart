@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import '../pages/products_page/products_page_widgets/products_data_provider.dart';
+
 class CartItem {
   final String id;
   final String productId;
@@ -9,6 +12,7 @@ class CartItem {
   final String? category;
   int quantity;
   final String? description;
+  final Map<String, dynamic>? originalProduct; // Store original product data for localization
 
   CartItem({
     required this.id,
@@ -21,13 +25,30 @@ class CartItem {
     this.category,
     this.quantity = 1,
     this.description,
+    this.originalProduct,
   });
 
   // Calculate total price for this cart item
   double get totalPrice => price * quantity;
 
+  // Get localized name (uses original product data if available)
+  String getLocalizedName(BuildContext context) {
+    if (originalProduct != null) {
+      return ProductsDataProvider.getLocalizedName(originalProduct!, context);
+    }
+    return name; // Fallback to stored name
+  }
+
+  // Get localized description (uses original product data if available)
+  String getLocalizedDescription(BuildContext context) {
+    if (originalProduct != null) {
+      return ProductsDataProvider.getLocalizedDescription(originalProduct!, context);
+    }
+    return description ?? ''; // Fallback to stored description
+  }
+
   // Create CartItem from product data
-  factory CartItem.fromProduct(Map<String, dynamic> product, {int quantity = 1}) {
+  factory CartItem.fromProduct(Map<String, dynamic> product, {int quantity = 1, BuildContext? context}) {
     // Handle price conversion from string or number
     double parsePrice(dynamic priceValue) {
       if (priceValue == null) return 0.0;
@@ -39,17 +60,45 @@ class CartItem {
       return 0.0;
     }
 
+    // Get localized name and description if context is available
+    String productName = '';
+    String? productDescription;
+    
+    if (context != null) {
+      productName = ProductsDataProvider.getLocalizedName(product, context);
+      productDescription = ProductsDataProvider.getLocalizedDescription(product, context);
+      if (productDescription.isEmpty) productDescription = null;
+    } else {
+      // Fallback: use English version if context not available
+      if (product['name'] is Map) {
+        productName = product['name']['en'] ?? 'Unknown Product';
+      } else {
+        productName = product['name'] ?? 'Unknown Product';
+      }
+      
+      if (product['description'] is Map) {
+        productDescription = product['description']['en'];
+      } else {
+        productDescription = product['description'];
+      }
+    }
+
     return CartItem(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      productId: product['id']?.toString() ?? product['name'] ?? '',
-      name: product['name'] ?? 'Unknown Product',
+      productId: product['id']?.toString() ?? (
+        product['name'] is Map 
+          ? product['name']['en'] ?? 'unknown'
+          : product['name']?.toString() ?? 'unknown'
+      ),
+      name: productName,
       brand: product['brand'] ?? 'Unknown Brand',
       price: parsePrice(product['price']),
       image: product['image'] ?? '',
       size: product['size'],
       category: product['category'],
       quantity: quantity,
-      description: product['description'],
+      description: productDescription,
+      originalProduct: product, // Store original product data for localization
     );
   }
 
@@ -66,6 +115,7 @@ class CartItem {
       'category': category,
       'quantity': quantity,
       'description': description,
+      'originalProduct': originalProduct,
     };
   }
 
@@ -82,6 +132,7 @@ class CartItem {
       category: map['category'],
       quantity: map['quantity'] ?? 1,
       description: map['description'],
+      originalProduct: map['originalProduct'],
     );
   }
 
@@ -97,6 +148,7 @@ class CartItem {
     String? category,
     int? quantity,
     String? description,
+    Map<String, dynamic>? originalProduct,
   }) {
     return CartItem(
       id: id ?? this.id,
@@ -109,6 +161,7 @@ class CartItem {
       category: category ?? this.category,
       quantity: quantity ?? this.quantity,
       description: description ?? this.description,
+      originalProduct: originalProduct ?? this.originalProduct,
     );
   }
 

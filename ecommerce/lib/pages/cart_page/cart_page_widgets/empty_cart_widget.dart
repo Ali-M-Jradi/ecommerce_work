@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class EmptyCartWidget extends StatelessWidget {
   const EmptyCartWidget({super.key});
@@ -18,7 +19,7 @@ class EmptyCartWidget extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'Your cart is empty',
+              AppLocalizationsHelper.of(context).cartEmpty,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -27,7 +28,7 @@ class EmptyCartWidget extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'Add some products to get started',
+              AppLocalizationsHelper.of(context).addProductsToStart,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey.shade500,
@@ -40,7 +41,7 @@ class EmptyCartWidget extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               icon: const Icon(Icons.shopping_bag),
-              label: const Text('Continue Shopping'),
+              label: Text(AppLocalizationsHelper.of(context).continueShopping),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurple.shade600,
                 foregroundColor: Colors.white,

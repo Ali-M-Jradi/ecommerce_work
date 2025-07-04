@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'products_data_provider.dart';
 import 'products_page_types.dart';
 
@@ -33,15 +34,34 @@ class ProductsPageService {
   }
 
   /// Search products by name or description
-  List<Map<String, dynamic>> searchProducts(String query, String sortBy) {
+  List<Map<String, dynamic>> searchProducts(String query, String sortBy, [BuildContext? context]) {
     if (query.isEmpty) return getSortedProducts(sortBy);
     
     final allProducts = getSortedProducts(sortBy);
     return allProducts.where((product) {
-      final name = product['name']?.toString().toLowerCase() ?? '';
-      final description = product['description']?.toString().toLowerCase() ?? '';
-      final searchQuery = query.toLowerCase();
+      // Use localized names and descriptions if context is available
+      String name = '';
+      String description = '';
       
+      if (context != null) {
+        name = ProductsDataProvider.getLocalizedName(product, context).toLowerCase();
+        description = ProductsDataProvider.getLocalizedDescription(product, context).toLowerCase();
+      } else {
+        // Fallback: check both English and Arabic names/descriptions
+        if (product['name'] is Map) {
+          name = '${product['name']['en'] ?? ''} ${product['name']['ar'] ?? ''}'.toLowerCase();
+        } else {
+          name = product['name']?.toString().toLowerCase() ?? '';
+        }
+        
+        if (product['description'] is Map) {
+          description = '${product['description']['en'] ?? ''} ${product['description']['ar'] ?? ''}'.toLowerCase();
+        } else {
+          description = product['description']?.toString().toLowerCase() ?? '';
+        }
+      }
+      
+      final searchQuery = query.toLowerCase();
       return name.contains(searchQuery) || description.contains(searchQuery);
     }).toList();
   }
@@ -131,8 +151,22 @@ class ProductsPageService {
     // Filter by same category, excluding current product
     final recommended = allProducts.where((product) {
       final category = product['category']?.toString() ?? '';
-      final name = product['name']?.toString() ?? '';
-      final currentName = currentProduct['name']?.toString() ?? '';
+      
+      // Compare products by ID if available, otherwise by English name
+      final productId = product['id']?.toString();
+      final currentProductId = currentProduct['id']?.toString();
+      
+      if (productId != null && currentProductId != null) {
+        return category == currentCategory && productId != currentProductId;
+      }
+      
+      // Fallback to name comparison using English names
+      final name = product['name'] is Map 
+        ? product['name']['en'] ?? '' 
+        : product['name']?.toString() ?? '';
+      final currentName = currentProduct['name'] is Map 
+        ? currentProduct['name']['en'] ?? ''
+        : currentProduct['name']?.toString() ?? '';
       
       return category == currentCategory && name != currentName;
     }).toList();
@@ -143,8 +177,8 @@ class ProductsPageService {
 
   /// Validate sort option
   bool isValidSortOption(String sortBy) {
-    const validOptions = ['A to Z', 'Z to A', 'Price Low to High', 'Price High to Low'];
-    return validOptions.contains(sortBy);
+    // Check if the sortBy string matches any of the valid SortOption display names
+    return SortOption.values.any((option) => option.displayName == sortBy);
   }
 
   /// Get sort option enum from string

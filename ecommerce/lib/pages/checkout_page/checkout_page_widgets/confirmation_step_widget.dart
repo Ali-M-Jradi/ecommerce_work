@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/order.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class ConfirmationStepWidget extends StatelessWidget {
   final Order? order;
@@ -69,7 +70,7 @@ class ConfirmationStepWidget extends StatelessWidget {
                   const SizedBox(height: 8),
                   _buildInfoRow(AppLocalizations.of(context)!.orderDateLabel, _formatDate(order!.createdAt)),
                   const SizedBox(height: 8),
-                  _buildInfoRow(AppLocalizations.of(context)!.statusLabel, order!.statusText),
+                  _buildInfoRow(AppLocalizations.of(context)!.statusLabel, AppLocalizationsHelper.getLocalizedOrderStatus(context, order!.status)),
                   const SizedBox(height: 8),
                   _buildInfoRow(AppLocalizations.of(context)!.totalItemsLabel, order!.totalItems.toString()),
                   const SizedBox(height: 8),
@@ -107,7 +108,7 @@ class ConfirmationStepWidget extends StatelessWidget {
                 children: [
                   _buildSectionTitle(context, AppLocalizations.of(context)!.paymentStep),
                   const SizedBox(height: 16),
-                  _buildPaymentMethodInfo(order!.paymentMethod),
+                  _buildPaymentMethodInfo(context, order!.paymentMethod),
                 ],
               ),
             ),
@@ -265,10 +266,10 @@ class ConfirmationStepWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPaymentMethodInfo(paymentMethod) {
+  Widget _buildPaymentMethodInfo(BuildContext context, paymentMethod) {
     return Row(
       children: [
-        _buildPaymentMethodIcon(paymentMethod),
+        _buildPaymentMethodIcon(context, paymentMethod),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -285,7 +286,9 @@ class ConfirmationStepWidget extends StatelessWidget {
                   paymentMethod.expiryYear != null) ...[
                 const SizedBox(height: 4),
                 Text(
-                  'Expires ${paymentMethod.expiryMonth}/${paymentMethod.expiryYear}',
+                  '${AppLocalizations.of(context)!.expiresLabel}'
+                    .replaceAll('{month}', paymentMethod.expiryMonth.toString())
+                    .replaceAll('{year}', paymentMethod.expiryYear.toString()),
                   style: TextStyle(
                     color: Colors.grey[600],
                   ),
@@ -298,7 +301,7 @@ class ConfirmationStepWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPaymentMethodIcon(paymentMethod) {
+  Widget _buildPaymentMethodIcon(BuildContext context, paymentMethod) {
     switch (paymentMethod.type) {
       case 'card':
         return Container(
@@ -310,7 +313,7 @@ class ConfirmationStepWidget extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              paymentMethod.cardBrand?.toUpperCase() ?? 'CARD',
+              paymentMethod.cardBrand?.toUpperCase() ?? AppLocalizations.of(context)!.cardLabel,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 8,
@@ -413,23 +416,23 @@ class ConfirmationStepWidget extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Order Details'),
+        title: Text(AppLocalizations.of(context)!.orderDetailsDialogTitle),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Order Number: ${order!.orderNumber}'),
+              Text('${AppLocalizations.of(context)!.orderNumberLabel}: ${order!.orderNumber}'),
               const SizedBox(height: 8),
-              Text('Status: ${order!.statusText}'),
+              Text('${AppLocalizations.of(context)!.statusLabel}: ${AppLocalizationsHelper.getLocalizedOrderStatus(context, order!.status)}'),
               const SizedBox(height: 8),
-              Text('Total: \$${order!.total.toStringAsFixed(2)}'),
+              Text('${AppLocalizations.of(context)!.totalAmountLabel}: \$${order!.total.toStringAsFixed(2)}'),
               const SizedBox(height: 8),
-              Text('Items: ${order!.totalItems}'),
+              Text('${AppLocalizations.of(context)!.totalItemsLabel}: ${order!.totalItems}'),
               const SizedBox(height: 16),
-              const Text(
-                'You will receive email updates about your order status and tracking information.',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.orderEmailUpdatesMessage,
+                style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
                 ),

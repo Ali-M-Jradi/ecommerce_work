@@ -1,11 +1,19 @@
+import 'package:flutter/material.dart';
+
 class ProductsDataProvider {
   static List<Map<String, dynamic>> getDemoProducts() {
     return [
       {
-        'brand': 'Avène',
-        'name': 'Thermal Spring Water Face Mist',
+        'brand': 'Avène', // Keep brand name in English
+        'name': {
+          'en': 'Thermal Spring Water Face Mist',
+          'ar': 'رذاذ الوجه بالمياه الحرارية الطبيعية'
+        },
         'category': 'face_care',
-        'description': 'A soothing and anti-irritating thermal spring water mist that provides instant relief and comfort for sensitive skin. Rich in minerals and silicates for optimal skin health.',
+        'description': {
+          'en': 'A soothing and anti-irritating thermal spring water mist that provides instant relief and comfort for sensitive skin. Rich in minerals and silicates for optimal skin health.',
+          'ar': 'رذاذ مياه حرارية طبيعية مهدئ ومضاد للتهيج يوفر راحة فورية للبشرة الحساسة. غني بالمعادن والسيليكات لصحة البشرة المثلى.'
+        },
         'size': '150ml',
         'price': '12.99',
         'rating': '4.5',
@@ -14,10 +22,16 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
-        'brand': 'La Roche-Posay',
-        'name': 'Toleriane Double Repair Face Moisturizer with SPF 30',
+        'brand': 'La Roche-Posay', // Keep brand name in English
+        'name': {
+          'en': 'Toleriane Double Repair Face Moisturizer with SPF 30',
+          'ar': 'مرطب الوجه المضاعف الإصلاح مع عامل حماية من الشمس 30'
+        },
         'category': 'face_care',
-        'description': 'A daily moisturizer with broad-spectrum SPF 30 sunscreen that provides all-day hydration while protecting against UV rays. Formulated with ceramides and niacinamide for barrier repair.',
+        'description': {
+          'en': 'A daily moisturizer with broad-spectrum SPF 30 sunscreen that provides all-day hydration while protecting against UV rays. Formulated with ceramides and niacinamide for barrier repair.',
+          'ar': 'مرطب يومي مع واقي الشمس عريض الطيف بمعامل حماية 30 يوفر ترطيب طوال اليوم مع الحماية من الأشعة فوق البنفسجية. مكون بالسيراميد والنياسيناميد لإصلاح حاجز البشرة.'
+        },
         'size': '75ml',
         'price': '19.99',
         'rating': '4.7',
@@ -26,10 +40,16 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
-        'brand': 'Vichy',
-        'name': 'Mineral 89 Hyaluronic Acid Face Serum',
+        'brand': 'Vichy', // Keep brand name in English
+        'name': {
+          'en': 'Mineral 89 Hyaluronic Acid Face Serum',
+          'ar': 'سيروم الوجه بحمض الهيالورونيك المينرال 89'
+        },
         'category': 'face_care',
-        'description': 'A powerful hyaluronic acid serum fortified with 89% Vichy volcanic water and natural origin hyaluronic acid to strengthen and plump skin for 24-hour hydration.',
+        'description': {
+          'en': 'A powerful hyaluronic acid serum fortified with 89% Vichy volcanic water and natural origin hyaluronic acid to strengthen and plump skin for 24-hour hydration.',
+          'ar': 'سيروم قوي بحمض الهيالورونيك معزز بـ89% من المياه البركانية فيشي وحمض الهيالورونيك الطبيعي لتقوية ونفخ البشرة مع ترطيب 24 ساعة.'
+        },
         'size': '30ml',
         'price': '29.99',
         'rating': '4.3',
@@ -38,10 +58,16 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
-        'brand': 'Eucerin',
-        'name': 'Daily Protection Face Lotion SPF 30',
+        'brand': 'Eucerin', // Keep brand name in English
+        'name': {
+          'en': 'Daily Protection Face Lotion SPF 30',
+          'ar': 'لوشن الوجه للحماية اليومية بعامل حماية 30'
+        },
         'category': 'face_care',
-        'description': 'A lightweight, non-greasy daily moisturizer with broad-spectrum SPF 30. Provides 24-hour hydration while protecting against harmful UVA/UVB rays and environmental damage.',
+        'description': {
+          'en': 'A lightweight, non-greasy daily moisturizer with broad-spectrum SPF 30. Provides 24-hour hydration while protecting against harmful UVA/UVB rays and environmental damage.',
+          'ar': 'مرطب يومي خفيف وغير دهني مع عامل حماية واسع الطيف 30. يوفر ترطيب لمدة 24 ساعة مع الحماية من أشعة UVA/UVB الضارة والأضرار البيئية.'
+        },
         'size': '120ml',
         'price': '14.99',
         'rating': '4.2',
@@ -50,10 +76,16 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
-        'brand': 'Avène',
-        'name': 'Gentle Milk Cleanser for Sensitive Skin',
+        'brand': 'Avène', // Keep brand name in English
+        'name': {
+          'en': 'Gentle Milk Cleanser for Sensitive Skin',
+          'ar': 'منظف الحليب اللطيف للبشرة الحساسة'
+        },
         'category': 'face_care',
-        'description': 'A gentle, soap-free cleanser that removes makeup and impurities while respecting the skin\'s natural balance. Enriched with Avène thermal spring water for soothing benefits.',
+        'description': {
+          'en': 'A gentle, soap-free cleanser that removes makeup and impurities while respecting the skin\'s natural balance. Enriched with Avène thermal spring water for soothing benefits.',
+          'ar': 'منظف لطيف خالي من الصابون يزيل المكياج والشوائب مع احترام التوازن الطبيعي للبشرة. معزز بالمياه الحرارية أفين للفوائد المهدئة.'
+        },
         'size': '200ml',
         'price': '16.99',
         'rating': '4.6',
@@ -62,10 +94,16 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
-        'brand': 'Bioderma',
-        'name': 'Sensibio H2O Micellar Cleansing Water',
+        'brand': 'Bioderma', // Keep brand name in English
+        'name': {
+          'en': 'Sensibio H2O Micellar Cleansing Water',
+          'ar': 'ماء التنظيف المذيب سنسيبيو اتش 2 أو'
+        },
         'category': 'face_care',
-        'description': 'The original micellar water that gently cleanses and removes makeup from face and eyes. Specifically formulated for sensitive skin with a biomimetic formulation that respects skin ecology.',
+        'description': {
+          'en': 'The original micellar water that gently cleanses and removes makeup from face and eyes. Specifically formulated for sensitive skin with a biomimetic formulation that respects skin ecology.',
+          'ar': 'الماء المذيب الأصلي الذي ينظف بلطف ويزيل المكياج من الوجه والعينين. مصمم خصيصاً للبشرة الحساسة بتركيبة بيولوجية تحترم بيئة البشرة.'
+        },
         'size': '250ml',
         'price': '13.99',
         'rating': '4.8',
@@ -75,10 +113,16 @@ class ProductsDataProvider {
       },
       // Add some Body Care products
       {
-        'brand': 'La Roche-Posay',
-        'name': 'Lipikar Balm AP+ Body Moisturizer',
+        'brand': 'La Roche-Posay', // Keep brand name in English
+        'name': {
+          'en': 'Lipikar Balm AP+ Body Moisturizer',
+          'ar': 'بلسم الجسم المرطب ليبيكار اي بي بلس'
+        },
         'category': 'body_care',
-        'description': 'An intensive moisturizing balm for very dry, irritated skin. Formulated with shea butter and thermal spring water to restore skin barrier.',
+        'description': {
+          'en': 'An intensive moisturizing balm for very dry, irritated skin. Formulated with shea butter and thermal spring water to restore skin barrier.',
+          'ar': 'بلسم مرطب مكثف للبشرة الجافة جداً والمتهيجة. مصنوع بزبدة الشيا والمياه الحرارية لاستعادة حاجز البشرة.'
+        },
         'size': '400ml',
         'price': '24.99',
         'rating': '4.6',
@@ -87,10 +131,16 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
-        'brand': 'Eucerin',
-        'name': 'Advanced Repair Hand Cream',
+        'brand': 'Eucerin', // Keep brand name in English
+        'name': {
+          'en': 'Advanced Repair Hand Cream',
+          'ar': 'كريم اليدين للإصلاح المتقدم'
+        },
         'category': 'body_care',
-        'description': 'A fast-absorbing hand cream that provides immediate and long-lasting relief for very dry, cracked hands.',
+        'description': {
+          'en': 'A fast-absorbing hand cream that provides immediate and long-lasting relief for very dry, cracked hands.',
+          'ar': 'كريم سريع الامتصاص لليدين يوفر راحة فورية وطويلة الأمد للأيدي الجافة جداً والمتشققة.'
+        },
         'size': '75ml',
         'price': '8.99',
         'rating': '4.4',
@@ -100,10 +150,16 @@ class ProductsDataProvider {
       },
       // Add some Hair Care products
       {
-        'brand': 'Vichy',
-        'name': 'Dercos Anti-Dandruff Shampoo',
+        'brand': 'Vichy', // Keep brand name in English
+        'name': {
+          'en': 'Dercos Anti-Dandruff Shampoo',
+          'ar': 'شامبو ديركوس المضاد للقشرة'
+        },
         'category': 'hair_care',
-        'description': 'A gentle anti-dandruff shampoo that eliminates dandruff and soothes sensitive scalp with selenium DS.',
+        'description': {
+          'en': 'A gentle anti-dandruff shampoo that eliminates dandruff and soothes sensitive scalp with selenium DS.',
+          'ar': 'شامبو لطيف مضاد للقشرة يقضي على القشرة ويهدئ فروة الرأس الحساسة بالسيلينيوم DS.'
+        },
         'size': '300ml',
         'price': '18.99',
         'rating': '4.3',
@@ -114,8 +170,27 @@ class ProductsDataProvider {
     ];
   }
 
+  // Helper method to get localized product name
+  static String getLocalizedName(Map<String, dynamic> product, BuildContext context) {
+    final languageCode = Localizations.localeOf(context).languageCode;
+    if (product['name'] is Map) {
+      return product['name'][languageCode] ?? product['name']['en'] ?? 'Unknown Product';
+    }
+    return product['name'] ?? 'Unknown Product';
+  }
+
+  // Helper method to get localized product description
+  static String getLocalizedDescription(Map<String, dynamic> product, BuildContext context) {
+    final languageCode = Localizations.localeOf(context).languageCode;
+    if (product['description'] is Map) {
+      return product['description'][languageCode] ?? product['description']['en'] ?? '';
+    }
+    return product['description'] ?? '';
+  }
+
   static List<Map<String, dynamic>> getSortedProducts(
     String sortBy, {
+    BuildContext? context,
     String? category,
     String? searchQuery,
     String? brand,
@@ -169,10 +244,18 @@ class ProductsDataProvider {
     
     switch (sortBy) {
       case 'A to Z':
-        products.sort((a, b) => a['name'].toString().toLowerCase().compareTo(b['name'].toString().toLowerCase()));
+        products.sort((a, b) {
+          String nameA = context != null ? getLocalizedName(a, context) : (a['name'] is Map ? a['name']['en'] ?? '' : a['name'] ?? '');
+          String nameB = context != null ? getLocalizedName(b, context) : (b['name'] is Map ? b['name']['en'] ?? '' : b['name'] ?? '');
+          return nameA.toLowerCase().compareTo(nameB.toLowerCase());
+        });
         break;
       case 'Z to A':
-        products.sort((a, b) => b['name'].toString().toLowerCase().compareTo(a['name'].toString().toLowerCase()));
+        products.sort((a, b) {
+          String nameA = context != null ? getLocalizedName(a, context) : (a['name'] is Map ? a['name']['en'] ?? '' : a['name'] ?? '');
+          String nameB = context != null ? getLocalizedName(b, context) : (b['name'] is Map ? b['name']['en'] ?? '' : b['name'] ?? '');
+          return nameB.toLowerCase().compareTo(nameA.toLowerCase());
+        });
         break;
       case 'Price Low':
         products.sort((a, b) => double.parse(a['price'].toString()).compareTo(double.parse(b['price'].toString())));
@@ -193,11 +276,19 @@ class ProductsDataProvider {
     List<Map<String, dynamic>> results = [];
     
     for (var product in products) {
-      // Only search in the product name (title) for more precise results
-      String name = (product['name'] ?? '').toString().toLowerCase();
+      // Search in both English and Arabic product names
+      String nameEn = '';
+      String nameAr = '';
       
-      // Check if the query appears in the product name
-      if (name.contains(query)) {
+      if (product['name'] is Map) {
+        nameEn = (product['name']['en'] ?? '').toString().toLowerCase();
+        nameAr = (product['name']['ar'] ?? '').toString().toLowerCase();
+      } else {
+        nameEn = (product['name'] ?? '').toString().toLowerCase();
+      }
+      
+      // Check if the query appears in either English or Arabic name
+      if (nameEn.contains(query) || nameAr.contains(query)) {
         results.add(product);
       }
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../products_page/products_page_widgets/product_details_dialog_widget.dart';
+import '../../products_page/products_page_widgets/products_data_provider.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 class FeaturedProductsCarousel extends StatefulWidget {
@@ -16,55 +17,79 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
   // Featured products data based on your website
   final List<Map<String, dynamic>> featuredProducts = [
     {
-      'name': 'LA ROCHE POSAY EFFACLAR K (+)',
-      'brand': 'La Roche Posay',
-      'price': 0,
+      'name': {
+        'en': 'EFFACLAR K (+) Oily Skin Renovating Care',
+        'ar': 'كريم إيفاكلار كي (+) المجدد للبشرة الدهنية'
+      },
+      'brand': 'La Roche Posay', // Keep brand in English
+      'price': '0',
       'originalPrice': null,
       'image': 'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_267ad068.jpg',
-      'rating': 0,
-      'description': 'Soin rénovation peaux grasses anti-oxydation anti-sébum',
-      'status': 'sold_out',
+      'rating': '0',
+      'description': {
+        'en': 'Anti-oxidation anti-sebum renovating care for oily skin',
+        'ar': 'كريم مجدد مضاد للأكسدة ومضاد للزهم للبشرة الدهنية'
+      },
+      'soldOut': true,
       'fcfa': '0 FCFA',
-      'size': 'Not specified',
+      'size': null,
       'category': 'face_care',
     },
     {
-      'name': 'Pure Vitamin C Légère Soin anti-rides',
-      'brand': 'La Roche Posay',
-      'price': 0,
+      'name': {
+        'en': 'Pure Vitamin C Light Anti-Wrinkle Care',
+        'ar': 'كريم فيتامين سي الخفيف المضاد للتجاعيد'
+      },
+      'brand': 'La Roche Posay', // Keep brand in English
+      'price': '0',
       'originalPrice': null,
       'image': 'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_33c0f20c.jpg',
-      'rating': 4.2,
-      'description': 'éclat peaux normales à mixtes tube 40 ml',
-      'status': 'sold_out',
+      'rating': '4.2',
+      'description': {
+        'en': 'Radiance care for normal to combination skin, 40ml tube',
+        'ar': 'كريم إشراق للبشرة العادية إلى المختلطة، أنبوب 40 مل'
+      },
+      'soldOut': true,
       'fcfa': '0 FCFA',
-      'size': '40 ml',
+      'size': '40ml',
       'category': 'face_care',
     },
     {
-      'name': 'LA ROCHE POSAY EFFACLAR H',
-      'brand': 'La Roche Posay',
-      'price': 0,
+      'name': {
+        'en': 'EFFACLAR H Compensating Purifying Cream',
+        'ar': 'كريم إيفاكلار إتش المنظف التعويضي'
+      },
+      'brand': 'La Roche Posay', // Keep brand in English
+      'price': '0',
       'originalPrice': null,
       'image': 'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_1f1fc92c.jpg',
-      'rating': 4.1,
-      'description': 'Crème lavante purifiante compensatrice',
-      'status': 'sold_out',
+      'rating': '4.1',
+      'description': {
+        'en': 'Purifying compensating washing cream for sensitive skin',
+        'ar': 'كريم غسول منظف تعويضي للبشرة الحساسة'
+      },
+      'soldOut': true,
       'fcfa': '0 FCFA',
-      'size': 'Not specified',
+      'size': null,
       'category': 'face_care',
     },
     {
-      'name': 'ANTHELIOS UV MUNE 400',
-      'brand': 'La Roche Posay',
-      'price': 0,
+      'name': {
+        'en': 'ANTHELIOS UV MUNE 400 Invisible Tinted Fluid',
+        'ar': 'أنثيليوس يو في مون 400 سائل ملون غير مرئي'
+      },
+      'brand': 'La Roche Posay', // Keep brand in English
+      'price': '0',
       'originalPrice': null,
       'image': 'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_21a37162.jpg',
-      'rating': 4.5,
-      'description': 'Fluide Invisible Teinté avec parfum SPF50+',
-      'status': 'sold_out',
+      'rating': '4.5',
+      'description': {
+        'en': 'Invisible tinted fluid with fragrance SPF50+ sun protection',
+        'ar': 'سائل ملون غير مرئي معطر مع حماية من الشمس SPF50+'
+      },
+      'soldOut': true,
       'fcfa': '0 FCFA',
-      'size': 'Not specified',
+      'size': null,
       'category': 'face_care',
     },
   ];
@@ -170,7 +195,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                     ),
                   ),
                   // Sold out badge
-                  if (product['status'] == 'sold_out')
+                  if (product['soldOut'] == true)
                     Positioned(
                       top: 8,
                       left: 8,
@@ -233,7 +258,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                   
                   // Product Name
                   Text(
-                    product['name'],
+                    ProductsDataProvider.getLocalizedName(product, context),
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -246,7 +271,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                   
                   // Description
                   Text(
-                    product['description'],
+                    ProductsDataProvider.getLocalizedDescription(product, context),
                     style: const TextStyle(
                       fontSize: 10,
                       color: Color(0xFF666666),
@@ -261,12 +286,13 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Rating (only show if rating > 0)
-                      if (product['rating'] > 0)
+                      if (double.tryParse(product['rating'].toString()) != null && double.parse(product['rating'].toString()) > 0)
                         Row(
                           children: [
                             ...List.generate(5, (index) {
+                              double rating = double.tryParse(product['rating'].toString()) ?? 0.0;
                               return Icon(
-                                index < product['rating'].floor() 
+                                index < rating.floor() 
                                   ? Icons.star 
                                   : Icons.star_border,
                                 size: 12,
@@ -290,7 +316,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: product['status'] == 'sold_out' 
+                          color: product['soldOut'] == true 
                             ? const Color(0xFF666666)
                             : const Color(0xFF1B365D),
                         ),

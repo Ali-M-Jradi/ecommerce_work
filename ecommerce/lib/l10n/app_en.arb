@@ -108,6 +108,329 @@
   "@defaultAddressLabel": {
     "description": "Default address checkbox label"
   },
+  "fullNameRequired": "Full name is required",
+  "@fullNameRequired": {
+    "description": "Full name required validation error"
+  },
+  "fullNameTooShort": "Full name must be at least 2 characters",
+  "@fullNameTooShort": {
+    "description": "Full name too short validation error"
+  },
+  "fullNameTooLong": "Full name must be less than 50 characters",
+  "@fullNameTooLong": {
+    "description": "Full name too long validation error"
+  },
+  "fullNameInvalidCharacters": "Full name can only contain letters, spaces, hyphens, and apostrophes",
+  "@fullNameInvalidCharacters": {
+    "description": "Full name invalid characters validation error"
+  },
+  "fullNameMissingLastName": "Please enter both first and last name",
+  "@fullNameMissingLastName": {
+    "description": "Full name missing last name validation error"
+  },
+  "streetAddressRequired": "Street address is required",
+  "@streetAddressRequired": {
+    "description": "Street address required validation error"
+  },
+  "streetAddressTooShort": "Street address must be at least 5 characters",
+  "@streetAddressTooShort": {
+    "description": "Street address too short validation error"
+  },
+  "streetAddressTooLong": "Street address must be less than 100 characters",
+  "@streetAddressTooLong": {
+    "description": "Street address too long validation error"
+  },
+  "streetAddressInvalidCharacters": "Street address contains invalid characters",
+  "@streetAddressInvalidCharacters": {
+    "description": "Street address invalid characters validation error"
+  },
+  "cityRequired": "City is required",
+  "@cityRequired": {
+    "description": "City required validation error"
+  },
+  "cityTooShort": "City name must be at least 2 characters",
+  "@cityTooShort": {
+    "description": "City too short validation error"
+  },
+  "cityTooLong": "City name must be less than 50 characters",
+  "@cityTooLong": {
+    "description": "City too long validation error"
+  },
+  "cityInvalidCharacters": "City name can only contain letters, spaces, hyphens, and apostrophes",
+  "@cityInvalidCharacters": {
+    "description": "City invalid characters validation error"
+  },
+  "stateRequired": "State/Province is required",
+  "@stateRequired": {
+    "description": "State required validation error"
+  },
+  "stateInvalidUS": "Please select a valid US state",
+  "@stateInvalidUS": {
+    "description": "Invalid US state validation error"
+  },
+  "stateInvalidCanada": "Please select a valid Canadian province",
+  "@stateInvalidCanada": {
+    "description": "Invalid Canadian province validation error"
+  },
+  "stateTooShort": "State/Province must be at least 2 characters",
+  "@stateTooShort": {
+    "description": "State too short validation error"
+  },
+  "stateTooLong": "State/Province must be less than 50 characters",
+  "@stateTooLong": {
+    "description": "State too long validation error"
+  },
+  "stateInvalidCharacters": "State/Province can only contain letters, spaces, hyphens, and apostrophes",
+  "@stateInvalidCharacters": {
+    "description": "State invalid characters validation error"
+  },
+  "zipCodeRequired": "ZIP/Postal code is required",
+  "@zipCodeRequired": {
+    "description": "ZIP code required validation error"
+  },
+  "zipCodeInvalidUS": "Please enter a valid US ZIP code (5 or 9 digits)",
+  "@zipCodeInvalidUS": {
+    "description": "Invalid US ZIP code validation error"
+  },
+  "zipCodeInvalidCanada": "Please enter a valid Canadian postal code (e.g., A1A 1A1)",
+  "@zipCodeInvalidCanada": {
+    "description": "Invalid Canadian postal code validation error"
+  },
+  "zipCodeInvalidUK": "Please enter a valid UK postal code",
+  "@zipCodeInvalidUK": {
+    "description": "Invalid UK postal code validation error"
+  },
+  "zipCodeInvalidGermany": "Please enter a valid German postal code (5 digits)",
+  "@zipCodeInvalidGermany": {
+    "description": "Invalid German postal code validation error"
+  },
+  "zipCodeInvalidFrance": "Please enter a valid French postal code (5 digits)",
+  "@zipCodeInvalidFrance": {
+    "description": "Invalid French postal code validation error"
+  },
+  "zipCodeInvalidAustralia": "Please enter a valid Australian postal code (4 digits)",
+  "@zipCodeInvalidAustralia": {
+    "description": "Invalid Australian postal code validation error"
+  },
+  "zipCodeInvalidGeneral": "Please enter a valid postal code",
+  "@zipCodeInvalidGeneral": {
+    "description": "General invalid postal code validation error"
+  },
+  "zipCodeInvalidCharacters": "Postal code can only contain letters, numbers, spaces, and hyphens",
+  "@zipCodeInvalidCharacters": {
+    "description": "Invalid postal code characters validation error"
+  },
+  "zipCodeTooLong": "ZIP/Postal code must be less than 20 characters",
+  "@zipCodeTooLong": {
+    "description": "ZIP code too long validation error"
+  },
+  "countryRequired": "Country is required",
+  "@countryRequired": {
+    "description": "Country required validation error"
+  },
+  "countryInvalid": "Please select a valid country",
+  "@countryInvalid": {
+    "description": "Invalid country validation error"
+  },
+  "phoneNumberInvalid": "Please enter a valid phone number",
+  "@phoneNumberInvalid": {
+    "description": "Invalid phone number validation error"
+  },
+  "countryAF": "Afghanistan",
+  "countryAL": "Albania",
+  "countryDZ": "Algeria",
+  "countryAD": "Andorra",
+  "countryAO": "Angola",
+  "countryAG": "Antigua and Barbuda",
+  "countryAR": "Argentina",
+  "countryAM": "Armenia",
+  "countryAU": "Australia",
+  "countryAT": "Austria",
+  "countryAZ": "Azerbaijan",
+  "countryBS": "Bahamas",
+  "countryBH": "Bahrain",
+  "countryBD": "Bangladesh",
+  "countryBB": "Barbados",
+  "countryBY": "Belarus",
+  "countryBE": "Belgium",
+  "countryBZ": "Belize",
+  "countryBJ": "Benin",
+  "countryBT": "Bhutan",
+  "countryBO": "Bolivia",
+  "countryBA": "Bosnia and Herzegovina",
+  "countryBW": "Botswana",
+  "countryBR": "Brazil",
+  "countryBN": "Brunei",
+  "countryBG": "Bulgaria",
+  "countryBF": "Burkina Faso",
+  "countryBI": "Burundi",
+  "countryCV": "Cabo Verde",
+  "countryKH": "Cambodia",
+  "countryCM": "Cameroon",
+  "countryCA": "Canada",
+  "countryCF": "Central African Republic",
+  "countryTD": "Chad",
+  "countryCL": "Chile",
+  "countryCN": "China",
+  "countryCO": "Colombia",
+  "countryKM": "Comoros",
+  "countryCG": "Congo",
+  "countryCD": "Congo (Democratic Republic)",
+  "countryCR": "Costa Rica",
+  "countryCI": "Côte d'Ivoire",
+  "countryHR": "Croatia",
+  "countryCU": "Cuba",
+  "countryCY": "Cyprus",
+  "countryCZ": "Czech Republic",
+  "countryDK": "Denmark",
+  "countryDJ": "Djibouti",
+  "countryDM": "Dominica",
+  "countryDO": "Dominican Republic",
+  "countryEC": "Ecuador",
+  "countryEG": "Egypt",
+  "countrySV": "El Salvador",
+  "countryGQ": "Equatorial Guinea",
+  "countryER": "Eritrea",
+  "countryEE": "Estonia",
+  "countryET": "Ethiopia",
+  "countryFJ": "Fiji",
+  "countryFI": "Finland",
+  "countryFR": "France",
+  "countryGA": "Gabon",
+  "countryGM": "Gambia",
+  "countryGE": "Georgia",
+  "countryDE": "Germany",
+  "countryGH": "Ghana",
+  "countryGR": "Greece",
+  "countryGD": "Grenada",
+  "countryGT": "Guatemala",
+  "countryGN": "Guinea",
+  "countryGW": "Guinea-Bissau",
+  "countryGY": "Guyana",
+  "countryHT": "Haiti",
+  "countryHN": "Honduras",
+  "countryHU": "Hungary",
+  "countryIS": "Iceland",
+  "countryIN": "India",
+  "countryID": "Indonesia",
+  "countryIR": "Iran",
+  "countryIQ": "Iraq",
+  "countryIE": "Ireland",
+  "countryIL": "Israel",
+  "countryIT": "Italy",
+  "countryJM": "Jamaica",
+  "countryJP": "Japan",
+  "countryJO": "Jordan",
+  "countryKZ": "Kazakhstan",
+  "countryKE": "Kenya",
+  "countryKI": "Kiribati",
+  "countryKW": "Kuwait",
+  "countryKG": "Kyrgyzstan",
+  "countryLA": "Laos",
+  "countryLV": "Latvia",
+  "countryLB": "Lebanon",
+  "countryLS": "Lesotho",
+  "countryLR": "Liberia",
+  "countryLY": "Libya",
+  "countryLI": "Liechtenstein",
+  "countryLT": "Lithuania",
+  "countryLU": "Luxembourg",
+  "countryMK": "North Macedonia",
+  "countryMG": "Madagascar",
+  "countryMW": "Malawi",
+  "countryMY": "Malaysia",
+  "countryMV": "Maldives",
+  "countryML": "Mali",
+  "countryMT": "Malta",
+  "countryMH": "Marshall Islands",
+  "countryMR": "Mauritania",
+  "countryMU": "Mauritius",
+  "countryMX": "Mexico",
+  "countryFM": "Micronesia",
+  "countryMD": "Moldova",
+  "countryMC": "Monaco",
+  "countryMN": "Mongolia",
+  "countryME": "Montenegro",
+  "countryMA": "Morocco",
+  "countryMZ": "Mozambique",
+  "countryMM": "Myanmar",
+  "countryNA": "Namibia",
+  "countryNR": "Nauru",
+  "countryNP": "Nepal",
+  "countryNL": "Netherlands",
+  "countryNZ": "New Zealand",
+  "countryNI": "Nicaragua",
+  "countryNE": "Niger",
+  "countryNG": "Nigeria",
+  "countryKP": "North Korea",
+  "countryNO": "Norway",
+  "countryOM": "Oman",
+  "countryPK": "Pakistan",
+  "countryPW": "Palau",
+  "countryPA": "Panama",
+  "countryPG": "Papua New Guinea",
+  "countryPY": "Paraguay",
+  "countryPE": "Peru",
+  "countryPH": "Philippines",
+  "countryPL": "Poland",
+  "countryPT": "Portugal",
+  "countryQA": "Qatar",
+  "countryRO": "Romania",
+  "countryRU": "Russia",
+  "countryRW": "Rwanda",
+  "countryKN": "Saint Kitts and Nevis",
+  "countryLC": "Saint Lucia",
+  "countryVC": "Saint Vincent and the Grenadines",
+  "countryWS": "Samoa",
+  "countrySM": "San Marino",
+  "countryST": "São Tomé and Príncipe",
+  "countrySA": "Saudi Arabia",
+  "countrySN": "Senegal",
+  "countryRS": "Serbia",
+  "countrySC": "Seychelles",
+  "countrySL": "Sierra Leone",
+  "countrySG": "Singapore",
+  "countrySK": "Slovakia",
+  "countrySI": "Slovenia",
+  "countrySB": "Solomon Islands",
+  "countrySO": "Somalia",
+  "countryZA": "South Africa",
+  "countryKR": "South Korea",
+  "countrySS": "South Sudan",
+  "countryES": "Spain",
+  "countryLK": "Sri Lanka",
+  "countrySD": "Sudan",
+  "countrySR": "Suriname",
+  "countrySZ": "Eswatini",
+  "countrySE": "Sweden",
+  "countryCH": "Switzerland",
+  "countrySY": "Syria",
+  "countryTW": "Taiwan",
+  "countryTJ": "Tajikistan",
+  "countryTZ": "Tanzania",
+  "countryTH": "Thailand",
+  "countryTL": "Timor-Leste",
+  "countryTG": "Togo",
+  "countryTO": "Tonga",
+  "countryTT": "Trinidad and Tobago",
+  "countryTN": "Tunisia",
+  "countryTR": "Turkey",
+  "countryTM": "Turkmenistan",
+  "countryTV": "Tuvalu",
+  "countryUG": "Uganda",
+  "countryUA": "Ukraine",
+  "countryAE": "United Arab Emirates",
+  "countryGB": "United Kingdom",
+  "countryUS": "United States",
+  "countryUY": "Uruguay",
+  "countryUZ": "Uzbekistan",
+  "countryVU": "Vanuatu",
+  "countryVA": "Vatican City",
+  "countryVE": "Venezuela",
+  "countryVN": "Vietnam",
+  "countryYE": "Yemen",
+  "countryZM": "Zambia",
+  "countryZW": "Zimbabwe",
   "saveButton": "Save",
   "@saveButton": {
     "description": "Save button label"
@@ -396,6 +719,58 @@
   "orderUpdatesMessage": "We'll send you email updates about your order status and tracking information.",
   "@orderUpdatesMessage": {
     "description": "Order updates message"
+  },
+  "orderDetailsDialogTitle": "Order Details",
+  "@orderDetailsDialogTitle": {
+    "description": "Order details dialog title"
+  },
+  "orderEmailUpdatesMessage": "You will receive email updates about your order status and tracking information.",
+  "@orderEmailUpdatesMessage": {
+    "description": "Order email updates message"
+  },
+  "cardLabel": "CARD",
+  "@cardLabel": {
+    "description": "Generic card label"
+  },
+  "orderStatusPending": "Pending",
+  "@orderStatusPending": {
+    "description": "Order status: Pending"
+  },
+  "orderStatusConfirmed": "Confirmed",
+  "@orderStatusConfirmed": {
+    "description": "Order status: Confirmed"
+  },
+  "orderStatusProcessing": "Processing",
+  "@orderStatusProcessing": {
+    "description": "Order status: Processing"
+  },
+  "orderStatusShipped": "Shipped",
+  "@orderStatusShipped": {
+    "description": "Order status: Shipped"
+  },
+  "orderStatusDelivered": "Delivered",
+  "@orderStatusDelivered": {
+    "description": "Order status: Delivered"
+  },
+  "orderStatusCancelled": "Cancelled",
+  "@orderStatusCancelled": {
+    "description": "Order status: Cancelled"
+  },
+  "orderStatusRefunded": "Refunded",
+  "@orderStatusRefunded": {
+    "description": "Order status: Refunded"
+  },
+  "categoryFaceCare": "Face Care",
+  "@categoryFaceCare": {
+    "description": "Face Care category"
+  },
+  "categoryBodyCare": "Body Care",
+  "@categoryBodyCare": {
+    "description": "Body Care category"
+  },
+  "categoryHairCare": "Hair Care",
+  "@categoryHairCare": {
+    "description": "Hair Care category"
   },
   "closeButton": "Close",
   "@closeButton": {
@@ -798,5 +1173,137 @@
   "listViewTooltip": "List View",
   "@listViewTooltip": {
     "description": "Tooltip for list view button"
+  },
+  "sizeLabel": "Size",
+  "@sizeLabel": {
+    "description": "Size label for product details"
+  },
+  "currentRating": "current",
+  "@currentRating": {
+    "description": "Current rating indicator"
+  },
+  "rateThisProduct": "Rate this product:",
+  "@rateThisProduct": {
+    "description": "Rate this product label"
+  },
+  "ratingInstructions": "Tap stars to rate (tap twice for half-star)",
+  "@ratingInstructions": {
+    "description": "Instructions for rating products"
+  },
+  "noRatingSelected": "No rating selected",
+  "@noRatingSelected": {
+    "description": "No rating selected message"
+  },
+  "yourRating": "Your rating: {rating} {stars}",
+  "@yourRating": {
+    "description": "Your rating display",
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      },
+      "stars": {
+        "type": "String"
+      }
+    }
+  },
+  "star": "star",
+  "@star": {
+    "description": "Singular star"
+  },
+  "stars": "stars",
+  "@stars": {
+    "description": "Plural stars"
+  },
+  "submitRating": "SUBMIT RATING",
+  "@submitRating": {
+    "description": "Submit rating button"
+  },
+  "ratingSubmitted": "Rating submitted: {rating} stars!",
+  "@ratingSubmitted": {
+    "description": "Rating submitted confirmation",
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "addToCart": "ADD TO CART",
+  "@addToCart": {
+    "description": "Add to cart button"
+  },
+  "addedToCart": "{productName} added to cart!",
+  "@addedToCart": {
+    "description": "Product added to cart message",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "viewCart": "VIEW CART",
+  "@viewCart": {
+    "description": "View cart button"
+  },
+  "closeDialog": "CLOSE",
+  "@closeDialog": {
+    "description": "Close dialog button"
+  },
+  "notSpecified": "Not specified",
+  "@notSpecified": {
+    "description": "Text shown when product size or other field is not specified"
+  },
+  "shoppingCartTitle": "Shopping Cart",
+  "@shoppingCartTitle": {
+    "description": "Shopping cart page title"
+  },
+  "cartEmpty": "Your cart is empty",
+  "@cartEmpty": {
+    "description": "Empty cart message"
+  },
+  "addProductsToStart": "Add some products to get started",
+  "@addProductsToStart": {
+    "description": "Empty cart suggestion message"
+  },
+  "continueShopping": "Continue Shopping",
+  "@continueShopping": {
+    "description": "Continue shopping button in empty cart"
+  },
+  "itemRemovedFromCart": "{itemName} removed from cart",
+  "@itemRemovedFromCart": {
+    "description": "Snackbar message when item is removed from cart",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "undo": "UNDO",
+  "@undo": {
+    "description": "Undo action button"
+  },
+  "subtotalItems": "Subtotal ({itemCount} items)",
+  "@subtotalItems": {
+    "description": "Subtotal with item count in cart summary",
+    "placeholders": {
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "shipping": "Shipping",
+  "@shipping": {
+    "description": "Shipping label in cart summary"
+  },
+  "free": "Free",
+  "@free": {
+    "description": "Free shipping label"
+  },
+  "total": "Total",
+  "@total": {
+    "description": "Total label in cart summary"
+  },
+  "proceedToCheckout": "PROCEED TO CHECKOUT",
+  "@proceedToCheckout": {
+    "description": "Proceed to checkout button"
   }
 }

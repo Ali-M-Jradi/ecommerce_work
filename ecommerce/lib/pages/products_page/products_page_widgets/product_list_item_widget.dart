@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'highlighted_text_widget.dart';
 import '../../../localization/app_localizations_helper.dart';
+import 'products_data_provider.dart';
 
 class ProductListItemWidget extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -91,7 +92,7 @@ class ProductListItemWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     HighlightedText(
-                      text: product['name'],
+                      text: ProductsDataProvider.getLocalizedName(product, context),
                       highlight: searchQuery ?? '',
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                       maxLines: 2,
@@ -100,7 +101,7 @@ class ProductListItemWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     HighlightedText(
-                      text: product['description'],
+                      text: ProductsDataProvider.getLocalizedDescription(product, context),
                       highlight: searchQuery ?? '',
                       style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                       maxLines: 1,
@@ -109,7 +110,7 @@ class ProductListItemWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      product['size'],
+                      _getDisplaySize(context),
                       style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                     ),
                     SizedBox(height: 8),
@@ -149,5 +150,14 @@ class ProductListItemWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Helper method to get display size with localization
+  String _getDisplaySize(BuildContext context) {
+    final size = product['size'];
+    if (size == null || size.toString().isEmpty || size.toString() == 'Not specified') {
+      return AppLocalizationsHelper.of(context).notSpecified;
+    }
+    return size.toString();
   }
 }

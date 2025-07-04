@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import '../models/cart_item.dart';
 
 class CartProvider extends ChangeNotifier {
@@ -30,8 +31,12 @@ class CartProvider extends ChangeNotifier {
   }
 
   // Add item to cart
-  void addItem(Map<String, dynamic> product, {int quantity = 1}) {
-    final productId = product['id']?.toString() ?? product['name'] ?? '';
+  void addItem(Map<String, dynamic> product, {int quantity = 1, BuildContext? context}) {
+    final productId = product['id']?.toString() ?? (
+      product['name'] is Map 
+        ? product['name']['en'] ?? 'unknown'
+        : product['name']?.toString() ?? 'unknown'
+    );
     
     // Check if item already exists in cart
     final existingItemIndex = _items.indexWhere((item) => item.productId == productId);
@@ -40,8 +45,8 @@ class CartProvider extends ChangeNotifier {
       // Update quantity of existing item
       _items[existingItemIndex].quantity += quantity;
     } else {
-      // Add new item to cart
-      _items.add(CartItem.fromProduct(product, quantity: quantity));
+      // Add new item to cart with context for proper localization
+      _items.add(CartItem.fromProduct(product, quantity: quantity, context: context));
     }
     
     notifyListeners();

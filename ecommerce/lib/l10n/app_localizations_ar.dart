@@ -91,6 +91,698 @@ class AppLocalizationsAr extends AppLocalizations {
   String get defaultAddressLabel => 'تعيين كعنوان افتراضي';
 
   @override
+  String get fullNameRequired => 'الاسم الكامل مطلوب';
+
+  @override
+  String get fullNameTooShort => 'يجب أن يكون الاسم الكامل على الأقل حرفين';
+
+  @override
+  String get fullNameTooLong => 'يجب أن يكون الاسم الكامل أقل من 50 حرفاً';
+
+  @override
+  String get fullNameInvalidCharacters =>
+      'يمكن أن يحتوي الاسم الكامل على أحرف ومسافات وشرطات وعلامات اقتباس فقط';
+
+  @override
+  String get fullNameMissingLastName => 'يرجى إدخال الاسم الأول والأخير';
+
+  @override
+  String get streetAddressRequired => 'عنوان الشارع مطلوب';
+
+  @override
+  String get streetAddressTooShort =>
+      'يجب أن يكون عنوان الشارع على الأقل 5 أحرف';
+
+  @override
+  String get streetAddressTooLong => 'يجب أن يكون عنوان الشارع أقل من 100 حرف';
+
+  @override
+  String get streetAddressInvalidCharacters =>
+      'عنوان الشارع يحتوي على أحرف غير صالحة';
+
+  @override
+  String get cityRequired => 'المدينة مطلوبة';
+
+  @override
+  String get cityTooShort => 'يجب أن يكون اسم المدينة على الأقل حرفين';
+
+  @override
+  String get cityTooLong => 'يجب أن يكون اسم المدينة أقل من 50 حرفاً';
+
+  @override
+  String get cityInvalidCharacters =>
+      'يمكن أن يحتوي اسم المدينة على أحرف ومسافات وشرطات وعلامات اقتباس فقط';
+
+  @override
+  String get stateRequired => 'الولاية/المقاطعة مطلوبة';
+
+  @override
+  String get stateInvalidUS => 'يرجى اختيار ولاية أمريكية صالحة';
+
+  @override
+  String get stateInvalidCanada => 'يرجى اختيار مقاطعة كندية صالحة';
+
+  @override
+  String get stateTooShort => 'يجب أن تكون الولاية/المقاطعة على الأقل حرفين';
+
+  @override
+  String get stateTooLong => 'يجب أن تكون الولاية/المقاطعة أقل من 50 حرفاً';
+
+  @override
+  String get stateInvalidCharacters =>
+      'يمكن أن تحتوي الولاية/المقاطعة على أحرف ومسافات وشرطات وعلامات اقتباس فقط';
+
+  @override
+  String get zipCodeRequired => 'الرمز البريدي مطلوب';
+
+  @override
+  String get zipCodeInvalidUS =>
+      'يرجى إدخال رمز بريدي أمريكي صالح (5 أو 9 أرقام)';
+
+  @override
+  String get zipCodeInvalidCanada =>
+      'يرجى إدخال رمز بريدي كندي صالح (مثل: A1A 1A1)';
+
+  @override
+  String get zipCodeInvalidUK => 'يرجى إدخال رمز بريدي بريطاني صالح';
+
+  @override
+  String get zipCodeInvalidGermany =>
+      'يرجى إدخال رمز بريدي ألماني صالح (5 أرقام)';
+
+  @override
+  String get zipCodeInvalidFrance =>
+      'يرجى إدخال رمز بريدي فرنسي صالح (5 أرقام)';
+
+  @override
+  String get zipCodeInvalidAustralia =>
+      'يرجى إدخال رمز بريدي أسترالي صالح (4 أرقام)';
+
+  @override
+  String get zipCodeInvalidGeneral => 'يرجى إدخال رمز بريدي صالح';
+
+  @override
+  String get zipCodeInvalidCharacters =>
+      'يمكن أن يحتوي الرمز البريدي على أحرف وأرقام ومسافات وشرطات فقط';
+
+  @override
+  String get zipCodeTooLong => 'يجب أن يكون الرمز البريدي أقل من 20 حرفاً';
+
+  @override
+  String get countryRequired => 'الدولة مطلوبة';
+
+  @override
+  String get countryInvalid => 'يرجى اختيار دولة صالحة';
+
+  @override
+  String get phoneNumberInvalid => 'يرجى إدخال رقم هاتف صالح';
+
+  @override
+  String get countryAF => 'أفغانستان';
+
+  @override
+  String get countryAL => 'ألبانيا';
+
+  @override
+  String get countryDZ => 'الجزائر';
+
+  @override
+  String get countryAD => 'أندورا';
+
+  @override
+  String get countryAO => 'أنغولا';
+
+  @override
+  String get countryAG => 'أنتيغوا وبربودا';
+
+  @override
+  String get countryAR => 'الأرجنتين';
+
+  @override
+  String get countryAM => 'أرمينيا';
+
+  @override
+  String get countryAU => 'أستراليا';
+
+  @override
+  String get countryAT => 'النمسا';
+
+  @override
+  String get countryAZ => 'أذربيجان';
+
+  @override
+  String get countryBS => 'جزر البهاما';
+
+  @override
+  String get countryBH => 'البحرين';
+
+  @override
+  String get countryBD => 'بنغلاديش';
+
+  @override
+  String get countryBB => 'بربادوس';
+
+  @override
+  String get countryBY => 'بيلاروس';
+
+  @override
+  String get countryBE => 'بلجيكا';
+
+  @override
+  String get countryBZ => 'بليز';
+
+  @override
+  String get countryBJ => 'بنين';
+
+  @override
+  String get countryBT => 'بوتان';
+
+  @override
+  String get countryBO => 'بوليفيا';
+
+  @override
+  String get countryBA => 'البوسنة والهرسك';
+
+  @override
+  String get countryBW => 'بوتسوانا';
+
+  @override
+  String get countryBR => 'البرازيل';
+
+  @override
+  String get countryBN => 'بروناي';
+
+  @override
+  String get countryBG => 'بلغاريا';
+
+  @override
+  String get countryBF => 'بوركينا فاسو';
+
+  @override
+  String get countryBI => 'بوروندي';
+
+  @override
+  String get countryCV => 'الرأس الأخضر';
+
+  @override
+  String get countryKH => 'كمبوديا';
+
+  @override
+  String get countryCM => 'الكاميرون';
+
+  @override
+  String get countryCA => 'كندا';
+
+  @override
+  String get countryCF => 'جمهورية أفريقيا الوسطى';
+
+  @override
+  String get countryTD => 'تشاد';
+
+  @override
+  String get countryCL => 'تشيلي';
+
+  @override
+  String get countryCN => 'الصين';
+
+  @override
+  String get countryCO => 'كولومبيا';
+
+  @override
+  String get countryKM => 'جزر القمر';
+
+  @override
+  String get countryCG => 'الكونغو';
+
+  @override
+  String get countryCD => 'جمهورية الكونغو الديمقراطية';
+
+  @override
+  String get countryCR => 'كوستاريكا';
+
+  @override
+  String get countryCI => 'كوت ديفوار';
+
+  @override
+  String get countryHR => 'كرواتيا';
+
+  @override
+  String get countryCU => 'كوبا';
+
+  @override
+  String get countryCY => 'قبرص';
+
+  @override
+  String get countryCZ => 'جمهورية التشيك';
+
+  @override
+  String get countryDK => 'الدنمارك';
+
+  @override
+  String get countryDJ => 'جيبوتي';
+
+  @override
+  String get countryDM => 'دومينيكا';
+
+  @override
+  String get countryDO => 'جمهورية الدومينيكان';
+
+  @override
+  String get countryEC => 'الإكوادور';
+
+  @override
+  String get countryEG => 'مصر';
+
+  @override
+  String get countrySV => 'السلفادور';
+
+  @override
+  String get countryGQ => 'غينيا الاستوائية';
+
+  @override
+  String get countryER => 'إريتريا';
+
+  @override
+  String get countryEE => 'إستونيا';
+
+  @override
+  String get countryET => 'إثيوبيا';
+
+  @override
+  String get countryFJ => 'فيجي';
+
+  @override
+  String get countryFI => 'فنلندا';
+
+  @override
+  String get countryFR => 'فرنسا';
+
+  @override
+  String get countryGA => 'الغابون';
+
+  @override
+  String get countryGM => 'غامبيا';
+
+  @override
+  String get countryGE => 'جورجيا';
+
+  @override
+  String get countryDE => 'ألمانيا';
+
+  @override
+  String get countryGH => 'غانا';
+
+  @override
+  String get countryGR => 'اليونان';
+
+  @override
+  String get countryGD => 'غرينادا';
+
+  @override
+  String get countryGT => 'غواتيمالا';
+
+  @override
+  String get countryGN => 'غينيا';
+
+  @override
+  String get countryGW => 'غينيا بيساو';
+
+  @override
+  String get countryGY => 'غيانا';
+
+  @override
+  String get countryHT => 'هايتي';
+
+  @override
+  String get countryHN => 'هندوراس';
+
+  @override
+  String get countryHU => 'المجر';
+
+  @override
+  String get countryIS => 'آيسلندا';
+
+  @override
+  String get countryIN => 'الهند';
+
+  @override
+  String get countryID => 'إندونيسيا';
+
+  @override
+  String get countryIR => 'إيران';
+
+  @override
+  String get countryIQ => 'العراق';
+
+  @override
+  String get countryIE => 'أيرلندا';
+
+  @override
+  String get countryIL => 'إسرائيل';
+
+  @override
+  String get countryIT => 'إيطاليا';
+
+  @override
+  String get countryJM => 'جامايكا';
+
+  @override
+  String get countryJP => 'اليابان';
+
+  @override
+  String get countryJO => 'الأردن';
+
+  @override
+  String get countryKZ => 'كازاخستان';
+
+  @override
+  String get countryKE => 'كينيا';
+
+  @override
+  String get countryKI => 'كيريباتي';
+
+  @override
+  String get countryKW => 'الكويت';
+
+  @override
+  String get countryKG => 'قيرغيزستان';
+
+  @override
+  String get countryLA => 'لاوس';
+
+  @override
+  String get countryLV => 'لاتفيا';
+
+  @override
+  String get countryLB => 'لبنان';
+
+  @override
+  String get countryLS => 'ليسوتو';
+
+  @override
+  String get countryLR => 'ليبيريا';
+
+  @override
+  String get countryLY => 'ليبيا';
+
+  @override
+  String get countryLI => 'ليختنشتاين';
+
+  @override
+  String get countryLT => 'ليتوانيا';
+
+  @override
+  String get countryLU => 'لوكسمبورغ';
+
+  @override
+  String get countryMK => 'مقدونيا الشمالية';
+
+  @override
+  String get countryMG => 'مدغشقر';
+
+  @override
+  String get countryMW => 'ملاوي';
+
+  @override
+  String get countryMY => 'ماليزيا';
+
+  @override
+  String get countryMV => 'جزر المالديف';
+
+  @override
+  String get countryML => 'مالي';
+
+  @override
+  String get countryMT => 'مالطا';
+
+  @override
+  String get countryMH => 'جزر مارشال';
+
+  @override
+  String get countryMR => 'موريتانيا';
+
+  @override
+  String get countryMU => 'موريشيوس';
+
+  @override
+  String get countryMX => 'المكسيك';
+
+  @override
+  String get countryFM => 'ميكرونيزيا';
+
+  @override
+  String get countryMD => 'مولدوفا';
+
+  @override
+  String get countryMC => 'موناكو';
+
+  @override
+  String get countryMN => 'منغوليا';
+
+  @override
+  String get countryME => 'الجبل الأسود';
+
+  @override
+  String get countryMA => 'المغرب';
+
+  @override
+  String get countryMZ => 'موزمبيق';
+
+  @override
+  String get countryMM => 'ميانمار';
+
+  @override
+  String get countryNA => 'ناميبيا';
+
+  @override
+  String get countryNR => 'ناورو';
+
+  @override
+  String get countryNP => 'نيبال';
+
+  @override
+  String get countryNL => 'هولندا';
+
+  @override
+  String get countryNZ => 'نيوزيلندا';
+
+  @override
+  String get countryNI => 'نيكاراغوا';
+
+  @override
+  String get countryNE => 'النيجر';
+
+  @override
+  String get countryNG => 'نيجيريا';
+
+  @override
+  String get countryKP => 'كوريا الشمالية';
+
+  @override
+  String get countryNO => 'النرويج';
+
+  @override
+  String get countryOM => 'عُمان';
+
+  @override
+  String get countryPK => 'باكستان';
+
+  @override
+  String get countryPW => 'بالاو';
+
+  @override
+  String get countryPA => 'بنما';
+
+  @override
+  String get countryPG => 'بابوا غينيا الجديدة';
+
+  @override
+  String get countryPY => 'باراغواي';
+
+  @override
+  String get countryPE => 'بيرو';
+
+  @override
+  String get countryPH => 'الفلبين';
+
+  @override
+  String get countryPL => 'بولندا';
+
+  @override
+  String get countryPT => 'البرتغال';
+
+  @override
+  String get countryQA => 'قطر';
+
+  @override
+  String get countryRO => 'رومانيا';
+
+  @override
+  String get countryRU => 'روسيا';
+
+  @override
+  String get countryRW => 'رواندا';
+
+  @override
+  String get countryKN => 'سانت كيتس ونيفيس';
+
+  @override
+  String get countryLC => 'سانت لوسيا';
+
+  @override
+  String get countryVC => 'سانت فنسنت والغرينادين';
+
+  @override
+  String get countryWS => 'ساموا';
+
+  @override
+  String get countrySM => 'سان مارينو';
+
+  @override
+  String get countryST => 'ساو تومي وبرينسيبي';
+
+  @override
+  String get countrySA => 'المملكة العربية السعودية';
+
+  @override
+  String get countrySN => 'السنغال';
+
+  @override
+  String get countryRS => 'صربيا';
+
+  @override
+  String get countrySC => 'سيشل';
+
+  @override
+  String get countrySL => 'سيراليون';
+
+  @override
+  String get countrySG => 'سنغافورة';
+
+  @override
+  String get countrySK => 'سلوفاكيا';
+
+  @override
+  String get countrySI => 'سلوفينيا';
+
+  @override
+  String get countrySB => 'جزر سليمان';
+
+  @override
+  String get countrySO => 'الصومال';
+
+  @override
+  String get countryZA => 'جنوب أفريقيا';
+
+  @override
+  String get countryKR => 'كوريا الجنوبية';
+
+  @override
+  String get countrySS => 'جنوب السودان';
+
+  @override
+  String get countryES => 'إسبانيا';
+
+  @override
+  String get countryLK => 'سريلانكا';
+
+  @override
+  String get countrySD => 'السودان';
+
+  @override
+  String get countrySR => 'سورينام';
+
+  @override
+  String get countrySZ => 'إسواتيني';
+
+  @override
+  String get countrySE => 'السويد';
+
+  @override
+  String get countryCH => 'سويسرا';
+
+  @override
+  String get countrySY => 'سوريا';
+
+  @override
+  String get countryTW => 'تايوان';
+
+  @override
+  String get countryTJ => 'طاجيكستان';
+
+  @override
+  String get countryTZ => 'تنزانيا';
+
+  @override
+  String get countryTH => 'تايلاند';
+
+  @override
+  String get countryTL => 'تيمور الشرقية';
+
+  @override
+  String get countryTG => 'توغو';
+
+  @override
+  String get countryTO => 'تونغا';
+
+  @override
+  String get countryTT => 'ترينيداد وتوباغو';
+
+  @override
+  String get countryTN => 'تونس';
+
+  @override
+  String get countryTR => 'تركيا';
+
+  @override
+  String get countryTM => 'تركمانستان';
+
+  @override
+  String get countryTV => 'توفالو';
+
+  @override
+  String get countryUG => 'أوغندا';
+
+  @override
+  String get countryUA => 'أوكرانيا';
+
+  @override
+  String get countryAE => 'الإمارات العربية المتحدة';
+
+  @override
+  String get countryGB => 'المملكة المتحدة';
+
+  @override
+  String get countryUS => 'الولايات المتحدة';
+
+  @override
+  String get countryUY => 'أوروغواي';
+
+  @override
+  String get countryUZ => 'أوزبكستان';
+
+  @override
+  String get countryVU => 'فانواتو';
+
+  @override
+  String get countryVA => 'مدينة الفاتيكان';
+
+  @override
+  String get countryVE => 'فنزويلا';
+
+  @override
+  String get countryVN => 'فيتنام';
+
+  @override
+  String get countryYE => 'اليمن';
+
+  @override
+  String get countryZM => 'زامبيا';
+
+  @override
+  String get countryZW => 'زيمبابوي';
+
+  @override
   String get saveButton => 'حفظ';
 
   @override
@@ -305,6 +997,46 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get orderUpdatesMessage =>
       'سنرسل لك تحديثات عبر البريد الإلكتروني حول حالة طلبك ومعلومات التتبع.';
+
+  @override
+  String get orderDetailsDialogTitle => 'تفاصيل الطلب';
+
+  @override
+  String get orderEmailUpdatesMessage =>
+      'ستتلقى تحديثات عبر البريد الإلكتروني حول حالة طلبك ومعلومات التتبع.';
+
+  @override
+  String get cardLabel => 'بطاقة';
+
+  @override
+  String get orderStatusPending => 'قيد الانتظار';
+
+  @override
+  String get orderStatusConfirmed => 'مؤكد';
+
+  @override
+  String get orderStatusProcessing => 'قيد المعالجة';
+
+  @override
+  String get orderStatusShipped => 'تم الشحن';
+
+  @override
+  String get orderStatusDelivered => 'تم التسليم';
+
+  @override
+  String get orderStatusCancelled => 'ملغي';
+
+  @override
+  String get orderStatusRefunded => 'تم الاسترداد';
+
+  @override
+  String get categoryFaceCare => 'العناية بالوجه';
+
+  @override
+  String get categoryBodyCare => 'العناية بالجسم';
+
+  @override
+  String get categoryHairCare => 'العناية بالشعر';
 
   @override
   String get closeButton => 'إغلاق';
@@ -557,19 +1289,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get applyFilters => 'تطبيق الفلاتر';
 
   @override
-  String get avene => 'أفين';
+  String get avene => 'Avène';
 
   @override
-  String get vichy => 'فيشي';
+  String get vichy => 'Vichy';
 
   @override
-  String get eucerin => 'يوسيرين';
+  String get eucerin => 'Eucerin';
 
   @override
-  String get cerave => 'سيرافي';
+  String get cerave => 'CeraVe';
 
   @override
-  String get neutrogena => 'نيوتروجينا';
+  String get neutrogena => 'Neutrogena';
 
   @override
   String get soldOut => 'نفذ المخزون';
@@ -599,4 +1331,93 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get listViewTooltip => 'عرض القائمة';
+
+  @override
+  String get sizeLabel => 'الحجم';
+
+  @override
+  String get currentRating => 'الحالي';
+
+  @override
+  String get rateThisProduct => 'قيم هذا المنتج:';
+
+  @override
+  String get ratingInstructions =>
+      'اضغط على النجوم للتقييم (اضغط مرتين للنصف نجمة)';
+
+  @override
+  String get noRatingSelected => 'لم يتم اختيار تقييم';
+
+  @override
+  String yourRating(String rating, String stars) {
+    return 'تقييمك: $rating $stars';
+  }
+
+  @override
+  String get star => 'نجمة';
+
+  @override
+  String get stars => 'نجمة';
+
+  @override
+  String get submitRating => 'إرسال التقييم';
+
+  @override
+  String ratingSubmitted(String rating) {
+    return 'تم إرسال التقييم: $rating نجمة!';
+  }
+
+  @override
+  String get addToCart => 'أضف إلى السلة';
+
+  @override
+  String addedToCart(String productName) {
+    return 'تمت إضافة $productName إلى السلة!';
+  }
+
+  @override
+  String get viewCart => 'عرض السلة';
+
+  @override
+  String get closeDialog => 'إغلاق';
+
+  @override
+  String get notSpecified => 'غير محدد';
+
+  @override
+  String get shoppingCartTitle => 'سلة التسوق';
+
+  @override
+  String get cartEmpty => 'سلتك فارغة';
+
+  @override
+  String get addProductsToStart => 'أضف بعض المنتجات للبدء';
+
+  @override
+  String get continueShopping => 'متابعة التسوق';
+
+  @override
+  String itemRemovedFromCart(String itemName) {
+    return 'تم حذف $itemName من السلة';
+  }
+
+  @override
+  String get undo => 'تراجع';
+
+  @override
+  String subtotalItems(int itemCount) {
+    return 'المجموع الفرعي ($itemCount عنصر)';
+  }
+
+  @override
+  String get shipping => 'الشحن';
+
+  @override
+  String get free => 'مجاني';
+
+  @override
+  String get total => 'المجموع';
+
+  @override
+  String get proceedToCheckout => 'متابعة الدفع';
 }

@@ -509,7 +509,7 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
   final _zipCodeController = TextEditingController();
   final _phoneController = TextEditingController();
   
-  String _selectedCountry = 'United States';
+  String _selectedCountry = '';
   String? _selectedState;
   bool _isDefault = false;
   bool _showStateDropdown = true;
@@ -517,23 +517,64 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
   @override
   void initState() {
     super.initState();
-    if (widget.address != null) {
-      _nameController.text = widget.address!.fullName;
-      _streetController.text = widget.address!.streetAddress;
-      _addressLine2Controller.text = widget.address!.addressLine2 ?? '';
-      _cityController.text = widget.address!.city;
-      _zipCodeController.text = widget.address!.zipCode;
-      _selectedCountry = widget.address!.country;
-      _selectedState = widget.address!.state;
-      _phoneController.text = widget.address!.phoneNumber ?? '';
-      _isDefault = widget.address!.isDefault;
-    } else {
-      _selectedCountry = 'United States';
-      _selectedState = null;
-    }
     
-    // Set whether state should be shown as dropdown based on country
-    _showStateDropdown = AddressValidationService.hasStatesForCountry(_selectedCountry);
+    // Initialize the default country to the localized "United States"
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final countries = AddressValidationService.getLocalizedCountries(context);
+      final usCountry = countries.firstWhere(
+        (country) => country['code'] == 'US',
+        orElse: () => countries.first,
+      );
+      
+      if (widget.address != null) {
+        // Find the localized name for the existing country
+        final existingCountry = countries.firstWhere(
+          (country) => country['name'] == widget.address!.country ||
+                      country['code'] == _getCountryCodeFromName(widget.address!.country),
+          orElse: () => usCountry,
+        );
+        
+        _nameController.text = widget.address!.fullName;
+        _streetController.text = widget.address!.streetAddress;
+        _addressLine2Controller.text = widget.address!.addressLine2 ?? '';
+        _cityController.text = widget.address!.city;
+        _zipCodeController.text = widget.address!.zipCode;
+        _selectedCountry = existingCountry['name']!;
+        _selectedState = widget.address!.state;
+        _phoneController.text = widget.address!.phoneNumber ?? '';
+        _isDefault = widget.address!.isDefault;
+      } else {
+        _selectedCountry = usCountry['name']!;
+        _selectedState = null;
+      }
+      
+      // Set whether state should be shown as dropdown based on country
+      _showStateDropdown = AddressValidationService.hasStatesForCountry(_selectedCountry);
+      
+      setState(() {});
+    });
+  }
+
+  // Helper method to get country code from legacy country name
+  String _getCountryCodeFromName(String countryName) {
+    const legacyToCodeMap = {
+      'United States': 'US',
+      'Canada': 'CA',
+      'United Kingdom': 'GB',
+      'Australia': 'AU',
+      'Germany': 'DE',
+      'France': 'FR',
+      'Spain': 'ES',
+      'Italy': 'IT',
+      'Japan': 'JP',
+      'China': 'CN',
+      'India': 'IN',
+      'Brazil': 'BR',
+      'Mexico': 'MX',
+      'South Korea': 'KR',
+      'Russia': 'RU',
+    };
+    return legacyToCodeMap[countryName] ?? 'US';
   }
 
   @override
@@ -563,7 +604,7 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
                   labelText: AppLocalizations.of(context)!.fullNameLabel,
                   border: const OutlineInputBorder(),
                 ),
-                validator: AddressValidationService.validateFullName,
+                validator: (value) => AddressValidationService.validateFullName(value, context),
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -572,7 +613,7 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
                   labelText: AppLocalizations.of(context)!.streetAddressLabel,
                   border: const OutlineInputBorder(),
                 ),
-                validator: AddressValidationService.validateStreetAddress,
+                validator: (value) => AddressValidationService.validateStreetAddress(value, context),
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -587,18 +628,19 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
               Row(
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: TextFormField(
                       controller: _cityController,
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)!.cityLabel,
                         border: const OutlineInputBorder(),
                       ),
-                      validator: AddressValidationService.validateCity,
+                      validator: (value) => AddressValidationService.validateCity(value, context),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 12),
                   Expanded(
+                    flex: 2,
                     child: _showStateDropdown 
                       ? DropdownButtonFormField<String>(
                           decoration: InputDecoration(
@@ -606,10 +648,15 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
                             border: const OutlineInputBorder(),
                           ),
                           value: _selectedState,
+                          isExpanded: true, // Prevent overflow
                           items: AddressValidationService.getStatesForCountry(_selectedCountry)
                               .map((state) => DropdownMenuItem(
                                     value: state,
-                                    child: Text(state),
+                                    child: Text(
+                                      state,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
                                   ))
                               .toList(),
                           onChanged: (newValue) {
@@ -617,20 +664,21 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
                               _selectedState = newValue;
                             });
                           },
-                          validator: (value) => AddressValidationService.validateState(value, _selectedCountry),
+                          validator: (value) => AddressValidationService.validateState(value, _selectedCountry, context),
                         )
                       : TextFormField(
                           initialValue: _selectedState,
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context)!.stateProvinceLabel,
                             border: const OutlineInputBorder(),
+                            labelStyle: const TextStyle(fontSize: 12), // Smaller label for long text
                           ),
                           onChanged: (newValue) {
                             setState(() {
                               _selectedState = newValue;
                             });
                           },
-                          validator: (value) => AddressValidationService.validateState(value, _selectedCountry),
+                          validator: (value) => AddressValidationService.validateState(value, _selectedCountry, context),
                         ),
                   ),
                 ],
@@ -639,28 +687,34 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
               Row(
                 children: [
                   Expanded(
+                    flex: 2,
                     child: TextFormField(
                       controller: _zipCodeController,
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)!.zipCodeLabel,
                         border: const OutlineInputBorder(),
                       ),
-                      validator: (value) => AddressValidationService.validateZipCode(value, _selectedCountry),
+                      validator: (value) => AddressValidationService.validateZipCode(value, _selectedCountry, context),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 12),
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: DropdownButtonFormField<String>(
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)!.countryLabel,
                         border: const OutlineInputBorder(),
                       ),
-                      value: _selectedCountry,
-                      items: AddressValidationService.validCountries
+                      value: _selectedCountry.isEmpty ? null : _selectedCountry,
+                      isExpanded: true, // Prevent overflow
+                      items: AddressValidationService.getLocalizedCountries(context)
                           .map((country) => DropdownMenuItem(
-                                value: country,
-                                child: Text(country),
+                                value: country['name']!,
+                                child: Text(
+                                  country['name']!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
                               ))
                           .toList(),
                       onChanged: (newValue) {
@@ -671,7 +725,7 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
                           _showStateDropdown = AddressValidationService.hasStatesForCountry(_selectedCountry);
                         });
                       },
-                      validator: (value) => AddressValidationService.validateCountry(value),
+                      validator: (value) => AddressValidationService.validateCountry(value, context),
                     ),
                   ),
                 ],

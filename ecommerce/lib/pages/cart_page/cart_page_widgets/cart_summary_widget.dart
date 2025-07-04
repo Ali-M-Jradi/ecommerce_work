@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/cart_provider.dart';
+import '../../../localization/app_localizations_helper.dart';
 
 class CartSummaryWidget extends StatelessWidget {
   final VoidCallback onCheckout;
@@ -35,7 +36,7 @@ class CartSummaryWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Subtotal (${cart.itemCount} items)',
+                      AppLocalizationsHelper.of(context).subtotalItems(cart.itemCount),
                       style: const TextStyle(
                         fontSize: 16,
                         color: Color(0xFF666666),
@@ -54,19 +55,19 @@ class CartSummaryWidget extends StatelessWidget {
                 const SizedBox(height: 8),
                 
                 // Shipping (placeholder)
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Shipping',
-                      style: TextStyle(
+                      AppLocalizationsHelper.of(context).shipping,
+                      style: const TextStyle(
                         fontSize: 16,
                         color: Color(0xFF666666),
                       ),
                     ),
                     Text(
-                      'Free',
-                      style: TextStyle(
+                      AppLocalizationsHelper.of(context).free,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.green,
@@ -87,9 +88,9 @@ class CartSummaryWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Total',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizationsHelper.of(context).total,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF1B1B1B),
@@ -121,9 +122,9 @@ class CartSummaryWidget extends StatelessWidget {
                       ),
                       elevation: 2,
                     ),
-                    child: const Text(
-                      'PROCEED TO CHECKOUT',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizationsHelper.of(context).proceedToCheckout,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.5,
@@ -141,7 +142,7 @@ class CartSummaryWidget extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                     child: Text(
-                      'Continue Shopping',
+                      AppLocalizationsHelper.of(context).continueShopping,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.deepPurple.shade600,
