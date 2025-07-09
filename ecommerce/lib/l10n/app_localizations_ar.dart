@@ -12,6 +12,117 @@ class AppLocalizationsAr extends AppLocalizations {
   String get ecommerceAppTitle => 'تطبيق التجارة الإلكترونية';
 
   @override
+  String get welcomeBack => 'مرحباً بعودتك';
+
+  @override
+  String get signInToContinue => 'سجل الدخول لمواصلة رحلة جمالك';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get password => 'كلمة المرور';
+
+  @override
+  String get forgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get rememberMe => 'تذكرني';
+
+  @override
+  String get loginButton => 'تسجيل الدخول';
+
+  @override
+  String get noAccount => 'ليس لديك حساب؟';
+
+  @override
+  String get signUp => 'إنشاء حساب';
+
+  @override
+  String get loginSuccessful => 'تم تسجيل الدخول بنجاح!';
+
+  @override
+  String get orContinueWith => 'أو تابع باستخدام';
+
+  @override
+  String get brandName => 'ديرموكوزميتيك';
+
+  @override
+  String get brandTagline => 'بواسطة د. مريم';
+
+  @override
+  String get emailRequired => 'الرجاء إدخال بريدك الإلكتروني';
+
+  @override
+  String get emailInvalid => 'الرجاء إدخال بريد إلكتروني صالح';
+
+  @override
+  String get passwordRequired => 'الرجاء إدخال كلمة المرور';
+
+  @override
+  String get passwordTooShort => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+
+  @override
+  String get createAccount => 'إنشاء حساب';
+
+  @override
+  String get createYourAccount => 'إنشاء حسابك';
+
+  @override
+  String get joinBeautyCommunity => 'انضم لمجتمع الجمال اليوم';
+
+  @override
+  String get firstName => 'الاسم الأول';
+
+  @override
+  String get lastName => 'اسم العائلة';
+
+  @override
+  String get emailAddress => 'عنوان البريد الإلكتروني';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get fieldRequired => 'مطلوب';
+
+  @override
+  String get confirmPasswordRequired => 'الرجاء تأكيد كلمة المرور';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمات المرور غير متطابقة';
+
+  @override
+  String get agreeToTerms => 'أوافق على ';
+
+  @override
+  String get termsOfService => 'شروط الخدمة';
+
+  @override
+  String get and => ' و ';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get agreeToTermsRequired => 'الرجاء الموافقة على الشروط والأحكام';
+
+  @override
+  String get accountCreatedSuccessfully => 'تم إنشاء الحساب بنجاح!';
+
+  @override
+  String get haveAccount => 'هل لديك حساب بالفعل؟ ';
+
+  @override
+  String get signIn => 'تسجيل الدخول';
+
+  @override
+  String get google => 'جوجل';
+
+  @override
+  String get apple => 'آبل';
+
+  @override
   String get checkoutTitle => 'إتمام الشراء';
 
   @override
@@ -1186,10 +1297,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifications => 'الإشعارات';
 
   @override
-  String get welcome => 'مرحباً!';
+  String get welcome => 'مرحباً';
 
   @override
-  String get userEmail => 'user@example.com';
+  String get userEmail => 'guest@example.com';
 
   @override
   String get shopByCategoryMenu => 'تسوق حسب الفئة';
@@ -1429,4 +1540,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get arabicLanguage => 'العربية';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get loginRegister => 'تسجيل الدخول / إنشاء حساب';
+
+  @override
+  String get logoutSuccessful => 'تم تسجيل الخروج بنجاح';
+
+  @override
+  String welcomeUser(String name) {
+    return 'مرحباً، $name';
+  }
 }

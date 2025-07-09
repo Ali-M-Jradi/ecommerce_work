@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../localization/app_localizations_helper.dart';
 import '../../../providers/language_provider.dart';
+import '../../../providers/user_provider.dart';
 
 class DrawerWidget extends StatefulWidget {
   final Function(String)? onNavigationTap;
@@ -19,40 +20,51 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.deepPurpleAccent.shade700,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person,
-                    size: 35,
-                    color: Colors.deepPurpleAccent.shade700,
-                  ),
+          Consumer<UserProvider>(
+            builder: (context, userProvider, _) {
+              final bool isLoggedIn = userProvider.isLoggedIn;
+              final String displayEmail = isLoggedIn 
+                ? userProvider.currentUser!.email 
+                : AppLocalizationsHelper.of(context).userEmail;
+              
+              return DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.deepPurpleAccent.shade700,
                 ),
-                SizedBox(height: 10),
-                Text(
-                  AppLocalizationsHelper.of(context).welcome,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        isLoggedIn ? Icons.person : Icons.person_outline,
+                        size: 35,
+                        color: Colors.deepPurpleAccent.shade700,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      isLoggedIn 
+                        ? AppLocalizationsHelper.welcomeUser(context, userProvider.currentUser!.displayName) 
+                        : AppLocalizationsHelper.of(context).welcome,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      displayEmail,
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  AppLocalizationsHelper.of(context).userEmail,
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
+              );
+            }
           ),
           // Shop by Category
           ExpansionTile(
@@ -138,6 +150,41 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             subtitle: Text(AppLocalizationsHelper.of(context).profilePreferences),
             onTap: () {
               widget.onNavigationTap?.call('account_settings');
+            },
+          ),
+          
+          // Login/Logout based on user status
+          Consumer<UserProvider>(
+            builder: (context, userProvider, _) {
+              return ListTile(
+                leading: Icon(
+                  userProvider.isLoggedIn ? Icons.logout : Icons.login,
+                  color: Colors.deepPurpleAccent.shade700,
+                ),
+                title: Text(
+                  userProvider.isLoggedIn 
+                    ? AppLocalizationsHelper.logout(context) 
+                    : AppLocalizationsHelper.loginRegister(context)
+                ),
+                onTap: () {
+                  if (userProvider.isLoggedIn) {
+                    // Log the user out
+                    userProvider.logout();
+                    
+                    // Show success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(AppLocalizationsHelper.logoutSuccessful(context)),
+                        backgroundColor: Colors.green,
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  } else {
+                    // Navigate to login page
+                    Navigator.of(context).pushNamed('/login');
+                  }
+                },
+              );
             },
           ),
           

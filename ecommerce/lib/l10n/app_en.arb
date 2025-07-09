@@ -1,8 +1,153 @@
 {
   "@@locale": "en",
   "ecommerceAppTitle": "E-Commerce App",
-  "@ecommerceAppTitle": {
-    "description": "The title of the application"
+  "welcomeBack": "Welcome Back",
+  "@welcomeBack": {
+    "description": "Welcome back message on login screen"
+  },
+  "signInToContinue": "Sign in to continue your beauty journey",
+  "@signInToContinue": {
+    "description": "Sign in prompt message"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link text"
+  },
+  "rememberMe": "Remember Me",
+  "@rememberMe": {
+    "description": "Remember me checkbox label"
+  },
+  "loginButton": "Login",
+  "@loginButton": {
+    "description": "Login button text"
+  },
+  "noAccount": "Don't have an account?",
+  "@noAccount": {
+    "description": "No account text"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign up button text"
+  },
+  "loginSuccessful": "Login successful!",
+  "@loginSuccessful": {
+    "description": "Login successful message"
+  },
+  "orContinueWith": "or continue with",
+  "@orContinueWith": {
+    "description": "Social login divider text"
+  },
+  "brandName": "DERMOCOSMETIQUE",
+  "@brandName": {
+    "description": "Brand name displayed on login screen"
+  },
+  "brandTagline": "BY PH.MARIAM",
+  "@brandTagline": {
+    "description": "Brand tagline displayed on login screen"
+  },
+  "emailRequired": "Please enter your email",
+  "@emailRequired": {
+    "description": "Error message for required email"
+  },
+  "emailInvalid": "Please enter a valid email",
+  "@emailInvalid": {
+    "description": "Error message for invalid email"
+  },
+  "passwordRequired": "Please enter your password",
+  "@passwordRequired": {
+    "description": "Error message for required password"
+  },
+  "passwordTooShort": "Password must be at least 6 characters",
+  "@passwordTooShort": {
+    "description": "Error message for short password"
+  },
+  "createAccount": "Create Account",
+  "@createAccount": {
+    "description": "Create account button text"
+  },
+  "createYourAccount": "Create Your Account",
+  "@createYourAccount": {
+    "description": "Signup page heading"
+  },
+  "joinBeautyCommunity": "Join our beauty community today",
+  "@joinBeautyCommunity": {
+    "description": "Signup page subheading"
+  },
+  "firstName": "First Name",
+  "@firstName": {
+    "description": "First name field label"
+  },
+  "lastName": "Last Name",
+  "@lastName": {
+    "description": "Last name field label"
+  },
+  "emailAddress": "Email Address",
+  "@emailAddress": {
+    "description": "Email address field label"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password field label"
+  },
+  "fieldRequired": "Required",
+  "@fieldRequired": {
+    "description": "Required field error message"
+  },
+  "confirmPasswordRequired": "Please confirm your password",
+  "@confirmPasswordRequired": {
+    "description": "Error message for required password confirmation"
+  },
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": {
+    "description": "Error message for non-matching passwords"
+  },
+  "agreeToTerms": "I agree to the ",
+  "@agreeToTerms": {
+    "description": "Terms agreement text beginning"
+  },
+  "termsOfService": "Terms of Service",
+  "@termsOfService": {
+    "description": "Terms of service text"
+  },
+  "and": " and ",
+  "@and": {
+    "description": "Conjunction between terms and privacy policy"
+  },
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy policy text"
+  },
+  "agreeToTermsRequired": "Please agree to terms and conditions",
+  "@agreeToTermsRequired": {
+    "description": "Error message for terms agreement"
+  },
+  "accountCreatedSuccessfully": "Account created successfully!",
+  "@accountCreatedSuccessfully": {
+    "description": "Account creation success message"
+  },
+  "haveAccount": "Already have an account? ",
+  "@haveAccount": {
+    "description": "Have account text for signup page"
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign in button text for signup page"
+  },
+  "google": "Google",
+  "@google": {
+    "description": "Google text for social login button"
+  },
+  "apple": "Apple",
+  "@apple": {
+    "description": "Apple text for social login button"
   },
   "checkoutTitle": "Checkout",
   "@checkoutTitle": {
@@ -966,13 +1111,13 @@
   "@notifications": {
     "description": "Notifications feature name"
   },
-  "welcome": "Welcome!",
+  "welcome": "Welcome",
   "@welcome": {
-    "description": "Welcome text in drawer header"
+    "description": "Welcome message for guests"
   },
-  "userEmail": "user@example.com",
+  "userEmail": "guest@example.com",
   "@userEmail": {
-    "description": "User email in drawer header"
+    "description": "Default user email for drawer when not logged in"
   },
   "shopByCategoryMenu": "Shop by Category",
   "@shopByCategoryMenu": {
@@ -1317,5 +1462,31 @@
   "arabicLanguage": "Arabic",
   "@arabicLanguage": {
     "description": "Arabic language name"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout text for drawer"
+  },
+  "loginRegister": "Login / Register",
+  "@loginRegister": {
+    "description": "Login/Register text for drawer"
+  },
+  "logoutSuccessful": "You have been successfully logged out",
+  "@logoutSuccessful": {
+    "description": "Logout successful message"
+  },
+  "welcomeUser": "Welcome, {name}",
+  "@welcomeUser": {
+    "description": "Welcome message for logged in user",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message for guests"
   }
 }

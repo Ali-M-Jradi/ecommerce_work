@@ -1,7 +1,10 @@
 import 'package:ecommerce/pages/base_page/base_page.dart';
 import 'package:ecommerce/pages/checkout_page/checkout_page.dart';
+import 'package:ecommerce/pages/auth/login_page.dart';
+import 'package:ecommerce/pages/auth/signup_page.dart';
 import 'package:ecommerce/providers/cart_provider.dart';
 import 'package:ecommerce/providers/language_provider.dart';
+import 'package:ecommerce/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ecommerce/l10n/app_localizations.dart';
@@ -25,6 +28,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {
@@ -50,6 +54,8 @@ class MyApp extends StatelessWidget {
             home: const BasePage(title: 'DERMOCOSMETIQUE'),
             routes: {
               '/checkout': (context) => const CheckoutPage(),
+              '/login': (context) => const LoginPage(),
+              '/signup': (context) => const SignUpPage(),
             },
           );
         },

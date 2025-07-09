@@ -27,6 +27,18 @@ class AppLocalizationsHelper {
   static const LocalizationsDelegate<AppLocalizations> delegate =
       AppLocalizations.delegate;
 
+  // Welcome a specific user by name
+  static String welcomeUser(BuildContext context, String name) {
+    final localizations = of(context);
+    // This will use the localized welcomeUser string with the name parameter
+    return localizations.welcomeUser(name);
+  }
+  
+  // Authentication related text
+  static String logout(BuildContext context) => of(context).logout;
+  static String loginRegister(BuildContext context) => of(context).loginRegister;
+  static String logoutSuccessful(BuildContext context) => of(context).logoutSuccessful;
+
   // Get localized order status text
   static String getLocalizedOrderStatus(BuildContext context, OrderStatus status) {
     final localizations = of(context);

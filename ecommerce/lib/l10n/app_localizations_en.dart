@@ -12,6 +12,117 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ecommerceAppTitle => 'E-Commerce App';
 
   @override
+  String get welcomeBack => 'Welcome Back';
+
+  @override
+  String get signInToContinue => 'Sign in to continue your beauty journey';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get rememberMe => 'Remember Me';
+
+  @override
+  String get loginButton => 'Login';
+
+  @override
+  String get noAccount => 'Don\'t have an account?';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get loginSuccessful => 'Login successful!';
+
+  @override
+  String get orContinueWith => 'or continue with';
+
+  @override
+  String get brandName => 'DERMOCOSMETIQUE';
+
+  @override
+  String get brandTagline => 'BY PH.MARIAM';
+
+  @override
+  String get emailRequired => 'Please enter your email';
+
+  @override
+  String get emailInvalid => 'Please enter a valid email';
+
+  @override
+  String get passwordRequired => 'Please enter your password';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get createYourAccount => 'Create Your Account';
+
+  @override
+  String get joinBeautyCommunity => 'Join our beauty community today';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get emailAddress => 'Email Address';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get fieldRequired => 'Required';
+
+  @override
+  String get confirmPasswordRequired => 'Please confirm your password';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get agreeToTerms => 'I agree to the ';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get and => ' and ';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get agreeToTermsRequired => 'Please agree to terms and conditions';
+
+  @override
+  String get accountCreatedSuccessfully => 'Account created successfully!';
+
+  @override
+  String get haveAccount => 'Already have an account? ';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get google => 'Google';
+
+  @override
+  String get apple => 'Apple';
+
+  @override
   String get checkoutTitle => 'Checkout';
 
   @override
@@ -1192,10 +1303,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifications => 'Notifications';
 
   @override
-  String get welcome => 'Welcome!';
+  String get welcome => 'Welcome';
 
   @override
-  String get userEmail => 'user@example.com';
+  String get userEmail => 'guest@example.com';
 
   @override
   String get shopByCategoryMenu => 'Shop by Category';
@@ -1435,4 +1546,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get arabicLanguage => 'Arabic';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get loginRegister => 'Login / Register';
+
+  @override
+  String get logoutSuccessful => 'You have been successfully logged out';
+
+  @override
+  String welcomeUser(String name) {
+    return 'Welcome, $name';
+  }
 }

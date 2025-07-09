@@ -98,11 +98,233 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
-  /// The title of the application
+  /// No description provided for @ecommerceAppTitle.
   ///
   /// In en, this message translates to:
   /// **'E-Commerce App'**
   String get ecommerceAppTitle;
+
+  /// Welcome back message on login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get welcomeBack;
+
+  /// Sign in prompt message
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue your beauty journey'**
+  String get signInToContinue;
+
+  /// Email field label
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// Password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// Forgot password link text
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// Remember me checkbox label
+  ///
+  /// In en, this message translates to:
+  /// **'Remember Me'**
+  String get rememberMe;
+
+  /// Login button text
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginButton;
+
+  /// No account text
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get noAccount;
+
+  /// Sign up button text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// Login successful message
+  ///
+  /// In en, this message translates to:
+  /// **'Login successful!'**
+  String get loginSuccessful;
+
+  /// Social login divider text
+  ///
+  /// In en, this message translates to:
+  /// **'or continue with'**
+  String get orContinueWith;
+
+  /// Brand name displayed on login screen
+  ///
+  /// In en, this message translates to:
+  /// **'DERMOCOSMETIQUE'**
+  String get brandName;
+
+  /// Brand tagline displayed on login screen
+  ///
+  /// In en, this message translates to:
+  /// **'BY PH.MARIAM'**
+  String get brandTagline;
+
+  /// Error message for required email
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get emailRequired;
+
+  /// Error message for invalid email
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get emailInvalid;
+
+  /// Error message for required password
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password'**
+  String get passwordRequired;
+
+  /// Error message for short password
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordTooShort;
+
+  /// Create account button text
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// Signup page heading
+  ///
+  /// In en, this message translates to:
+  /// **'Create Your Account'**
+  String get createYourAccount;
+
+  /// Signup page subheading
+  ///
+  /// In en, this message translates to:
+  /// **'Join our beauty community today'**
+  String get joinBeautyCommunity;
+
+  /// First name field label
+  ///
+  /// In en, this message translates to:
+  /// **'First Name'**
+  String get firstName;
+
+  /// Last name field label
+  ///
+  /// In en, this message translates to:
+  /// **'Last Name'**
+  String get lastName;
+
+  /// Email address field label
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailAddress;
+
+  /// Confirm password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// Required field error message
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get fieldRequired;
+
+  /// Error message for required password confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your password'**
+  String get confirmPasswordRequired;
+
+  /// Error message for non-matching passwords
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// Terms agreement text beginning
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to the '**
+  String get agreeToTerms;
+
+  /// Terms of service text
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// Conjunction between terms and privacy policy
+  ///
+  /// In en, this message translates to:
+  /// **' and '**
+  String get and;
+
+  /// Privacy policy text
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// Error message for terms agreement
+  ///
+  /// In en, this message translates to:
+  /// **'Please agree to terms and conditions'**
+  String get agreeToTermsRequired;
+
+  /// Account creation success message
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully!'**
+  String get accountCreatedSuccessfully;
+
+  /// Have account text for signup page
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? '**
+  String get haveAccount;
+
+  /// Sign in button text for signup page
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// Google text for social login button
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get google;
+
+  /// Apple text for social login button
+  ///
+  /// In en, this message translates to:
+  /// **'Apple'**
+  String get apple;
 
   /// The title of the checkout page
   ///
@@ -2396,16 +2618,16 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get notifications;
 
-  /// Welcome text in drawer header
+  /// Welcome message for guests
   ///
   /// In en, this message translates to:
-  /// **'Welcome!'**
+  /// **'Welcome'**
   String get welcome;
 
-  /// User email in drawer header
+  /// Default user email for drawer when not logged in
   ///
   /// In en, this message translates to:
-  /// **'user@example.com'**
+  /// **'guest@example.com'**
   String get userEmail;
 
   /// Shop by category menu item
@@ -2851,6 +3073,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Arabic'**
   String get arabicLanguage;
+
+  /// Logout text for drawer
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// Login/Register text for drawer
+  ///
+  /// In en, this message translates to:
+  /// **'Login / Register'**
+  String get loginRegister;
+
+  /// Logout successful message
+  ///
+  /// In en, this message translates to:
+  /// **'You have been successfully logged out'**
+  String get logoutSuccessful;
+
+  /// Welcome message for logged in user
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {name}'**
+  String welcomeUser(String name);
 }
 
 class _AppLocalizationsDelegate
