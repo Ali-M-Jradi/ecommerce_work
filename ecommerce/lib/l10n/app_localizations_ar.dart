@@ -1420,4 +1420,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get proceedToCheckout => 'متابعة الدفع';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get englishLanguage => 'الإنجليزية';
+
+  @override
+  String get arabicLanguage => 'العربية';
 }

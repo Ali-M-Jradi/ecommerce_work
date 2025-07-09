@@ -1426,4 +1426,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get proceedToCheckout => 'PROCEED TO CHECKOUT';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get englishLanguage => 'English';
+
+  @override
+  String get arabicLanguage => 'Arabic';
 }

@@ -454,5 +454,8 @@
   "shipping": "الشحن",
   "free": "مجاني",
   "total": "المجموع",
-  "proceedToCheckout": "متابعة الدفع"
+  "proceedToCheckout": "متابعة الدفع",
+  "language": "اللغة",
+  "englishLanguage": "الإنجليزية",
+  "arabicLanguage": "العربية"
 }

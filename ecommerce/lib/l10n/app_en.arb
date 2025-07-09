@@ -1305,5 +1305,17 @@
   "proceedToCheckout": "PROCEED TO CHECKOUT",
   "@proceedToCheckout": {
     "description": "Proceed to checkout button"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language label"
+  },
+  "englishLanguage": "English",
+  "@englishLanguage": {
+    "description": "English language name"
+  },
+  "arabicLanguage": "Arabic",
+  "@arabicLanguage": {
+    "description": "Arabic language name"
   }
 }

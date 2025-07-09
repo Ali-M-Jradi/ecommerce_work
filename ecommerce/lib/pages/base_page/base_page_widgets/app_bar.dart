@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/cart_provider.dart';
-import '../../../widgets/language_switcher.dart';
 import '../../../localization/app_localizations_helper.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
@@ -132,8 +131,6 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             _showComingSoonDialog(AppLocalizationsHelper.of(context).notifications);
           },
         ),
-        // Import at the top of the file: import '../../../widgets/language_switcher.dart';
-        LanguageSwitcher(),
         const SizedBox(width: 8),
       ],
       bottom: PreferredSize(
