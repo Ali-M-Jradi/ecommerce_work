@@ -1300,6 +1300,97 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileLabel => 'Profile';
 
   @override
+  String get accessProfile => 'Access Profile';
+
+  @override
+  String get loginRegisterPrompt =>
+      'Please login or register to access your profile.';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get myProfile => 'My Profile';
+
+  @override
+  String get personalInformation => 'Personal Information';
+
+  @override
+  String get security => 'Security';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get twoFactorAuth => 'Two-Factor Authentication';
+
+  @override
+  String get emailNotifications => 'Email Notifications';
+
+  @override
+  String get pushNotifications => 'Push Notifications';
+
+  @override
+  String get orderUpdates => 'Order Updates';
+
+  @override
+  String get recentOrders => 'Recent Orders';
+
+  @override
+  String get viewAllOrders => 'View All Orders';
+
+  @override
+  String get shippingAddresses => 'Shipping Addresses';
+
+  @override
+  String get addNew => 'Add New';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get work => 'Work';
+
+  @override
+  String get defaultAddress => 'Default';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get displayName => 'Display Name';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get addToCart => 'ADD TO CART';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String get delivered => 'Delivered';
+
+  @override
+  String get processing => 'Processing';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get items => 'items';
+
+  @override
+  String get item => 'item';
+
+  @override
   String get notifications => 'Notifications';
 
   @override
@@ -1485,9 +1576,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get addToCart => 'ADD TO CART';
-
-  @override
   String addedToCart(String productName) {
     return '$productName added to cart!';
   }
@@ -1533,9 +1621,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get free => 'Free';
 
   @override
-  String get total => 'Total';
-
-  @override
   String get proceedToCheckout => 'PROCEED TO CHECKOUT';
 
   @override
@@ -1560,4 +1645,106 @@ class AppLocalizationsEn extends AppLocalizations {
   String welcomeUser(String name) {
     return 'Welcome, $name';
   }
+
+  @override
+  String get notLoggedIn => 'Not logged in';
+
+  @override
+  String get profilePersonalInfo => 'Personal Info';
+
+  @override
+  String get profileOrders => 'Orders';
+
+  @override
+  String get profileAddresses => 'Addresses';
+
+  @override
+  String get profileWishlist => 'Wishlist';
+
+  @override
+  String get profileSettings => 'Settings';
+
+  @override
+  String get profilePersonalInformation => 'Personal Information';
+
+  @override
+  String get profileDisplayName => 'Display Name';
+
+  @override
+  String get profilePhone => 'Phone';
+
+  @override
+  String get profileSecurity => 'Security';
+
+  @override
+  String get profileChangePassword => 'Change Password';
+
+  @override
+  String get profileTwoFactorAuth => 'Two-Factor Authentication';
+
+  @override
+  String get profileNotifications => 'Notifications';
+
+  @override
+  String get profileEmailNotifications => 'Email Notifications';
+
+  @override
+  String get profilePushNotifications => 'Push Notifications';
+
+  @override
+  String get profileOrderUpdates => 'Order Updates';
+
+  @override
+  String get profileRecentOrders => 'Recent Orders';
+
+  @override
+  String get profileOrderDelivered => 'Delivered';
+
+  @override
+  String get profileOrderProcessing => 'Processing';
+
+  @override
+  String get profileViewAllOrders => 'View All Orders';
+
+  @override
+  String get profileShippingAddresses => 'Shipping Addresses';
+
+  @override
+  String get profileAddNew => 'Add New';
+
+  @override
+  String get profileAddressHome => 'Home';
+
+  @override
+  String get profileAddressWork => 'Work';
+
+  @override
+  String get profileAddressDefault => 'Default';
+
+  @override
+  String get profileLanguage => 'Language';
+
+  @override
+  String get profileAppearance => 'Appearance';
+
+  @override
+  String get profileDarkMode => 'Dark Mode';
+
+  @override
+  String get profileAccount => 'Account';
+
+  @override
+  String get profileItemSingular => 'item';
+
+  @override
+  String get profileItemPlural => 'items';
+
+  @override
+  String get profileViewDetails => 'View Details';
+
+  @override
+  String get profileProductName => 'Product Name';
+
+  @override
+  String get profileAddToCart => 'Add to Cart';
 }

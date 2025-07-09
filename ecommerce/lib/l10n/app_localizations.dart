@@ -2612,6 +2612,186 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profileLabel;
 
+  /// Profile access dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Access Profile'**
+  String get accessProfile;
+
+  /// Profile access dialog message
+  ///
+  /// In en, this message translates to:
+  /// **'Please login or register to access your profile.'**
+  String get loginRegisterPrompt;
+
+  /// Register button text
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// My Profile menu item
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get myProfile;
+
+  /// Personal Information section title
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInformation;
+
+  /// Security section title
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// Change password option
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// Two-factor authentication option
+  ///
+  /// In en, this message translates to:
+  /// **'Two-Factor Authentication'**
+  String get twoFactorAuth;
+
+  /// Email notifications setting
+  ///
+  /// In en, this message translates to:
+  /// **'Email Notifications'**
+  String get emailNotifications;
+
+  /// Push notifications setting
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
+  String get pushNotifications;
+
+  /// Order updates setting
+  ///
+  /// In en, this message translates to:
+  /// **'Order Updates'**
+  String get orderUpdates;
+
+  /// Recent orders section title
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Orders'**
+  String get recentOrders;
+
+  /// View all orders button
+  ///
+  /// In en, this message translates to:
+  /// **'View All Orders'**
+  String get viewAllOrders;
+
+  /// Shipping addresses section title
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping Addresses'**
+  String get shippingAddresses;
+
+  /// Add new button
+  ///
+  /// In en, this message translates to:
+  /// **'Add New'**
+  String get addNew;
+
+  /// Home address label
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// Work address label
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get work;
+
+  /// Default address label
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultAddress;
+
+  /// Appearance section title
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// Dark mode setting
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// Account section title
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// Display name field
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name'**
+  String get displayName;
+
+  /// Phone field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
+  /// Add to cart button
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TO CART'**
+  String get addToCart;
+
+  /// View details button
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
+
+  /// Delivered status
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get delivered;
+
+  /// Processing status
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get processing;
+
+  /// Total label in cart summary
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// Items plural
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get items;
+
+  /// Item singular
+  ///
+  /// In en, this message translates to:
+  /// **'item'**
+  String get item;
+
   /// Notifications feature name
   ///
   /// In en, this message translates to:
@@ -2960,12 +3140,6 @@ abstract class AppLocalizations {
   /// **'Rating submitted: {rating} stars!'**
   String ratingSubmitted(String rating);
 
-  /// Add to cart button
-  ///
-  /// In en, this message translates to:
-  /// **'ADD TO CART'**
-  String get addToCart;
-
   /// Product added to cart message
   ///
   /// In en, this message translates to:
@@ -3044,12 +3218,6 @@ abstract class AppLocalizations {
   /// **'Free'**
   String get free;
 
-  /// Total label in cart summary
-  ///
-  /// In en, this message translates to:
-  /// **'Total'**
-  String get total;
-
   /// Proceed to checkout button
   ///
   /// In en, this message translates to:
@@ -3097,6 +3265,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome, {name}'**
   String welcomeUser(String name);
+
+  /// Text shown when user is not logged in
+  ///
+  /// In en, this message translates to:
+  /// **'Not logged in'**
+  String get notLoggedIn;
+
+  /// Personal Info tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Info'**
+  String get profilePersonalInfo;
+
+  /// Orders tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get profileOrders;
+
+  /// Addresses tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Addresses'**
+  String get profileAddresses;
+
+  /// Wishlist tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Wishlist'**
+  String get profileWishlist;
+
+  /// Settings tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get profileSettings;
+
+  /// Personal Information section title
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get profilePersonalInformation;
+
+  /// Display name field label
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name'**
+  String get profileDisplayName;
+
+  /// Phone field label
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get profilePhone;
+
+  /// Security section title
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get profileSecurity;
+
+  /// Change password button text
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get profileChangePassword;
+
+  /// Two-Factor Authentication button text
+  ///
+  /// In en, this message translates to:
+  /// **'Two-Factor Authentication'**
+  String get profileTwoFactorAuth;
+
+  /// Notifications section title
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get profileNotifications;
+
+  /// Email notifications toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Email Notifications'**
+  String get profileEmailNotifications;
+
+  /// Push notifications toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
+  String get profilePushNotifications;
+
+  /// Order updates toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Order Updates'**
+  String get profileOrderUpdates;
+
+  /// Recent orders section title
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Orders'**
+  String get profileRecentOrders;
+
+  /// Order status: delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get profileOrderDelivered;
+
+  /// Order status: processing
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get profileOrderProcessing;
+
+  /// View all orders button text
+  ///
+  /// In en, this message translates to:
+  /// **'View All Orders'**
+  String get profileViewAllOrders;
+
+  /// Shipping addresses section title
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping Addresses'**
+  String get profileShippingAddresses;
+
+  /// Add new button text
+  ///
+  /// In en, this message translates to:
+  /// **'Add New'**
+  String get profileAddNew;
+
+  /// Home address label
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get profileAddressHome;
+
+  /// Work address label
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get profileAddressWork;
+
+  /// Default address label
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get profileAddressDefault;
+
+  /// Language section title
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get profileLanguage;
+
+  /// Appearance section title
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get profileAppearance;
+
+  /// Dark mode toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get profileDarkMode;
+
+  /// Account section title
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get profileAccount;
+
+  /// Singular form of item
+  ///
+  /// In en, this message translates to:
+  /// **'item'**
+  String get profileItemSingular;
+
+  /// Plural form of items
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get profileItemPlural;
+
+  /// View details button text
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get profileViewDetails;
+
+  /// Product name placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Product Name'**
+  String get profileProductName;
+
+  /// Add to cart button text
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get profileAddToCart;
 }
 
 class _AppLocalizationsDelegate

@@ -25,7 +25,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               final bool isLoggedIn = userProvider.isLoggedIn;
               final String displayEmail = isLoggedIn 
                 ? userProvider.currentUser!.email 
-                : AppLocalizationsHelper.of(context).userEmail;
+                : AppLocalizationsHelper.of(context).notLoggedIn;
               
               return DrawerHeader(
                 decoration: BoxDecoration(
@@ -145,11 +145,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           
           // Account Settings
           ListTile(
-            leading: Icon(Icons.person, color: Colors.deepPurpleAccent.shade700),
+            leading: Icon(Icons.settings, color: Colors.deepPurpleAccent.shade700),
             title: Text(AppLocalizationsHelper.of(context).accountSettings),
             subtitle: Text(AppLocalizationsHelper.of(context).profilePreferences),
             onTap: () {
               widget.onNavigationTap?.call('account_settings');
+            },
+          ),
+          
+          // Profile Page - Only shown when logged in
+          Consumer<UserProvider>(
+            builder: (context, userProvider, _) {
+              return userProvider.isLoggedIn
+                ? ListTile(
+                    leading: Icon(Icons.person, color: Colors.deepPurpleAccent.shade700),
+                    title: Text(AppLocalizationsHelper.of(context).myProfile),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/profile');
+                    },
+                  )
+                : SizedBox.shrink();
             },
           ),
           

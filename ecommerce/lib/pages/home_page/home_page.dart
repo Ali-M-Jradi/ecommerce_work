@@ -224,46 +224,84 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCategoryCard(String title, String imagePath, Color backgroundColor) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: const Icon(
-              Icons.spa,
-              size: 30,
-              color: Color(0xFF6B73FF),
+    // Convert UI-friendly title to a category identifier for routing
+    String categoryId = _getCategoryIdFromTitle(title);
+    
+    return InkWell(
+      onTap: () {
+        // Navigate to products page with the selected category
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductsPage(
+              category: categoryId,
+              categoryTitle: title,
             ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF1B1B1B),
+        );
+      },
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
             ),
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: const Icon(
+                Icons.spa,
+                size: 30,
+                color: Color(0xFF6B73FF),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF1B1B1B),
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  /// Map UI-friendly category titles to their corresponding IDs used in the product data
+  String _getCategoryIdFromTitle(String title) {
+    // Get context-aware localizations
+    final localizations = AppLocalizationsHelper.of(context);
+    
+    // Map localized UI titles to backend category IDs
+    if (title == localizations.skincare) {
+      return 'face_care'; // Face care is our skincare category
+    } else if (title == localizations.makeup) {
+      return 'makeup';
+    } else if (title == localizations.hairCare) {
+      return 'hair_care';
+    } else if (title == localizations.fragrance) {
+      return 'fragrance';
+    }
+    
+    // Default case: convert the title to a slug format
+    return title.toLowerCase().replaceAll(' ', '_');
   }
 
   Widget _buildFeatureItem(IconData icon, String title, String description) {

@@ -1107,6 +1107,126 @@
   "@profileLabel": {
     "description": "Profile navigation label"
   },
+  "accessProfile": "Access Profile",
+  "@accessProfile": {
+    "description": "Profile access dialog title"
+  },
+  "loginRegisterPrompt": "Please login or register to access your profile.",
+  "@loginRegisterPrompt": {
+    "description": "Profile access dialog message"
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Register button text"
+  },
+  "myProfile": "My Profile",
+  "@myProfile": {
+    "description": "My Profile menu item"
+  },
+  "personalInformation": "Personal Information",
+  "@personalInformation": {
+    "description": "Personal Information section title"
+  },
+  "security": "Security",
+  "@security": {
+    "description": "Security section title"
+  },
+  "changePassword": "Change Password",
+  "@changePassword": {
+    "description": "Change password option"
+  },
+  "twoFactorAuth": "Two-Factor Authentication",
+  "@twoFactorAuth": {
+    "description": "Two-factor authentication option"
+  },
+  "emailNotifications": "Email Notifications",
+  "@emailNotifications": {
+    "description": "Email notifications setting"
+  },
+  "pushNotifications": "Push Notifications",
+  "@pushNotifications": {
+    "description": "Push notifications setting"
+  },
+  "orderUpdates": "Order Updates",
+  "@orderUpdates": {
+    "description": "Order updates setting"
+  },
+  "recentOrders": "Recent Orders",
+  "@recentOrders": {
+    "description": "Recent orders section title"
+  },
+  "viewAllOrders": "View All Orders",
+  "@viewAllOrders": {
+    "description": "View all orders button"
+  },
+  "shippingAddresses": "Shipping Addresses",
+  "@shippingAddresses": {
+    "description": "Shipping addresses section title"
+  },
+  "addNew": "Add New",
+  "@addNew": {
+    "description": "Add new button"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Home address label"
+  },
+  "work": "Work",
+  "@work": {
+    "description": "Work address label"
+  },
+  "defaultAddress": "Default",
+  "@defaultAddress": {
+    "description": "Default address label"
+  },
+  "appearance": "Appearance",
+  "@appearance": {
+    "description": "Appearance section title"
+  },
+  "darkMode": "Dark Mode",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "account": "Account",
+  "@account": {
+    "description": "Account section title"
+  },
+  "displayName": "Display Name",
+  "@displayName": {
+    "description": "Display name field"
+  },
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone field"
+  },
+  "addToCart": "Add to Cart",
+  "@addToCart": {
+    "description": "Add to cart button"
+  },
+  "viewDetails": "View Details",
+  "@viewDetails": {
+    "description": "View details button"
+  },
+  "delivered": "Delivered",
+  "@delivered": {
+    "description": "Delivered status"
+  },
+  "processing": "Processing",
+  "@processing": {
+    "description": "Processing status"
+  },
+  "total": "Total",
+  "@total": {
+    "description": "Total label"
+  },
+  "items": "items",
+  "@items": {
+    "description": "Items plural"
+  },
+  "item": "item",
+  "@item": {
+    "description": "Item singular"
+  },
   "notifications": "Notifications",
   "@notifications": {
     "description": "Notifications feature name"
@@ -1485,8 +1605,140 @@
       }
     }
   },
-  "welcome": "Welcome",
-  "@welcome": {
-    "description": "Welcome message for guests"
+  "notLoggedIn": "Not logged in",
+  "@notLoggedIn": {
+    "description": "Text shown when user is not logged in"
+  },
+  "profilePersonalInfo": "Personal Info",
+  "@profilePersonalInfo": {
+    "description": "Personal Info tab title"
+  },
+  "profileOrders": "Orders",
+  "@profileOrders": {
+    "description": "Orders tab title"
+  },
+  "profileAddresses": "Addresses",
+  "@profileAddresses": {
+    "description": "Addresses tab title"
+  },
+  "profileWishlist": "Wishlist",
+  "@profileWishlist": {
+    "description": "Wishlist tab title"
+  },
+  "profileSettings": "Settings",
+  "@profileSettings": {
+    "description": "Settings tab title"
+  },
+  "profilePersonalInformation": "Personal Information",
+  "@profilePersonalInformation": {
+    "description": "Personal Information section title"
+  },
+  "profileDisplayName": "Display Name",
+  "@profileDisplayName": {
+    "description": "Display name field label"
+  },
+  "profilePhone": "Phone",
+  "@profilePhone": {
+    "description": "Phone field label"
+  },
+  "profileSecurity": "Security",
+  "@profileSecurity": {
+    "description": "Security section title"
+  },
+  "profileChangePassword": "Change Password",
+  "@profileChangePassword": {
+    "description": "Change password button text"
+  },
+  "profileTwoFactorAuth": "Two-Factor Authentication",
+  "@profileTwoFactorAuth": {
+    "description": "Two-Factor Authentication button text"
+  },
+  "profileNotifications": "Notifications",
+  "@profileNotifications": {
+    "description": "Notifications section title"
+  },
+  "profileEmailNotifications": "Email Notifications",
+  "@profileEmailNotifications": {
+    "description": "Email notifications toggle label"
+  },
+  "profilePushNotifications": "Push Notifications",
+  "@profilePushNotifications": {
+    "description": "Push notifications toggle label"
+  },
+  "profileOrderUpdates": "Order Updates",
+  "@profileOrderUpdates": {
+    "description": "Order updates toggle label"
+  },
+  "profileRecentOrders": "Recent Orders",
+  "@profileRecentOrders": {
+    "description": "Recent orders section title"
+  },
+  "profileOrderDelivered": "Delivered",
+  "@profileOrderDelivered": {
+    "description": "Order status: delivered"
+  },
+  "profileOrderProcessing": "Processing",
+  "@profileOrderProcessing": {
+    "description": "Order status: processing"
+  },
+  "profileViewAllOrders": "View All Orders",
+  "@profileViewAllOrders": {
+    "description": "View all orders button text"
+  },
+  "profileShippingAddresses": "Shipping Addresses",
+  "@profileShippingAddresses": {
+    "description": "Shipping addresses section title"
+  },
+  "profileAddNew": "Add New",
+  "@profileAddNew": {
+    "description": "Add new button text"
+  },
+  "profileAddressHome": "Home",
+  "@profileAddressHome": {
+    "description": "Home address label"
+  },
+  "profileAddressWork": "Work",
+  "@profileAddressWork": {
+    "description": "Work address label"
+  },
+  "profileAddressDefault": "Default",
+  "@profileAddressDefault": {
+    "description": "Default address label"
+  },
+  "profileLanguage": "Language",
+  "@profileLanguage": {
+    "description": "Language section title"
+  },
+  "profileAppearance": "Appearance",
+  "@profileAppearance": {
+    "description": "Appearance section title"
+  },
+  "profileDarkMode": "Dark Mode",
+  "@profileDarkMode": {
+    "description": "Dark mode toggle label"
+  },
+  "profileAccount": "Account",
+  "@profileAccount": {
+    "description": "Account section title"
+  },
+  "profileItemSingular": "item",
+  "@profileItemSingular": {
+    "description": "Singular form of item"
+  },
+  "profileItemPlural": "items",
+  "@profileItemPlural": {
+    "description": "Plural form of items"
+  },
+  "profileViewDetails": "View Details",
+  "@profileViewDetails": {
+    "description": "View details button text"
+  },
+  "profileProductName": "Product Name",
+  "@profileProductName": {
+    "description": "Product name placeholder"
+  },
+  "profileAddToCart": "Add to Cart",
+  "@profileAddToCart": {
+    "description": "Add to cart button text"
   }
 }

@@ -12,24 +12,23 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
-    with TickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   late AnimationController _animationController;
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
-  
+
   bool _isPasswordVisible = false;
   bool _isLoading = false;
   bool _rememberMe = false;
   int _currentBackgroundIndex = 0;
-  
+
   // Background colors for animated gradient
   final List<List<Color>> _backgroundColors = [
     [Color(0xFF667eea), Color(0xFF764ba2)],
@@ -50,41 +49,30 @@ class _LoginPageState extends State<LoginPage>
       duration: Duration(milliseconds: 1500),
       vsync: this,
     );
-    
+
     _fadeController = AnimationController(
       duration: Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     _slideController = AnimationController(
       duration: Duration(milliseconds: 1000),
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _fadeController,
-      curve: Curves.easeInOut,
-    ));
-    
-    _slideAnimation = Tween<Offset>(
-      begin: Offset(0, 0.5),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _slideController,
-      curve: Curves.elasticOut,
-    ));
-    
-    _scaleAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.elasticOut,
-    ));
-    
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
+
+    _slideAnimation = Tween<Offset>(begin: Offset(0, 0.5), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _slideController, curve: Curves.elasticOut),
+        );
+
+    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.elasticOut),
+    );
+
     // Start animations
     _fadeController.forward();
     _slideController.forward();
@@ -95,7 +83,8 @@ class _LoginPageState extends State<LoginPage>
     Future.delayed(Duration(seconds: 6), () {
       if (mounted) {
         setState(() {
-          _currentBackgroundIndex = (_currentBackgroundIndex + 1) % _backgroundColors.length;
+          _currentBackgroundIndex =
+              (_currentBackgroundIndex + 1) % _backgroundColors.length;
         });
         _startBackgroundAnimation();
       }
@@ -114,30 +103,30 @@ class _LoginPageState extends State<LoginPage>
 
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     setState(() {
       _isLoading = true;
     });
-    
+
     // Haptic feedback
     HapticFeedback.lightImpact();
-    
+
     // Simulate login delay
     await Future.delayed(Duration(seconds: 2));
-    
+
     // Get the user's email from the controller
     final email = _emailController.text.trim();
-    
+
     // Update user provider with logged in user
     Provider.of<UserProvider>(context, listen: false).login(email);
-    
+
     setState(() {
       _isLoading = false;
     });
-    
+
     // Navigate to home page
     Navigator.pushReplacementNamed(context, '/');
-    
+
     // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -154,7 +143,7 @@ class _LoginPageState extends State<LoginPage>
     final screenHeight = MediaQuery.of(context).size.height;
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final availableHeight = screenHeight - MediaQuery.of(context).padding.top;
-    
+
     return Scaffold(
       // Use resizeToAvoidBottomInset to prevent the keyboard from causing overflow
       resizeToAvoidBottomInset: false,
@@ -176,9 +165,9 @@ class _LoginPageState extends State<LoginPage>
                 return Container(
                   // Setting the height based on available space and keyboard state
                   constraints: BoxConstraints(
-                    minHeight: keyboardHeight > 0 
-                      ? availableHeight + keyboardHeight
-                      : availableHeight,
+                    minHeight: keyboardHeight > 0
+                        ? availableHeight + keyboardHeight
+                        : availableHeight,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -190,7 +179,7 @@ class _LoginPageState extends State<LoginPage>
                               child: _buildTopSection(),
                             )
                           : _buildTopSection(),
-                      
+
                       // Login form section
                       _buildLoginForm(),
                     ],
@@ -208,7 +197,7 @@ class _LoginPageState extends State<LoginPage>
     final isRTL = LocalizationHelper.isRTL(context);
     // Check if keyboard is visible to adapt UI
     final keyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
-    
+
     return FadeTransition(
       opacity: _fadeAnimation,
       child: Container(
@@ -242,9 +231,9 @@ class _LoginPageState extends State<LoginPage>
                   ),
                 ),
               ),
-            
+
             if (!keyboardVisible) SizedBox(height: 30),
-            
+
             // App title with animation - hide when keyboard is visible
             if (!keyboardVisible)
               SlideTransition(
@@ -273,9 +262,9 @@ class _LoginPageState extends State<LoginPage>
                   ],
                 ),
               ),
-            
+
             SizedBox(height: keyboardVisible ? 10 : 20),
-            
+
             // Welcome message - condensed when keyboard is visible
             FadeTransition(
               opacity: _fadeAnimation,
@@ -289,9 +278,9 @@ class _LoginPageState extends State<LoginPage>
                 textAlign: isRTL ? TextAlign.right : TextAlign.left,
               ),
             ),
-            
+
             SizedBox(height: 10),
-            
+
             // Hide this text when keyboard is visible to save space
             if (!keyboardVisible)
               Text(
@@ -310,7 +299,7 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _buildLoginForm() {
     final isRTL = LocalizationHelper.isRTL(context);
-    
+
     return SlideTransition(
       position: _slideAnimation,
       child: Container(
@@ -333,7 +322,9 @@ class _LoginPageState extends State<LoginPage>
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: isRTL ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              crossAxisAlignment: isRTL
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
               children: [
                 // Form header
                 Center(
@@ -346,108 +337,108 @@ class _LoginPageState extends State<LoginPage>
                     ),
                   ),
                 ),
-                
+
                 SizedBox(height: 30),
-                
+
                 // Email field
                 _buildEmailField(),
-                
+
                 SizedBox(height: 20),
-                
+
                 // Password field
                 _buildPasswordField(),
-                
+
                 SizedBox(height: 15),
-                
+
                 // Remember me and forgot password
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: isRTL 
-                    ? [
-                        TextButton(
-                          onPressed: () {
-                            // Handle forgot password
-                          },
-                          child: Text(
-                            AuthLocalizations.forgotPassword(context),
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.deepPurpleAccent.shade700,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              AuthLocalizations.rememberMe(context),
+                  children: isRTL
+                      ? [
+                          TextButton(
+                            onPressed: () {
+                              // Handle forgot password
+                            },
+                            child: Text(
+                              AuthLocalizations.forgotPassword(context),
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey.shade600,
+                                color: Colors.deepPurpleAccent.shade700,
+                                fontWeight: FontWeight.w500,
                               ),
-                            ),
-                            Transform.scale(
-                              scale: 0.8,
-                              child: Checkbox(
-                                value: _rememberMe,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _rememberMe = value ?? false;
-                                  });
-                                },
-                                activeColor: Colors.deepPurpleAccent.shade700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ]
-                    : [
-                        Row(
-                          children: [
-                            Transform.scale(
-                              scale: 0.8,
-                              child: Checkbox(
-                                value: _rememberMe,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _rememberMe = value ?? false;
-                                  });
-                                },
-                                activeColor: Colors.deepPurpleAccent.shade700,
-                              ),
-                            ),
-                            Text(
-                              AuthLocalizations.rememberMe(context),
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey.shade600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            // Handle forgot password
-                          },
-                          child: Text(
-                            AuthLocalizations.forgotPassword(context),
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.deepPurpleAccent.shade700,
-                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ),
-                      ],
+                          Row(
+                            children: [
+                              Text(
+                                AuthLocalizations.rememberMe(context),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              Transform.scale(
+                                scale: 0.8,
+                                child: Checkbox(
+                                  value: _rememberMe,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _rememberMe = value ?? false;
+                                    });
+                                  },
+                                  activeColor: Colors.deepPurpleAccent.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ]
+                      : [
+                          Row(
+                            children: [
+                              Transform.scale(
+                                scale: 0.8,
+                                child: Checkbox(
+                                  value: _rememberMe,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _rememberMe = value ?? false;
+                                    });
+                                  },
+                                  activeColor: Colors.deepPurpleAccent.shade700,
+                                ),
+                              ),
+                              Text(
+                                AuthLocalizations.rememberMe(context),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Handle forgot password
+                            },
+                            child: Text(
+                              AuthLocalizations.forgotPassword(context),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.deepPurpleAccent.shade700,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
                 ),
-                
+
                 SizedBox(height: 25),
-                
+
                 // Login button
                 _buildLoginButton(),
-                
+
                 SizedBox(height: 25),
-                
+
                 // Divider
                 Row(
                   children: [
@@ -465,14 +456,14 @@ class _LoginPageState extends State<LoginPage>
                     Expanded(child: Divider()),
                   ],
                 ),
-                
+
                 SizedBox(height: 25),
-                
+
                 // Social login buttons
                 _buildSocialButtons(),
-                
+
                 SizedBox(height: 30),
-                
+
                 // Sign up link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -510,7 +501,7 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _buildEmailField() {
     final isRTL = LocalizationHelper.isRTL(context);
-    
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey.shade50,
@@ -523,14 +514,18 @@ class _LoginPageState extends State<LoginPage>
         textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
         textAlign: isRTL ? TextAlign.right : TextAlign.left,
         decoration: InputDecoration(
-          prefixIcon: isRTL ? null : Icon(
-            Icons.email_outlined,
-            color: Colors.deepPurpleAccent.shade700,
-          ),
-          suffixIcon: isRTL ? Icon(
-            Icons.email_outlined,
-            color: Colors.deepPurpleAccent.shade700,
-          ) : null,
+          prefixIcon: isRTL
+              ? null
+              : Icon(
+                  Icons.email_outlined,
+                  color: Colors.deepPurpleAccent.shade700,
+                ),
+          suffixIcon: isRTL
+              ? Icon(
+                  Icons.email_outlined,
+                  color: Colors.deepPurpleAccent.shade700,
+                )
+              : null,
           hintText: AuthLocalizations.email(context),
           hintStyle: TextStyle(color: Colors.grey.shade500),
           border: InputBorder.none,
@@ -551,7 +546,7 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _buildPasswordField() {
     final isRTL = LocalizationHelper.isRTL(context);
-    
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey.shade50,
@@ -564,10 +559,12 @@ class _LoginPageState extends State<LoginPage>
         textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
         textAlign: isRTL ? TextAlign.right : TextAlign.left,
         decoration: InputDecoration(
-          prefixIcon: isRTL ? null : Icon(
-            Icons.lock_outline,
-            color: Colors.deepPurpleAccent.shade700,
-          ),
+          prefixIcon: isRTL
+              ? null
+              : Icon(
+                  Icons.lock_outline,
+                  color: Colors.deepPurpleAccent.shade700,
+                ),
           prefixIconConstraints: BoxConstraints(minWidth: 40),
           suffixIcon: Row(
             mainAxisSize: MainAxisSize.min,
@@ -583,7 +580,7 @@ class _LoginPageState extends State<LoginPage>
                   });
                 },
               ),
-              if (isRTL) 
+              if (isRTL)
                 Padding(
                   padding: EdgeInsets.only(left: 12),
                   child: Icon(
@@ -613,7 +610,7 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _buildLoginButton() {
     // No directionality needed for this widget
-    
+
     return Container(
       height: 55,
       decoration: BoxDecoration(
@@ -695,7 +692,7 @@ class _LoginPageState extends State<LoginPage>
   }) {
     // This is used for RTL-aware layout below
     final isRTL = LocalizationHelper.isRTL(context);
-    
+
     return Container(
       height: 50,
       decoration: BoxDecoration(
@@ -713,38 +710,30 @@ class _LoginPageState extends State<LoginPage>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: isRTL
-            ? [
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: Colors.grey.shade700,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+              ? [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                SizedBox(width: 8),
-                Icon(
-                  icon,
-                  color: Colors.grey.shade700,
-                  size: 24,
-                ),
-              ]
-            : [
-                Icon(
-                  icon,
-                  color: Colors.grey.shade700,
-                  size: 24,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: Colors.grey.shade700,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                  SizedBox(width: 8),
+                  Icon(icon, color: Colors.grey.shade700, size: 24),
+                ]
+              : [
+                  Icon(icon, color: Colors.grey.shade700, size: 24),
+                  SizedBox(width: 8),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
         ),
       ),
     );

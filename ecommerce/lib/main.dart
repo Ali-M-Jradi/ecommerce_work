@@ -2,6 +2,7 @@ import 'package:ecommerce/pages/base_page/base_page.dart';
 import 'package:ecommerce/pages/checkout_page/checkout_page.dart';
 import 'package:ecommerce/pages/auth/login_page.dart';
 import 'package:ecommerce/pages/auth/signup_page.dart';
+import 'package:ecommerce/pages/profile/profile_page.dart';
 import 'package:ecommerce/providers/cart_provider.dart';
 import 'package:ecommerce/providers/language_provider.dart';
 import 'package:ecommerce/providers/user_provider.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
               '/checkout': (context) => const CheckoutPage(),
               '/login': (context) => const LoginPage(),
               '/signup': (context) => const SignUpPage(),
+              '/profile': (context) => const ProfilePage(),
             },
           );
         },

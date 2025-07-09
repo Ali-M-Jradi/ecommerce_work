@@ -1294,6 +1294,97 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileLabel => 'الملف الشخصي';
 
   @override
+  String get accessProfile => 'الوصول إلى الملف الشخصي';
+
+  @override
+  String get loginRegisterPrompt =>
+      'يرجى تسجيل الدخول أو إنشاء حساب للوصول إلى ملفك الشخصي.';
+
+  @override
+  String get register => 'إنشاء حساب';
+
+  @override
+  String get myProfile => 'ملفي الشخصي';
+
+  @override
+  String get personalInformation => 'Personal Information';
+
+  @override
+  String get security => 'Security';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get twoFactorAuth => 'Two-Factor Authentication';
+
+  @override
+  String get emailNotifications => 'Email Notifications';
+
+  @override
+  String get pushNotifications => 'Push Notifications';
+
+  @override
+  String get orderUpdates => 'Order Updates';
+
+  @override
+  String get recentOrders => 'Recent Orders';
+
+  @override
+  String get viewAllOrders => 'View All Orders';
+
+  @override
+  String get shippingAddresses => 'Shipping Addresses';
+
+  @override
+  String get addNew => 'Add New';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get work => 'Work';
+
+  @override
+  String get defaultAddress => 'Default';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get displayName => 'Display Name';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get addToCart => 'أضف إلى السلة';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String get delivered => 'Delivered';
+
+  @override
+  String get processing => 'Processing';
+
+  @override
+  String get total => 'المجموع';
+
+  @override
+  String get items => 'items';
+
+  @override
+  String get item => 'item';
+
+  @override
   String get notifications => 'الإشعارات';
 
   @override
@@ -1479,9 +1570,6 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get addToCart => 'أضف إلى السلة';
-
-  @override
   String addedToCart(String productName) {
     return 'تمت إضافة $productName إلى السلة!';
   }
@@ -1527,9 +1615,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get free => 'مجاني';
 
   @override
-  String get total => 'المجموع';
-
-  @override
   String get proceedToCheckout => 'متابعة الدفع';
 
   @override
@@ -1554,4 +1639,106 @@ class AppLocalizationsAr extends AppLocalizations {
   String welcomeUser(String name) {
     return 'مرحباً، $name';
   }
+
+  @override
+  String get notLoggedIn => 'لم يتم تسجيل الدخول';
+
+  @override
+  String get profilePersonalInfo => 'معلومات شخصية';
+
+  @override
+  String get profileOrders => 'الطلبات';
+
+  @override
+  String get profileAddresses => 'العناوين';
+
+  @override
+  String get profileWishlist => 'المفضلة';
+
+  @override
+  String get profileSettings => 'الإعدادات';
+
+  @override
+  String get profilePersonalInformation => 'المعلومات الشخصية';
+
+  @override
+  String get profileDisplayName => 'الاسم المعروض';
+
+  @override
+  String get profilePhone => 'الهاتف';
+
+  @override
+  String get profileSecurity => 'الأمان';
+
+  @override
+  String get profileChangePassword => 'تغيير كلمة المرور';
+
+  @override
+  String get profileTwoFactorAuth => 'المصادقة الثنائية';
+
+  @override
+  String get profileNotifications => 'الإشعارات';
+
+  @override
+  String get profileEmailNotifications => 'إشعارات البريد الإلكتروني';
+
+  @override
+  String get profilePushNotifications => 'الإشعارات الفورية';
+
+  @override
+  String get profileOrderUpdates => 'تحديثات الطلبات';
+
+  @override
+  String get profileRecentOrders => 'الطلبات الأخيرة';
+
+  @override
+  String get profileOrderDelivered => 'تم التسليم';
+
+  @override
+  String get profileOrderProcessing => 'قيد المعالجة';
+
+  @override
+  String get profileViewAllOrders => 'عرض جميع الطلبات';
+
+  @override
+  String get profileShippingAddresses => 'عناوين الشحن';
+
+  @override
+  String get profileAddNew => 'إضافة جديد';
+
+  @override
+  String get profileAddressHome => 'المنزل';
+
+  @override
+  String get profileAddressWork => 'العمل';
+
+  @override
+  String get profileAddressDefault => 'افتراضي';
+
+  @override
+  String get profileLanguage => 'اللغة';
+
+  @override
+  String get profileAppearance => 'المظهر';
+
+  @override
+  String get profileDarkMode => 'الوضع المظلم';
+
+  @override
+  String get profileAccount => 'الحساب';
+
+  @override
+  String get profileItemSingular => 'عنصر';
+
+  @override
+  String get profileItemPlural => 'عناصر';
+
+  @override
+  String get profileViewDetails => 'عرض التفاصيل';
+
+  @override
+  String get profileProductName => 'اسم المنتج';
+
+  @override
+  String get profileAddToCart => 'أضف إلى السلة';
 }

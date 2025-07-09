@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/cart_provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../../localization/app_localizations_helper.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
@@ -68,9 +69,82 @@ class _AppBarWidgetState extends State<AppBarWidget> {
     );
   }
 
+  void _showLoginRegisterDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                Icons.person_outline,
+                color: Colors.deepPurpleAccent.shade700,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                AppLocalizationsHelper.of(context).accessProfile,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            AppLocalizationsHelper.of(context).loginRegisterPrompt,
+            style: const TextStyle(fontSize: 14),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('/signup');
+              },
+              child: Text(
+                AppLocalizationsHelper.of(context).register,
+                style: TextStyle(
+                  color: Colors.deepPurpleAccent.shade700,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('/login');
+              },
+              child: Text(
+                AppLocalizationsHelper.of(context).loginButton,
+                style: TextStyle(
+                  color: Colors.deepPurpleAccent.shade700,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _onNavigationTap(int index) {
-    // Call the parent's navigation handler
-    widget.onNavigationTap(index);
+    // Handle profile navigation specially
+    if (index == 3) { // Profile tab
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      if (userProvider.isLoggedIn) {
+        // Navigate to profile page
+        Navigator.of(context).pushNamed('/profile');
+      } else {
+        // Show login/register dialog
+        _showLoginRegisterDialog();
+      }
+    } else {
+      // Call the parent's navigation handler for other tabs
+      widget.onNavigationTap(index);
+    }
   }
 
   @override
@@ -166,7 +240,14 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               label: AppLocalizationsHelper.of(context).productsLabel,
             ),
             NavigationDestination(
-              icon: Icon(Icons.person, color: Colors.deepPurpleAccent.shade700),
+              icon: Consumer<UserProvider>(
+                builder: (context, userProvider, child) {
+                  return Icon(
+                    userProvider.isLoggedIn ? Icons.person : Icons.person_outline,
+                    color: Colors.deepPurpleAccent.shade700,
+                  );
+                },
+              ),
               label: AppLocalizationsHelper.of(context).profileLabel,
             ),
           ],
