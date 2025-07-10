@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/cart_provider.dart';
 import '../../../providers/user_provider.dart';
+import '../../../providers/mock_notification_provider.dart';
 import '../../../localization/app_localizations_helper.dart';
+import '../../../pages/notifications/notifications_page.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final int selectedIndex;
@@ -22,6 +24,8 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppBarWidgetState extends State<AppBarWidget> {
+  // This method is kept for other features that might need it
+  // ignore: unused_element
   void _showComingSoonDialog(String feature) {
     showDialog(
       context: context,
@@ -196,13 +200,23 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         ],
       ),
       actions: [
-        IconButton(
-          icon: Icon(
-            Icons.notifications,
-            color: Colors.deepPurpleAccent.shade700,
-          ),
-          onPressed: () {
-            _showComingSoonDialog(AppLocalizationsHelper.of(context).notifications);
+        Consumer<MockNotificationProvider>(
+          builder: (context, notificationProvider, child) {
+            return Badge(
+              label: Text((notificationProvider.unreadCount).toString()),
+              isLabelVisible: (notificationProvider.unreadCount) > 0,
+              child: IconButton(
+                icon: Icon(
+                  Icons.notifications,
+                  color: Colors.deepPurpleAccent.shade700,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const NotificationsPage()),
+                  );
+                },
+              ),
+            );
           },
         ),
         const SizedBox(width: 8),

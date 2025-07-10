@@ -1307,82 +1307,82 @@ class AppLocalizationsAr extends AppLocalizations {
   String get myProfile => 'ملفي الشخصي';
 
   @override
-  String get personalInformation => 'Personal Information';
+  String get personalInformation => 'معلومات شخصية';
 
   @override
-  String get security => 'Security';
+  String get security => 'الأمان';
 
   @override
-  String get changePassword => 'Change Password';
+  String get changePassword => 'تغيير كلمة المرور';
 
   @override
-  String get twoFactorAuth => 'Two-Factor Authentication';
+  String get twoFactorAuth => 'المصادقة الثنائية';
 
   @override
-  String get emailNotifications => 'Email Notifications';
+  String get emailNotifications => 'إشعارات البريد الإلكتروني';
 
   @override
-  String get pushNotifications => 'Push Notifications';
+  String get pushNotifications => 'إشعارات الدفع';
 
   @override
-  String get orderUpdates => 'Order Updates';
+  String get orderUpdates => 'تحديثات الطلبات';
 
   @override
-  String get recentOrders => 'Recent Orders';
+  String get recentOrders => 'الطلبات الأخيرة';
 
   @override
-  String get viewAllOrders => 'View All Orders';
+  String get viewAllOrders => 'عرض جميع الطلبات';
 
   @override
-  String get shippingAddresses => 'Shipping Addresses';
+  String get shippingAddresses => 'عناوين الشحن';
 
   @override
-  String get addNew => 'Add New';
+  String get addNew => 'إضافة جديد';
 
   @override
-  String get home => 'Home';
+  String get home => 'المنزل';
 
   @override
-  String get work => 'Work';
+  String get work => 'العمل';
 
   @override
-  String get defaultAddress => 'Default';
+  String get defaultAddress => 'افتراضي';
 
   @override
-  String get appearance => 'Appearance';
+  String get appearance => 'المظهر';
 
   @override
-  String get darkMode => 'Dark Mode';
+  String get darkMode => 'الوضع المظلم';
 
   @override
-  String get account => 'Account';
+  String get account => 'الحساب';
 
   @override
-  String get displayName => 'Display Name';
+  String get displayName => 'اسم العرض';
 
   @override
-  String get phone => 'Phone';
+  String get phone => 'الهاتف';
 
   @override
   String get addToCart => 'أضف إلى السلة';
 
   @override
-  String get viewDetails => 'View Details';
+  String get viewDetails => 'عرض التفاصيل';
 
   @override
-  String get delivered => 'Delivered';
+  String get delivered => 'تم التوصيل';
 
   @override
-  String get processing => 'Processing';
+  String get processing => 'قيد المعالجة';
 
   @override
   String get total => 'المجموع';
 
   @override
-  String get items => 'items';
+  String get items => 'عناصر';
 
   @override
-  String get item => 'item';
+  String get item => 'عنصر';
 
   @override
   String get notifications => 'الإشعارات';
@@ -1491,19 +1491,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get applyFilters => 'تطبيق الفلاتر';
 
   @override
-  String get avene => 'Avène';
+  String get avene => 'أفين';
 
   @override
-  String get vichy => 'Vichy';
+  String get vichy => 'فيشي';
 
   @override
-  String get eucerin => 'Eucerin';
+  String get eucerin => 'يوسيرين';
 
   @override
-  String get cerave => 'CeraVe';
+  String get cerave => 'سيراف';
 
   @override
-  String get neutrogena => 'Neutrogena';
+  String get neutrogena => 'نيوتروجينا';
 
   @override
   String get soldOut => 'نفذ المخزون';
@@ -1570,6 +1570,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get addToCartButton => 'أضف إلى السلة';
+
+  @override
   String addedToCart(String productName) {
     return 'تمت إضافة $productName إلى السلة!';
   }
@@ -1615,6 +1618,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get free => 'مجاني';
 
   @override
+  String get totalAmount => 'المبلغ الإجمالي';
+
+  @override
   String get proceedToCheckout => 'متابعة الدفع';
 
   @override
@@ -1642,6 +1648,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notLoggedIn => 'لم يتم تسجيل الدخول';
+
+  @override
+  String get notificationsPageTitle => 'الإشعارات';
+
+  @override
+  String get notificationSettings => 'إعدادات الإشعارات';
+
+  @override
+  String get notificationTypes => 'أنواع الإشعارات';
+
+  @override
+  String get enableNotifications => 'تفعيل الإشعارات';
+
+  @override
+  String get receiveAllNotifications => 'استلام جميع الإشعارات من التطبيق';
+
+  @override
+  String get orderUpdatesNotification => 'تحديثات الطلبات';
+
+  @override
+  String get notificationsAboutYourOrders => 'إشعارات حول حالة طلباتك';
+
+  @override
+  String get promotions => 'العروض';
+
+  @override
+  String get specialOffersAndDiscounts => 'العروض الخاصة والخصومات';
+
+  @override
+  String get newArrivals => 'الوصول الجديد';
+
+  @override
+  String get newProductAnnouncements => 'إعلانات المنتجات الجديدة';
+
+  @override
+  String get changeNotificationPermissionsInSettings =>
+      'يرجى تغيير إعدادات الإشعارات في إعدادات جهازك';
+
+  @override
+  String get noNotifications => 'لا توجد إشعارات';
+
+  @override
+  String get checkBackLater => 'تحقق لاحقاً للحصول على التحديثات';
+
+  @override
+  String get notificationRemoved => 'تمت إزالة الإشعار';
+
+  @override
+  String get all => 'الكل';
+
+  @override
+  String get orders => 'الطلبات';
 
   @override
   String get profilePersonalInfo => 'معلومات شخصية';
@@ -1741,4 +1799,72 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileAddToCart => 'أضف إلى السلة';
+
+  @override
+  String minAgo(int minutes) {
+    return '$minutes min ago';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hours hours ago';
+  }
+
+  @override
+  String daysAgo(int days) {
+    return '$days days ago';
+  }
+
+  @override
+  String dateFormat(int day, int month, int year) {
+    return '$day/$month/$year';
+  }
+
+  @override
+  String get testNotifications => 'Test Real Notifications';
+
+  @override
+  String get customNotification => 'Custom Notification';
+
+  @override
+  String get notificationTitle => 'Title';
+
+  @override
+  String get message => 'Message';
+
+  @override
+  String get sendNotification => 'Send Notification';
+
+  @override
+  String get notificationSent => 'Notification sent!';
+
+  @override
+  String get orderNotification => 'Order Notification';
+
+  @override
+  String get orderId => 'Order ID';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get sendOrderNotification => 'Send Order Notification';
+
+  @override
+  String get orderNotificationSent => 'Order notification sent!';
+
+  @override
+  String get quickNotifications => 'Quick Notifications';
+
+  @override
+  String get sendPromotion => 'Send Promotion';
+
+  @override
+  String get sendNewArrival => 'Send New Arrival';
+
+  @override
+  String get promotionNotificationSent => 'Promotion notification sent!';
+
+  @override
+  String get newArrivalNotificationSent => 'New arrival notification sent!';
 }

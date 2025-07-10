@@ -1492,9 +1492,9 @@
       }
     }
   },
-  "addToCart": "ADD TO CART",
-  "@addToCart": {
-    "description": "Add to cart button"
+  "addToCartButton": "ADD TO CART",
+  "@addToCartButton": {
+    "description": "Add to cart button (uppercase)"
   },
   "addedToCart": "{productName} added to cart!",
   "@addedToCart": {
@@ -1563,8 +1563,8 @@
   "@free": {
     "description": "Free shipping label"
   },
-  "total": "Total",
-  "@total": {
+  "totalAmount": "Total",
+  "@totalAmount": {
     "description": "Total label in cart summary"
   },
   "proceedToCheckout": "PROCEED TO CHECKOUT",
@@ -1608,6 +1608,74 @@
   "notLoggedIn": "Not logged in",
   "@notLoggedIn": {
     "description": "Text shown when user is not logged in"
+  },
+  "notificationsPageTitle": "Notifications",
+  "@notificationsPageTitle": {
+    "description": "Notifications page title"
+  },
+  "notificationSettings": "Notification Settings",
+  "@notificationSettings": {
+    "description": "Notification settings page title"
+  },
+  "notificationTypes": "NOTIFICATION TYPES",
+  "@notificationTypes": {
+    "description": "Notification types section header"
+  },
+  "enableNotifications": "Enable Notifications",
+  "@enableNotifications": {
+    "description": "Main switch for enabling notifications"
+  },
+  "receiveAllNotifications": "Receive all notifications from the app",
+  "@receiveAllNotifications": {
+    "description": "Description for main notification switch"
+  },
+  "orderUpdatesNotification": "Order Updates",
+  "@orderUpdatesNotification": {
+    "description": "Order updates notification type"
+  },
+  "notificationsAboutYourOrders": "Notifications about your order status",
+  "@notificationsAboutYourOrders": {
+    "description": "Description for order updates notifications"
+  },
+  "promotions": "Promotions",
+  "@promotions": {
+    "description": "Promotions notification type"
+  },
+  "specialOffersAndDiscounts": "Special offers and discounts",
+  "@specialOffersAndDiscounts": {
+    "description": "Description for promotion notifications"
+  },
+  "newArrivals": "New Arrivals",
+  "@newArrivals": {
+    "description": "New arrivals notification type"
+  },
+  "newProductAnnouncements": "New product announcements",
+  "@newProductAnnouncements": {
+    "description": "Description for new arrivals notifications"
+  },
+  "changeNotificationPermissionsInSettings": "Please change notification settings in your device settings",
+  "@changeNotificationPermissionsInSettings": {
+    "description": "Message when permission settings need to be changed in device settings"
+  },
+  "noNotifications": "No Notifications",
+  "@noNotifications": {
+    "description": "Message shown when there are no notifications"
+  },
+  "checkBackLater": "Check back later for updates",
+  "@checkBackLater": {
+    "description": "Message shown when there are no notifications"
+  },
+  "notificationRemoved": "Notification removed",
+  "@notificationRemoved": {
+    "description": "Message shown when notification is removed"
+  },
+  "all": "All",
+  "@all": {
+    "description": "All notifications tab"
+  },
+  "orders": "Orders",
+  "@orders": {
+    "description": "Orders notifications tab"
   },
   "profilePersonalInfo": "Personal Info",
   "@profilePersonalInfo": {
@@ -1740,5 +1808,111 @@
   "profileAddToCart": "Add to Cart",
   "@profileAddToCart": {
     "description": "Add to cart button text"
+  },
+  "minAgo": "{minutes} min ago",
+  "@minAgo": {
+    "description": "Time format for minutes ago",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{hours} hours ago",
+  "@hoursAgo": {
+    "description": "Time format for hours ago",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{days} days ago",
+  "@daysAgo": {
+    "description": "Time format for days ago",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "dateFormat": "{day}/{month}/{year}",
+  "@dateFormat": {
+    "description": "Date format",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "year": {
+        "type": "int"
+      }
+    }
+  },
+  "testNotifications": "Test Real Notifications",
+  "@testNotifications": {
+    "description": "Button text for testing notifications"
+  },
+  "customNotification": "Custom Notification",
+  "@customNotification": {
+    "description": "Title for custom notification section"
+  },
+  "notificationTitle": "Title",
+  "@notificationTitle": {
+    "description": "Label for notification title input"
+  },
+  "message": "Message",
+  "@message": {
+    "description": "Label for notification message input"
+  },
+  "sendNotification": "Send Notification",
+  "@sendNotification": {
+    "description": "Button text to send notification"
+  },
+  "notificationSent": "Notification sent!",
+  "@notificationSent": {
+    "description": "Message shown when notification is sent"
+  },
+  "orderNotification": "Order Notification",
+  "@orderNotification": {
+    "description": "Title for order notification section"
+  },
+  "orderId": "Order ID",
+  "@orderId": {
+    "description": "Label for order ID input"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "Label for status dropdown"
+  },
+  "sendOrderNotification": "Send Order Notification",
+  "@sendOrderNotification": {
+    "description": "Button text to send order notification"
+  },
+  "orderNotificationSent": "Order notification sent!",
+  "@orderNotificationSent": {
+    "description": "Message shown when order notification is sent"
+  },
+  "quickNotifications": "Quick Notifications",
+  "@quickNotifications": {
+    "description": "Title for quick notifications section"
+  },
+  "sendPromotion": "Send Promotion",
+  "@sendPromotion": {
+    "description": "Button text to send promotion notification"
+  },
+  "sendNewArrival": "Send New Arrival",
+  "@sendNewArrival": {
+    "description": "Button text to send new arrival notification"
+  },
+  "promotionNotificationSent": "Promotion notification sent!",
+  "@promotionNotificationSent": {
+    "description": "Message shown when promotion notification is sent"
+  },
+  "newArrivalNotificationSent": "New arrival notification sent!",
+  "@newArrivalNotificationSent": {
+    "description": "Message shown when new arrival notification is sent"
   }
 }

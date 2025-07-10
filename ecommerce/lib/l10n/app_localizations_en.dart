@@ -1370,7 +1370,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phone => 'Phone';
 
   @override
-  String get addToCart => 'ADD TO CART';
+  String get addToCart => 'Add to Cart';
 
   @override
   String get viewDetails => 'View Details';
@@ -1576,6 +1576,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get addToCartButton => 'ADD TO CART';
+
+  @override
   String addedToCart(String productName) {
     return '$productName added to cart!';
   }
@@ -1621,6 +1624,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get free => 'Free';
 
   @override
+  String get totalAmount => 'Total';
+
+  @override
   String get proceedToCheckout => 'PROCEED TO CHECKOUT';
 
   @override
@@ -1648,6 +1654,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notLoggedIn => 'Not logged in';
+
+  @override
+  String get notificationsPageTitle => 'Notifications';
+
+  @override
+  String get notificationSettings => 'Notification Settings';
+
+  @override
+  String get notificationTypes => 'NOTIFICATION TYPES';
+
+  @override
+  String get enableNotifications => 'Enable Notifications';
+
+  @override
+  String get receiveAllNotifications =>
+      'Receive all notifications from the app';
+
+  @override
+  String get orderUpdatesNotification => 'Order Updates';
+
+  @override
+  String get notificationsAboutYourOrders =>
+      'Notifications about your order status';
+
+  @override
+  String get promotions => 'Promotions';
+
+  @override
+  String get specialOffersAndDiscounts => 'Special offers and discounts';
+
+  @override
+  String get newArrivals => 'New Arrivals';
+
+  @override
+  String get newProductAnnouncements => 'New product announcements';
+
+  @override
+  String get changeNotificationPermissionsInSettings =>
+      'Please change notification settings in your device settings';
+
+  @override
+  String get noNotifications => 'No Notifications';
+
+  @override
+  String get checkBackLater => 'Check back later for updates';
+
+  @override
+  String get notificationRemoved => 'Notification removed';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get orders => 'Orders';
 
   @override
   String get profilePersonalInfo => 'Personal Info';
@@ -1747,4 +1807,72 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileAddToCart => 'Add to Cart';
+
+  @override
+  String minAgo(int minutes) {
+    return '$minutes min ago';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hours hours ago';
+  }
+
+  @override
+  String daysAgo(int days) {
+    return '$days days ago';
+  }
+
+  @override
+  String dateFormat(int day, int month, int year) {
+    return '$day/$month/$year';
+  }
+
+  @override
+  String get testNotifications => 'Test Real Notifications';
+
+  @override
+  String get customNotification => 'Custom Notification';
+
+  @override
+  String get notificationTitle => 'Title';
+
+  @override
+  String get message => 'Message';
+
+  @override
+  String get sendNotification => 'Send Notification';
+
+  @override
+  String get notificationSent => 'Notification sent!';
+
+  @override
+  String get orderNotification => 'Order Notification';
+
+  @override
+  String get orderId => 'Order ID';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get sendOrderNotification => 'Send Order Notification';
+
+  @override
+  String get orderNotificationSent => 'Order notification sent!';
+
+  @override
+  String get quickNotifications => 'Quick Notifications';
+
+  @override
+  String get sendPromotion => 'Send Promotion';
+
+  @override
+  String get sendNewArrival => 'Send New Arrival';
+
+  @override
+  String get promotionNotificationSent => 'Promotion notification sent!';
+
+  @override
+  String get newArrivalNotificationSent => 'New arrival notification sent!';
 }

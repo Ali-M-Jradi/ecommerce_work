@@ -2753,7 +2753,7 @@ abstract class AppLocalizations {
   /// Add to cart button
   ///
   /// In en, this message translates to:
-  /// **'ADD TO CART'**
+  /// **'Add to Cart'**
   String get addToCart;
 
   /// View details button
@@ -2774,7 +2774,7 @@ abstract class AppLocalizations {
   /// **'Processing'**
   String get processing;
 
-  /// Total label in cart summary
+  /// Total label
   ///
   /// In en, this message translates to:
   /// **'Total'**
@@ -3140,6 +3140,12 @@ abstract class AppLocalizations {
   /// **'Rating submitted: {rating} stars!'**
   String ratingSubmitted(String rating);
 
+  /// Add to cart button (uppercase)
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TO CART'**
+  String get addToCartButton;
+
   /// Product added to cart message
   ///
   /// In en, this message translates to:
@@ -3218,6 +3224,12 @@ abstract class AppLocalizations {
   /// **'Free'**
   String get free;
 
+  /// Total label in cart summary
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get totalAmount;
+
   /// Proceed to checkout button
   ///
   /// In en, this message translates to:
@@ -3271,6 +3283,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not logged in'**
   String get notLoggedIn;
+
+  /// Notifications page title
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsPageTitle;
+
+  /// Notification settings page title
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Settings'**
+  String get notificationSettings;
+
+  /// Notification types section header
+  ///
+  /// In en, this message translates to:
+  /// **'NOTIFICATION TYPES'**
+  String get notificationTypes;
+
+  /// Main switch for enabling notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Notifications'**
+  String get enableNotifications;
+
+  /// Description for main notification switch
+  ///
+  /// In en, this message translates to:
+  /// **'Receive all notifications from the app'**
+  String get receiveAllNotifications;
+
+  /// Order updates notification type
+  ///
+  /// In en, this message translates to:
+  /// **'Order Updates'**
+  String get orderUpdatesNotification;
+
+  /// Description for order updates notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications about your order status'**
+  String get notificationsAboutYourOrders;
+
+  /// Promotions notification type
+  ///
+  /// In en, this message translates to:
+  /// **'Promotions'**
+  String get promotions;
+
+  /// Description for promotion notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Special offers and discounts'**
+  String get specialOffersAndDiscounts;
+
+  /// New arrivals notification type
+  ///
+  /// In en, this message translates to:
+  /// **'New Arrivals'**
+  String get newArrivals;
+
+  /// Description for new arrivals notifications
+  ///
+  /// In en, this message translates to:
+  /// **'New product announcements'**
+  String get newProductAnnouncements;
+
+  /// Message when permission settings need to be changed in device settings
+  ///
+  /// In en, this message translates to:
+  /// **'Please change notification settings in your device settings'**
+  String get changeNotificationPermissionsInSettings;
+
+  /// Message shown when there are no notifications
+  ///
+  /// In en, this message translates to:
+  /// **'No Notifications'**
+  String get noNotifications;
+
+  /// Message shown when there are no notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Check back later for updates'**
+  String get checkBackLater;
+
+  /// Message shown when notification is removed
+  ///
+  /// In en, this message translates to:
+  /// **'Notification removed'**
+  String get notificationRemoved;
+
+  /// All notifications tab
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// Orders notifications tab
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get orders;
 
   /// Personal Info tab title
   ///
@@ -3469,6 +3583,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add to Cart'**
   String get profileAddToCart;
+
+  /// Time format for minutes ago
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min ago'**
+  String minAgo(int minutes);
+
+  /// Time format for hours ago
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours ago'**
+  String hoursAgo(int hours);
+
+  /// Time format for days ago
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days ago'**
+  String daysAgo(int days);
+
+  /// Date format
+  ///
+  /// In en, this message translates to:
+  /// **'{day}/{month}/{year}'**
+  String dateFormat(int day, int month, int year);
+
+  /// Button text for testing notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Test Real Notifications'**
+  String get testNotifications;
+
+  /// Title for custom notification section
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Notification'**
+  String get customNotification;
+
+  /// Label for notification title input
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get notificationTitle;
+
+  /// Label for notification message input
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get message;
+
+  /// Button text to send notification
+  ///
+  /// In en, this message translates to:
+  /// **'Send Notification'**
+  String get sendNotification;
+
+  /// Message shown when notification is sent
+  ///
+  /// In en, this message translates to:
+  /// **'Notification sent!'**
+  String get notificationSent;
+
+  /// Title for order notification section
+  ///
+  /// In en, this message translates to:
+  /// **'Order Notification'**
+  String get orderNotification;
+
+  /// Label for order ID input
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID'**
+  String get orderId;
+
+  /// Label for status dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// Button text to send order notification
+  ///
+  /// In en, this message translates to:
+  /// **'Send Order Notification'**
+  String get sendOrderNotification;
+
+  /// Message shown when order notification is sent
+  ///
+  /// In en, this message translates to:
+  /// **'Order notification sent!'**
+  String get orderNotificationSent;
+
+  /// Title for quick notifications section
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Notifications'**
+  String get quickNotifications;
+
+  /// Button text to send promotion notification
+  ///
+  /// In en, this message translates to:
+  /// **'Send Promotion'**
+  String get sendPromotion;
+
+  /// Button text to send new arrival notification
+  ///
+  /// In en, this message translates to:
+  /// **'Send New Arrival'**
+  String get sendNewArrival;
+
+  /// Message shown when promotion notification is sent
+  ///
+  /// In en, this message translates to:
+  /// **'Promotion notification sent!'**
+  String get promotionNotificationSent;
+
+  /// Message shown when new arrival notification is sent
+  ///
+  /// In en, this message translates to:
+  /// **'New arrival notification sent!'**
+  String get newArrivalNotificationSent;
 }
 
 class _AppLocalizationsDelegate

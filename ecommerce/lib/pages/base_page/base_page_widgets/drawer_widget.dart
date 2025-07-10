@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../localization/app_localizations_helper.dart';
 import '../../../providers/language_provider.dart';
+import '../../../providers/mock_notification_provider.dart';
 import '../../../providers/user_provider.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -140,6 +141,40 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             title: Text(AppLocalizationsHelper.of(context).aboutUs),
             onTap: () {
               widget.onNavigationTap?.call('about_us');
+            },
+          ),
+          
+          // Notifications
+          Consumer<MockNotificationProvider>(
+            builder: (context, notificationProvider, _) {
+              final unreadCount = notificationProvider.unreadCount;
+              return ListTile(
+                leading: Icon(Icons.notifications, color: Colors.deepPurpleAccent.shade700),
+                title: Text(AppLocalizationsHelper.of(context).notifications),
+                trailing: unreadCount > 0
+                    ? Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            unreadCount > 9 ? '9+' : unreadCount.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    : null,
+                onTap: () {
+                  Navigator.of(context).pushNamed('/notifications');
+                },
+              );
             },
           ),
           

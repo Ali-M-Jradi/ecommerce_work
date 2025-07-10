@@ -1,0 +1,24 @@
+{
+  "ar": [
+    "minAgo",
+    "hoursAgo",
+    "daysAgo",
+    "dateFormat",
+    "testNotifications",
+    "customNotification",
+    "notificationTitle",
+    "message",
+    "sendNotification",
+    "notificationSent",
+    "orderNotification",
+    "orderId",
+    "status",
+    "sendOrderNotification",
+    "orderNotificationSent",
+    "quickNotifications",
+    "sendPromotion",
+    "sendNewArrival",
+    "promotionNotificationSent",
+    "newArrivalNotificationSent"
+  ]
+}
