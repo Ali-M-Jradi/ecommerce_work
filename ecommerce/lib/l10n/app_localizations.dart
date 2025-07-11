@@ -98,6 +98,120 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
+  /// Title for order confirmation notification
+  ///
+  /// In en, this message translates to:
+  /// **'Order Confirmation #{orderId}'**
+  String orderConfirmationTitle(Object orderId);
+
+  /// Title for notifications section on order confirmation page
+  ///
+  /// In en, this message translates to:
+  /// **'Order Updates'**
+  String get notificationsTitle;
+
+  /// Order confirmation notification explanation
+  ///
+  /// In en, this message translates to:
+  /// **'You will receive a confirmation notification immediately after placing your order.'**
+  String get orderConfirmationNotification;
+
+  /// Payment confirmation notification explanation
+  ///
+  /// In en, this message translates to:
+  /// **'A payment confirmation notification will be sent when your payment is processed.'**
+  String get paymentConfirmationNotification;
+
+  /// Shipping notification explanation
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll notify you when your order is shipped with an estimated delivery date.'**
+  String get shippingNotification;
+
+  /// Delivery notification explanation
+  ///
+  /// In en, this message translates to:
+  /// **'A notification will be sent when your order is delivered, followed by a request for review.'**
+  String get deliveryNotification;
+
+  /// Message shown when navigating to order details
+  ///
+  /// In en, this message translates to:
+  /// **'Navigating to order #{orderId} details'**
+  String navigatingToOrderDetails(Object orderId);
+
+  /// Message shown when order is not found
+  ///
+  /// In en, this message translates to:
+  /// **'Order #{orderId} not found'**
+  String orderNotFound(Object orderId);
+
+  /// Body for order confirmation notification
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you, {customerName}! Your order for \${orderTotal} has been received.'**
+  String orderConfirmationBody(Object customerName, Object orderTotal);
+
+  /// Title for payment confirmation notification
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Confirmed'**
+  String get paymentConfirmedTitle;
+
+  /// Body for payment confirmation notification
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment of \${amount} for order #{orderId} was successful.'**
+  String paymentConfirmedBody(Object amount, Object orderId);
+
+  /// Title for order shipped notification
+  ///
+  /// In en, this message translates to:
+  /// **'Your Order #{orderId} Has Been Shipped'**
+  String orderShippedTitle(Object orderId);
+
+  /// Body for order shipped notification
+  ///
+  /// In en, this message translates to:
+  /// **'Your order is on its way! Expected delivery: {date}.'**
+  String orderShippedBody(Object date);
+
+  /// Title for order arrives tomorrow notification
+  ///
+  /// In en, this message translates to:
+  /// **'Your Order #{orderId} Arrives Tomorrow'**
+  String orderArrivesTomorrowTitle(Object orderId);
+
+  /// Body for order arrives tomorrow notification
+  ///
+  /// In en, this message translates to:
+  /// **'Your package is scheduled for delivery tomorrow. Make sure someone is available to receive it!'**
+  String get orderArrivesTomorrowBody;
+
+  /// Title for order delivered notification
+  ///
+  /// In en, this message translates to:
+  /// **'Order #{orderId} Delivered'**
+  String orderDeliveredTitle(Object orderId);
+
+  /// Body for order delivered notification
+  ///
+  /// In en, this message translates to:
+  /// **'Your order has been delivered. Enjoy your products!'**
+  String get orderDeliveredBody;
+
+  /// Title for review request notification
+  ///
+  /// In en, this message translates to:
+  /// **'How Was Your Order?'**
+  String get reviewRequestTitle;
+
+  /// Body for review request notification
+  ///
+  /// In en, this message translates to:
+  /// **'We hope you\'re enjoying your products! Please take a moment to share your thoughts.'**
+  String get reviewRequestBody;
+
   /// No description provided for @ecommerceAppTitle.
   ///
   /// In en, this message translates to:
@@ -2144,31 +2258,31 @@ abstract class AppLocalizations {
   /// **'Special instructions for your order...'**
   String get orderNotesHint;
 
-  /// Order summary section title
+  /// Title for order summary section
   ///
   /// In en, this message translates to:
   /// **'Order Summary'**
   String get orderSummaryTitle;
 
-  /// Subtotal label in order summary
+  /// Label for order subtotal
   ///
   /// In en, this message translates to:
   /// **'Subtotal'**
   String get subtotalLabel;
 
-  /// Tax label in order summary
+  /// Label for order tax
   ///
   /// In en, this message translates to:
   /// **'Tax'**
   String get taxLabel;
 
-  /// Shipping label in order summary
+  /// Label for order shipping
   ///
   /// In en, this message translates to:
   /// **'Shipping'**
   String get shippingLabel;
 
-  /// Discount label in order summary
+  /// Label for order discount
   ///
   /// In en, this message translates to:
   /// **'Discount'**
@@ -3703,6 +3817,366 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New arrival notification sent!'**
   String get newArrivalNotificationSent;
+
+  /// Text to display when a value is not applicable
+  ///
+  /// In en, this message translates to:
+  /// **'N/A'**
+  String get notApplicable;
+
+  /// Message shown when address is not available
+  ///
+  /// In en, this message translates to:
+  /// **'Address information not available'**
+  String get addressNotAvailable;
+
+  /// Message shown when no name is provided in address
+  ///
+  /// In en, this message translates to:
+  /// **'No name provided'**
+  String get noNameProvided;
+
+  /// Message shown when no street address is provided
+  ///
+  /// In en, this message translates to:
+  /// **'No street address provided'**
+  String get noStreetAddressProvided;
+
+  /// Message shown when no city/state/zip is provided
+  ///
+  /// In en, this message translates to:
+  /// **'No city/state/zip information provided'**
+  String get noCityStateZipProvided;
+
+  /// Message shown when no country is provided
+  ///
+  /// In en, this message translates to:
+  /// **'No country provided'**
+  String get noCountryProvided;
+
+  /// Message shown when there is an error displaying address
+  ///
+  /// In en, this message translates to:
+  /// **'Error displaying address information'**
+  String get errorDisplayingAddress;
+
+  /// Button to cancel an order
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Order'**
+  String get cancelOrderButton;
+
+  /// Title for cancel order dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Order'**
+  String get cancelOrderTitle;
+
+  /// Confirmation message for order cancellation
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to cancel this order? This action cannot be undone.'**
+  String get cancelOrderConfirmMessage;
+
+  /// Success message after order cancellation
+  ///
+  /// In en, this message translates to:
+  /// **'Your order has been successfully cancelled.'**
+  String get orderCancellationSuccess;
+
+  /// Error message when order cancellation fails
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to cancel your order. Please try again or contact customer support.'**
+  String get orderCancellationFailed;
+
+  /// Message shown when order can't be cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'This order can no longer be cancelled.'**
+  String get orderCancellationUnavailable;
+
+  /// Text for confirm button in dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmButton;
+
+  /// Title for order tracking page
+  ///
+  /// In en, this message translates to:
+  /// **'Order Tracking'**
+  String get orderTrackingTitle;
+
+  /// Message shown when order ID is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID is missing'**
+  String get orderIdMissing;
+
+  /// Button text to go back to orders list
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Orders'**
+  String get backToOrders;
+
+  /// Message shown when tracking number is copied
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking number copied to clipboard'**
+  String get trackingNumberCopied;
+
+  /// Message shown when package tracking fails
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to track package'**
+  String get unableToTrackPackage;
+
+  /// Order details tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get orderDetailsTab;
+
+  /// Shipping info tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping'**
+  String get shippingInfoTab;
+
+  /// Support tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportTab;
+
+  /// Tracking information section title
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking Information'**
+  String get trackingInformation;
+
+  /// Tracking number field label
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking Number'**
+  String get trackingNumberLabel;
+
+  /// Tooltip for copy tracking number button
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Tracking Number'**
+  String get copyTrackingNumber;
+
+  /// Track package button text
+  ///
+  /// In en, this message translates to:
+  /// **'Track Package'**
+  String get trackPackage;
+
+  /// Order items section title
+  ///
+  /// In en, this message translates to:
+  /// **'Order Items'**
+  String get orderItems;
+
+  /// Payment summary section title
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Summary'**
+  String get paymentSummary;
+
+  /// Delivery address section title
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Address'**
+  String get deliveryAddressTitle;
+
+  /// Estimated delivery section title
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Delivery'**
+  String get estimatedDeliveryTitle;
+
+  /// Carrier information section title
+  ///
+  /// In en, this message translates to:
+  /// **'Carrier Information'**
+  String get carrierInformationTitle;
+
+  /// Delivered on date message
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered on {date}'**
+  String deliveredOnDate(Object date);
+
+  /// Delivery delayed message
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery may be delayed'**
+  String get deliveryDelayed;
+
+  /// Delivering today message
+  ///
+  /// In en, this message translates to:
+  /// **'Delivering today!'**
+  String get deliveringToday;
+
+  /// Delivering tomorrow message
+  ///
+  /// In en, this message translates to:
+  /// **'Delivering tomorrow'**
+  String get deliveringTomorrow;
+
+  /// Delivering in days message
+  ///
+  /// In en, this message translates to:
+  /// **'Delivering in {days} days'**
+  String deliveringInDays(Object days);
+
+  /// Estimated date label
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Date'**
+  String get estimatedDate;
+
+  /// Carrier label
+  ///
+  /// In en, this message translates to:
+  /// **'Carrier'**
+  String get carrierLabel;
+
+  /// Last update label
+  ///
+  /// In en, this message translates to:
+  /// **'Last Update'**
+  String get lastUpdateLabel;
+
+  /// Package in transit message
+  ///
+  /// In en, this message translates to:
+  /// **'Package in transit'**
+  String get packageInTransit;
+
+  /// Order status section title
+  ///
+  /// In en, this message translates to:
+  /// **'Order Status'**
+  String get orderStatus;
+
+  /// Contact support section title
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Support'**
+  String get contactSupportTitle;
+
+  /// Order reference label
+  ///
+  /// In en, this message translates to:
+  /// **'Order Reference'**
+  String get orderReferenceLabel;
+
+  /// Copy order ID tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Order ID'**
+  String get copyOrderId;
+
+  /// Message shown when order ID is copied
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID copied to clipboard'**
+  String get orderIdCopied;
+
+  /// Support availability section title
+  ///
+  /// In en, this message translates to:
+  /// **'Support Availability'**
+  String get supportAvailabilityTitle;
+
+  /// Support availability hours
+  ///
+  /// In en, this message translates to:
+  /// **'Monday-Friday: 9am-6pm'**
+  String get supportAvailabilityHours;
+
+  /// Support phone number
+  ///
+  /// In en, this message translates to:
+  /// **'1-800-555-0123'**
+  String get supportPhoneNumber;
+
+  /// Support email address
+  ///
+  /// In en, this message translates to:
+  /// **'support@dermocosmetique.com'**
+  String get supportEmailAddress;
+
+  /// Start conversation prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Start a conversation'**
+  String get startConversation;
+
+  /// Support response time message
+  ///
+  /// In en, this message translates to:
+  /// **'Our team typically responds within 24 hours'**
+  String get supportResponseTimeMessage;
+
+  /// Type message hint
+  ///
+  /// In en, this message translates to:
+  /// **'Type your message...'**
+  String get typeMessageHint;
+
+  /// Send message tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Send Message'**
+  String get sendMessage;
+
+  /// Support response for cancellation or refund requests
+  ///
+  /// In en, this message translates to:
+  /// **'For cancellation or refund requests, please visit the order details page and select \"Cancel Order\" or \"Request Refund\" option if available. If not available, our team will review your request and get back to you within 24 hours.'**
+  String get supportResponseCancelRefund;
+
+  /// Support response for delivery delay inquiries
+  ///
+  /// In en, this message translates to:
+  /// **'We apologize for any delay with your delivery. Based on our tracking information, your package is still in transit. Unexpected delays can sometimes occur due to weather or local delivery conditions. Please check back tomorrow for an updated delivery estimate.'**
+  String get supportResponseDeliveryDelay;
+
+  /// Support response for damaged or incorrect orders
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re sorry to hear about issues with your order. Please take photos of the damaged or incorrect items and email them to support@dermocosmetique.com along with your order number. Our customer service team will process a replacement or refund within 1-2 business days.'**
+  String get supportResponseDamagedOrder;
+
+  /// General support response
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for contacting customer support regarding Order #{orderId}. A support representative will review your message and respond within 24 hours. If you need immediate assistance, please call our customer service line at 1-800-555-0123.'**
+  String supportResponseGeneral(Object orderId);
+
+  /// Button text to track an order
+  ///
+  /// In en, this message translates to:
+  /// **'Track Order'**
+  String get trackOrderButton;
+
+  /// Payment method section title in order details
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Method'**
+  String get paymentMethod;
+
+  /// Order notes section title in order details
+  ///
+  /// In en, this message translates to:
+  /// **'Order Notes'**
+  String get orderNotes;
 }
 
 class _AppLocalizationsDelegate

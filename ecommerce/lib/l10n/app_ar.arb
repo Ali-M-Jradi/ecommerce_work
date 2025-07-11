@@ -1,5 +1,114 @@
 {
   "@@locale": "ar",
+  "notApplicable": "غير متاح",
+  "@notApplicable": {
+    "description": "Text to display when a value is not applicable"
+  },
+  "orderConfirmationTitle": "تأكيد الطلب #{orderId}",
+  "@orderConfirmationTitle": {
+    "description": "Title for order confirmation notification",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "notificationsTitle": "تحديثات الطلب",
+  "@notificationsTitle": {
+    "description": "Title for notifications section on order confirmation page"
+  },
+  "orderConfirmationNotification": "ستتلقى إشعارًا بالتأكيد بعد تقديم طلبك مباشرة.",
+  "@orderConfirmationNotification": {
+    "description": "Order confirmation notification explanation"
+  },
+  "paymentConfirmationNotification": "سيتم إرسال إشعار تأكيد الدفع عند معالجة الدفع الخاص بك.",
+  "@paymentConfirmationNotification": {
+    "description": "Payment confirmation notification explanation"
+  },
+  "shippingNotification": "سنخطرك عند شحن طلبك مع تاريخ التسليم المقدر.",
+  "@shippingNotification": {
+    "description": "Shipping notification explanation"
+  },
+  "deliveryNotification": "سيتم إرسال إشعار عند تسليم طلبك، متبوعًا بطلب للمراجعة.",
+  "@deliveryNotification": {
+    "description": "Delivery notification explanation"
+  },
+  "navigatingToOrderDetails": "الانتقال إلى تفاصيل الطلب رقم #{orderId}",
+  "@navigatingToOrderDetails": {
+    "description": "Message shown when navigating to order details",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderNotFound": "الطلب رقم #{orderId} غير موجود",
+  "@orderNotFound": {
+    "description": "Message shown when order is not found",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderConfirmationBody": "شكراً لك {customerName}! تم استلام طلبك بقيمة ${orderTotal}.",
+  "@orderConfirmationBody": {
+    "description": "Body for order confirmation notification",
+    "placeholders": {
+      "customerName": {},
+      "orderTotal": {}
+    }
+  },
+  "paymentConfirmedTitle": "تأكيد الدفع",
+  "@paymentConfirmedTitle": {
+    "description": "Title for payment confirmation notification"
+  },
+  "paymentConfirmedBody": "تمت عملية الدفع بنجاح بقيمة ${amount} للطلب رقم #{orderId}.",
+  "@paymentConfirmedBody": {
+    "description": "Body for payment confirmation notification",
+    "placeholders": {
+      "amount": {},
+      "orderId": {}
+    }
+  },
+  "orderShippedTitle": "تم شحن طلبك رقم #{orderId}",
+  "@orderShippedTitle": {
+    "description": "Title for order shipped notification",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderShippedBody": "طلبك في الطريق! موعد التسليم المتوقع: {date}.",
+  "@orderShippedBody": {
+    "description": "Body for order shipped notification",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "orderArrivesTomorrowTitle": "طلبك رقم #{orderId} يصل غداً",
+  "@orderArrivesTomorrowTitle": {
+    "description": "Title for order arrives tomorrow notification",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderArrivesTomorrowBody": "من المقرر تسليم طلبك غداً. تأكد من وجود شخص ما لاستلامه!",
+  "@orderArrivesTomorrowBody": {
+    "description": "Body for order arrives tomorrow notification"
+  },
+  "orderDeliveredTitle": "تم تسليم الطلب رقم #{orderId}",
+  "@orderDeliveredTitle": {
+    "description": "Title for order delivered notification",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderDeliveredBody": "تم تسليم طلبك. استمتع بمنتجاتك!",
+  "@orderDeliveredBody": {
+    "description": "Body for order delivered notification"
+  },
+  "reviewRequestTitle": "كيف كان طلبك؟",
+  "@reviewRequestTitle": {
+    "description": "Title for review request notification"
+  },
+  "reviewRequestBody": "نأمل أن تستمتع بمنتجاتك! يرجى أخذ لحظة لمشاركة رأيك.",
+  "@reviewRequestBody": {
+    "description": "Body for review request notification"
+  },
   "ecommerceAppTitle": "تطبيق التجارة الإلكترونية",
   "welcomeBack": "مرحباً بعودتك",
   "signInToContinue": "سجل الدخول لمواصلة رحلة جمالك",
@@ -342,11 +451,29 @@
   "orderNotesLabel": "ملاحظات الطلب (اختياري)",
   "orderNotesHint": "تعليمات خاصة لطلبك...",
   "orderSummaryTitle": "ملخص الطلب",
+  "@orderSummaryTitle": {
+    "description": "Title for order summary section"
+  },
   "subtotalLabel": "المجموع الفرعي",
+  "@subtotalLabel": {
+    "description": "Label for order subtotal"
+  },
   "taxLabel": "الضريبة",
+  "@taxLabel": {
+    "description": "Label for order tax"
+  },
   "shippingLabel": "الشحن",
+  "@shippingLabel": {
+    "description": "Label for order shipping"
+  },
   "discountLabel": "الخصم",
+  "@discountLabel": {
+    "description": "Label for order discount"
+  },
   "totalLabel": "المجموع الكلي",
+  "@totalLabel": {
+    "description": "Label for order total"
+  },
   "orderConfirmedTitle": "تم تأكيد الطلب!",
   "orderConfirmedMessage": "شكراً لطلبك. سنرسل لك رسالة بريد إلكتروني للتأكيد قريباً.",
   "orderDetailsTitle": "تفاصيل الطلب",
@@ -585,6 +712,251 @@
   "cerave": "سيراف",
   "neutrogena": "نيوتروجينا",
   "addToCartButton": "أضف إلى السلة",
-  "totalAmount": "المبلغ الإجمالي"
-
+  "totalAmount": "المبلغ الإجمالي",
+  "addressNotAvailable": "معلومات العنوان غير متوفرة",
+  "@addressNotAvailable": {
+    "description": "Message shown when address is not available"
+  },
+  "noNameProvided": "لم يتم تقديم اسم",
+  "@noNameProvided": {
+    "description": "Message shown when no name is provided in address"
+  },
+  "noStreetAddressProvided": "لم يتم تقديم عنوان الشارع",
+  "@noStreetAddressProvided": {
+    "description": "Message shown when no street address is provided"
+  },
+  "noCityStateZipProvided": "لم يتم تقديم معلومات المدينة/الولاية/الرمز البريدي",
+  "@noCityStateZipProvided": {
+    "description": "Message shown when no city/state/zip is provided"
+  },
+  "noCountryProvided": "لم يتم تقديم الدولة",
+  "@noCountryProvided": {
+    "description": "Message shown when no country is provided"
+  },
+  "errorDisplayingAddress": "خطأ في عرض معلومات العنوان",
+  "@errorDisplayingAddress": {
+    "description": "Message shown when there is an error displaying address"
+  },
+  "cancelOrderButton": "إلغاء الطلب",
+  "@cancelOrderButton": {
+    "description": "Button to cancel an order"
+  },
+  "cancelOrderTitle": "إلغاء الطلب",
+  "@cancelOrderTitle": {
+    "description": "Title for cancel order dialog"
+  },
+  "cancelOrderConfirmMessage": "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء.",
+  "@cancelOrderConfirmMessage": {
+    "description": "Confirmation message for order cancellation"
+  },
+  "orderCancellationSuccess": "تم إلغاء طلبك بنجاح.",
+  "@orderCancellationSuccess": {
+    "description": "Success message after order cancellation"
+  },
+  "orderCancellationFailed": "تعذر إلغاء طلبك. يرجى المحاولة مرة أخرى أو الاتصال بدعم العملاء.",
+  "@orderCancellationFailed": {
+    "description": "Error message when order cancellation fails"
+  },
+  "orderCancellationUnavailable": "لم يعد بالإمكان إلغاء هذا الطلب.",
+  "@orderCancellationUnavailable": {
+    "description": "Message shown when order can't be cancelled"
+  },
+  "confirmButton": "تأكيد",
+  "@confirmButton": {
+    "description": "Text for confirm button in dialogs"
+  },
+  
+  "orderTrackingTitle": "تتبع الطلب",
+  "@orderTrackingTitle": {
+    "description": "Title for order tracking page"
+  },
+  "orderIdMissing": "معرف الطلب مفقود",
+  "@orderIdMissing": {
+    "description": "Message shown when order ID is missing"
+  },
+  "backToOrders": "العودة إلى الطلبات",
+  "@backToOrders": {
+    "description": "Button text to go back to orders list"
+  },
+  "trackingNumberCopied": "تم نسخ رقم التتبع إلى الحافظة",
+  "@trackingNumberCopied": {
+    "description": "Message shown when tracking number is copied"
+  },
+  "unableToTrackPackage": "تعذر تتبع الشحنة",
+  "@unableToTrackPackage": {
+    "description": "Message shown when package tracking fails"
+  },
+  "orderDetailsTab": "التفاصيل",
+  "@orderDetailsTab": {
+    "description": "Order details tab title"
+  },
+  "shippingInfoTab": "الشحن",
+  "@shippingInfoTab": {
+    "description": "Shipping info tab title"
+  },
+  "supportTab": "الدعم",
+  "@supportTab": {
+    "description": "Support tab title"
+  },
+  "trackingInformation": "معلومات التتبع",
+  "@trackingInformation": {
+    "description": "Tracking information section title"
+  },
+  "trackingNumberLabel": "رقم التتبع",
+  "@trackingNumberLabel": {
+    "description": "Tracking number field label"
+  },
+  "copyTrackingNumber": "نسخ رقم التتبع",
+  "@copyTrackingNumber": {
+    "description": "Tooltip for copy tracking number button"
+  },
+  "trackPackage": "تتبع الشحنة",
+  "@trackPackage": {
+    "description": "Track package button text"
+  },
+  "orderItems": "عناصر الطلب",
+  "@orderItems": {
+    "description": "Order items section title"
+  },
+  "paymentSummary": "ملخص الدفع",
+  "@paymentSummary": {
+    "description": "Payment summary section title"
+  },
+  "deliveryAddressTitle": "عنوان التسليم",
+  "@deliveryAddressTitle": {
+    "description": "Delivery address section title"
+  },
+  "estimatedDeliveryTitle": "التسليم المقدر",
+  "@estimatedDeliveryTitle": {
+    "description": "Estimated delivery section title"
+  },
+  "carrierInformationTitle": "معلومات شركة الشحن",
+  "@carrierInformationTitle": {
+    "description": "Carrier information section title"
+  },
+  "deliveredOnDate": "تم التسليم في {date}",
+  "@deliveredOnDate": {
+    "description": "Delivered on date message",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "deliveryDelayed": "قد يتأخر التسليم",
+  "@deliveryDelayed": {
+    "description": "Delivery delayed message"
+  },
+  "deliveringToday": "سيتم التسليم اليوم!",
+  "@deliveringToday": {
+    "description": "Delivering today message"
+  },
+  "deliveringTomorrow": "سيتم التسليم غدًا",
+  "@deliveringTomorrow": {
+    "description": "Delivering tomorrow message"
+  },
+  "deliveringInDays": "سيتم التسليم خلال {days} أيام",
+  "@deliveringInDays": {
+    "description": "Delivering in days message",
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "estimatedDate": "التاريخ المقدر",
+  "@estimatedDate": {
+    "description": "Estimated date label"
+  },
+  "carrierLabel": "شركة الشحن",
+  "@carrierLabel": {
+    "description": "Carrier label"
+  },
+  "lastUpdateLabel": "آخر تحديث",
+  "@lastUpdateLabel": {
+    "description": "Last update label"
+  },
+  "packageInTransit": "الشحنة قيد النقل",
+  "@packageInTransit": {
+    "description": "Package in transit message"
+  },
+  "orderStatus": "حالة الطلب",
+  "@orderStatus": {
+    "description": "Order status section title"
+  },
+  "contactSupportTitle": "التواصل مع الدعم",
+  "@contactSupportTitle": {
+    "description": "Contact support section title"
+  },
+  "orderReferenceLabel": "مرجع الطلب",
+  "@orderReferenceLabel": {
+    "description": "Order reference label"
+  },
+  "copyOrderId": "نسخ رقم الطلب",
+  "@copyOrderId": {
+    "description": "Copy order ID tooltip"
+  },
+  "orderIdCopied": "تم نسخ رقم الطلب إلى الحافظة",
+  "@orderIdCopied": {
+    "description": "Message shown when order ID is copied"
+  },
+  "supportAvailabilityTitle": "أوقات توفر الدعم",
+  "@supportAvailabilityTitle": {
+    "description": "Support availability section title"
+  },
+  "supportAvailabilityHours": "الاثنين-الجمعة: 9ص-6م",
+  "@supportAvailabilityHours": {
+    "description": "Support availability hours"
+  },
+  "supportPhoneNumber": "1-800-555-0123",
+  "@supportPhoneNumber": {
+    "description": "Support phone number"
+  },
+  "supportEmailAddress": "support@dermocosmetique.com",
+  "@supportEmailAddress": {
+    "description": "Support email address"
+  },
+  "startConversation": "ابدأ محادثة",
+  "@startConversation": {
+    "description": "Start conversation prompt"
+  },
+  "supportResponseTimeMessage": "عادة ما يرد فريقنا في غضون 24 ساعة",
+  "@supportResponseTimeMessage": {
+    "description": "Support response time message"
+  },
+  "typeMessageHint": "اكتب رسالتك...",
+  "@typeMessageHint": {
+    "description": "Type message hint"
+  },
+  "sendMessage": "إرسال رسالة",
+  "@sendMessage": {
+    "description": "Send message tooltip"
+  },
+  "supportResponseCancelRefund": "لطلبات الإلغاء أو استرداد الأموال، يرجى زيارة صفحة تفاصيل الطلب واختيار \"إلغاء الطلب\" أو \"طلب استرداد المال\" إذا كان متاحًا. إذا لم يكن متاحًا، سيراجع فريقنا طلبك وسيرد عليك في غضون 24 ساعة.",
+  "@supportResponseCancelRefund": {
+    "description": "Support response for cancellation or refund requests"
+  },
+  "supportResponseDeliveryDelay": "نعتذر عن أي تأخير في التوصيل. بناءً على معلومات التتبع لدينا، لا تزال شحنتك قيد النقل. قد تحدث تأخيرات غير متوقعة أحيانًا بسبب الطقس أو ظروف التوصيل المحلية. يرجى العودة غدًا للحصول على تقدير محدث للتسليم.",
+  "@supportResponseDeliveryDelay": {
+    "description": "Support response for delivery delay inquiries"
+  },
+  "supportResponseDamagedOrder": "نأسف لسماع وجود مشكلات في طلبك. يرجى التقاط صور للعناصر التالفة أو غير الصحيحة وإرسالها بالبريد الإلكتروني إلى support@dermocosmetique.com مع رقم طلبك. سيقوم فريق خدمة العملاء لدينا بمعالجة طلب استبدال أو استرداد الأموال في غضون 1-2 يوم عمل.",
+  "@supportResponseDamagedOrder": {
+    "description": "Support response for damaged or incorrect orders"
+  },
+  "supportResponseGeneral": "شكرًا لك على التواصل مع دعم العملاء بخصوص الطلب #{orderId}. سيقوم ممثل الدعم بمراجعة رسالتك والرد في غضون 24 ساعة. إذا كنت بحاجة إلى مساعدة فورية، يرجى الاتصال بخط خدمة العملاء على 1-800-555-0123.",
+  "@supportResponseGeneral": {
+    "description": "General support response",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "trackOrderButton": "تتبع الطلب",
+  "@trackOrderButton": {
+    "description": "Button text to track an order"
+  },
+  "paymentMethod": "طريقة الدفع",
+  "@paymentMethod": {
+    "description": "Payment method section title in order details"
+  },
+  "orderNotes": "ملاحظات الطلب",
+  "@orderNotes": {
+    "description": "Order notes section title in order details"
+  }
 }

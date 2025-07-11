@@ -9,6 +9,87 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String orderConfirmationTitle(Object orderId) {
+    return 'تأكيد الطلب #$orderId';
+  }
+
+  @override
+  String get notificationsTitle => 'تحديثات الطلب';
+
+  @override
+  String get orderConfirmationNotification =>
+      'ستتلقى إشعارًا بالتأكيد بعد تقديم طلبك مباشرة.';
+
+  @override
+  String get paymentConfirmationNotification =>
+      'سيتم إرسال إشعار تأكيد الدفع عند معالجة الدفع الخاص بك.';
+
+  @override
+  String get shippingNotification =>
+      'سنخطرك عند شحن طلبك مع تاريخ التسليم المقدر.';
+
+  @override
+  String get deliveryNotification =>
+      'سيتم إرسال إشعار عند تسليم طلبك، متبوعًا بطلب للمراجعة.';
+
+  @override
+  String navigatingToOrderDetails(Object orderId) {
+    return 'الانتقال إلى تفاصيل الطلب رقم #$orderId';
+  }
+
+  @override
+  String orderNotFound(Object orderId) {
+    return 'الطلب رقم #$orderId غير موجود';
+  }
+
+  @override
+  String orderConfirmationBody(Object customerName, Object orderTotal) {
+    return 'شكراً لك $customerName! تم استلام طلبك بقيمة \$$orderTotal.';
+  }
+
+  @override
+  String get paymentConfirmedTitle => 'تأكيد الدفع';
+
+  @override
+  String paymentConfirmedBody(Object amount, Object orderId) {
+    return 'تمت عملية الدفع بنجاح بقيمة \$$amount للطلب رقم #$orderId.';
+  }
+
+  @override
+  String orderShippedTitle(Object orderId) {
+    return 'تم شحن طلبك رقم #$orderId';
+  }
+
+  @override
+  String orderShippedBody(Object date) {
+    return 'طلبك في الطريق! موعد التسليم المتوقع: $date.';
+  }
+
+  @override
+  String orderArrivesTomorrowTitle(Object orderId) {
+    return 'طلبك رقم #$orderId يصل غداً';
+  }
+
+  @override
+  String get orderArrivesTomorrowBody =>
+      'من المقرر تسليم طلبك غداً. تأكد من وجود شخص ما لاستلامه!';
+
+  @override
+  String orderDeliveredTitle(Object orderId) {
+    return 'تم تسليم الطلب رقم #$orderId';
+  }
+
+  @override
+  String get orderDeliveredBody => 'تم تسليم طلبك. استمتع بمنتجاتك!';
+
+  @override
+  String get reviewRequestTitle => 'كيف كان طلبك؟';
+
+  @override
+  String get reviewRequestBody =>
+      'نأمل أن تستمتع بمنتجاتك! يرجى أخذ لحظة لمشاركة رأيك.';
+
+  @override
   String get ecommerceAppTitle => 'تطبيق التجارة الإلكترونية';
 
   @override
@@ -1867,4 +1948,196 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get newArrivalNotificationSent => 'New arrival notification sent!';
+
+  @override
+  String get notApplicable => 'غير متاح';
+
+  @override
+  String get addressNotAvailable => 'معلومات العنوان غير متوفرة';
+
+  @override
+  String get noNameProvided => 'لم يتم تقديم اسم';
+
+  @override
+  String get noStreetAddressProvided => 'لم يتم تقديم عنوان الشارع';
+
+  @override
+  String get noCityStateZipProvided =>
+      'لم يتم تقديم معلومات المدينة/الولاية/الرمز البريدي';
+
+  @override
+  String get noCountryProvided => 'لم يتم تقديم الدولة';
+
+  @override
+  String get errorDisplayingAddress => 'خطأ في عرض معلومات العنوان';
+
+  @override
+  String get cancelOrderButton => 'إلغاء الطلب';
+
+  @override
+  String get cancelOrderTitle => 'إلغاء الطلب';
+
+  @override
+  String get cancelOrderConfirmMessage =>
+      'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get orderCancellationSuccess => 'تم إلغاء طلبك بنجاح.';
+
+  @override
+  String get orderCancellationFailed =>
+      'تعذر إلغاء طلبك. يرجى المحاولة مرة أخرى أو الاتصال بدعم العملاء.';
+
+  @override
+  String get orderCancellationUnavailable => 'لم يعد بالإمكان إلغاء هذا الطلب.';
+
+  @override
+  String get confirmButton => 'تأكيد';
+
+  @override
+  String get orderTrackingTitle => 'تتبع الطلب';
+
+  @override
+  String get orderIdMissing => 'معرف الطلب مفقود';
+
+  @override
+  String get backToOrders => 'العودة إلى الطلبات';
+
+  @override
+  String get trackingNumberCopied => 'تم نسخ رقم التتبع إلى الحافظة';
+
+  @override
+  String get unableToTrackPackage => 'تعذر تتبع الشحنة';
+
+  @override
+  String get orderDetailsTab => 'التفاصيل';
+
+  @override
+  String get shippingInfoTab => 'الشحن';
+
+  @override
+  String get supportTab => 'الدعم';
+
+  @override
+  String get trackingInformation => 'معلومات التتبع';
+
+  @override
+  String get trackingNumberLabel => 'رقم التتبع';
+
+  @override
+  String get copyTrackingNumber => 'نسخ رقم التتبع';
+
+  @override
+  String get trackPackage => 'تتبع الشحنة';
+
+  @override
+  String get orderItems => 'عناصر الطلب';
+
+  @override
+  String get paymentSummary => 'ملخص الدفع';
+
+  @override
+  String get deliveryAddressTitle => 'عنوان التسليم';
+
+  @override
+  String get estimatedDeliveryTitle => 'التسليم المقدر';
+
+  @override
+  String get carrierInformationTitle => 'معلومات شركة الشحن';
+
+  @override
+  String deliveredOnDate(Object date) {
+    return 'تم التسليم في $date';
+  }
+
+  @override
+  String get deliveryDelayed => 'قد يتأخر التسليم';
+
+  @override
+  String get deliveringToday => 'سيتم التسليم اليوم!';
+
+  @override
+  String get deliveringTomorrow => 'سيتم التسليم غدًا';
+
+  @override
+  String deliveringInDays(Object days) {
+    return 'سيتم التسليم خلال $days أيام';
+  }
+
+  @override
+  String get estimatedDate => 'التاريخ المقدر';
+
+  @override
+  String get carrierLabel => 'شركة الشحن';
+
+  @override
+  String get lastUpdateLabel => 'آخر تحديث';
+
+  @override
+  String get packageInTransit => 'الشحنة قيد النقل';
+
+  @override
+  String get orderStatus => 'حالة الطلب';
+
+  @override
+  String get contactSupportTitle => 'التواصل مع الدعم';
+
+  @override
+  String get orderReferenceLabel => 'مرجع الطلب';
+
+  @override
+  String get copyOrderId => 'نسخ رقم الطلب';
+
+  @override
+  String get orderIdCopied => 'تم نسخ رقم الطلب إلى الحافظة';
+
+  @override
+  String get supportAvailabilityTitle => 'أوقات توفر الدعم';
+
+  @override
+  String get supportAvailabilityHours => 'الاثنين-الجمعة: 9ص-6م';
+
+  @override
+  String get supportPhoneNumber => '1-800-555-0123';
+
+  @override
+  String get supportEmailAddress => 'support@dermocosmetique.com';
+
+  @override
+  String get startConversation => 'ابدأ محادثة';
+
+  @override
+  String get supportResponseTimeMessage => 'عادة ما يرد فريقنا في غضون 24 ساعة';
+
+  @override
+  String get typeMessageHint => 'اكتب رسالتك...';
+
+  @override
+  String get sendMessage => 'إرسال رسالة';
+
+  @override
+  String get supportResponseCancelRefund =>
+      'لطلبات الإلغاء أو استرداد الأموال، يرجى زيارة صفحة تفاصيل الطلب واختيار \"إلغاء الطلب\" أو \"طلب استرداد المال\" إذا كان متاحًا. إذا لم يكن متاحًا، سيراجع فريقنا طلبك وسيرد عليك في غضون 24 ساعة.';
+
+  @override
+  String get supportResponseDeliveryDelay =>
+      'نعتذر عن أي تأخير في التوصيل. بناءً على معلومات التتبع لدينا، لا تزال شحنتك قيد النقل. قد تحدث تأخيرات غير متوقعة أحيانًا بسبب الطقس أو ظروف التوصيل المحلية. يرجى العودة غدًا للحصول على تقدير محدث للتسليم.';
+
+  @override
+  String get supportResponseDamagedOrder =>
+      'نأسف لسماع وجود مشكلات في طلبك. يرجى التقاط صور للعناصر التالفة أو غير الصحيحة وإرسالها بالبريد الإلكتروني إلى support@dermocosmetique.com مع رقم طلبك. سيقوم فريق خدمة العملاء لدينا بمعالجة طلب استبدال أو استرداد الأموال في غضون 1-2 يوم عمل.';
+
+  @override
+  String supportResponseGeneral(Object orderId) {
+    return 'شكرًا لك على التواصل مع دعم العملاء بخصوص الطلب #$orderId. سيقوم ممثل الدعم بمراجعة رسالتك والرد في غضون 24 ساعة. إذا كنت بحاجة إلى مساعدة فورية، يرجى الاتصال بخط خدمة العملاء على 1-800-555-0123.';
+  }
+
+  @override
+  String get trackOrderButton => 'تتبع الطلب';
+
+  @override
+  String get paymentMethod => 'طريقة الدفع';
+
+  @override
+  String get orderNotes => 'ملاحظات الطلب';
 }

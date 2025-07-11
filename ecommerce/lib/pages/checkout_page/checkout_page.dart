@@ -5,6 +5,7 @@ import '../../models/address.dart';
 import '../../models/payment_method.dart';
 import '../../models/order.dart';
 import '../../services/address_service.dart';
+import '../../services/order_service.dart';
 import '../../l10n/app_localizations.dart';
 import 'checkout_page_widgets/address_step_widget.dart';
 import 'checkout_page_widgets/payment_step_widget.dart';
@@ -149,7 +150,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     }
   }
 
-  void _placeOrder() {
+  void _placeOrder() async {
     if (!_canProceedFromCurrentStep()) {
       _showValidationError();
       return;
@@ -163,8 +164,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
       return;
     }
 
+    // Create the order
+    final orderId = DateTime.now().millisecondsSinceEpoch.toString();
     final order = Order.fromCart(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: orderId,
       userId: 'user123', // TODO: Replace with actual user ID
       cartItems: cart.items,
       shippingAddress: selectedShippingAddress!,
@@ -172,6 +175,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
       paymentMethod: selectedPaymentMethod!,
       notes: orderNotes,
     );
+
+    // Save the order with the order service
+    await OrderService.instance.addOrder(order);
 
     setState(() {
       completedOrder = order;
@@ -189,6 +195,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
+    
+    // For demo purposes, simulate order processing flow
+    // In a real app, this would happen through admin actions or backend processes
+    // We use a slight delay to ensure UI updates complete first
+    Future.delayed(const Duration(seconds: 2), () {
+      OrderService.instance.simulateOrderFlow(orderId);
+    });
   }
 
   String _getStepTitle() {

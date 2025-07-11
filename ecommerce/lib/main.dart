@@ -5,11 +5,14 @@ import 'package:ecommerce/pages/auth/signup_page.dart';
 import 'package:ecommerce/pages/notification_test_page.dart';
 import 'package:ecommerce/pages/notifications/notifications_page.dart';
 import 'package:ecommerce/pages/profile/profile_page.dart';
+import 'package:ecommerce/pages/orders/order_tracking_page.dart';
 import 'package:ecommerce/providers/cart_provider.dart';
 import 'package:ecommerce/providers/enhanced_notification_provider.dart';
 import 'package:ecommerce/providers/language_provider.dart';
 import 'package:ecommerce/providers/mock_notification_provider.dart';
 import 'package:ecommerce/providers/user_provider.dart';
+import 'package:ecommerce/services/notification_scheduler_service.dart';
+import 'package:ecommerce/services/order_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ecommerce/l10n/app_localizations.dart';
@@ -21,6 +24,12 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize the notification scheduler service
+  await NotificationSchedulerService.instance.initialize();
+  
+  // Use OrderService singleton to ensure it's ready
+  OrderService.instance;
   
   runApp(const MyApp());
 }
@@ -68,6 +77,13 @@ class MyApp extends StatelessWidget {
               '/profile': (context) => const ProfilePage(),
               '/notifications': (context) => const NotificationsPage(),
               '/test-notifications': (context) => const NotificationTestPage(),
+              '/order-tracking': (context) {
+                final Map<String, dynamic> args = 
+                  ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>? ?? {};
+                return OrderTrackingPage(
+                  orderId: args['orderId'] as String?,
+                );
+              },
             },
           );
         },

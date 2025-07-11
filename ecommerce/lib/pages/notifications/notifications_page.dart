@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/providers/mock_notification_provider.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
+import 'package:ecommerce/services/order_service.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);
@@ -325,16 +326,48 @@ class _NotificationsPageState extends State<NotificationsPage> with TickerProvid
   void _handleNotificationTap(NotificationItem notification) {
     switch (notification.type) {
       case NotificationType.order:
-        // Navigate to order details
-        // Navigator.push(context, MaterialPageRoute(builder: (_) => OrderDetailPage(orderId: notification.data['orderId'])));
+        // Extract order ID from notification title or message
+        final RegExp regExp = RegExp(r'#(\d+)');
+        final match = regExp.firstMatch(notification.title);
+        final orderId = match?.group(1) ?? '';
+        
+        // Try to fetch the order from OrderService
+        final order = OrderService.instance.getOrderById(orderId);
+        
+        if (order != null) {
+          // Navigate to order details
+          final message = Directionality.of(context) == TextDirection.ltr
+              ? "Navigating to order #$orderId details"
+              : "الانتقال إلى تفاصيل الطلب رقم #$orderId";
+              
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message)),
+          );
+          // TODO: Implement and navigate to actual order details page
+          // Navigator.push(context, MaterialPageRoute(builder: (_) => OrderDetailPage(order: order)));
+        } else {
+          final message = Directionality.of(context) == TextDirection.ltr
+              ? "Order #$orderId not found"
+              : "الطلب رقم #$orderId غير موجود";
+              
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message)),
+          );
+        }
         break;
       case NotificationType.promotion:
         // Navigate to promotions
-        // Navigator.push(context, MaterialPageRoute(builder: (_) => PromotionsPage()));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Navigating to promotions page')),
+        );
+        // In production: Navigator.push(context, MaterialPageRoute(builder: (_) => PromotionsPage()));
         break;
       case NotificationType.newArrival:
         // Navigate to new arrivals
-        // Navigator.push(context, MaterialPageRoute(builder: (_) => NewArrivalsPage()));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Navigating to new arrivals')),
+        );
+        // In production: Navigator.push(context, MaterialPageRoute(builder: (_) => NewArrivalsPage()));
         break;
     }
   }

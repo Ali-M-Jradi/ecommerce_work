@@ -10,6 +10,32 @@ class PaymentMethod {
   final String? email; // For PayPal
   final bool isDefault;
   final bool isEnabled;
+  final String? details; // Additional payment details
+  
+  // Derived getter for a user-friendly name
+  String get name {
+    switch (type.toLowerCase()) {
+      case 'card':
+        return '${cardBrand?.toUpperCase() ?? 'Card'} •••• ${cardNumber ?? ''}';
+      case 'paypal':
+        return 'PayPal${email != null ? ' ($email)' : ''}';
+      case 'apple_pay':
+      case 'apple pay':
+        return 'Apple Pay';
+      case 'google_pay':
+      case 'google pay':
+        return 'Google Pay';
+      case 'bank_transfer':
+      case 'bank transfer':
+        return 'Bank Transfer';
+      case 'cash_on_delivery':
+      case 'cash on delivery':
+      case 'cod':
+        return 'Cash on Delivery';
+      default:
+        return displayName;
+    }
+  }
 
   PaymentMethod({
     required this.id,
@@ -23,6 +49,7 @@ class PaymentMethod {
     this.email,
     this.isDefault = false,
     this.isEnabled = true,
+    this.details,
   });
 
   // Factory constructor for card payments

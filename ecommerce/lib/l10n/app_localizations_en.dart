@@ -9,6 +9,88 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String orderConfirmationTitle(Object orderId) {
+    return 'Order Confirmation #$orderId';
+  }
+
+  @override
+  String get notificationsTitle => 'Order Updates';
+
+  @override
+  String get orderConfirmationNotification =>
+      'You will receive a confirmation notification immediately after placing your order.';
+
+  @override
+  String get paymentConfirmationNotification =>
+      'A payment confirmation notification will be sent when your payment is processed.';
+
+  @override
+  String get shippingNotification =>
+      'We\'ll notify you when your order is shipped with an estimated delivery date.';
+
+  @override
+  String get deliveryNotification =>
+      'A notification will be sent when your order is delivered, followed by a request for review.';
+
+  @override
+  String navigatingToOrderDetails(Object orderId) {
+    return 'Navigating to order #$orderId details';
+  }
+
+  @override
+  String orderNotFound(Object orderId) {
+    return 'Order #$orderId not found';
+  }
+
+  @override
+  String orderConfirmationBody(Object customerName, Object orderTotal) {
+    return 'Thank you, $customerName! Your order for \$$orderTotal has been received.';
+  }
+
+  @override
+  String get paymentConfirmedTitle => 'Payment Confirmed';
+
+  @override
+  String paymentConfirmedBody(Object amount, Object orderId) {
+    return 'Your payment of \$$amount for order #$orderId was successful.';
+  }
+
+  @override
+  String orderShippedTitle(Object orderId) {
+    return 'Your Order #$orderId Has Been Shipped';
+  }
+
+  @override
+  String orderShippedBody(Object date) {
+    return 'Your order is on its way! Expected delivery: $date.';
+  }
+
+  @override
+  String orderArrivesTomorrowTitle(Object orderId) {
+    return 'Your Order #$orderId Arrives Tomorrow';
+  }
+
+  @override
+  String get orderArrivesTomorrowBody =>
+      'Your package is scheduled for delivery tomorrow. Make sure someone is available to receive it!';
+
+  @override
+  String orderDeliveredTitle(Object orderId) {
+    return 'Order #$orderId Delivered';
+  }
+
+  @override
+  String get orderDeliveredBody =>
+      'Your order has been delivered. Enjoy your products!';
+
+  @override
+  String get reviewRequestTitle => 'How Was Your Order?';
+
+  @override
+  String get reviewRequestBody =>
+      'We hope you\'re enjoying your products! Please take a moment to share your thoughts.';
+
+  @override
   String get ecommerceAppTitle => 'E-Commerce App';
 
   @override
@@ -1875,4 +1957,198 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newArrivalNotificationSent => 'New arrival notification sent!';
+
+  @override
+  String get notApplicable => 'N/A';
+
+  @override
+  String get addressNotAvailable => 'Address information not available';
+
+  @override
+  String get noNameProvided => 'No name provided';
+
+  @override
+  String get noStreetAddressProvided => 'No street address provided';
+
+  @override
+  String get noCityStateZipProvided => 'No city/state/zip information provided';
+
+  @override
+  String get noCountryProvided => 'No country provided';
+
+  @override
+  String get errorDisplayingAddress => 'Error displaying address information';
+
+  @override
+  String get cancelOrderButton => 'Cancel Order';
+
+  @override
+  String get cancelOrderTitle => 'Cancel Order';
+
+  @override
+  String get cancelOrderConfirmMessage =>
+      'Are you sure you want to cancel this order? This action cannot be undone.';
+
+  @override
+  String get orderCancellationSuccess =>
+      'Your order has been successfully cancelled.';
+
+  @override
+  String get orderCancellationFailed =>
+      'Unable to cancel your order. Please try again or contact customer support.';
+
+  @override
+  String get orderCancellationUnavailable =>
+      'This order can no longer be cancelled.';
+
+  @override
+  String get confirmButton => 'Confirm';
+
+  @override
+  String get orderTrackingTitle => 'Order Tracking';
+
+  @override
+  String get orderIdMissing => 'Order ID is missing';
+
+  @override
+  String get backToOrders => 'Back to Orders';
+
+  @override
+  String get trackingNumberCopied => 'Tracking number copied to clipboard';
+
+  @override
+  String get unableToTrackPackage => 'Unable to track package';
+
+  @override
+  String get orderDetailsTab => 'Details';
+
+  @override
+  String get shippingInfoTab => 'Shipping';
+
+  @override
+  String get supportTab => 'Support';
+
+  @override
+  String get trackingInformation => 'Tracking Information';
+
+  @override
+  String get trackingNumberLabel => 'Tracking Number';
+
+  @override
+  String get copyTrackingNumber => 'Copy Tracking Number';
+
+  @override
+  String get trackPackage => 'Track Package';
+
+  @override
+  String get orderItems => 'Order Items';
+
+  @override
+  String get paymentSummary => 'Payment Summary';
+
+  @override
+  String get deliveryAddressTitle => 'Delivery Address';
+
+  @override
+  String get estimatedDeliveryTitle => 'Estimated Delivery';
+
+  @override
+  String get carrierInformationTitle => 'Carrier Information';
+
+  @override
+  String deliveredOnDate(Object date) {
+    return 'Delivered on $date';
+  }
+
+  @override
+  String get deliveryDelayed => 'Delivery may be delayed';
+
+  @override
+  String get deliveringToday => 'Delivering today!';
+
+  @override
+  String get deliveringTomorrow => 'Delivering tomorrow';
+
+  @override
+  String deliveringInDays(Object days) {
+    return 'Delivering in $days days';
+  }
+
+  @override
+  String get estimatedDate => 'Estimated Date';
+
+  @override
+  String get carrierLabel => 'Carrier';
+
+  @override
+  String get lastUpdateLabel => 'Last Update';
+
+  @override
+  String get packageInTransit => 'Package in transit';
+
+  @override
+  String get orderStatus => 'Order Status';
+
+  @override
+  String get contactSupportTitle => 'Contact Support';
+
+  @override
+  String get orderReferenceLabel => 'Order Reference';
+
+  @override
+  String get copyOrderId => 'Copy Order ID';
+
+  @override
+  String get orderIdCopied => 'Order ID copied to clipboard';
+
+  @override
+  String get supportAvailabilityTitle => 'Support Availability';
+
+  @override
+  String get supportAvailabilityHours => 'Monday-Friday: 9am-6pm';
+
+  @override
+  String get supportPhoneNumber => '1-800-555-0123';
+
+  @override
+  String get supportEmailAddress => 'support@dermocosmetique.com';
+
+  @override
+  String get startConversation => 'Start a conversation';
+
+  @override
+  String get supportResponseTimeMessage =>
+      'Our team typically responds within 24 hours';
+
+  @override
+  String get typeMessageHint => 'Type your message...';
+
+  @override
+  String get sendMessage => 'Send Message';
+
+  @override
+  String get supportResponseCancelRefund =>
+      'For cancellation or refund requests, please visit the order details page and select \"Cancel Order\" or \"Request Refund\" option if available. If not available, our team will review your request and get back to you within 24 hours.';
+
+  @override
+  String get supportResponseDeliveryDelay =>
+      'We apologize for any delay with your delivery. Based on our tracking information, your package is still in transit. Unexpected delays can sometimes occur due to weather or local delivery conditions. Please check back tomorrow for an updated delivery estimate.';
+
+  @override
+  String get supportResponseDamagedOrder =>
+      'We\'re sorry to hear about issues with your order. Please take photos of the damaged or incorrect items and email them to support@dermocosmetique.com along with your order number. Our customer service team will process a replacement or refund within 1-2 business days.';
+
+  @override
+  String supportResponseGeneral(Object orderId) {
+    return 'Thank you for contacting customer support regarding Order #$orderId. A support representative will review your message and respond within 24 hours. If you need immediate assistance, please call our customer service line at 1-800-555-0123.';
+  }
+
+  @override
+  String get trackOrderButton => 'Track Order';
+
+  @override
+  String get paymentMethod => 'Payment Method';
+
+  @override
+  String get orderNotes => 'Order Notes';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/providers/enhanced_notification_provider.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
+import 'package:ecommerce/services/notification_scheduler_service.dart';
 
 class NotificationTestPage extends StatefulWidget {
   const NotificationTestPage({Key? key}) : super(key: key);
@@ -301,6 +302,158 @@ class _NotificationTestPageState extends State<NotificationTestPage> {
                             ),
                           ),
                         ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Order Lifecycle Notifications (using scheduler)
+              Card(
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        Directionality.of(context) == TextDirection.ltr 
+                          ? "Test Order Lifecycle Notifications"
+                          : "اختبار إشعارات دورة حياة الطلب",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        Directionality.of(context) == TextDirection.ltr 
+                          ? "Test the order lifecycle notification sequence from order placement to review request."
+                          : "اختبار تسلسل إشعارات دورة حياة الطلب من وضع الطلب إلى طلب المراجعة.",
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ListTile(
+                        title: Text(Directionality.of(context) == TextDirection.ltr 
+                          ? "Order Confirmation"
+                          : "تأكيد الطلب"),
+                        trailing: ElevatedButton(
+                          onPressed: () {
+                            final String orderId = _orderIdController.text.isNotEmpty 
+                                ? _orderIdController.text 
+                                : "12345";
+                            NotificationSchedulerService.instance.scheduleOrderConfirmation(
+                              orderId,
+                              "Customer Name",
+                              149.99,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  Directionality.of(context) == TextDirection.ltr 
+                                    ? "Order confirmation notification sent!"
+                                    : "تم إرسال إشعار تأكيد الطلب!"
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(Directionality.of(context) == TextDirection.ltr 
+                            ? "Send"
+                            : "إرسال"),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text(Directionality.of(context) == TextDirection.ltr 
+                          ? "Payment Confirmation"
+                          : "تأكيد الدفع"),
+                        trailing: ElevatedButton(
+                          onPressed: () {
+                            final String orderId = _orderIdController.text.isNotEmpty 
+                                ? _orderIdController.text 
+                                : "12345";
+                            NotificationSchedulerService.instance.schedulePaymentConfirmation(
+                              orderId,
+                              149.99,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  Directionality.of(context) == TextDirection.ltr 
+                                    ? "Payment confirmation notification sent!"
+                                    : "تم إرسال إشعار تأكيد الدفع!"
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(Directionality.of(context) == TextDirection.ltr 
+                            ? "Send"
+                            : "إرسال"),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text(Directionality.of(context) == TextDirection.ltr 
+                          ? "Shipping Notification"
+                          : "إشعار الشحن"),
+                        subtitle: Text(Directionality.of(context) == TextDirection.ltr 
+                          ? "Will also schedule a delivery reminder"
+                          : "سيقوم أيضًا بجدولة تذكير التسليم"),
+                        trailing: ElevatedButton(
+                          onPressed: () {
+                            final String orderId = _orderIdController.text.isNotEmpty 
+                                ? _orderIdController.text 
+                                : "12345";
+                            // Set delivery for 3 days from now
+                            final estimatedDelivery = DateTime.now().add(const Duration(days: 3));
+                            NotificationSchedulerService.instance.scheduleShippingNotification(
+                              orderId,
+                              estimatedDelivery,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  Directionality.of(context) == TextDirection.ltr 
+                                    ? "Shipping notification sent with reminder scheduled!"
+                                    : "تم إرسال إشعار الشحن مع جدولة التذكير!"
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(Directionality.of(context) == TextDirection.ltr 
+                            ? "Send"
+                            : "إرسال"),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text(Directionality.of(context) == TextDirection.ltr 
+                          ? "Delivery Confirmation"
+                          : "تأكيد التسليم"),
+                        subtitle: Text(Directionality.of(context) == TextDirection.ltr 
+                          ? "Will also schedule a review request"
+                          : "سيقوم أيضًا بجدولة طلب مراجعة"),
+                        trailing: ElevatedButton(
+                          onPressed: () {
+                            final String orderId = _orderIdController.text.isNotEmpty 
+                                ? _orderIdController.text 
+                                : "12345";
+                            NotificationSchedulerService.instance.scheduleDeliveryConfirmation(
+                              orderId,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  Directionality.of(context) == TextDirection.ltr 
+                                    ? "Delivery confirmation sent with review request scheduled!"
+                                    : "تم إرسال تأكيد التسليم مع جدولة طلب المراجعة!"
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(Directionality.of(context) == TextDirection.ltr 
+                            ? "Send"
+                            : "إرسال"),
+                        ),
                       ),
                     ],
                   ),

@@ -181,41 +181,12 @@ class ConfirmationStepWidget extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigate directly to order tracking
-                    OrderService.instance.navigateToOrderTracking(order!.id);
+                    // Navigate to order tracking or order details
+                    _showOrderDetails(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.local_shipping, size: 20),
-                      const SizedBox(width: 8),
-                      Text(
-                        _getLocalizedText(AppLocalizations.of(context), 'trackOrderButton', 'Track Order'),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Navigate to order details
-                    _showOrderDetails(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[200],
-                    foregroundColor: Colors.black87,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: Text(

@@ -1,5 +1,110 @@
 {
   "@@locale": "en",
+  "orderConfirmationTitle": "Order Confirmation #{orderId}",
+  "@orderConfirmationTitle": {
+    "description": "Title for order confirmation notification",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "notificationsTitle": "Order Updates",
+  "@notificationsTitle": {
+    "description": "Title for notifications section on order confirmation page"
+  },
+  "orderConfirmationNotification": "You will receive a confirmation notification immediately after placing your order.",
+  "@orderConfirmationNotification": {
+    "description": "Order confirmation notification explanation"
+  },
+  "paymentConfirmationNotification": "A payment confirmation notification will be sent when your payment is processed.",
+  "@paymentConfirmationNotification": {
+    "description": "Payment confirmation notification explanation"
+  },
+  "shippingNotification": "We'll notify you when your order is shipped with an estimated delivery date.",
+  "@shippingNotification": {
+    "description": "Shipping notification explanation"
+  },
+  "deliveryNotification": "A notification will be sent when your order is delivered, followed by a request for review.",
+  "@deliveryNotification": {
+    "description": "Delivery notification explanation"
+  },
+  "navigatingToOrderDetails": "Navigating to order #{orderId} details",
+  "@navigatingToOrderDetails": {
+    "description": "Message shown when navigating to order details",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderNotFound": "Order #{orderId} not found",
+  "@orderNotFound": {
+    "description": "Message shown when order is not found",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderConfirmationBody": "Thank you, {customerName}! Your order for ${orderTotal} has been received.",
+  "@orderConfirmationBody": {
+    "description": "Body for order confirmation notification",
+    "placeholders": {
+      "customerName": {},
+      "orderTotal": {}
+    }
+  },
+  "paymentConfirmedTitle": "Payment Confirmed",
+  "@paymentConfirmedTitle": {
+    "description": "Title for payment confirmation notification"
+  },
+  "paymentConfirmedBody": "Your payment of ${amount} for order #{orderId} was successful.",
+  "@paymentConfirmedBody": {
+    "description": "Body for payment confirmation notification",
+    "placeholders": {
+      "amount": {},
+      "orderId": {}
+    }
+  },
+  "orderShippedTitle": "Your Order #{orderId} Has Been Shipped",
+  "@orderShippedTitle": {
+    "description": "Title for order shipped notification",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderShippedBody": "Your order is on its way! Expected delivery: {date}.",
+  "@orderShippedBody": {
+    "description": "Body for order shipped notification",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "orderArrivesTomorrowTitle": "Your Order #{orderId} Arrives Tomorrow",
+  "@orderArrivesTomorrowTitle": {
+    "description": "Title for order arrives tomorrow notification",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderArrivesTomorrowBody": "Your package is scheduled for delivery tomorrow. Make sure someone is available to receive it!",
+  "@orderArrivesTomorrowBody": {
+    "description": "Body for order arrives tomorrow notification"
+  },
+  "orderDeliveredTitle": "Order #{orderId} Delivered",
+  "@orderDeliveredTitle": {
+    "description": "Title for order delivered notification",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "orderDeliveredBody": "Your order has been delivered. Enjoy your products!",
+  "@orderDeliveredBody": {
+    "description": "Body for order delivered notification"
+  },
+  "reviewRequestTitle": "How Was Your Order?",
+  "@reviewRequestTitle": {
+    "description": "Title for review request notification"
+  },
+  "reviewRequestBody": "We hope you're enjoying your products! Please take a moment to share your thoughts.",
+  "@reviewRequestBody": {
+    "description": "Body for review request notification"
+  },
   "ecommerceAppTitle": "E-Commerce App",
   "welcomeBack": "Welcome Back",
   "@welcomeBack": {
@@ -791,23 +896,23 @@
   },
   "orderSummaryTitle": "Order Summary",
   "@orderSummaryTitle": {
-    "description": "Order summary section title"
+    "description": "Title for order summary section"
   },
   "subtotalLabel": "Subtotal",
   "@subtotalLabel": {
-    "description": "Subtotal label in order summary"
+    "description": "Label for order subtotal"
   },
   "taxLabel": "Tax",
   "@taxLabel": {
-    "description": "Tax label in order summary"
+    "description": "Label for order tax"
   },
   "shippingLabel": "Shipping",
   "@shippingLabel": {
-    "description": "Shipping label in order summary"
+    "description": "Label for order shipping"
   },
   "discountLabel": "Discount",
   "@discountLabel": {
-    "description": "Discount label in order summary"
+    "description": "Label for order discount"
   },
   "totalLabel": "Total",
   "@totalLabel": {
@@ -1914,5 +2019,255 @@
   "newArrivalNotificationSent": "New arrival notification sent!",
   "@newArrivalNotificationSent": {
     "description": "Message shown when new arrival notification is sent"
+  },
+  "notApplicable": "N/A",
+  "@notApplicable": {
+    "description": "Text to display when a value is not applicable"
+  },
+  "addressNotAvailable": "Address information not available",
+  "@addressNotAvailable": {
+    "description": "Message shown when address is not available"
+  },
+  "noNameProvided": "No name provided",
+  "@noNameProvided": {
+    "description": "Message shown when no name is provided in address"
+  },
+  "noStreetAddressProvided": "No street address provided",
+  "@noStreetAddressProvided": {
+    "description": "Message shown when no street address is provided"
+  },
+  "noCityStateZipProvided": "No city/state/zip information provided",
+  "@noCityStateZipProvided": {
+    "description": "Message shown when no city/state/zip is provided"
+  },
+  "noCountryProvided": "No country provided",
+  "@noCountryProvided": {
+    "description": "Message shown when no country is provided"
+  },
+  "errorDisplayingAddress": "Error displaying address information",
+  "@errorDisplayingAddress": {
+    "description": "Message shown when there is an error displaying address"
+  },
+  "cancelOrderButton": "Cancel Order",
+  "@cancelOrderButton": {
+    "description": "Button to cancel an order"
+  },
+  "cancelOrderTitle": "Cancel Order",
+  "@cancelOrderTitle": {
+    "description": "Title for cancel order dialog"
+  },
+  "cancelOrderConfirmMessage": "Are you sure you want to cancel this order? This action cannot be undone.",
+  "@cancelOrderConfirmMessage": {
+    "description": "Confirmation message for order cancellation"
+  },
+  "orderCancellationSuccess": "Your order has been successfully cancelled.",
+  "@orderCancellationSuccess": {
+    "description": "Success message after order cancellation"
+  },
+  "orderCancellationFailed": "Unable to cancel your order. Please try again or contact customer support.",
+  "@orderCancellationFailed": {
+    "description": "Error message when order cancellation fails"
+  },
+  "orderCancellationUnavailable": "This order can no longer be cancelled.",
+  "@orderCancellationUnavailable": {
+    "description": "Message shown when order can't be cancelled"
+  },
+  "confirmButton": "Confirm",
+  "@confirmButton": {
+    "description": "Text for confirm button in dialogs"
+  },
+  
+  "orderTrackingTitle": "Order Tracking",
+  "@orderTrackingTitle": {
+    "description": "Title for order tracking page"
+  },
+  "orderIdMissing": "Order ID is missing",
+  "@orderIdMissing": {
+    "description": "Message shown when order ID is missing"
+  },
+  "backToOrders": "Back to Orders",
+  "@backToOrders": {
+    "description": "Button text to go back to orders list"
+  },
+  "trackingNumberCopied": "Tracking number copied to clipboard",
+  "@trackingNumberCopied": {
+    "description": "Message shown when tracking number is copied"
+  },
+  "unableToTrackPackage": "Unable to track package",
+  "@unableToTrackPackage": {
+    "description": "Message shown when package tracking fails"
+  },
+  "orderDetailsTab": "Details",
+  "@orderDetailsTab": {
+    "description": "Order details tab title"
+  },
+  "shippingInfoTab": "Shipping",
+  "@shippingInfoTab": {
+    "description": "Shipping info tab title"
+  },
+  "supportTab": "Support",
+  "@supportTab": {
+    "description": "Support tab title"
+  },
+  "trackingInformation": "Tracking Information",
+  "@trackingInformation": {
+    "description": "Tracking information section title"
+  },
+  "trackingNumberLabel": "Tracking Number",
+  "@trackingNumberLabel": {
+    "description": "Tracking number field label"
+  },
+  "copyTrackingNumber": "Copy Tracking Number",
+  "@copyTrackingNumber": {
+    "description": "Tooltip for copy tracking number button"
+  },
+  "trackPackage": "Track Package",
+  "@trackPackage": {
+    "description": "Track package button text"
+  },
+  "orderItems": "Order Items",
+  "@orderItems": {
+    "description": "Order items section title"
+  },
+  "paymentSummary": "Payment Summary",
+  "@paymentSummary": {
+    "description": "Payment summary section title"
+  },
+  "deliveryAddressTitle": "Delivery Address",
+  "@deliveryAddressTitle": {
+    "description": "Delivery address section title"
+  },
+  "estimatedDeliveryTitle": "Estimated Delivery",
+  "@estimatedDeliveryTitle": {
+    "description": "Estimated delivery section title"
+  },
+  "carrierInformationTitle": "Carrier Information",
+  "@carrierInformationTitle": {
+    "description": "Carrier information section title"
+  },
+  "deliveredOnDate": "Delivered on {date}",
+  "@deliveredOnDate": {
+    "description": "Delivered on date message",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "deliveryDelayed": "Delivery may be delayed",
+  "@deliveryDelayed": {
+    "description": "Delivery delayed message"
+  },
+  "deliveringToday": "Delivering today!",
+  "@deliveringToday": {
+    "description": "Delivering today message"
+  },
+  "deliveringTomorrow": "Delivering tomorrow",
+  "@deliveringTomorrow": {
+    "description": "Delivering tomorrow message"
+  },
+  "deliveringInDays": "Delivering in {days} days",
+  "@deliveringInDays": {
+    "description": "Delivering in days message",
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "estimatedDate": "Estimated Date",
+  "@estimatedDate": {
+    "description": "Estimated date label"
+  },
+  "carrierLabel": "Carrier",
+  "@carrierLabel": {
+    "description": "Carrier label"
+  },
+  "lastUpdateLabel": "Last Update",
+  "@lastUpdateLabel": {
+    "description": "Last update label"
+  },
+  "packageInTransit": "Package in transit",
+  "@packageInTransit": {
+    "description": "Package in transit message"
+  },
+  "orderStatus": "Order Status",
+  "@orderStatus": {
+    "description": "Order status section title"
+  },
+  "contactSupportTitle": "Contact Support",
+  "@contactSupportTitle": {
+    "description": "Contact support section title"
+  },
+  "orderReferenceLabel": "Order Reference",
+  "@orderReferenceLabel": {
+    "description": "Order reference label"
+  },
+  "copyOrderId": "Copy Order ID",
+  "@copyOrderId": {
+    "description": "Copy order ID tooltip"
+  },
+  "orderIdCopied": "Order ID copied to clipboard",
+  "@orderIdCopied": {
+    "description": "Message shown when order ID is copied"
+  },
+  "supportAvailabilityTitle": "Support Availability",
+  "@supportAvailabilityTitle": {
+    "description": "Support availability section title"
+  },
+  "supportAvailabilityHours": "Monday-Friday: 9am-6pm",
+  "@supportAvailabilityHours": {
+    "description": "Support availability hours"
+  },
+  "supportPhoneNumber": "1-800-555-0123",
+  "@supportPhoneNumber": {
+    "description": "Support phone number"
+  },
+  "supportEmailAddress": "support@dermocosmetique.com",
+  "@supportEmailAddress": {
+    "description": "Support email address"
+  },
+  "startConversation": "Start a conversation",
+  "@startConversation": {
+    "description": "Start conversation prompt"
+  },
+  "supportResponseTimeMessage": "Our team typically responds within 24 hours",
+  "@supportResponseTimeMessage": {
+    "description": "Support response time message"
+  },
+  "typeMessageHint": "Type your message...",
+  "@typeMessageHint": {
+    "description": "Type message hint"
+  },
+  "sendMessage": "Send Message",
+  "@sendMessage": {
+    "description": "Send message tooltip"
+  },
+  "supportResponseCancelRefund": "For cancellation or refund requests, please visit the order details page and select \"Cancel Order\" or \"Request Refund\" option if available. If not available, our team will review your request and get back to you within 24 hours.",
+  "@supportResponseCancelRefund": {
+    "description": "Support response for cancellation or refund requests"
+  },
+  "supportResponseDeliveryDelay": "We apologize for any delay with your delivery. Based on our tracking information, your package is still in transit. Unexpected delays can sometimes occur due to weather or local delivery conditions. Please check back tomorrow for an updated delivery estimate.",
+  "@supportResponseDeliveryDelay": {
+    "description": "Support response for delivery delay inquiries"
+  },
+  "supportResponseDamagedOrder": "We're sorry to hear about issues with your order. Please take photos of the damaged or incorrect items and email them to support@dermocosmetique.com along with your order number. Our customer service team will process a replacement or refund within 1-2 business days.",
+  "@supportResponseDamagedOrder": {
+    "description": "Support response for damaged or incorrect orders"
+  },
+  "supportResponseGeneral": "Thank you for contacting customer support regarding Order #{orderId}. A support representative will review your message and respond within 24 hours. If you need immediate assistance, please call our customer service line at 1-800-555-0123.",
+  "@supportResponseGeneral": {
+    "description": "General support response",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "trackOrderButton": "Track Order",
+  "@trackOrderButton": {
+    "description": "Button text to track an order"
+  },
+  "paymentMethod": "Payment Method",
+  "@paymentMethod": {
+    "description": "Payment method section title in order details"
+  },
+  "orderNotes": "Order Notes",
+  "@orderNotes": {
+    "description": "Order notes section title in order details"
   }
 }
