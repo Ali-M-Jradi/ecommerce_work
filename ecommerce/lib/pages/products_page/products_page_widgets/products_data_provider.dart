@@ -4,7 +4,7 @@ class ProductsDataProvider {
   static List<Map<String, dynamic>> getDemoProducts() {
     return [
       {
-        'brand': 'Avène', // Keep brand name in English
+        'brand': 'Avène',
         'name': {
           'en': 'Thermal Spring Water Face Mist',
           'ar': 'رذاذ الوجه بالمياه الحرارية الطبيعية'
@@ -18,11 +18,12 @@ class ProductsDataProvider {
         'price': '12.99',
         'rating': '4.5',
         'soldOut': false,
+        'barcode': '1234567890123',
         'image':
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
-        'brand': 'La Roche-Posay', // Keep brand name in English
+        'brand': 'La Roche-Posay',
         'name': {
           'en': 'Toleriane Double Repair Face Moisturizer with SPF 30',
           'ar': 'مرطب الوجه المضاعف الإصلاح مع عامل حماية من الشمس 30'
@@ -36,11 +37,12 @@ class ProductsDataProvider {
         'price': '19.99',
         'rating': '4.7',
         'soldOut': true,
+        'barcode': '2345678901234',
         'image':
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
-        'brand': 'Vichy', // Keep brand name in English
+        'brand': 'Vichy',
         'name': {
           'en': 'Mineral 89 Hyaluronic Acid Face Serum',
           'ar': 'سيروم الوجه بحمض الهيالورونيك المينرال 89'
@@ -54,6 +56,7 @@ class ProductsDataProvider {
         'price': '29.99',
         'rating': '4.3',
         'soldOut': false,
+        'barcode': '3456789012345',
         'image':
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },

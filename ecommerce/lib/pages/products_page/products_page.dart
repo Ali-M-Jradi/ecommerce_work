@@ -4,6 +4,7 @@ import 'package:ecommerce/providers/language_provider.dart';
 import 'package:ecommerce/pages/base_page/base_page_widgets/floating_action_buttons_widget.dart';
 import '../cart_page/cart_page.dart';
 import '../../../main.dart'; // Import for global navigator key
+
 import 'products_page_widgets/products_app_bar_widget.dart';
 import 'products_page_widgets/products_grid_view_widget.dart';
 import 'products_page_widgets/products_list_view_widget.dart';
@@ -13,6 +14,10 @@ import 'products_page_widgets/search_bar_widget.dart';
 import 'products_page_widgets/filter_bottom_sheet.dart';
 import 'products_page_widgets/products_page_controller.dart';
 import 'products_page_widgets/products_page_constants.dart';
+import 'barcode_scanner_page.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'products_page_widgets/products_data_provider.dart';
 
 class ProductsPage extends StatefulWidget {
   final String? category;
@@ -137,17 +142,81 @@ class _ProductsPageState extends State<ProductsPage> {
           ),
         ],
       ),
-      floatingActionButton: _controller.showFloatingButtons 
-        ? FloatingActionButtonsWidget(
-            heroTagPrefix: 'products_page',
-            onLoyaltyPressed: () {
-              // Handle loyalty program
-            },
-            onContactPressed: () {
-              // Handle contact us
-            },
-          )
-        : null,
+      floatingActionButton: _controller.showFloatingButtons
+          ? FloatingActionButtonsWidget(
+              heroTagPrefix: 'products_page',
+              onLoyaltyPressed: () {
+                // Handle loyalty program
+              },
+              onContactPressed: () {
+                // Handle contact us
+              },
+              onScanBarcodePressed: () async {
+                // Camera permission check using permission_handler
+                final status = await Permission.camera.status;
+                bool granted = false;
+                if (status.isGranted) {
+                  granted = true;
+                } else if (status.isDenied || status.isRestricted) {
+                  final result = await Permission.camera.request();
+                  granted = result.isGranted;
+                } else if (status.isPermanentlyDenied) {
+                  granted = false;
+                }
+                if (!granted) {
+                  if (mounted) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Camera Permission Required'),
+                        content: Text(
+                          status.isPermanentlyDenied
+                              ? 'Camera permission is permanently denied. Please enable it from app settings.'
+                              : 'Camera access is required to scan barcodes. Please enable camera permission in your device settings.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              if (status.isPermanentlyDenied) {
+                                await openAppSettings();
+                              } else {
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: Text(status.isPermanentlyDenied ? 'Open Settings' : 'OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return;
+                }
+                final result = await Navigator.of(context).push<String>(
+                  MaterialPageRoute(
+                    builder: (context) => BarcodeScannerPage(),
+                  ),
+                );
+                if (result != null) {
+                  // Search for the product in the local list using the barcode value
+                  final products = ProductsDataProvider.getDemoProducts();
+                  final found = products.firstWhere(
+                    (p) => p['barcode'] == result,
+                    orElse: () => {},
+                  );
+                  if (found.isNotEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => ProductDetailsDialogWidget(product: found),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('No product found for barcode: $result')),
+                    );
+                  }
+                }
+              },
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         );
       },

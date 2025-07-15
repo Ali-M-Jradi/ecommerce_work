@@ -2,7 +2,7 @@ import 'package:ecommerce/pages/base_page/base_page.dart';
 import 'package:ecommerce/pages/checkout_page/checkout_page.dart';
 import 'package:ecommerce/pages/auth/login_page.dart';
 import 'package:ecommerce/pages/auth/signup_page.dart';
-import 'package:ecommerce/pages/notification_test_page.dart';
+import 'package:ecommerce/pages/notifications/notification_test_page.dart';
 import 'package:ecommerce/pages/notifications/notifications_page.dart';
 import 'package:ecommerce/pages/profile/profile_page.dart';
 import 'package:ecommerce/pages/orders/order_tracking_page.dart';
