@@ -5,6 +5,10 @@ import '../base_page/base_page_widgets/footer_widget.dart';
 import '../products_page/products_page.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
 
+import 'package:ecommerce/shared/scan_utils.dart';
+import 'package:ecommerce/shared/unified_scan_fab.dart';
+
+
 class HomePage extends StatefulWidget {
   final Function(bool)? onFloatingButtonVisibilityChanged;
   const HomePage({super.key, this.onFloatingButtonVisibilityChanged});
@@ -13,9 +17,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+
+class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanFabMixin {
   final ScrollController _scrollController = ScrollController();
-  bool _lastVisibilityState = true;
+  bool _showFloatingButtons = true;
 
   @override
   void initState() {
@@ -33,20 +38,40 @@ class _HomePageState extends State<HomePage> {
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-    final threshold = maxScroll * 0.85; // Hide when 85% scrolled
-
-    bool shouldShow = currentScroll < threshold;
-
-    if (shouldShow != _lastVisibilityState) {
-      _lastVisibilityState = shouldShow;
-      widget.onFloatingButtonVisibilityChanged?.call(shouldShow);
+    final threshold = maxScroll - 80.0; // Hide when near bottom/footer (80px from bottom)
+    final percentageScrolled = maxScroll > 0 ? currentScroll / maxScroll : 0.0;
+    final atBottom = (maxScroll - currentScroll) <= 10.0;
+    final shouldShow = !atBottom && currentScroll < threshold && percentageScrolled < 0.97;
+    if (_showFloatingButtons != shouldShow) {
+      setState(() {
+        _showFloatingButtons = shouldShow;
+      });
     }
   }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFBFF),
+      floatingActionButton: _showFloatingButtons
+          ? UnifiedScanFab(
+              heroTagPrefix: 'home_page',
+              onLoyaltyPressed: () {
+                // Handle loyalty program
+              },
+              onContactPressed: () {
+                // Handle contact us
+              },
+              onScanPressed: () async {
+                await showScanOptionsModal(context);
+              },
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [

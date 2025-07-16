@@ -4,6 +4,7 @@ import '../../../providers/cart_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/mock_notification_provider.dart';
 import '../../../localization/app_localizations_helper.dart';
+// Make sure this import points to the file where NotificationsPage is defined
 import '../../../pages/notifications/notifications_page.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
