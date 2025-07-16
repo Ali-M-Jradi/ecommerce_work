@@ -11,7 +11,7 @@ class BarcodeScannerPage extends StatefulWidget {
 }
 
 
-class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
+class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBindingObserver {
   String? _errorMessage;
   bool _scanned = false;
   final MobileScannerController _controller = MobileScannerController();
@@ -38,9 +38,29 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
       }
     } else if (status.isPermanentlyDenied) {
       setState(() {
-        _errorMessage = 'Camera permission is permanently denied. Please enable it from app settings.';
+        _errorMessage = 'permanently_denied';
       });
     }
+  }
+
+  // Re-check permission when returning from app settings
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkCameraPermission();
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
@@ -67,6 +87,24 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                 }
               },
             ),
+          // Settings button overlay (top left) - always visible
+          Positioned(
+            top: 24,
+            left: 24,
+            child: ElevatedButton.icon(
+              icon: Icon(Icons.settings, color: Colors.white),
+              label: Text('Settings', style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black.withOpacity(0.7),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                elevation: 0,
+              ),
+              onPressed: () async {
+                await openAppSettings();
+              },
+            ),
+          ),
           // Error message overlay
           if (_errorMessage != null)
             Positioned.fill(
@@ -78,22 +116,38 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                     children: [
                       Icon(Icons.error, color: Colors.red, size: 60),
                       SizedBox(height: 16),
-                      Text(
-                        _errorMessage!,
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 24),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_errorMessage?.contains('settings') == true) {
+                      if (_errorMessage == 'permanently_denied') ...[
+                        Text(
+                          'Camera permission is permanently denied.\nTo use the scanner, please enable camera access in your app settings.',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 24),
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.settings),
+                          label: Text('Open App Settings'),
+                          onPressed: () async {
                             await openAppSettings();
-                          } else {
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        child: Text('Close'),
-                      ),
+                            // When returning, didChangeAppLifecycleState will re-check permission
+                          },
+                        ),
+                        SizedBox(height: 12),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('Close', style: TextStyle(color: Colors.white)),
+                        ),
+                      ] else ...[
+                        Text(
+                          _errorMessage!,
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 24),
+                        ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('Close'),
+                        ),
+                      ],
                     ],
                   ),
                 ),

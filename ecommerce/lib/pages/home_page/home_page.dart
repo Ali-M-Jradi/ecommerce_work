@@ -3,17 +3,10 @@ import 'home_page_widgets/featured_products_carousel.dart';
 import 'home_page_widgets/hero_banner_carousel.dart';
 import '../base_page/base_page_widgets/footer_widget.dart';
 import '../products_page/products_page.dart';
-import '../products_page/barcode_scanner_page.dart';
-import 'package:permission_handler/permission_handler.dart';
-import '../products_page/products_page_widgets/products_data_provider.dart';
-import '../products_page/products_page_widgets/product_details_dialog_widget.dart';
-// import 'package:ecommerce/l10n/app_localizations.dart';
-import '../base_page/base_page_widgets/floating_action_buttons_widget.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 class HomePage extends StatefulWidget {
   final Function(bool)? onFloatingButtonVisibilityChanged;
-  
   const HomePage({super.key, this.onFloatingButtonVisibilityChanged});
 
   @override
@@ -68,7 +61,6 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ...existing code...
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -219,73 +211,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButtonsWidget(
-        heroTagPrefix: 'home_page',
-        onScanBarcodePressed: () async {
-          final status = await Permission.camera.status;
-          bool granted = false;
-          if (status.isGranted) {
-            granted = true;
-          } else if (status.isDenied || status.isRestricted) {
-            final result = await Permission.camera.request();
-            granted = result.isGranted;
-          } else if (status.isPermanentlyDenied) {
-            granted = false;
-          }
-          if (!granted) {
-            if (mounted) {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Camera Permission Required'),
-                  content: Text(
-                    status.isPermanentlyDenied
-                        ? 'Camera permission is permanently denied. Please enable it from app settings.'
-                        : 'Camera access is required to scan barcodes. Please enable camera permission in your device settings.',
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () async {
-                        if (status.isPermanentlyDenied) {
-                          await openAppSettings();
-                        } else {
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: Text(status.isPermanentlyDenied ? 'Open Settings' : 'OK'),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return;
-          }
-          final result = await Navigator.of(context).push<String>(
-            MaterialPageRoute(
-              builder: (context) => BarcodeScannerPage(),
-            ),
-          );
-          if (result != null) {
-            // Search for the product in the local list using the barcode value
-            final products = ProductsDataProvider.getDemoProducts();
-            final found = products.firstWhere(
-              (p) => p['barcode'] == result,
-              orElse: () => {},
-            );
-            if (found.isNotEmpty) {
-              showDialog(
-                context: context,
-                builder: (context) => ProductDetailsDialogWidget(product: found),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('No product found for barcode: $result')),
-              );
-            }
-          }
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
