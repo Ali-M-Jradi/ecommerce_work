@@ -65,6 +65,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('[Scan] BarcodeScannerPage build called');
     return Scaffold(
       appBar: AppBar(title: const Text('Scan Product Barcode')),
       body: Stack(
@@ -73,19 +74,43 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
             MobileScanner(
               controller: _controller,
               onDetect: (BarcodeCapture capture) {
+                debugPrint('[Scan] MobileScanner onDetect called');
                 final barcode = capture.barcodes.isNotEmpty ? capture.barcodes.first : null;
                 final value = barcode?.rawValue;
+                debugPrint('[Scan] Detected barcode value: $value');
                 if (!_scanned && value != null) {
                   setState(() => _scanned = true);
                   // Delay pop to show feedback
                   Future.delayed(const Duration(milliseconds: 600), () {
                     if (mounted) {
+                      debugPrint('[Scan] Barcode detected, popping with value: $value');
                       widget.onScanned?.call(value);
                       Navigator.of(context).pop(value);
                     }
                   });
                 }
               },
+              // Ensure scanner is enabled
+              fit: BoxFit.cover,
+            ),
+          // Scan area overlay (centered frame)
+          if (_errorMessage == null)
+            Center(
+              child: Container(
+                width: 260,
+                height: 180,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.deepPurple, width: 4),
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.deepPurple.withOpacity(0.08),
+                ),
+                child: Center(
+                  child: Text(
+                    'Align barcode here',
+                    style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
             ),
           // Settings button overlay (top left) - always visible
           Positioned(
@@ -106,66 +131,48 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
             ),
           ),
           // Error message overlay
-          if (_errorMessage != null)
-            Positioned.fill(
-              child: Container(
-                color: Colors.black.withOpacity(0.7),
-                child: Center(
-                  child: Column(
+    if (_errorMessage != null)
+      Positioned.fill(
+        child: Container(
+          color: Colors.black.withOpacity(0.7),
+          child: Center(
+            child: _errorMessage == 'permanently_denied'
+                ? Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.error, color: Colors.red, size: 60),
-                      SizedBox(height: 16),
-                      if (_errorMessage == 'permanently_denied') ...[
-                        Text(
-                          'Camera permission is permanently denied.\nTo use the scanner, please enable camera access in your app settings.',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 24),
-                        ElevatedButton.icon(
-                          icon: Icon(Icons.settings),
-                          label: Text('Open App Settings'),
-                          onPressed: () async {
-                            await openAppSettings();
-                            // When returning, didChangeAppLifecycleState will re-check permission
-                          },
-                        ),
-                        SizedBox(height: 12),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: Text('Close', style: TextStyle(color: Colors.white)),
-                        ),
-                      ] else ...[
-                        Text(
-                          _errorMessage!,
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 24),
-                        ElevatedButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: Text('Close'),
-                        ),
-                      ],
+                      const Icon(Icons.error, color: Colors.red, size: 48),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Camera permission permanently denied.\nPlease enable it in app settings.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.settings),
+                        label: const Text('Open Settings'),
+                        onPressed: () async {
+                          await openAppSettings();
+                        },
+                      ),
+                    ],
+                  )
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.error, color: Colors.red, size: 48),
+                      const SizedBox(height: 16),
+                      Text(
+                        _errorMessage ?? '',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                     ],
                   ),
-                ),
-              ),
-            ),
-          // Scan feedback overlay
-          if (_scanned)
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.green, width: 8),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child: Icon(Icons.check_circle, color: Colors.green, size: 100),
-                ),
-              ),
-            ),
+          ),
+        ),
+      ),
+          // ...removed green checkmark and border overlay...
           // Torch/flashlight toggle button
           if (_errorMessage == null)
             Positioned(

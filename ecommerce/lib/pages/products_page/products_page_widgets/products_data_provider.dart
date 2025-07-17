@@ -18,7 +18,7 @@ class ProductsDataProvider {
         'price': '12.99',
         'rating': '4.5',
         'soldOut': false,
-        'barcode': '1234567890123',
+        'barcode': '5287002102122',
         'image':
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
