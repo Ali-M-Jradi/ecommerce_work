@@ -24,12 +24,14 @@ class SearchBarWidget extends StatefulWidget {
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.grey[100] ?? Colors.grey.shade100,
+        color: isDark ? colorScheme.surface : colorScheme.secondaryContainer,
         borderRadius: BorderRadius.circular(25.0),
-        border: Border.all(color: Colors.grey[300] ?? Colors.grey.shade300),
+        border: Border.all(color: isDark ? colorScheme.outline : colorScheme.secondary),
       ),
       child: TextField(
         controller: widget.controller,
@@ -42,16 +44,16 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           hintText: widget.hintText.isEmpty 
               ? AppLocalizationsHelper.of(context).searchProductsHint 
               : widget.hintText,
-          hintStyle: TextStyle(color: Colors.grey[600] ?? Colors.grey.shade600),
+          hintStyle: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
           prefixIcon: Icon(
             Icons.search,
-            color: Colors.grey[600] ?? Colors.grey.shade600,
+            color: colorScheme.onSurface.withOpacity(0.7),
           ),
           suffixIcon: widget.controller.text.isNotEmpty
               ? IconButton(
                   icon: Icon(
                     Icons.clear,
-                    color: Colors.grey[600] ?? Colors.grey.shade600,
+                    color: colorScheme.onSurface.withOpacity(0.7),
                   ),
                   onPressed: () {
                     widget.controller.clear();

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/providers/enhanced_notification_provider.dart';
-import 'package:ecommerce/localization/app_localizations_helper.dart';
 import 'package:ecommerce/services/notification_scheduler_service.dart';
 
 class NotificationTestPage extends StatefulWidget {
-  const NotificationTestPage({Key? key}) : super(key: key);
+  const NotificationTestPage({super.key});
 
   @override
   State<NotificationTestPage> createState() => _NotificationTestPageState();

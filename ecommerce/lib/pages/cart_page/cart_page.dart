@@ -14,47 +14,50 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LanguageProvider>(
       builder: (context, languageProvider, child) {
+        final theme = Theme.of(context);
+        final colorScheme = theme.colorScheme;
         return Scaffold(
-          backgroundColor: const Color(0xFFFFFBFF),
+          backgroundColor: colorScheme.surface,
           appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          AppLocalizationsHelper.of(context).shoppingCartTitle,
-          style: TextStyle(
-            color: Colors.deepPurple.shade700,
-            fontWeight: FontWeight.bold,
+            backgroundColor: colorScheme.surface,
+            elevation: 0.5,
+            title: Text(
+              AppLocalizationsHelper.of(context).shoppingCartTitle,
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: colorScheme.onSurface,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            actions: [
+              Consumer<CartProvider>(
+                builder: (context, cart, child) {
+                  if (cart.isNotEmpty) {
+                    return TextButton(
+                      onPressed: () {
+                        _showClearCartDialog(context, cart);
+                      },
+                      child: Text(
+                        AppLocalizationsHelper.of(context).clearAll,
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: theme.colorScheme.error,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ],
           ),
-        ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.deepPurple.shade700,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        actions: [
-          Consumer<CartProvider>(
-            builder: (context, cart, child) {
-              if (cart.isNotEmpty) {
-                return TextButton(
-                  onPressed: () {
-                    _showClearCartDialog(context, cart);
-                  },
-                  child: Text(
-                    AppLocalizationsHelper.of(context).clearAll, // This key exists
-                    style: TextStyle(
-                      color: Colors.red.shade600,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-        ],
-      ),
-      body: Consumer<CartProvider>(
+          body: Consumer<CartProvider>(
         builder: (context, cart, child) {
           if (cart.isEmpty) {
             return const EmptyCartWidget();
@@ -75,32 +78,37 @@ class CartPage extends StatelessWidget {
                         cart.updateItemQuantity(cartItem.id, newQuantity);
                       },
                       onRemove: () {
+                        // Capture all required data and localized string before removal
+                        final removedProduct = cartItem.originalProduct ?? {
+                          'id': cartItem.productId,
+                          'name': cartItem.name,
+                          'brand': cartItem.brand,
+                          'price': cartItem.price,
+                          'image': cartItem.image,
+                          'size': cartItem.size,
+                          'category': cartItem.category,
+                          'description': cartItem.description,
+                        };
+                        final removedQuantity = cartItem.quantity;
+                        final removedName = cartItem.name;
+                        final removedLocalizedMsg = AppLocalizationsHelper.of(context).itemRemovedFromCart(removedName);
+                        final undoLabel = AppLocalizationsHelper.of(context).undo;
+                        final theme = Theme.of(context);
+                        final colorScheme = theme.colorScheme;
                         cart.removeItem(cartItem.id);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(AppLocalizationsHelper.of(context).itemRemovedFromCart(cartItem.name)),
-                            backgroundColor: Colors.deepPurple.shade600,
+                            content: Text(
+                              removedLocalizedMsg,
+                              style: TextStyle(color: colorScheme.onInverseSurface),
+                            ),
+                            backgroundColor: colorScheme.inverseSurface,
                             duration: const Duration(seconds: 2),
                             action: SnackBarAction(
-                              label: AppLocalizationsHelper.of(context).undo,
-                              textColor: Colors.white,
+                              label: undoLabel,
+                              textColor: colorScheme.primary,
                               onPressed: () {
-                                // Re-add the item using original product data if available
-                                if (cartItem.originalProduct != null) {
-                                  cart.addItem(cartItem.originalProduct!, quantity: cartItem.quantity, context: context);
-                                } else {
-                                  // Fallback to recreating from cart item data
-                                  cart.addItem({
-                                    'id': cartItem.productId,
-                                    'name': cartItem.name,
-                                    'brand': cartItem.brand,
-                                    'price': cartItem.price,
-                                    'image': cartItem.image,
-                                    'size': cartItem.size,
-                                    'category': cartItem.category,
-                                    'description': cartItem.description,
-                                  }, quantity: cartItem.quantity, context: context);
-                                }
+                                cart.addItem(removedProduct, quantity: removedQuantity);
                               },
                             ),
                           ),
@@ -127,10 +135,13 @@ class CartPage extends StatelessWidget {
   }
 
   void _showClearCartDialog(BuildContext context, CartProvider cart) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: colorScheme.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -138,37 +149,57 @@ class CartPage extends StatelessWidget {
             children: [
               Icon(
                 Icons.warning,
-                color: Colors.orange.shade600,
+                color: colorScheme.tertiary,
               ),
               const SizedBox(width: 8),
-              const Text('Clear Cart'),
+              Text(
+                'Clear Cart',
+                style: theme.textTheme.titleMedium?.copyWith(color: colorScheme.onSurface),
+              ),
             ],
           ),
-          content: const Text(
+          content: Text(
             'Are you sure you want to remove all items from your cart?',
+            style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Cancel',
-                style: TextStyle(color: Colors.grey.shade600),
+                style: theme.textTheme.labelLarge?.copyWith(color: colorScheme.outline),
               ),
             ),
             ElevatedButton(
               onPressed: () {
                 cart.clearCart();
                 Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('Cart cleared successfully'),
-                    backgroundColor: Colors.deepPurple.shade600,
-                  ),
-                );
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  final rootContext = Navigator.of(context).context;
+                  final theme = Theme.of(rootContext);
+                  final isDark = theme.brightness == Brightness.dark;
+                  final snackTextColor = isDark ? Colors.white : Colors.black;
+                  final snackBgColor = isDark ? const Color(0xFF22232B) : Colors.white;
+                  ScaffoldMessenger.of(rootContext).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Cart cleared successfully',
+                        style: TextStyle(color: snackTextColor),
+                      ),
+                      backgroundColor: snackBgColor,
+                      duration: const Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 6,
+                    ),
+                  );
+                });
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red.shade600,
-                foregroundColor: Colors.white,
+                backgroundColor: colorScheme.error,
+                foregroundColor: colorScheme.onError,
               ),
               child: const Text('Clear All'),
             ),
@@ -179,11 +210,15 @@ class CartPage extends StatelessWidget {
   }
 
   void _navigateToCheckout(BuildContext context, CartProvider cart) {
+    final colorScheme = Theme.of(context).colorScheme;
     if (cart.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Your cart is empty!'),
-          backgroundColor: Colors.orange.shade600,
+          content: Text(
+            'Your cart is empty!',
+            style: TextStyle(color: colorScheme.onInverseSurface),
+          ),
+          backgroundColor: colorScheme.inverseSurface,
         ),
       );
       return;

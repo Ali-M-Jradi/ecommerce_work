@@ -22,6 +22,9 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
     super.didChangeDependencies();
     
     // Initialize banners with localized strings
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     banners = [
       {
         'title': AppLocalizationsHelper.of(context).laRochePosay,
@@ -32,9 +35,9 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_267ad068.jpg',
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_33c0f20c.jpg',
         ],
-        'backgroundColor': const Color(0xFFF8F9FA),
-        'textColor': const Color(0xFF1B365D),
-        'buttonColor': const Color(0xFF1B365D),
+        'backgroundColor': isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+        'textColor': colorScheme.onSurface,
+        'buttonColor': colorScheme.primary,
         'action': () {
           // Navigate to La Roche-Posay products
         },
@@ -48,9 +51,9 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_1f1fc92c.jpg',
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_21a37162.jpg',
         ],
-        'backgroundColor': const Color(0xFF6B73FF),
-        'textColor': Colors.white,
-        'buttonColor': Colors.white,
+        'backgroundColor': isDark ? colorScheme.primaryContainer : colorScheme.primary,
+        'textColor': isDark ? colorScheme.onPrimaryContainer : colorScheme.onPrimary,
+        'buttonColor': colorScheme.secondary,
         'action': () {
           // Navigate to all products
         },
@@ -64,9 +67,9 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
           'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
           'assets/images/three_leaves.png',
         ],
-        'backgroundColor': const Color(0xFFE8F5E8),
-        'textColor': const Color(0xFF2D5A27),
-        'buttonColor': const Color(0xFF2D5A27),
+        'backgroundColor': isDark ? colorScheme.tertiaryContainer : colorScheme.secondaryContainer,
+        'textColor': isDark ? colorScheme.onTertiaryContainer : colorScheme.onSecondaryContainer,
+        'buttonColor': colorScheme.tertiary,
         'action': () {
           // Navigate to offers page
         },
@@ -161,7 +164,10 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                     decoration: BoxDecoration(
                       color: _currentIndex == index
                           ? banners[_currentIndex]['buttonColor']
-                          : banners[_currentIndex]['buttonColor'].withOpacity(0.3),
+                          : Color.alphaBlend(
+                              banners[_currentIndex]['buttonColor'].withAlpha((0.3 * 255).round()),
+                              Theme.of(context).colorScheme.surface,
+                            ),
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
@@ -196,7 +202,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Color.alphaBlend(Colors.black.withAlpha((0.3 * 255).round()), Theme.of(context).colorScheme.surface),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Icon(
@@ -234,7 +240,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Color.alphaBlend(Colors.black.withAlpha((0.3 * 255).round()), Theme.of(context).colorScheme.surface),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Icon(
@@ -356,7 +362,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                             width: 80,
                             height: 80,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.surface,
                               borderRadius: BorderRadius.circular(8),
                               boxShadow: [
                                 BoxShadow(
@@ -371,7 +377,10 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                                 width: 50,
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF6B73FF).withOpacity(0.1),
+                                  color: Color.alphaBlend(
+                                    Theme.of(context).colorScheme.primary.withAlpha((0.1 * 255).round()),
+                                    Theme.of(context).colorScheme.surface,
+                                  ),
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 child: const Icon(
@@ -407,7 +416,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                               width: 120,
                               height: 120,
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.surface,
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [
                                   BoxShadow(
@@ -422,7 +431,10 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                                   width: 80,
                                   height: 80,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF6B73FF).withOpacity(0.1),
+                                    color: Color.alphaBlend(
+                                      Theme.of(context).colorScheme.primary.withAlpha((0.1 * 255).round()),
+                                      Theme.of(context).colorScheme.surface,
+                                    ),
                                     borderRadius: BorderRadius.circular(40),
                                   ),
                                   child: const Icon(
@@ -468,7 +480,10 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                             banner['subtitle'],
                             style: TextStyle(
                               fontSize: 16,
-                              color: banner['textColor'].withOpacity(0.8),
+                              color: Color.alphaBlend(
+                                banner['textColor'].withAlpha((0.8 * 255).round()),
+                                Theme.of(context).colorScheme.surface,
+                              ),
                               fontWeight: FontWeight.w500,
                             ),
                             overflow: TextOverflow.ellipsis,

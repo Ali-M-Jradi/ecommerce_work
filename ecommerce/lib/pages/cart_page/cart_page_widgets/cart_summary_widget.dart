@@ -15,13 +15,15 @@ class CartSummaryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
       builder: (context, cart, child) {
+        final theme = Theme.of(context);
+        final colorScheme = theme.colorScheme;
         return Container(
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colorScheme.surface,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: colorScheme.shadow.withOpacity(0.08),
                 blurRadius: 10,
                 offset: const Offset(0, -2),
               ),
@@ -37,85 +39,81 @@ class CartSummaryWidget extends StatelessWidget {
                   children: [
                     Text(
                       AppLocalizationsHelper.of(context).subtotalItems(cart.itemCount),
-                      style: const TextStyle(
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                         fontSize: 16,
-                        color: Color(0xFF666666),
                       ),
                     ),
                     Text(
                       cart.formattedTotalAmount,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1B1B1B),
+                        color: colorScheme.onSurface,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                
                 // Shipping (placeholder)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       AppLocalizationsHelper.of(context).shipping,
-                      style: const TextStyle(
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                         fontSize: 16,
-                        color: Color(0xFF666666),
                       ),
                     ),
                     Text(
                       AppLocalizationsHelper.of(context).free,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: colorScheme.tertiary,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                
                 // Divider
                 Divider(
-                  color: Colors.grey.shade300,
+                  color: colorScheme.outlineVariant,
                   thickness: 1,
                 ),
                 const SizedBox(height: 16),
-                
                 // Total
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       AppLocalizationsHelper.of(context).total,
-                      style: const TextStyle(
-                        fontSize: 20,
+                      style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1B1B1B),
+                        color: colorScheme.onSurface,
+                        fontSize: 20,
                       ),
                     ),
                     Text(
                       cart.formattedTotalAmount,
-                      style: TextStyle(
-                        fontSize: 20,
+                      style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple.shade700,
+                        color: colorScheme.primary,
+                        fontSize: 20,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
-                
                 // Checkout Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: cart.isEmpty ? null : onCheckout,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple.shade600,
-                      foregroundColor: Colors.white,
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -124,16 +122,16 @@ class CartSummaryWidget extends StatelessWidget {
                     ),
                     child: Text(
                       AppLocalizationsHelper.of(context).proceedToCheckout,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: theme.textTheme.labelLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.5,
+                        color: colorScheme.onPrimary,
+                        fontSize: 16,
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 8),
-                
                 // Continue Shopping Button
                 SizedBox(
                   width: double.infinity,
@@ -143,10 +141,10 @@ class CartSummaryWidget extends StatelessWidget {
                     },
                     child: Text(
                       AppLocalizationsHelper.of(context).continueShopping,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.deepPurple.shade600,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: colorScheme.primary,
                         fontWeight: FontWeight.w600,
+                        fontSize: 14,
                       ),
                     ),
                   ),

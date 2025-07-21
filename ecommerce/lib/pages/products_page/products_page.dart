@@ -85,7 +85,7 @@ class _ProductsPageState extends State<ProductsPage> with ScanHistoryMixin, Unif
             },
             title: widget.categoryTitle ?? 'Products',
           ),
-          backgroundColor: ProductsPageConstants.backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           // Search bar

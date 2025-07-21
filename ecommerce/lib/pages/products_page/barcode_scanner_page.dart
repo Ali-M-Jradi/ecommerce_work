@@ -18,9 +18,18 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
   bool _torchOn = false;
 
   @override
+  @override
   void initState() {
     super.initState();
     _checkCameraPermission();
+    // Fallback: forcibly pop after 5 seconds if not scanned
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted && !_scanned) {
+        debugPrint('[Scan] Fallback timeout reached, popping BarcodeScannerPage with null');
+        _scanned = true;
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   Future<void> _checkCameraPermission() async {
@@ -80,10 +89,11 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
                 debugPrint('[Scan] Detected barcode value: $value');
                 if (!_scanned && value != null) {
                   setState(() => _scanned = true);
+                  debugPrint('[Scan] Barcode detected, will pop with value: $value');
                   // Delay pop to show feedback
                   Future.delayed(const Duration(milliseconds: 600), () {
                     if (mounted) {
-                      debugPrint('[Scan] Barcode detected, popping with value: $value');
+                      debugPrint('[Scan] Actually popping BarcodeScannerPage with value: $value');
                       widget.onScanned?.call(value);
                       Navigator.of(context).pop(value);
                     }

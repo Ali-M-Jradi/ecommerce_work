@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:math';
 import 'dart:ui' as ui;
@@ -58,7 +57,6 @@ class LocalNotificationService {
   
   void _onNotificationTapped(NotificationResponse response) {
     // This will be called when the user taps on a notification
-    print('Notification tapped: ${response.payload}');
     
     // You can handle navigation here using a global navigator key
     // or by storing the payload and checking it when the app starts

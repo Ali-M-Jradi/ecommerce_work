@@ -8,10 +8,12 @@ class ProductDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = product['name'] is Map ? product['name']['en'] ?? '' : product['name'] ?? 'Product Details';
     final barcode = product['barcode'] ?? '';
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(name),
-        backgroundColor: Colors.deepPurple,
+        title: Text(name, style: TextStyle(color: colorScheme.onSurface)),
+        backgroundColor: colorScheme.surface,
+        iconTheme: IconThemeData(color: colorScheme.onSurface),
       ),
       body: Center(
         child: Card(
@@ -27,18 +29,18 @@ class ProductDetailsPage extends StatelessWidget {
                 Text(
                   name,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: Colors.deepPurple,
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.bold,
                       ),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Icon(Icons.qr_code, color: Colors.deepPurple),
+                    Icon(Icons.qr_code, color: colorScheme.onSurface),
                     const SizedBox(width: 8),
                     Text(
                       'Barcode: $barcode',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: colorScheme.onSurface),
                     ),
                   ],
                 ),
@@ -46,7 +48,7 @@ class ProductDetailsPage extends StatelessWidget {
                 // Placeholder for additional product info
                 Text(
                   'More product details coming soon...',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface.withOpacity(0.7)),
                 ),
               ],
             ),

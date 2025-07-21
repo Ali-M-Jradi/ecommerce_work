@@ -21,9 +21,11 @@ class SortControlsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      color: Colors.white,
+      color: isDark ? colorScheme.surface : colorScheme.secondaryContainer,
       child: Row(
         children: [
           // Sort by dropdown
@@ -32,7 +34,7 @@ class SortControlsWidget extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.deepPurple.shade300),
+                border: Border.all(color: isDark ? colorScheme.outline : Colors.deepPurple.shade300),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: DropdownButtonHideUnderline(
@@ -40,28 +42,41 @@ class SortControlsWidget extends StatelessWidget {
                   value: sortBy,
                   icon: Icon(
                     Icons.arrow_drop_down,
-                    color: Colors.deepPurple.shade700,
+                    color: isDark ? colorScheme.primary : Colors.deepPurple.shade700,
                   ),
                   style: TextStyle(
-                    color: Colors.deepPurple.shade700,
+                    color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700,
                     fontSize: 14,
                   ),
+                  dropdownColor: isDark ? colorScheme.surface : colorScheme.secondaryContainer,
                   items: [
                     DropdownMenuItem(
                       value: 'A to Z',
-                      child: Text(AppLocalizationsHelper.of(context).sortAtoZ),
+                      child: Text(
+                        AppLocalizationsHelper.of(context).sortAtoZ,
+                        style: TextStyle(color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                      ),
                     ),
                     DropdownMenuItem(
                       value: 'Z to A',
-                      child: Text(AppLocalizationsHelper.of(context).sortZtoA),
+                      child: Text(
+                        AppLocalizationsHelper.of(context).sortZtoA,
+                        style: TextStyle(color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                      ),
                     ),
                     DropdownMenuItem(
                       value: 'Price Low',
-                      child: Text(AppLocalizationsHelper.of(context).sortPriceLow),
+                      child: Text(
+                        AppLocalizationsHelper.of(context).sortPriceLow,
+                        style: TextStyle(color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                      ),
                     ),
                     DropdownMenuItem(
                       value: 'Price High',
-                      child: Text(AppLocalizationsHelper.of(context).sortPriceHigh),
+                      child: Text(
+                        AppLocalizationsHelper.of(context).sortPriceHigh,
+                        style: TextStyle(color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                      ),
                     ),
                   ],
                   onChanged: onSortChanged,
@@ -129,8 +144,10 @@ class SortControlsWidget extends StatelessWidget {
           Container(
             height: 40,
             decoration: BoxDecoration(
-              color: hasActiveFilters ? Colors.deepPurple.shade700 : Colors.white,
-              border: Border.all(color: Colors.deepPurple.shade300),
+              color: hasActiveFilters
+                  ? (isDark ? colorScheme.primary : Colors.deepPurple.shade700)
+                  : (isDark ? colorScheme.surface : Colors.white),
+              border: Border.all(color: isDark ? colorScheme.outline : Colors.deepPurple.shade300),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Stack(
@@ -138,7 +155,9 @@ class SortControlsWidget extends StatelessWidget {
                 IconButton(
                   icon: Icon(
                     Icons.filter_list,
-                    color: hasActiveFilters ? Colors.white : Colors.deepPurple.shade700,
+                    color: hasActiveFilters
+                        ? colorScheme.onPrimary
+                        : (isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
                     size: 20,
                   ),
                   tooltip: AppLocalizationsHelper.of(context).filtersTooltip,

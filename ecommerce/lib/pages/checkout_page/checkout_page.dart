@@ -89,14 +89,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
     }
 
     if (message.isNotEmpty) {
+      final theme = Theme.of(context);
+      final colorScheme = theme.colorScheme;
+      final isDark = theme.brightness == Brightness.dark;
+      final snackBgColor = isDark ? colorScheme.surfaceVariant : colorScheme.surface;
+      final snackTextColor = colorScheme.onSurface;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.orange.shade600,
+          content: Text(
+            message,
+            style: TextStyle(color: snackTextColor),
+          ),
+          backgroundColor: snackBgColor,
           behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 6,
           action: SnackBarAction(
             label: localizations.okButton,
-            textColor: Colors.white,
+            textColor: colorScheme.primary,
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
             },
@@ -221,11 +233,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: Text(_getStepTitle()),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
         elevation: 0,
       ),
       body: Column(
@@ -233,7 +248,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           // Step indicator
           Container(
             padding: const EdgeInsets.all(16),
-            color: Colors.grey[50],
+            color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
             child: Row(
               children: CheckoutStep.values.map((step) {
                 final isActive = step == currentStep;
@@ -384,9 +399,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: _canProceedFromCurrentStep()
-                            ? Theme.of(context).primaryColor
-                            : Colors.grey.shade400,
-                        foregroundColor: Colors.white,
+                            ? colorScheme.primary
+                            : colorScheme.surfaceVariant,
+                        foregroundColor: colorScheme.onPrimary,
+                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                        elevation: 2,
                       ),
                       child: Text(
                         currentStep == CheckoutStep.review 

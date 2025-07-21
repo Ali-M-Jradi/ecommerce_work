@@ -130,11 +130,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: isDark ? colorScheme.surface : colorScheme.surfaceVariant,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,7 +151,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple.shade700,
+                  color: isDark ? colorScheme.onSurface : colorScheme.primary,
                 ),
               ),
               TextButton(
@@ -157,7 +159,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 child: Text(
                   AppLocalizationsHelper.of(context).clearAll,
                   style: TextStyle(
-                    color: Colors.deepPurple.shade600,
+                    color: isDark ? colorScheme.primary : colorScheme.primary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -172,7 +174,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.grey.shade700,
+              color: isDark ? colorScheme.onSurface : Colors.grey.shade700,
             ),
           ),
           const SizedBox(height: 8),
@@ -181,15 +183,23 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             children: _categories.map((category) {
               final isSelected = _selectedCategory == category;
               return FilterChip(
-                label: Text(_getCategoryDisplayName(context, category)),
+                label: Text(
+                  _getCategoryDisplayName(context, category),
+                  style: TextStyle(
+                    color: isSelected
+                        ? (isDark ? colorScheme.onPrimary : colorScheme.onPrimary)
+                        : (isDark ? colorScheme.onSurface : colorScheme.onSurface),
+                  ),
+                ),
                 selected: isSelected,
                 onSelected: (selected) {
                   setState(() {
                     _selectedCategory = category;
                   });
                 },
-                selectedColor: Colors.deepPurple.shade100,
-                checkmarkColor: Colors.deepPurple.shade600,
+                selectedColor: isDark ? colorScheme.primary : colorScheme.primary,
+                backgroundColor: isDark ? colorScheme.surfaceVariant : colorScheme.surfaceVariant,
+                checkmarkColor: isDark ? colorScheme.onPrimary : colorScheme.onPrimary,
               );
             }).toList(),
           ),
@@ -201,7 +211,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.grey.shade700,
+              color: isDark ? colorScheme.onSurface : Colors.grey.shade700,
             ),
           ),
           const SizedBox(height: 8),
@@ -210,15 +220,23 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             children: _brands.map((brand) {
               final isSelected = _selectedBrand == brand;
               return FilterChip(
-                label: Text(_getBrandDisplayName(context, brand)),
+                label: Text(
+                  _getBrandDisplayName(context, brand),
+                  style: TextStyle(
+                    color: isSelected
+                        ? (isDark ? colorScheme.onPrimary : colorScheme.onPrimary)
+                        : (isDark ? colorScheme.onSurface : colorScheme.onSurface),
+                  ),
+                ),
                 selected: isSelected,
                 onSelected: (selected) {
                   setState(() {
                     _selectedBrand = brand;
                   });
                 },
-                selectedColor: Colors.deepPurple.shade100,
-                checkmarkColor: Colors.deepPurple.shade600,
+                selectedColor: isDark ? colorScheme.primary : colorScheme.primary,
+                backgroundColor: isDark ? colorScheme.surfaceVariant : colorScheme.surfaceVariant,
+                checkmarkColor: isDark ? colorScheme.onPrimary : colorScheme.onPrimary,
               );
             }).toList(),
           ),
@@ -230,7 +248,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.grey.shade700,
+              color: isDark ? colorScheme.onSurface : colorScheme.onSurface,
             ),
           ),
           RangeSlider(
@@ -238,8 +256,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             min: 0,
             max: 100,
             divisions: 20,
-            activeColor: Colors.deepPurple.shade600,
-            inactiveColor: Colors.grey.shade300,
+            activeColor: isDark ? colorScheme.primary : colorScheme.primary,
+            inactiveColor: isDark ? colorScheme.outlineVariant : colorScheme.outlineVariant,
             onChanged: (values) {
               setState(() {
                 _priceRange = values;
@@ -254,7 +272,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.grey.shade700,
+              color: isDark ? colorScheme.onSurface : Colors.grey.shade700,
             ),
           ),
           Slider(
@@ -262,8 +280,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             min: 0,
             max: 5,
             divisions: 10,
-            activeColor: Colors.deepPurple.shade600,
-            inactiveColor: Colors.grey.shade300,
+            activeColor: isDark ? colorScheme.primary : colorScheme.primary,
+            inactiveColor: isDark ? colorScheme.outlineVariant : colorScheme.outlineVariant,
             onChanged: (value) {
               setState(() {
                 _minRating = value;
@@ -274,14 +292,18 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
           // Stock Filter
           CheckboxListTile(
-            title: Text(AppLocalizationsHelper.of(context).showOnlyInStock),
+            title: Text(
+              AppLocalizationsHelper.of(context).showOnlyInStock,
+              style: TextStyle(color: isDark ? colorScheme.onSurface : null),
+            ),
             value: _showOnlyInStock,
             onChanged: (value) {
               setState(() {
                 _showOnlyInStock = value ?? false;
               });
             },
-            activeColor: Colors.deepPurple.shade600,
+            activeColor: isDark ? colorScheme.primary : colorScheme.primary,
+            checkColor: isDark ? colorScheme.onPrimary : colorScheme.onPrimary,
             controlAffinity: ListTileControlAffinity.leading,
           ),
           const SizedBox(height: 30),
@@ -292,8 +314,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             child: ElevatedButton(
               onPressed: _applyFilters,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
-                foregroundColor: Colors.white,
+                backgroundColor: isDark ? colorScheme.primary : colorScheme.primary,
+                foregroundColor: isDark ? colorScheme.onPrimary : colorScheme.onPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

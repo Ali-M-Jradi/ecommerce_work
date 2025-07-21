@@ -98,46 +98,15 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
       }
       return;
     }
-    // Show loading indicator
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 24),
-            Text(
-              'Scanning, please wait...',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.deepPurple,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
+    // No loading indicator
+    String? scanResult = await Navigator.of(context).push<String>(
+      MaterialPageRoute(builder: (context) => BarcodeScannerPage()),
     );
-    // Show spinner for a fixed time (e.g., 3 seconds)
-    String? scanResult;
-    await Future.any([
-      Future.delayed(const Duration(seconds: 3)),
-      Navigator.of(context).push<String>(
-        MaterialPageRoute(builder: (context) => BarcodeScannerPage()),
-      ).then((value) => scanResult = value),
-    ]);
     debugPrint('[Scan] BarcodeScannerPage returned result: $scanResult');
-    Navigator.of(
-      context,
-      rootNavigator: true,
-    ).pop(); // Remove loading indicator
     final globalContext = navigatorKey.currentState?.context ?? context;
     if (scanResult != null) {
       debugPrint('[Scan] handleScanWithCamera received non-null result: $scanResult');
-      final found = handleBarcodeResult(context, scanResult!);
+      final found = handleBarcodeResult(context, scanResult);
       debugPrint('[Scan] handleBarcodeResult found: $found');
       if (found.isNotEmpty) {
         debugPrint('[Scan] Showing ProductDetailsDialogWidget');
@@ -171,7 +140,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SelectableText(
-                  scanResult!,
+                  scanResult,
                   style: TextStyle(color: Colors.deepPurple),
                 ),
                 SizedBox(height: 12),
@@ -184,7 +153,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
             actions: [
               TextButton(
                 onPressed: () {
-                  Clipboard.setData(ClipboardData(text: scanResult!));
+                  Clipboard.setData(ClipboardData(text: scanResult));
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Copied to clipboard')),
@@ -194,7 +163,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
               ),
               TextButton(
                 onPressed: () async {
-                  await Share.share(scanResult!);
+                  await Share.share(scanResult);
                 },
                 child: const Text('Share'),
               ),

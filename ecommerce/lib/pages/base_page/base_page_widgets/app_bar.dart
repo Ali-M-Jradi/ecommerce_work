@@ -8,14 +8,24 @@ import '../../../localization/app_localizations_helper.dart';
 import '../../../pages/notifications/notifications_page.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
+  final GlobalKey<_AppBarWidgetState>? widgetKey;
   final int selectedIndex;
   final Function(int) onNavigationTap;
-  
+
   const AppBarWidget({
-    super.key,
+    Key? key,
+    this.widgetKey,
     this.selectedIndex = -1,
     required this.onNavigationTap,
-  });
+  }) : super(key: key);
+
+  // Expose a public method to show the login/register dialog from outside
+  void showLoginRegisterDialog() {
+    final state = widgetKey?.currentState;
+    if (state is _AppBarWidgetState) {
+      state._showLoginRegisterDialog();
+    }
+  }
 
   @override
   State<AppBarWidget> createState() => _AppBarWidgetState();
@@ -155,50 +165,56 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).colorScheme.primary,
       centerTitle: true,
       leading: IconButton(
         onPressed: () {
           Scaffold.of(context).openDrawer();
         },
-        icon: Icon(Icons.list, color: const Color(0xFF6200EA)),
+        icon: Icon(Icons.list, color: Theme.of(context).colorScheme.onPrimary),
       ),
-      title: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/three_leaves.png',
-                height: 24,
-                width: 24,
-                color: Colors.deepPurpleAccent.shade700,
-              ),
-              SizedBox(width: 6),
-              Flexible(
-                child: Text(
-                  AppLocalizationsHelper.of(context).appTitle,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.deepPurpleAccent.shade700,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+      title: DefaultTextStyle(
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontWeight: FontWeight.bold,
+            ) ?? TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.bold, fontSize: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/three_leaves.png',
+                  height: 24,
+                  width: 24,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
-              ),
-            ],
-          ),
-          Text(
-            AppLocalizationsHelper.of(context).appSubtitle,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w300,
-              color: Colors.deepPurpleAccent.shade700,
+                SizedBox(width: 6),
+                Flexible(
+                  child: Text(
+                    AppLocalizationsHelper.of(context).appTitle,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+            Text(
+              AppLocalizationsHelper.of(context).appSubtitle,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w300,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
         Consumer<MockNotificationProvider>(
@@ -209,7 +225,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               child: IconButton(
                 icon: Icon(
                   Icons.notifications,
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 onPressed: () {
                   Navigator.of(context).push(
@@ -225,11 +241,16 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: NavigationBar(
+          backgroundColor: Theme.of(context).colorScheme.surface,
           selectedIndex: widget.selectedIndex >= 0 ? widget.selectedIndex : 0,
           onDestinationSelected: _onNavigationTap,
+          indicatorColor: Color.alphaBlend(
+            Theme.of(context).colorScheme.primary.withAlpha((0.1 * 255).round()),
+            Theme.of(context).colorScheme.surface,
+          ),
           destinations: [
             NavigationDestination(
-              icon: Icon(Icons.search, color: Colors.deepPurpleAccent.shade700),
+              icon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
               label: AppLocalizationsHelper.of(context).searchLabel,
             ),
             NavigationDestination(
@@ -240,7 +261,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                     isLabelVisible: cart.itemCount > 0,
                     child: Icon(
                       Icons.shopping_cart,
-                      color: Colors.deepPurpleAccent.shade700,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   );
                 },
@@ -250,7 +271,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             NavigationDestination(
               icon: Icon(
                 Icons.shopping_bag,
-                color: Colors.deepPurpleAccent.shade700,
+                color: Theme.of(context).colorScheme.primary,
               ),
               label: AppLocalizationsHelper.of(context).productsLabel,
             ),
@@ -259,7 +280,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                 builder: (context, userProvider, child) {
                   return Icon(
                     userProvider.isLoggedIn ? Icons.person : Icons.person_outline,
-                    color: Colors.deepPurpleAccent.shade700,
+                    color: Theme.of(context).colorScheme.primary,
                   );
                 },
               ),

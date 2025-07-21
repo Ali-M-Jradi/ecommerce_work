@@ -17,6 +17,8 @@ class ProductListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -35,7 +37,7 @@ class ProductListItemWidget extends StatelessWidget {
                     height: 80,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.grey.shade200,
+                      color: isDark ? colorScheme.surfaceVariant : colorScheme.secondaryContainer,
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
@@ -46,7 +48,7 @@ class ProductListItemWidget extends StatelessWidget {
                           return Icon(
                             Icons.image,
                             size: 30,
-                            color: Colors.grey.shade400,
+                            color: colorScheme.onSurface.withOpacity(0.3),
                           );
                         },
                       ),
@@ -85,7 +87,7 @@ class ProductListItemWidget extends StatelessWidget {
                       highlight: searchQuery ?? '',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.deepPurple.shade600,
+                        color: isDark ? colorScheme.primary : colorScheme.primary,
                         fontWeight: FontWeight.w500,
                       ),
                       highlightColor: Colors.yellow,
@@ -119,11 +121,11 @@ class ProductListItemWidget extends StatelessWidget {
                       children: [
                         Text(
                           '\$${product['price']}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepPurple.shade700,
-                          ),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? colorScheme.primary : colorScheme.primary,
+                        ),
                         ),
                         Row(
                           children: [
@@ -136,7 +138,7 @@ class ProductListItemWidget extends StatelessWidget {
                             Icon(
                               Icons.info_outline,
                               size: 16,
-                              color: Color(0xFF4A154B),
+                              color: colorScheme.onSurface.withOpacity(0.7),
                             ),
                           ],
                         ),

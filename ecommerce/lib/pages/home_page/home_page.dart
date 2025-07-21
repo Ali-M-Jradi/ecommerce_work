@@ -55,8 +55,9 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFBFF),
+      backgroundColor: theme.colorScheme.background,
       floatingActionButton: _showFloatingButtons
           ? UnifiedScanFab(
               heroTagPrefix: 'home_page',
@@ -91,10 +92,10 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
                     children: [
                       Text(
                         AppLocalizationsHelper.of(context).featuredProducts,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF1B1B1B),
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                       GestureDetector(
@@ -113,7 +114,7 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: Colors.deepPurple.shade600,
+                            color: Theme.of(context).colorScheme.primary,
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -140,10 +141,10 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
                 children: [
                   Text(
                     AppLocalizationsHelper.of(context).shopByCategory,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF1B1B1B),
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -158,22 +159,30 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
                       _buildCategoryCard(
                         AppLocalizationsHelper.of(context).skincare,
                         'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
-                        const Color(0xFFE8F5E8),
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(context).colorScheme.surfaceVariant
+                            : Theme.of(context).colorScheme.secondaryContainer,
                       ),
                       _buildCategoryCard(
                         AppLocalizationsHelper.of(context).makeup,
                         'assets/images/digital-art-style-mental-health-day-awareness-illustration.png',
-                        const Color(0xFFFFF2E8),
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(context).colorScheme.surfaceVariant
+                            : Theme.of(context).colorScheme.tertiaryContainer,
                       ),
                       _buildCategoryCard(
                         AppLocalizationsHelper.of(context).hairCare,
                         'assets/images/three_leaves.png',
-                        const Color(0xFFE8F0FF),
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(context).colorScheme.surfaceVariant
+                            : Theme.of(context).colorScheme.primaryContainer,
                       ),
                       _buildCategoryCard(
                         AppLocalizationsHelper.of(context).fragrance,
                         'assets/images/gift_icon.jpg',
-                        const Color(0xFFF8E8FF),
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(context).colorScheme.surfaceVariant
+                            : Theme.of(context).colorScheme.secondaryContainer,
                       ),
                     ],
                   ),
@@ -191,7 +200,7 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                color: const Color(0xFFF8F9FA),
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -199,10 +208,10 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
                 children: [
                   Text(
                     AppLocalizationsHelper.of(context).whyChooseUs,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF1B1B1B),
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -243,6 +252,9 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
     // Convert UI-friendly title to a category identifier for routing
     String categoryId = _getCategoryIdFromTitle(title);
     
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     return InkWell(
       onTap: () {
         // Navigate to products page with the selected category
@@ -263,7 +275,7 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: colorScheme.shadow.withOpacity(0.08),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -276,22 +288,22 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDark ? colorScheme.surface : colorScheme.background,
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.spa,
                 size: 30,
-                color: Color(0xFF6B73FF),
+                color: colorScheme.primary,
               ),
             ),
             const SizedBox(height: 12),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 16,
+              style: theme.textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF1B1B1B),
+                color: colorScheme.onSurface,
+                fontSize: 16,
               ),
             ),
           ],
@@ -321,18 +333,19 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
   }
 
   Widget _buildFeatureItem(IconData icon, String title, String description) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color(0xFF6B73FF).withOpacity(0.1),
+            color: Color.alphaBlend(colorScheme.primary.withAlpha((0.1 * 255).round()), colorScheme.surface),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
             icon,
-            color: const Color(0xFF6B73FF),
+            color: colorScheme.primary,
             size: 20,
           ),
         ),
@@ -343,18 +356,18 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF1B1B1B),
+                  color: colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 description,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
-                  color: Color(0xFF666666),
+                  color: colorScheme.onSurface.withOpacity(0.7),
                 ),
               ),
             ],

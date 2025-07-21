@@ -17,6 +17,8 @@ class ProductCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -37,7 +39,7 @@ class ProductCardWidget extends StatelessWidget {
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(12.0),
                       ),
-                      color: Colors.grey.shade200,
+                      color: isDark ? colorScheme.surfaceVariant : colorScheme.secondaryContainer,
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.vertical(
@@ -50,7 +52,7 @@ class ProductCardWidget extends StatelessWidget {
                           return Icon(
                             Icons.image,
                             size: 40,
-                            color: Colors.grey.shade400,
+                            color: colorScheme.onSurface.withOpacity(0.3),
                           );
                         },
                       ),
@@ -94,7 +96,7 @@ class ProductCardWidget extends StatelessWidget {
                       highlight: searchQuery ?? '',
                       style: TextStyle(
                         fontSize: 11,
-                        color: Colors.deepPurple.shade600,
+                        color: isDark ? colorScheme.primary : colorScheme.primary,
                         fontWeight: FontWeight.w500,
                       ),
                       maxLines: 1,
@@ -129,11 +131,11 @@ class ProductCardWidget extends StatelessWidget {
                         Expanded(
                           child: Text(
                             '\$${product['price']}',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple.shade700,
-                            ),
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? colorScheme.primary : colorScheme.primary,
+                          ),
                           ),
                         ),
                         Row(
@@ -148,7 +150,7 @@ class ProductCardWidget extends StatelessWidget {
                             Icon(
                               Icons.info_outline,
                               size: 14,
-                              color: Color(0xFF4A154B),
+                              color: colorScheme.onSurface.withOpacity(0.7),
                             ),
                           ],
                         ),

@@ -200,10 +200,14 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
+                      final colorScheme = Theme.of(context).colorScheme;
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(AppLocalizationsHelper.of(context).ratingSubmitted(userRating.toString())),
-                          backgroundColor: Colors.deepPurple.shade600,
+                          content: Text(
+                            AppLocalizationsHelper.of(context).ratingSubmitted(userRating.toString()),
+                            style: TextStyle(color: colorScheme.onSurface),
+                          ),
+                          backgroundColor: colorScheme.surface,
                         ),
                       );
                     },
@@ -238,14 +242,18 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                     Navigator.of(context).pop();
                     
                     // Show snackbar with simple navigation
+                    final colorScheme = Theme.of(context).colorScheme;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(AppLocalizationsHelper.of(context).addedToCart(ProductsDataProvider.getLocalizedName(widget.product, context))),
-                        backgroundColor: Colors.deepPurple.shade600,
+                        content: Text(
+                          AppLocalizationsHelper.of(context).addedToCart(ProductsDataProvider.getLocalizedName(widget.product, context)),
+                          style: TextStyle(color: colorScheme.onSurface),
+                        ),
+                        backgroundColor: colorScheme.surface,
                         duration: const Duration(seconds: 4),
                         action: SnackBarAction(
                           label: AppLocalizationsHelper.of(context).viewCart,
-                          textColor: Colors.white,
+                          textColor: colorScheme.primary,
                           onPressed: () {
                             // Use the global navigator key for guaranteed navigation
                             navigatorKey.currentState?.push(
@@ -285,13 +293,18 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                 width: double.infinity,
                 child: TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text(
-                    AppLocalizationsHelper.of(context).closeDialog,
-                    style: TextStyle(
-                      color: Color(0xFF4A154B),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Builder(
+                    builder: (context) {
+                      final colorScheme = Theme.of(context).colorScheme;
+                      return Text(
+                        AppLocalizationsHelper.of(context).closeDialog,
+                        style: TextStyle(
+                          color: colorScheme.primary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

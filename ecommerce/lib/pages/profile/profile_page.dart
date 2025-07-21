@@ -22,12 +22,22 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   int _currentBackgroundIndex = 0;
   
   // Background colors for animated gradient (same as login page for consistency)
-  final List<List<Color>> _backgroundColors = [
-    const Color(0xFF667eea), const Color(0xFF764ba2),
-    const Color(0xFF6B73FF), const Color(0xFF000DFF),
-    const Color(0xFF9D50BB), const Color(0xFF6E48AA),
-    const Color(0xFF4776E6), const Color(0xFF8E54E9),
-  ].map((color) => [color, color.withOpacity(0.7)]).toList();
+  List<List<Color>> get _backgroundColors {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return isDark
+        ? [
+            [const Color(0xFF232336), const Color(0xFF181824)],
+            [const Color(0xFF232336), const Color(0xFF232336)],
+            [const Color(0xFF232336), const Color(0xFF181824)],
+            [const Color(0xFF181824), const Color(0xFF232336)],
+          ]
+        : [
+            [const Color(0xFF667eea), const Color(0xFF764ba2)],
+            [const Color(0xFF6B73FF), const Color(0xFF000DFF)],
+            [const Color(0xFF9D50BB), const Color(0xFF6E48AA)],
+            [const Color(0xFF4776E6), const Color(0xFF8E54E9)],
+          ];
+  }
 
   // Controller for the tab view
   final _tabController = PageController();
@@ -110,6 +120,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     final isRTL = LocalizationHelper.isRTL(context);
     
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Consumer<UserProvider>(
         builder: (context, userProvider, _) {
           final user = userProvider.currentUser;

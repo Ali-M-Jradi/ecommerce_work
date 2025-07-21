@@ -16,9 +16,12 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Card(
       margin: const EdgeInsets.only(bottom: 12.0),
       elevation: 2,
+      color: colorScheme.surfaceVariant,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -33,8 +36,8 @@ class CartItemWidget extends StatelessWidget {
               height: 80,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.grey.shade100,
-                border: Border.all(color: Colors.grey.shade300),
+                color: colorScheme.surface,
+                border: Border.all(color: colorScheme.outlineVariant),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
@@ -46,19 +49,18 @@ class CartItemWidget extends StatelessWidget {
                           return Icon(
                             Icons.spa,
                             size: 40,
-                            color: Colors.deepPurple.shade300,
+                            color: colorScheme.primaryContainer,
                           );
                         },
                       )
                     : Icon(
                         Icons.spa,
                         size: 40,
-                        color: Colors.deepPurple.shade300,
+                        color: colorScheme.primaryContainer,
                       ),
               ),
             ),
             const SizedBox(width: 12),
-            
             // Product Details
             Expanded(
               child: Column(
@@ -67,46 +69,39 @@ class CartItemWidget extends StatelessWidget {
                   // Brand
                   Text(
                     cartItem.brand,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.deepPurple.shade600,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: colorScheme.primary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  
                   // Product Name
                   Text(
                     cartItem.getLocalizedName(context),
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF1B1B1B),
+                      color: colorScheme.onSurface,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  
                   // Size (if available)
                   if (cartItem.size != null && cartItem.size!.isNotEmpty)
                     Text(
                       '${AppLocalizationsHelper.of(context).sizeLabel}: ${cartItem.size}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey.shade600,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     )
                   else if (cartItem.size == null)
                     Text(
                       '${AppLocalizationsHelper.of(context).sizeLabel}: ${AppLocalizationsHelper.of(context).notSpecified}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey.shade600,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                   const SizedBox(height: 8),
-                  
                   // Price and Quantity Controls
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,23 +112,20 @@ class CartItemWidget extends StatelessWidget {
                         children: [
                           Text(
                             '\$${cartItem.price.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 16,
+                            style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple.shade700,
+                              color: colorScheme.primary,
                             ),
                           ),
                           if (cartItem.quantity > 1)
                             Text(
                               'Total: \$${cartItem.totalPrice.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey.shade600,
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
                               ),
                             ),
                         ],
                       ),
-                      
                       // Quantity Controls
                       Row(
                         children: [
@@ -142,7 +134,7 @@ class CartItemWidget extends StatelessWidget {
                             width: 32,
                             height: 32,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300),
+                              border: Border.all(color: colorScheme.outlineVariant),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: IconButton(
@@ -158,12 +150,11 @@ class CartItemWidget extends StatelessWidget {
                               icon: Icon(
                                 cartItem.quantity > 1 ? Icons.remove : Icons.delete_outline,
                                 color: cartItem.quantity > 1 
-                                    ? Colors.grey.shade700 
-                                    : Colors.red.shade600,
+                                    ? colorScheme.onSurfaceVariant
+                                    : colorScheme.error,
                               ),
                             ),
                           ),
-                          
                           // Quantity display
                           Container(
                             width: 40,
@@ -171,19 +162,18 @@ class CartItemWidget extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Text(
                               cartItem.quantity.toString(),
-                              style: const TextStyle(
+                              style: theme.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                                color: colorScheme.onSurface,
                               ),
                             ),
                           ),
-                          
                           // Increase button
                           Container(
                             width: 32,
                             height: 32,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300),
+                              border: Border.all(color: colorScheme.outlineVariant),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: IconButton(
@@ -194,7 +184,7 @@ class CartItemWidget extends StatelessWidget {
                               },
                               icon: Icon(
                                 Icons.add,
-                                color: Colors.grey.shade700,
+                                color: colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ),
@@ -205,15 +195,15 @@ class CartItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-            
             // Remove button
             IconButton(
               onPressed: onRemove,
               icon: Icon(
                 Icons.close,
-                color: Colors.grey.shade500,
+                color: colorScheme.outline,
                 size: 20,
               ),
+              tooltip: MaterialLocalizations.of(context).deleteButtonTooltip,
             ),
           ],
         ),
