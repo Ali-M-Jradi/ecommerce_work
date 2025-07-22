@@ -14,9 +14,9 @@ class OrderTrackingPage extends StatefulWidget {
   final String? orderId;
 
   const OrderTrackingPage({
-    Key? key,
+    super.key,
     this.orderId,
-  }) : super(key: key);
+  });
 
   @override
   State<OrderTrackingPage> createState() => _OrderTrackingPageState();
@@ -121,16 +121,18 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations?.orderTrackingTitle ?? 'Order Tracking'),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
         elevation: 0,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: colorScheme.primary))
           : _errorMessage != null
               ? Center(
                   child: Padding(
@@ -138,70 +140,93 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                        Icon(Icons.error_outline, size: 64, color: colorScheme.error),
                         const SizedBox(height: 16),
                         Text(
                           _errorMessage!,
-                          style: const TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: colorScheme.onSurface),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () => Navigator.of(context).pop(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.primary,
+                            foregroundColor: colorScheme.onPrimary,
+                          ),
                           child: Text(localizations?.backToOrders ?? 'Back to Orders'),
                         ),
                       ],
                     ),
                   ),
                 )
-              : _buildOrderTrackingContent(context),
+              : _buildOrderTrackingContent(context, colorScheme, isDark),
     );
   }
 
-  Widget _buildOrderTrackingContent(BuildContext context) {
+  Widget _buildOrderTrackingContent(BuildContext context, ColorScheme colorScheme, bool isDark) {
     final localizations = AppLocalizations.of(context);
     final order = _order!;
-    
     return RefreshIndicator(
       onRefresh: _loadOrder,
+      color: colorScheme.primary,
       child: Column(
         children: [
-          // Header with order number and date
-          _buildOrderHeader(order, localizations),
-
-          // Status timeline
-          OrderStatusTimeline(order: order),
-          
-          // Tracking information
-          if (order.trackingNumber != null && 
-              (order.status == OrderStatus.shipped || order.status == OrderStatus.delivered))
-            _buildTrackingInfo(order, localizations),
-
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  // Header with order number and date
+                  _buildOrderHeader(order, localizations, colorScheme, isDark),
+                  // Divider for separation
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Divider(
+                      color: colorScheme.outlineVariant,
+                      thickness: 1.2,
+                      height: 24,
+                    ),
+                  ),
+                  // Status timeline (scrollable)
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: isDark ? colorScheme.surfaceVariant.withOpacity(0.7) : colorScheme.surface.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: OrderStatusTimeline(order: order),
+                  ),
+                  // Tracking information
+                  if (order.trackingNumber != null &&
+                      (order.status == OrderStatus.shipped || order.status == OrderStatus.delivered))
+                    _buildTrackingInfo(order, localizations, colorScheme, isDark),
+                ],
+              ),
+            ),
+          ),
           // Tab Bar
           TabBar(
             controller: _tabController,
-            labelColor: Theme.of(context).primaryColor,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Theme.of(context).primaryColor,
+            labelColor: colorScheme.primary,
+            unselectedLabelColor: colorScheme.outlineVariant,
+            indicatorColor: colorScheme.primary,
             tabs: [
               Tab(text: localizations?.orderDetailsTab ?? 'Details'),
               Tab(text: localizations?.shippingInfoTab ?? 'Shipping'),
               Tab(text: localizations?.supportTab ?? 'Support'),
             ],
           ),
-          
           // Tab Content
-          Expanded(
+          SizedBox(
+            height: 400,
             child: TabBarView(
               controller: _tabController,
               children: [
-                // Order Details Tab
                 OrderDetailsSection(order: order),
-                
-                // Shipping Info Tab
                 ShippingInfoSection(order: order),
-                
-                // Customer Support Tab
                 CustomerSupportSection(orderId: order.id),
               ],
             ),
@@ -211,11 +236,11 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
     );
   }
 
-  Widget _buildOrderHeader(Order order, AppLocalizations? localizations) {
+  Widget _buildOrderHeader(Order order, AppLocalizations? localizations, ColorScheme colorScheme, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+        color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -224,6 +249,15 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Order tracking icon
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Icon(
+              Icons.local_shipping,
+              color: colorScheme.primary,
+              size: 32,
+            ),
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,16 +265,17 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
                 Text(
                   localizations?.orderNumberLabel ?? 'Order Number',
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: colorScheme.outlineVariant,
                     fontSize: 14,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   order.orderNumber,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
+                    color: colorScheme.onSurface,
                   ),
                 ),
               ],
@@ -252,16 +287,17 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
               Text(
                 localizations?.orderDateLabel ?? 'Order Date',
                 style: TextStyle(
-                  color: Colors.grey[600],
+                  color: colorScheme.outlineVariant,
                   fontSize: 14,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 DateFormat.yMMMd().format(order.createdAt),
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
+                  color: colorScheme.onSurface,
                 ),
               ),
             ],
@@ -271,16 +307,16 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
     );
   }
 
-  Widget _buildTrackingInfo(Order order, AppLocalizations? localizations) {
+  Widget _buildTrackingInfo(Order order, AppLocalizations? localizations, ColorScheme colorScheme, bool isDark) {
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: colorScheme.outlineVariant.withOpacity(isDark ? 0.10 : 0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -291,9 +327,10 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
         children: [
           Text(
             localizations?.trackingInformation ?? 'Tracking Information',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 12),
@@ -306,23 +343,24 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
                     Text(
                       localizations?.trackingNumberLabel ?? 'Tracking Number',
                       style: TextStyle(
-                        color: Colors.grey[600],
+                        color: colorScheme.outlineVariant,
                         fontSize: 14,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       order.trackingNumber ?? '',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                   ],
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.copy, color: Colors.grey),
+                icon: Icon(Icons.copy, color: colorScheme.outlineVariant),
                 onPressed: _copyTrackingNumber,
                 tooltip: localizations?.copyTrackingNumber ?? 'Copy Tracking Number',
               ),
@@ -331,11 +369,11 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
           const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: _trackPackage,
-            icon: const Icon(Icons.local_shipping),
+            icon: Icon(Icons.local_shipping, color: colorScheme.onPrimary),
             label: Text(localizations?.trackPackage ?? 'Track Package'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor,
-              foregroundColor: Colors.white,
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
               minimumSize: const Size(double.infinity, 45),
             ),
           ),

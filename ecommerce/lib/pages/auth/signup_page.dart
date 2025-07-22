@@ -32,12 +32,15 @@ class _SignUpPageState extends State<SignUpPage>
   int _currentBackgroundIndex = 0;
   
   // Background colors for animated gradient - similar to login page
-  final List<List<Color>> _backgroundColors = [
-    [Color(0xFF667eea), Color(0xFF764ba2)],
-    [Color(0xFF6B73FF), Color(0xFF000DFF)],
-    [Color(0xFF9D50BB), Color(0xFF6E48AA)],
-    [Color(0xFF4776E6), Color(0xFF8E54E9)],
-  ];
+  List<List<Color>> get _backgroundColors {
+    final colorScheme = Theme.of(context).colorScheme;
+    return [
+      [colorScheme.surface, colorScheme.surfaceVariant],
+      [colorScheme.primary, colorScheme.secondary],
+      [colorScheme.secondary, colorScheme.primary],
+      [colorScheme.background, colorScheme.surface],
+    ];
+  }
 
   @override
   void initState() {
@@ -102,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AuthLocalizations.agreeToTermsRequired(context)),
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
       return;
@@ -137,7 +140,7 @@ class _SignUpPageState extends State<SignUpPage>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(AuthLocalizations.accountCreatedSuccessfully(context)),
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
     );
     
@@ -151,11 +154,11 @@ class _SignUpPageState extends State<SignUpPage>
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final keyboardVisible = keyboardHeight > 0;
     
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      // Change to true to ensure content adjusts with keyboard
       resizeToAvoidBottomInset: true,
       body: AnimatedContainer(
-        duration: Duration(seconds: 5), // Slower transition (5 seconds)
+        duration: Duration(seconds: 5),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -165,15 +168,12 @@ class _SignUpPageState extends State<SignUpPage>
         ),
         child: SafeArea(
           child: GestureDetector(
-            // Add gesture detector to dismiss keyboard when tapping outside
             onTap: () => FocusScope.of(context).unfocus(),
             child: SingleChildScrollView(
-              // Better physics for scrolling with keyboard
               physics: ClampingScrollPhysics(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Header section - hide most of it when keyboard is visible
                   AnimatedContainer(
                     duration: Duration(milliseconds: 300),
                     height: keyboardVisible ? 80 : null,
@@ -183,7 +183,7 @@ class _SignUpPageState extends State<SignUpPage>
                           child: Row(
                             children: [
                               IconButton(
-                                icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                                icon: Icon(Icons.arrow_back_ios, color: colorScheme.onSurface),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               Expanded(
@@ -192,7 +192,7 @@ class _SignUpPageState extends State<SignUpPage>
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.white,
+                                    color: colorScheme.onSurface,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -203,8 +203,6 @@ class _SignUpPageState extends State<SignUpPage>
                         )
                       : _buildHeader(),
                   ),
-                  
-                  // Sign up form
                   _buildSignUpForm(),
                 ],
               ),
@@ -216,6 +214,7 @@ class _SignUpPageState extends State<SignUpPage>
   }
 
   Widget _buildHeader() {
+    final colorScheme = Theme.of(context).colorScheme;
     return FadeTransition(
       opacity: _fadeAnimation,
       child: Container(
@@ -225,7 +224,7 @@ class _SignUpPageState extends State<SignUpPage>
             Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                  icon: Icon(Icons.arrow_back_ios, color: colorScheme.onSurface),
                   onPressed: () => Navigator.pop(context),
                 ),
                 Spacer(),

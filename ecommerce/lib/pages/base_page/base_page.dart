@@ -149,7 +149,7 @@ class _BasePageState extends State<BasePage> {
             children: [
               Icon(
                 Icons.person_outline,
-                color: Colors.deepPurpleAccent.shade700,
+                color: Theme.of(context).colorScheme.primary,
               ),
               const SizedBox(width: 8),
               Text(
@@ -174,7 +174,7 @@ class _BasePageState extends State<BasePage> {
               child: Text(
                 AppLocalizationsHelper.of(context).register,
                 style: TextStyle(
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -187,7 +187,7 @@ class _BasePageState extends State<BasePage> {
               child: Text(
                 AppLocalizationsHelper.of(context).loginButton,
                 style: TextStyle(
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w600,
                 ),
               ),

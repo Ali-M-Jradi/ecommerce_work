@@ -36,7 +36,7 @@ class AboutUsPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.deepPurple.withOpacity(0.05),
+                  color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Text(
@@ -45,11 +45,11 @@ class AboutUsPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 32),
-              Divider(height: 1, thickness: 1, color: Colors.deepPurpleAccent),
+              Divider(height: 1, thickness: 1, color: Theme.of(context).colorScheme.primary),
               const SizedBox(height: 32),
               Text(
                 'Our Mission',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
               ),
               const SizedBox(height: 12),
               const Text(
@@ -59,7 +59,7 @@ class AboutUsPage extends StatelessWidget {
               const SizedBox(height: 28),
               Text(
                 'Our Vision',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
               ),
               const SizedBox(height: 12),
               const Text(
@@ -69,10 +69,10 @@ class AboutUsPage extends StatelessWidget {
               const SizedBox(height: 40),
               Center(
                 child: ElevatedButton.icon(
-                  icon: const Icon(Icons.contact_mail, color: Colors.white),
-                  label: const Text('Contact Us', style: TextStyle(color: Colors.white)),
+                  icon: Icon(Icons.contact_mail, color: Theme.of(context).colorScheme.onPrimary),
+                  label: Text('Contact Us', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),

@@ -36,6 +36,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
@@ -54,7 +55,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                   height: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.0),
-                    color: Colors.grey.shade200,
+                    color: colorScheme.surfaceVariant,
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
@@ -65,7 +66,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                         return Icon(
                           Icons.image,
                           size: 60,
-                          color: Colors.grey.shade400,
+                          color: colorScheme.outlineVariant,
                         );
                       },
                     ),
@@ -78,7 +79,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                 widget.product['brand'] ?? 'Unknown Brand',
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.deepPurple.shade600,
+                  color: colorScheme.primary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -98,7 +99,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                   ProductsDataProvider.getLocalizedDescription(widget.product, context),
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey.shade700,
+                    color: colorScheme.onSurface.withOpacity(0.7),
                   ),
                 ),
               SizedBox(height: 8),
@@ -107,7 +108,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                 '${AppLocalizationsHelper.of(context).sizeLabel}: ${_getDisplaySize()}',
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey.shade600,
+                  color: colorScheme.onSurface.withOpacity(0.6),
                 ),
               ),
               SizedBox(height: 16),
@@ -120,12 +121,12 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple.shade700,
+                      color: colorScheme.primary,
                     ),
                   ),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.orange, size: 18),
+                      Icon(Icons.star, color: colorScheme.secondary, size: 18),
                       Text(
                         '${widget.product['rating'] ?? 0}',
                         style: TextStyle(fontSize: 16),
@@ -134,7 +135,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                         ' (${AppLocalizationsHelper.of(context).currentRating})',
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.grey.shade600,
+                          color: colorScheme.onSurface.withOpacity(0.6),
                         ),
                       ),
                     ],

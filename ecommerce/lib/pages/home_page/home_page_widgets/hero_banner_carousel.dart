@@ -7,8 +7,8 @@ class HeroBannerCarousel extends StatefulWidget {
 
   @override
   State<HeroBannerCarousel> createState() => _HeroBannerCarouselState();
-}
 
+}
 class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
@@ -35,9 +35,11 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_267ad068.jpg',
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_33c0f20c.jpg',
         ],
-        'backgroundColor': isDark ? colorScheme.surfaceVariant : colorScheme.surface,
-        'textColor': colorScheme.onSurface,
-        'buttonColor': colorScheme.primary,
+        'backgroundColor': isDark ? colorScheme.primaryContainer : colorScheme.background,
+        'textColor': isDark ? colorScheme.onPrimaryContainer : colorScheme.onBackground,
+        'subtitleColor': isDark ? colorScheme.onPrimary : colorScheme.onBackground.withOpacity(0.85),
+        'descColor': isDark ? colorScheme.onPrimary.withOpacity(0.8) : colorScheme.onBackground.withOpacity(0.7),
+        'buttonColor': isDark ? colorScheme.secondary : colorScheme.primary,
         'action': () {
           // Navigate to La Roche-Posay products
         },
@@ -51,9 +53,11 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_1f1fc92c.jpg',
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_21a37162.jpg',
         ],
-        'backgroundColor': isDark ? colorScheme.primaryContainer : colorScheme.primary,
-        'textColor': isDark ? colorScheme.onPrimaryContainer : colorScheme.onPrimary,
-        'buttonColor': colorScheme.secondary,
+        'backgroundColor': isDark ? colorScheme.tertiaryContainer : colorScheme.secondaryContainer,
+        'textColor': isDark ? colorScheme.onTertiaryContainer : colorScheme.onSecondaryContainer,
+        'subtitleColor': isDark ? colorScheme.onTertiary : colorScheme.onSecondaryContainer.withOpacity(0.85),
+        'descColor': isDark ? colorScheme.onTertiary.withOpacity(0.8) : colorScheme.onSecondaryContainer.withOpacity(0.7),
+        'buttonColor': isDark ? colorScheme.primary : colorScheme.tertiary,
         'action': () {
           // Navigate to all products
         },
@@ -67,9 +71,11 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
           'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
           'assets/images/three_leaves.png',
         ],
-        'backgroundColor': isDark ? colorScheme.tertiaryContainer : colorScheme.secondaryContainer,
-        'textColor': isDark ? colorScheme.onTertiaryContainer : colorScheme.onSecondaryContainer,
-        'buttonColor': colorScheme.tertiary,
+        'backgroundColor': isDark ? colorScheme.surface : colorScheme.tertiaryContainer,
+        'textColor': isDark ? colorScheme.onSurface : colorScheme.onTertiaryContainer,
+        'subtitleColor': isDark ? colorScheme.onSurface : colorScheme.onTertiaryContainer.withOpacity(0.85),
+        'descColor': isDark ? colorScheme.onSurface.withOpacity(0.8) : colorScheme.onTertiaryContainer.withOpacity(0.7),
+        'buttonColor': isDark ? colorScheme.error : colorScheme.secondary,
         'action': () {
           // Navigate to offers page
         },
@@ -133,7 +139,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
             },
             itemCount: banners.length,
             itemBuilder: (context, index) {
-              return _buildBannerSlide(banners[index]);
+              return _buildBannerSlide(context, banners[index]);
             },
           ),
 
@@ -257,22 +263,21 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
     );
   }
 
-  Widget _buildBannerSlide(Map<String, dynamic> banner) {
+  Widget _buildBannerSlide(BuildContext context, Map<String, dynamic> banner) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
       decoration: BoxDecoration(
         color: banner['backgroundColor'],
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          // Use responsive layout based on available width
           bool isSmallScreen = constraints.maxWidth < 600;
-          
           if (isSmallScreen) {
-            // Stack layout for smaller screens
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  // Content section
                   Container(
                     padding: const EdgeInsets.all(24),
                     child: Column(
@@ -289,30 +294,26 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
-                        
                         Text(
                           banner['subtitle'],
                           style: TextStyle(
                             fontSize: 14,
-                            color: banner['textColor'].withOpacity(0.8),
+                            color: banner['subtitleColor'],
                             fontWeight: FontWeight.w500,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
-                        
                         Text(
                           banner['description'],
                           style: TextStyle(
                             fontSize: 12,
-                            color: banner['textColor'].withOpacity(0.7),
+                            color: banner['descColor'],
                             height: 1.4,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 20),
-                        
-                        // Call to action button
                         ElevatedButton(
                           onPressed: banner['action'],
                           style: ElevatedButton.styleFrom(
@@ -332,15 +333,17 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                             children: [
                               Text(
                                 banner['buttonText'],
-                                style: const TextStyle(
-                                  fontSize: 12,
+                                style: TextStyle(
                                   fontWeight: FontWeight.w600,
+                                  color: banner['backgroundColor'],
+                                  fontSize: 14,
                                 ),
                               ),
                               const SizedBox(width: 6),
-                              const Icon(
-                                Icons.arrow_forward,
+                              Icon(
+                                Icons.chevron_right,
                                 size: 14,
+                                color: banner['backgroundColor'],
                               ),
                             ],
                           ),
@@ -348,8 +351,6 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                       ],
                     ),
                   ),
-                  
-                  // Product images section
                   if (banner['products'] != null && banner['products'].isNotEmpty)
                     Container(
                       height: 120,
@@ -362,32 +363,23 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                             width: 80,
                             height: 80,
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
+                              color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
                               borderRadius: BorderRadius.circular(8),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 8,
+                                  color: isDark
+                                      ? Color.alphaBlend(Colors.black.withAlpha((0.18 * 255).round()), colorScheme.surface)
+                                      : Color.alphaBlend(Colors.black.withAlpha((0.08 * 255).round()), colorScheme.surface),
+                                  blurRadius: 10,
                                   offset: const Offset(0, 2),
                                 ),
                               ],
                             ),
-                            child: Center(
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: Color.alphaBlend(
-                                    Theme.of(context).colorScheme.primary.withAlpha((0.1 * 255).round()),
-                                    Theme.of(context).colorScheme.surface,
-                                  ),
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: const Icon(
-                                  Icons.spa,
-                                  size: 25,
-                                  color: Color(0xFF6B73FF),
-                                ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                product,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
@@ -398,10 +390,8 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
               ),
             );
           } else {
-            // Row layout for larger screens
             return Row(
               children: [
-                // Left side - Product images
                 Expanded(
                   flex: 1,
                   child: Container(
@@ -416,32 +406,23 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                               width: 120,
                               height: 120,
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.surface,
-                                borderRadius: BorderRadius.circular(12),
+                                color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+                                borderRadius: BorderRadius.circular(8),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
+                                    color: isDark
+                                        ? Color.alphaBlend(Colors.black.withAlpha((0.18 * 255).round()), colorScheme.surface)
+                                        : Color.alphaBlend(Colors.black.withAlpha((0.08 * 255).round()), colorScheme.surface),
                                     blurRadius: 10,
-                                    offset: const Offset(0, 4),
+                                    offset: const Offset(0, 2),
                                   ),
                                 ],
                               ),
-                              child: Center(
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: Color.alphaBlend(
-                                      Theme.of(context).colorScheme.primary.withAlpha((0.1 * 255).round()),
-                                      Theme.of(context).colorScheme.surface,
-                                    ),
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: const Icon(
-                                    Icons.spa,
-                                    size: 40,
-                                    color: Color(0xFF6B73FF),
-                                  ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  product,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -450,8 +431,6 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                     ),
                   ),
                 ),
-                
-                // Right side - Content
                 Expanded(
                   flex: 1,
                   child: Container(
@@ -474,46 +453,37 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        
                         Flexible(
                           child: Text(
                             banner['subtitle'],
                             style: TextStyle(
                               fontSize: 16,
-                              color: Color.alphaBlend(
-                                banner['textColor'].withAlpha((0.8 * 255).round()),
-                                Theme.of(context).colorScheme.surface,
-                              ),
                               fontWeight: FontWeight.w500,
+                              color: banner['subtitleColor'],
                             ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                         ),
                         const SizedBox(height: 20),
-                        
                         Flexible(
                           child: Text(
                             banner['description'],
                             style: TextStyle(
-                              fontSize: 14,
-                              color: banner['textColor'].withOpacity(0.7),
                               height: 1.5,
+                              color: banner['descColor'],
                             ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                           ),
                         ),
                         const SizedBox(height: 30),
-                        
-                        // Call to action button
                         ElevatedButton(
                           onPressed: banner['action'],
                           style: ElevatedButton.styleFrom(
                             backgroundColor: banner['buttonColor'],
                             foregroundColor: banner['backgroundColor'],
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
                               vertical: 12,
                             ),
                             shape: RoundedRectangleBorder(
@@ -526,15 +496,17 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                             children: [
                               Text(
                                 banner['buttonText'],
-                                style: const TextStyle(
-                                  fontSize: 14,
+                                style: TextStyle(
                                   fontWeight: FontWeight.w600,
+                                  color: banner['backgroundColor'],
+                                  fontSize: 16,
                                 ),
                               ),
-                              const SizedBox(width: 8),
-                              const Icon(
-                                Icons.arrow_forward,
+                              const SizedBox(width: 6),
+                              Icon(
+                                Icons.chevron_right,
                                 size: 16,
+                                color: banner['backgroundColor'],
                               ),
                             ],
                           ),

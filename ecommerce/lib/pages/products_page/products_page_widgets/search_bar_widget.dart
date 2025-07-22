@@ -29,9 +29,9 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
-        color: isDark ? colorScheme.surface : colorScheme.secondaryContainer,
+        color: isDark ? colorScheme.surface : colorScheme.surface,
         borderRadius: BorderRadius.circular(25.0),
-        border: Border.all(color: isDark ? colorScheme.outline : colorScheme.secondary),
+        border: Border.all(color: isDark ? colorScheme.outline : colorScheme.outlineVariant),
       ),
       child: TextField(
         controller: widget.controller,
@@ -44,10 +44,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           hintText: widget.hintText.isEmpty 
               ? AppLocalizationsHelper.of(context).searchProductsHint 
               : widget.hintText,
-          hintStyle: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
+          hintStyle: TextStyle(color: colorScheme.onSurface.withOpacity(isDark ? 0.6 : 0.7)),
           prefixIcon: Icon(
             Icons.search,
-            color: colorScheme.onSurface.withOpacity(0.7),
+            color: colorScheme.onSurface.withOpacity(isDark ? 0.7 : 0.8),
           ),
           suffixIcon: widget.controller.text.isNotEmpty
               ? IconButton(

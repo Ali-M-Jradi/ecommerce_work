@@ -4,7 +4,7 @@ class HighlightedText extends StatelessWidget {
   final String text;
   final String highlight;
   final TextStyle? style;
-  final Color highlightColor;
+  final Color? highlightColor;
   final TextStyle? highlightStyle;
   final int? maxLines;
   final TextOverflow? overflow;
@@ -14,7 +14,7 @@ class HighlightedText extends StatelessWidget {
     required this.text,
     required this.highlight,
     this.style,
-    this.highlightColor = Colors.amber,
+    this.highlightColor,
     this.highlightStyle,
     this.maxLines,
     this.overflow,
@@ -22,10 +22,15 @@ class HighlightedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final effectiveHighlightColor = highlightColor ?? (isDark ? colorScheme.primary : colorScheme.primaryContainer);
+    final effectiveTextColor = style?.color ?? (isDark ? colorScheme.onSurface : colorScheme.onSurface);
     if (highlight.isEmpty || highlight.trim().isEmpty) {
       return Text(
         text,
-        style: style,
+        style: style?.copyWith(color: effectiveTextColor) ?? TextStyle(color: effectiveTextColor),
         maxLines: maxLines,
         overflow: overflow,
       );
@@ -52,7 +57,7 @@ class HighlightedText extends StatelessWidget {
       if (index > start) {
         spans.add(TextSpan(
           text: text.substring(start, index),
-          style: style,
+          style: style?.copyWith(color: effectiveTextColor) ?? TextStyle(color: effectiveTextColor),
         ));
       }
       
@@ -61,10 +66,12 @@ class HighlightedText extends StatelessWidget {
         text: text.substring(index, index + lowerHighlight.length),
         style: highlightStyle ?? 
           (style?.copyWith(
-            backgroundColor: highlightColor,
+            backgroundColor: effectiveHighlightColor,
+            color: colorScheme.onPrimary,
             fontWeight: FontWeight.bold,
           ) ?? TextStyle(
-            backgroundColor: highlightColor,
+            backgroundColor: effectiveHighlightColor,
+            color: colorScheme.onPrimary,
             fontWeight: FontWeight.bold,
           )),
       ));
@@ -77,7 +84,7 @@ class HighlightedText extends StatelessWidget {
     if (start < text.length) {
       spans.add(TextSpan(
         text: text.substring(start),
-        style: style,
+        style: style?.copyWith(color: effectiveTextColor) ?? TextStyle(color: effectiveTextColor),
       ));
     }
 

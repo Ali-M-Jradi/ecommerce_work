@@ -56,17 +56,14 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: colorScheme.background,
       floatingActionButton: _showFloatingButtons
           ? UnifiedScanFab(
               heroTagPrefix: 'home_page',
-              onLoyaltyPressed: () {
-                // Handle loyalty program
-              },
-              onContactPressed: () {
-                // Handle contact us
-              },
+              onLoyaltyPressed: () {},
+              onContactPressed: () {},
               onScanPressed: () async {
                 await showScanOptionsModal(context);
               },
@@ -83,7 +80,7 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
           // Featured Products Section
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -92,10 +89,9 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
                     children: [
                       Text(
                         AppLocalizationsHelper.of(context).featuredProducts,
-                        style: TextStyle(
-                          fontSize: 24,
+                        style: theme.textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onBackground,
+                          color: colorScheme.onBackground,
                         ),
                       ),
                       GestureDetector(
@@ -111,10 +107,9 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
                         },
                         child: Text(
                           AppLocalizationsHelper.of(context).viewAll,
-                          style: TextStyle(
-                            fontSize: 16,
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.primary,
+                            color: colorScheme.primary,
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -122,6 +117,11 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
                     ],
                   ),
                   const SizedBox(height: 16),
+                  Divider(
+                    height: 1,
+                    thickness: 0.7,
+                    color: colorScheme.outlineVariant.withOpacity(0.15),
+                  ),
                 ],
               ),
             ),
@@ -135,58 +135,75 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
           // Categories Section
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizationsHelper.of(context).shopByCategory,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.5,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildCategoryCard(
-                        AppLocalizationsHelper.of(context).skincare,
-                        'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(context).colorScheme.surfaceVariant
-                            : Theme.of(context).colorScheme.secondaryContainer,
+                      Text(
+                        AppLocalizationsHelper.of(context).shopByCategory,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: colorScheme.onBackground,
+                        ),
                       ),
-                      _buildCategoryCard(
-                        AppLocalizationsHelper.of(context).makeup,
-                        'assets/images/digital-art-style-mental-health-day-awareness-illustration.png',
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(context).colorScheme.surfaceVariant
-                            : Theme.of(context).colorScheme.tertiaryContainer,
+                      const SizedBox(height: 16),
+                      Wrap(
+                        spacing: 16,
+                        runSpacing: 16,
+                        children: [
+                          SizedBox(
+                            width: (constraints.maxWidth - 16) / 2,
+                            child: _buildCategoryCard(
+                              AppLocalizationsHelper.of(context).skincare,
+                              'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
+                              theme.brightness == Brightness.dark
+                                  ? colorScheme.surfaceVariant
+                                  : colorScheme.secondaryContainer,
+                            ),
+                          ),
+                          SizedBox(
+                            width: (constraints.maxWidth - 16) / 2,
+                            child: _buildCategoryCard(
+                              AppLocalizationsHelper.of(context).makeup,
+                              'assets/images/digital-art-style-mental-health-day-awareness-illustration.png',
+                              theme.brightness == Brightness.dark
+                                  ? colorScheme.surfaceVariant
+                                  : colorScheme.tertiaryContainer,
+                            ),
+                          ),
+                          SizedBox(
+                            width: (constraints.maxWidth - 16) / 2,
+                            child: _buildCategoryCard(
+                              AppLocalizationsHelper.of(context).hairCare,
+                              'assets/images/three_leaves.png',
+                              theme.brightness == Brightness.dark
+                                  ? colorScheme.surfaceVariant
+                                  : colorScheme.primaryContainer,
+                            ),
+                          ),
+                          SizedBox(
+                            width: (constraints.maxWidth - 16) / 2,
+                            child: _buildCategoryCard(
+                              AppLocalizationsHelper.of(context).fragrance,
+                              'assets/images/gift_icon.jpg',
+                              theme.brightness == Brightness.dark
+                                  ? colorScheme.surfaceVariant
+                                  : colorScheme.secondaryContainer,
+                            ),
+                          ),
+                        ],
                       ),
-                      _buildCategoryCard(
-                        AppLocalizationsHelper.of(context).hairCare,
-                        'assets/images/three_leaves.png',
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(context).colorScheme.surfaceVariant
-                            : Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                      _buildCategoryCard(
-                        AppLocalizationsHelper.of(context).fragrance,
-                        'assets/images/gift_icon.jpg',
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(context).colorScheme.surfaceVariant
-                            : Theme.of(context).colorScheme.secondaryContainer,
+                      const SizedBox(height: 8),
+                      Divider(
+                        height: 1,
+                        thickness: 0.7,
+                        color: colorScheme.outlineVariant.withOpacity(0.15),
                       ),
                     ],
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),
@@ -200,18 +217,24 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: colorScheme.shadow.withOpacity(0.08),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     AppLocalizationsHelper.of(context).whyChooseUs,
-                    style: TextStyle(
-                      fontSize: 20,
+                    style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -251,13 +274,12 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
   Widget _buildCategoryCard(String title, String imagePath, Color backgroundColor) {
     // Convert UI-friendly title to a category identifier for routing
     String categoryId = _getCategoryIdFromTitle(title);
-    
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
+    final cardBackground = backgroundColor;
     return InkWell(
       onTap: () {
-        // Navigate to products page with the selected category
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -268,45 +290,49 @@ class _HomePageState extends State<HomePage> with ScanHistoryMixin, UnifiedScanF
           ),
         );
       },
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.shadow.withOpacity(0.08),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: isDark ? colorScheme.surface : colorScheme.background,
-                borderRadius: BorderRadius.circular(30),
+      borderRadius: BorderRadius.circular(16),
+      child: Material(
+        elevation: 3,
+        borderRadius: BorderRadius.circular(16),
+        color: cardBackground,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? colorScheme.surface
+                      : colorScheme.background,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colorScheme.shadow.withOpacity(0.10),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.spa,
+                  size: 30,
+                  color: colorScheme.primary,
+                ),
               ),
-              child: Icon(
-                Icons.spa,
-                size: 30,
-                color: colorScheme.primary,
+              const SizedBox(height: 14),
+              Text(
+                title,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: colorScheme.onSurface,
+                  fontSize: 17,
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: colorScheme.onSurface,
-                fontSize: 16,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

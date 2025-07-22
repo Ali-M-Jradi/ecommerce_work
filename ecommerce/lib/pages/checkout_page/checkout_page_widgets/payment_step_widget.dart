@@ -38,6 +38,9 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -45,9 +48,8 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
         children: [
           _buildSectionTitle(AppLocalizations.of(context)!.paymentMethodsTitle),
           const SizedBox(height: 16),
-          _buildPaymentMethodsList(),
+          _buildPaymentMethodsList(colorScheme, isDark),
           const SizedBox(height: 32),
-          
           // Add New Payment Method Button
           SizedBox(
             width: double.infinity,
@@ -55,10 +57,19 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
               onPressed: () {
                 _showAddPaymentMethodDialog();
               },
-              icon: const Icon(Icons.add),
-              label: Text(AppLocalizations.of(context)!.addNewPaymentMethodButton),
+              icon: Icon(Icons.add, color: colorScheme.primary),
+              label: Text(
+                AppLocalizations.of(context)!.addNewPaymentMethodButton,
+                style: TextStyle(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
+                side: BorderSide(color: colorScheme.primary, width: 2),
+                foregroundColor: colorScheme.primary,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -76,24 +87,23 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
     );
   }
 
-  Widget _buildPaymentMethodsList() {
+  Widget _buildPaymentMethodsList(ColorScheme colorScheme, bool isDark) {
     return Column(
       children: _savedPaymentMethods.map((method) {
         final isSelected = widget.selectedPaymentMethod?.id == method.id;
-        
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected 
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey[300]!,
+              color: isSelected
+                  ? colorScheme.primary
+                  : colorScheme.outlineVariant,
               width: isSelected ? 2 : 1,
             ),
             borderRadius: BorderRadius.circular(12),
-            color: isSelected 
-                ? Theme.of(context).primaryColor.withValues(alpha: 0.05)
-                : Colors.white,
+            color: isSelected
+                ? colorScheme.primary.withOpacity(isDark ? 0.10 : 0.05)
+                : (isDark ? colorScheme.surfaceVariant : colorScheme.surface),
           ),
           child: InkWell(
             onTap: () {
@@ -113,14 +123,12 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
                         widget.onPaymentMethodChanged(value);
                       }
                     },
-                    activeColor: Theme.of(context).primaryColor,
+                    activeColor: colorScheme.primary,
                   ),
                   const SizedBox(width: 8),
-                  
                   // Payment method icon
                   _buildPaymentMethodIcon(method),
                   const SizedBox(width: 12),
-                  
                   // Payment method details
                   Expanded(
                     child: Column(
@@ -131,27 +139,29 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
                             Expanded(
                               child: Text(
                                 method.formattedDisplay,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  color: colorScheme.onSurface,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             if (method.isDefault) ...[
-                              const SizedBox(width: 8),                                Container(
+                              const SizedBox(width: 8),
+                              Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8,
                                   vertical: 4,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: colorScheme.secondary,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
                                   AppLocalizations.of(context)!.defaultLabel,
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: colorScheme.onSecondary,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -165,7 +175,7 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
                           Text(
                             AppLocalizations.of(context)!.expiresLabel(method.expiryMonth!, method.expiryYear!),
                             style: TextStyle(
-                              color: Colors.grey[600],
+                              color: colorScheme.outlineVariant,
                               fontSize: 14,
                             ),
                           ),
@@ -173,10 +183,9 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
                       ],
                     ),
                   ),
-                  
                   // More options menu
                   PopupMenuButton<String>(
-                    icon: const Icon(Icons.more_vert),
+                    icon: Icon(Icons.more_vert, color: colorScheme.onSurface),
                     onSelected: (String action) {
                       switch (action) {
                         case 'edit':
@@ -191,7 +200,7 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
                       PopupMenuItem(
                         value: 'edit',
                         child: ListTile(
-                          leading: const Icon(Icons.edit),
+                          leading: Icon(Icons.edit, color: colorScheme.primary),
                           title: Text(AppLocalizations.of(context)!.editAction),
                           contentPadding: EdgeInsets.zero,
                         ),
@@ -199,7 +208,7 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
                       PopupMenuItem(
                         value: 'delete',
                         child: ListTile(
-                          leading: const Icon(Icons.delete),
+                          leading: Icon(Icons.delete, color: colorScheme.error),
                           title: Text(AppLocalizations.of(context)!.deleteAction),
                           contentPadding: EdgeInsets.zero,
                         ),
@@ -218,6 +227,7 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
   Widget _buildPaymentMethodIcon(PaymentMethod method) {
     switch (method.type) {
       case 'card':
+        // Show only the card brand name for all cards
         return Container(
           width: 40,
           height: 24,

@@ -17,15 +17,18 @@ class FloatingActionButtonsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(width: 10.0),
+          const SizedBox(width: 10.0),
           FloatingActionButton.extended(
             heroTag: "${heroTagPrefix ?? 'default'}_loyalty_fab",
             onPressed: onLoyaltyPressed ?? () {},
+            backgroundColor: colorScheme.primary,
             label: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -33,46 +36,53 @@ class FloatingActionButtonsWidget extends StatelessWidget {
                   backgroundImage: AssetImage('assets/images/gift_icon.jpg'),
                   radius: 12.0,
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Text(
                   AppLocalizationsHelper.of(context).loyaltyProgram,
-                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onPrimary,
+                    fontSize: 14,
+                  ),
                 ),
               ],
             ),
-            backgroundColor: Colors.deepPurpleAccent.shade700,
           ),
-          SizedBox(width: 25.0),
+          const SizedBox(width: 25.0),
           FloatingActionButton.extended(
             heroTag: "${heroTagPrefix ?? 'default'}_scan_fab",
             onPressed: onScanBarcodePressed ?? () {},
+            backgroundColor: colorScheme.primary,
             label: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.qr_code_scanner, color: Colors.white),
-                SizedBox(width: 8.0),
+                Icon(Icons.qr_code_scanner, color: colorScheme.onPrimary),
+                const SizedBox(width: 8.0),
                 Text(
                   'Scan',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onPrimary,
+                    fontSize: 14,
+                  ),
                 ),
               ],
             ),
-            backgroundColor: Colors.deepPurpleAccent.shade700,
           ),
-          SizedBox(width: 25.0),
+          const SizedBox(width: 25.0),
           FloatingActionButton.extended(
             heroTag: "${heroTagPrefix ?? 'default'}_contact_fab",
             onPressed: onContactPressed ?? () {},
-            tooltip: AppLocalizationsHelper.of(context).contactUs,
-            backgroundColor: Colors.deepPurpleAccent.shade700,
+            backgroundColor: colorScheme.primary,
             label: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   AppLocalizationsHelper.of(context).contactUs,
-                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onPrimary,
+                    fontSize: 14,
+                  ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 CircleAvatar(
                   backgroundImage: AssetImage('assets/images/whatsapp_icon.jpg'),
                   radius: 12.0,

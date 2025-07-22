@@ -17,16 +17,18 @@ class ProductsAppBarWidget extends StatelessWidget implements PreferredSizeWidge
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back, color: Colors.white),
+        icon: Icon(Icons.arrow_back, color: colorScheme.onPrimary),
         onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
       ),
       title: Text(
         title ?? AppLocalizationsHelper.of(context).productsPageTitle,
-        style: TextStyle(color: Colors.white, fontSize: 20.0),
+        style: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
       ),
-      backgroundColor: Colors.deepPurpleAccent.shade700,
+      backgroundColor: colorScheme.primary,
       elevation: 0,
       actions: [
         IconButton(
@@ -37,7 +39,7 @@ class ProductsAppBarWidget extends StatelessWidget implements PreferredSizeWidge
                 isLabelVisible: cart.itemCount > 0,
                 child: Icon(
                   Icons.shopping_cart,
-                  color: Colors.white,
+                  color: colorScheme.onPrimary,
                 ),
               );
             },

@@ -28,20 +28,21 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ? userProvider.currentUser!.email 
                 : AppLocalizationsHelper.of(context).notLoggedIn;
               
+              final colorScheme = Theme.of(context).colorScheme;
               return DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: colorScheme.primary,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.white,
+                      backgroundColor: colorScheme.surface,
                       child: Icon(
                         isLoggedIn ? Icons.person : Icons.person_outline,
                         size: 35,
-                        color: Colors.deepPurpleAccent.shade700,
+                        color: colorScheme.primary,
                       ),
                     ),
                     SizedBox(height: 10),
@@ -50,7 +51,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ? AppLocalizationsHelper.welcomeUser(context, userProvider.currentUser!.displayName) 
                         : AppLocalizationsHelper.of(context).welcome,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: colorScheme.onPrimary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -58,7 +59,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     Text(
                       displayEmail,
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: colorScheme.onPrimary.withOpacity(0.7),
                         fontSize: 14,
                       ),
                     ),
@@ -69,34 +70,52 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           // Shop by Category
           ExpansionTile(
-            leading: Icon(Icons.category, color: Colors.deepPurpleAccent.shade700),
-            title: Text(AppLocalizationsHelper.of(context).shopByCategoryMenu),
+            leading: Icon(Icons.category, color: Theme.of(context).colorScheme.primary),
+            title: Text(
+              AppLocalizationsHelper.of(context).shopByCategoryMenu,
+              style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+            ),
             children: [
               ListTile(
                 leading: SizedBox(width: 20),
-                title: Text(AppLocalizationsHelper.of(context).faceCare),
+                title: Text(
+                  AppLocalizationsHelper.of(context).faceCare,
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+                ),
                 onTap: () {
                   widget.onNavigationTap?.call('face_care');
                 },
               ),
               ListTile(
                 leading: SizedBox(width: 20),
-                title: Text(AppLocalizationsHelper.of(context).bodyCare),
+                title: Text(
+                  AppLocalizationsHelper.of(context).bodyCare,
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+                ),
                 onTap: () {
                   widget.onNavigationTap?.call('body_care');
                 },
               ),
               ListTile(
                 leading: SizedBox(width: 20),
-                title: Text(AppLocalizationsHelper.of(context).hairCareCategory),
+                title: Text(
+                  AppLocalizationsHelper.of(context).hairCareCategory,
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+                ),
                 onTap: () {
                   widget.onNavigationTap?.call('hair_care');
                 },
               ),
               ListTile(
                 leading: SizedBox(width: 20),
-                title: Text(AppLocalizationsHelper.of(context).allBrands),
-                subtitle: Text(AppLocalizationsHelper.of(context).brandExamples),
+                title: Text(
+                  AppLocalizationsHelper.of(context).allBrands,
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+                ),
+                subtitle: Text(
+                  AppLocalizationsHelper.of(context).brandExamples,
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                ),
                 onTap: () {
                   widget.onNavigationTap?.call('brands');
                 },
@@ -106,7 +125,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           
           // Loyalty Program
           ListTile(
-            leading: Icon(Icons.card_giftcard, color: Colors.deepPurpleAccent.shade700),
+            leading: Icon(Icons.card_giftcard, color: Theme.of(context).colorScheme.primary),
             title: Text(AppLocalizationsHelper.of(context).loyaltyProgram),
             subtitle: Text(AppLocalizationsHelper.of(context).earnPointsRewards),
             onTap: () {
@@ -116,7 +135,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           
           // Special Offers
           ListTile(
-            leading: Icon(Icons.local_offer, color: Colors.deepPurpleAccent.shade700),
+            leading: Icon(Icons.local_offer, color: Theme.of(context).colorScheme.primary),
             title: Text(AppLocalizationsHelper.of(context).specialOffersMenu),
             subtitle: Text(AppLocalizationsHelper.of(context).discountsPromotions),
             onTap: () {

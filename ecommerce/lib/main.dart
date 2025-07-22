@@ -21,7 +21,37 @@ import 'package:provider/provider.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 // Global navigator key for reliable navigation
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+// Main theme variables for easy access and extension
+final ColorScheme lightColorScheme = ColorScheme.light(
+  primary: Colors.deepPurpleAccent.shade700,
+  onPrimary: Colors.white,
+  secondary: Colors.deepPurple,
+  onSecondary: Colors.white,
+  background: const Color(0xFFFFFBFF),
+  onBackground: Colors.black,
+  surface: Colors.white,
+  onSurface: Colors.black,
+  error: Colors.red.shade700,
+  onError: Colors.white,
+);
+
+final ColorScheme darkColorScheme = ColorScheme.dark(
+  primary: Colors.deepPurpleAccent,
+  onPrimary: Colors.white,
+  secondary: Colors.deepPurple,
+  onSecondary: Colors.white,
+  background: const Color(0xFF181824),
+  onBackground: Colors.white,
+  surface: const Color(0xFF232336),
+  onSurface: Colors.white,
+  error: Colors.red.shade400,
+  onError: Colors.black,
+);
+
+const String mainFontFamily = 'Roboto';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +68,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -55,10 +84,8 @@ class MyApp extends StatelessWidget {
           return Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return MaterialApp(
-                navigatorKey: navigatorKey, // Add the global navigator key
+                navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
-                
-                // Internationalization settings
                 localizationsDelegates: [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,
@@ -67,73 +94,50 @@ class MyApp extends StatelessWidget {
                 ],
                 supportedLocales: AppLocalizationsHelper.supportedLocales,
                 locale: languageProvider.currentLocale,
-                
                 title: 'DERMOCOSMETIQUE',
                 theme: ThemeData(
-                  colorScheme: ColorScheme.light(
-                    primary: Colors.deepPurpleAccent.shade700,
-                    onPrimary: Colors.white,
-                    secondary: Colors.deepPurple,
-                    onSecondary: Colors.white,
-                    background: Color(0xFFFFFBFF),
-                    onBackground: Colors.black,
-                    surface: Colors.white,
-                    onSurface: Colors.black,
-                    error: Colors.red.shade700,
-                    onError: Colors.white,
-                  ),
-                  scaffoldBackgroundColor: Color(0xFFFFFBFF),
+                  colorScheme: lightColorScheme,
+                  scaffoldBackgroundColor: lightColorScheme.background,
                   appBarTheme: AppBarTheme(
-                    backgroundColor: Colors.deepPurpleAccent.shade700,
-                    foregroundColor: Colors.white,
-                    titleTextStyle: TextStyle(
+                    backgroundColor: lightColorScheme.primary,
+                    foregroundColor: lightColorScheme.onPrimary,
+                    titleTextStyle: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
-                    iconTheme: IconThemeData(color: Colors.white),
-                    actionsIconTheme: IconThemeData(color: Colors.white),
+                    iconTheme: const IconThemeData(color: Colors.white),
+                    actionsIconTheme: const IconThemeData(color: Colors.white),
                   ),
                   elevatedButtonTheme: ElevatedButtonThemeData(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurpleAccent.shade700,
-                      foregroundColor: Colors.white,
+                      backgroundColor: lightColorScheme.primary,
+                      foregroundColor: lightColorScheme.onPrimary,
                     ),
                   ),
-                  fontFamily: 'Roboto',
+                  fontFamily: mainFontFamily,
                 ),
                 darkTheme: ThemeData(
-                  colorScheme: ColorScheme.dark(
-                    primary: Colors.deepPurpleAccent,
-                    onPrimary: Colors.white,
-                    secondary: Colors.deepPurple,
-                    onSecondary: Colors.white,
-                    background: Color(0xFF181824),
-                    onBackground: Colors.white,
-                    surface: Color(0xFF232336),
-                    onSurface: Colors.white,
-                    error: Colors.red.shade400,
-                    onError: Colors.black,
-                  ),
-                  scaffoldBackgroundColor: Color(0xFF181824),
+                  colorScheme: darkColorScheme,
+                  scaffoldBackgroundColor: darkColorScheme.background,
                   appBarTheme: AppBarTheme(
-                    backgroundColor: Colors.deepPurple[900],
-                    foregroundColor: Colors.white,
-                    titleTextStyle: TextStyle(
+                    backgroundColor: darkColorScheme.primary,
+                    foregroundColor: darkColorScheme.onPrimary,
+                    titleTextStyle: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
-                    iconTheme: IconThemeData(color: Colors.white),
-                    actionsIconTheme: IconThemeData(color: Colors.white),
+                    iconTheme: const IconThemeData(color: Colors.white),
+                    actionsIconTheme: const IconThemeData(color: Colors.white),
                   ),
                   elevatedButtonTheme: ElevatedButtonThemeData(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurpleAccent,
-                      foregroundColor: Colors.white,
+                      backgroundColor: darkColorScheme.primary,
+                      foregroundColor: darkColorScheme.onPrimary,
                     ),
                   ),
-                  fontFamily: 'Roboto',
+                  fontFamily: mainFontFamily,
                 ),
                 themeMode: themeProvider.themeMode,
                 home: const BasePage(title: 'DERMOCOSMETIQUE'),
@@ -145,7 +149,7 @@ class MyApp extends StatelessWidget {
                   '/notifications': (context) => const NotificationsPage(),
                   '/test-notifications': (context) => const NotificationTestPage(),
                   '/order-tracking': (context) {
-                    final Map<String, dynamic> args = 
+                    final Map<String, dynamic> args =
                       ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>? ?? {};
                     return OrderTrackingPage(
                       orderId: args['orderId'] as String?,
@@ -160,5 +164,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 

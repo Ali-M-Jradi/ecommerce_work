@@ -150,6 +150,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
   Widget _buildProductCard(Map<String, dynamic> product) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
     return GestureDetector(
       onTap: () => _showProductDetails(product),
       child: AnimatedContainer(
@@ -160,7 +161,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: theme.brightness == Brightness.dark
+              color: isDark
                   ? Color.alphaBlend(Colors.black.withAlpha((0.18 * 255).round()), colorScheme.surface)
                   : Color.alphaBlend(Colors.black.withAlpha((0.08 * 255).round()), colorScheme.surface),
               blurRadius: 15,
@@ -178,7 +179,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                  color: colorScheme.background,
+                  color: isDark ? colorScheme.surfaceVariant : colorScheme.background,
                 ),
                 child: Stack(
                   children: [
@@ -209,13 +210,13 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: colorScheme.primary,
+                            color: colorScheme.error,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
                             AppLocalizationsHelper.of(context).soldOut,
                             style: TextStyle(
-                              color: colorScheme.onPrimary,
+                              color: colorScheme.onError,
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
                             ),

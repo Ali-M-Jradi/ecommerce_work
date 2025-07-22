@@ -29,6 +29,20 @@ class AddressStepWidget extends StatefulWidget {
 class _AddressStepWidgetState extends State<AddressStepWidget> {
   final AddressService _addressService = AddressService();
 
+  bool _canContinue() {
+    // You can add more validation logic here if needed
+    if (!_addressService.hasAddresses) return false;
+    if (widget.selectedShippingAddress == null) return false;
+    if (!widget.useSameAddressForBilling && widget.selectedBillingAddress == null) return false;
+    return true;
+  }
+
+  void _onContinuePressed() {
+    // Implement what should happen when continue is pressed
+    // For example, you might want to call a callback or navigate to the next step
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Continue pressed')));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -59,19 +73,19 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.red.shade50,
-                border: Border.all(color: Colors.red.shade200),
+                color: Theme.of(context).colorScheme.errorContainer,
+                border: Border.all(color: Theme.of(context).colorScheme.error.withOpacity(0.3)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.error_outline, color: Colors.red.shade600, size: 16),
+                  Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error, size: 16),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.noAddressesMessage,
                       style: TextStyle(
-                        color: Colors.red.shade700,
+                        color: Theme.of(context).colorScheme.onErrorContainer,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -85,19 +99,19 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.orange.shade50,
-                border: Border.all(color: Colors.orange.shade200),
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: Colors.orange.shade600, size: 16),
+                  Icon(Icons.info_outline, color: Theme.of(context).colorScheme.secondary, size: 16),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.selectShippingMessage,
                       style: TextStyle(
-                        color: Colors.orange.shade700,
+                        color: Theme.of(context).colorScheme.onSecondaryContainer,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -121,13 +135,20 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
           
           // Same as shipping checkbox
           CheckboxListTile(
-            title: Text(AppLocalizations.of(context)!.useSameAddressLabel),
+            title: Text(
+              AppLocalizations.of(context)!.useSameAddressLabel,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
             value: widget.useSameAddressForBilling,
             onChanged: (value) {
               widget.onUseSameAddressChanged(value ?? true);
             },
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,
+            activeColor: Theme.of(context).colorScheme.primary,
+            checkColor: Theme.of(context).colorScheme.onPrimary,
           ),
           
           if (!widget.useSameAddressForBilling) ...[
@@ -136,19 +157,19 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  border: Border.all(color: Colors.red.shade200),
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  border: Border.all(color: Theme.of(context).colorScheme.error.withOpacity(0.3)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.error_outline, color: Colors.red.shade600, size: 16),
+                    Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error, size: 16),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         AppLocalizations.of(context)!.selectBillingMessage,
                         style: TextStyle(
-                          color: Colors.red.shade700,
+                          color: Theme.of(context).colorScheme.onErrorContainer,
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
@@ -162,19 +183,19 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.orange.shade50,
-                  border: Border.all(color: Colors.orange.shade200),
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, color: Colors.orange.shade600, size: 16),
+                    Icon(Icons.info_outline, color: Theme.of(context).colorScheme.secondary, size: 16),
                     const SizedBox(width: 8),
                     Expanded(
-                      child:                      Text(
+                      child: Text(
                         AppLocalizations.of(context)!.selectBillingMessage,
                         style: TextStyle(
-                          color: Colors.orange.shade700,
+                          color: Theme.of(context).colorScheme.onSecondaryContainer,
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
@@ -205,6 +226,10 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
               label: Text(AppLocalizations.of(context)!.addAddressButton),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
+                foregroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                side: BorderSide(color: Theme.of(context).colorScheme.primary),
+                textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -228,9 +253,14 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
     required bool isShipping,
   }) {
     final addresses = _addressService.addresses;
-    
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     if (addresses.isEmpty) {
       return Card(
+        color: colorScheme.surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -238,23 +268,21 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
               Icon(
                 Icons.location_off,
                 size: 48,
-                color: Colors.grey[400],
+                color: colorScheme.outlineVariant,
               ),
               const SizedBox(height: 16),
               Text(
                 AppLocalizations.of(context)!.noAddressesMessage,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 AppLocalizations.of(context)!.selectShippingMessage,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[500],
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
             ],
@@ -266,20 +294,19 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
     return Column(
       children: addresses.map((address) {
         final isSelected = selectedAddress?.id == address.id;
-        
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected 
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey[300]!,
+              color: isSelected
+                  ? colorScheme.primary
+                  : colorScheme.outlineVariant,
               width: isSelected ? 2 : 1,
             ),
             borderRadius: BorderRadius.circular(12),
-            color: isSelected 
-                ? Theme.of(context).primaryColor.withValues(alpha: 0.05)
-                : Colors.white,
+            color: isSelected
+                ? colorScheme.primary.withOpacity(0.08)
+                : colorScheme.surface,
           ),
           child: ListTile(
             contentPadding: const EdgeInsets.all(16),
@@ -291,15 +318,15 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
                   onAddressChanged(value);
                 }
               },
-              activeColor: Theme.of(context).primaryColor,
+              activeColor: colorScheme.primary,
             ),
             title: Row(
               children: [
                 Text(
                   address.fullName,
-                  style: const TextStyle(
+                  style: textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 if (address.isDefault) ...[
@@ -310,14 +337,13 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: colorScheme.secondary,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       AppLocalizations.of(context)!.defaultLabel,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
+                      style: textTheme.labelSmall?.copyWith(
+                        color: colorScheme.onSecondary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -331,39 +357,46 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
                 const SizedBox(height: 8),
                 Text(
                   address.streetAddress,
-                  style: const TextStyle(fontSize: 14),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
                 ),
                 if (address.addressLine2 != null) ...[
                   const SizedBox(height: 4),
                   Text(
                     address.addressLine2!,
-                    style: const TextStyle(fontSize: 14),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
                   ),
                 ],
                 const SizedBox(height: 4),
                 Text(
                   '${address.city}, ${address.state} ${address.zipCode}',
-                  style: const TextStyle(fontSize: 14),
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   address.country,
-                  style: const TextStyle(fontSize: 14),
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 if (address.phoneNumber != null) ...[
                   const SizedBox(height: 4),
                   Text(
                     address.phoneNumber!,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
+                    style: textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ],
               ],
             ),
             trailing: PopupMenuButton<String>(
-              icon: const Icon(Icons.more_vert),
+              icon: Icon(Icons.more_vert, color: colorScheme.onSurface),
               onSelected: (String action) {
                 switch (action) {
                   case 'edit':
@@ -378,7 +411,7 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
                 PopupMenuItem(
                   value: 'edit',
                   child: ListTile(
-                    leading: const Icon(Icons.edit),
+                    leading: Icon(Icons.edit, color: colorScheme.primary),
                     title: Text(AppLocalizations.of(context)!.editAction),
                     contentPadding: EdgeInsets.zero,
                   ),
@@ -386,7 +419,7 @@ class _AddressStepWidgetState extends State<AddressStepWidget> {
                 PopupMenuItem(
                   value: 'delete',
                   child: ListTile(
-                    leading: const Icon(Icons.delete),
+                    leading: Icon(Icons.delete, color: colorScheme.error),
                     title: Text(AppLocalizations.of(context)!.deleteAction),
                     contentPadding: EdgeInsets.zero,
                   ),
@@ -540,7 +573,35 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
         _cityController.text = widget.address!.city;
         _zipCodeController.text = widget.address!.zipCode;
         _selectedCountry = existingCountry['name']!;
-        _selectedState = widget.address!.state;
+        // Map abbreviation to full name if needed
+        final statesList = AddressValidationService.getStatesForCountry(_selectedCountry);
+        // US state abbreviation to full name mapping
+        const usStateAbbrMap = {
+          'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
+          'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
+          'HI': 'Hawaii', 'ID': 'Idaho', 'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa',
+          'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland',
+          'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi', 'MO': 'Missouri',
+          'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey',
+          'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio',
+          'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina',
+          'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont',
+          'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming', 'DC': 'DC',
+        };
+        String stateValue = widget.address!.state;
+        if (_selectedCountry == 'United States' && usStateAbbrMap.containsKey(stateValue)) {
+          stateValue = usStateAbbrMap[stateValue]!;
+        }
+        if (statesList.contains(stateValue)) {
+          _selectedState = stateValue;
+        } else {
+          // Try to match by lowercase
+          final mappedState = statesList.firstWhere(
+            (state) => state.toLowerCase() == stateValue.toLowerCase(),
+            orElse: () => '',
+          );
+          _selectedState = mappedState.isNotEmpty ? mappedState : null;
+        }
         _phoneController.text = widget.address!.phoneNumber ?? '';
         _isDefault = widget.address!.isDefault;
       } else {
@@ -760,9 +821,18 @@ class _AddressFormDialogState extends State<AddressFormDialog> {
           onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.cancelButton),
         ),
-        ElevatedButton(
-          onPressed: _saveAddress,
-          child: Text(AppLocalizations.of(context)!.saveButton),
+        Builder(
+          builder: (context) {
+            final colorScheme = Theme.of(context).colorScheme;
+            return ElevatedButton(
+              onPressed: _saveAddress,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
+              ),
+              child: Text(AppLocalizations.of(context)!.saveButton),
+            );
+          },
         ),
       ],
     );

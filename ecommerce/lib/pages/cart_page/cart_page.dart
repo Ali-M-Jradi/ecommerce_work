@@ -100,9 +100,11 @@ class CartPage extends StatelessWidget {
                           SnackBar(
                             content: Text(
                               removedLocalizedMsg,
-                              style: TextStyle(color: colorScheme.onInverseSurface),
+                              style: TextStyle(
+                                color: colorScheme.onSurface,
+                              ),
                             ),
-                            backgroundColor: colorScheme.inverseSurface,
+                            backgroundColor: colorScheme.surface,
                             duration: const Duration(seconds: 2),
                             action: SnackBarAction(
                               label: undoLabel,

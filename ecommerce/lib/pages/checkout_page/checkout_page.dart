@@ -367,10 +367,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withValues(alpha: 0.2),
+                    color: isDark
+                        ? colorScheme.outlineVariant.withOpacity(0.15)
+                        : colorScheme.outlineVariant.withOpacity(0.10),
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: const Offset(0, -2),
@@ -386,8 +388,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         onPressed: _previousStep,
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
+                          side: BorderSide(color: colorScheme.primary, width: 2),
+                          foregroundColor: colorScheme.primary,
+                          textStyle: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        child: Text(AppLocalizations.of(context)!.backButton),
+                        child: Text(
+                          AppLocalizations.of(context)!.backButton,
+                          style: TextStyle(
+                            color: colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   if (currentStep != CheckoutStep.address)
@@ -400,18 +411,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: _canProceedFromCurrentStep()
                             ? colorScheme.primary
-                            : colorScheme.surfaceVariant,
-                        foregroundColor: colorScheme.onPrimary,
+                            : (isDark ? colorScheme.surfaceVariant : colorScheme.surface),
+                        foregroundColor: _canProceedFromCurrentStep()
+                            ? colorScheme.onPrimary
+                            : colorScheme.onSurface,
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),
                         elevation: 2,
+                        disabledBackgroundColor: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+                        disabledForegroundColor: colorScheme.onSurface,
                       ),
                       child: Text(
                         currentStep == CheckoutStep.review 
                             ? AppLocalizations.of(context)!.placeOrderButton 
                             : AppLocalizations.of(context)!.continueButton,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          color: _canProceedFromCurrentStep()
+                              ? colorScheme.onPrimary
+                              : colorScheme.onSurface,
                         ),
                       ),
                     ),

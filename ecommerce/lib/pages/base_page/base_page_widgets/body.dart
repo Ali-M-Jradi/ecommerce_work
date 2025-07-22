@@ -15,26 +15,26 @@ class BodyWidget extends StatelessWidget {
             decoration: InputDecoration(
               suffixIcon: Icon(
                 Icons.search,
-                color: Colors.deepPurpleAccent.shade700,
+                color: Theme.of(context).colorScheme.primary,
               ),
               border: OutlineInputBorder(
                 gapPadding: 2.0,
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(color: Colors.deepPurpleAccent.shade700),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(color: Colors.deepPurpleAccent.shade700),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
                 borderSide: BorderSide(
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: Theme.of(context).colorScheme.primary,
                   width: 2.0,
                 ),
               ),
               hintText: 'Search products',
-              hintStyle: TextStyle(color: Colors.grey.shade600),
+              hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
             ),
           ),
         ),

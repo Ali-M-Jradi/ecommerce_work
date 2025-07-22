@@ -19,6 +19,7 @@ class ProductCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final highlightColor = colorScheme.secondary;
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -65,13 +66,13 @@ class ProductCardWidget extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: colorScheme.error,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           AppLocalizationsHelper.of(context).soldOut,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: colorScheme.onError,
                             fontSize: 8,
                             fontWeight: FontWeight.bold,
                           ),
@@ -96,12 +97,12 @@ class ProductCardWidget extends StatelessWidget {
                       highlight: searchQuery ?? '',
                       style: TextStyle(
                         fontSize: 11,
-                        color: isDark ? colorScheme.primary : colorScheme.primary,
+                        color: colorScheme.primary,
                         fontWeight: FontWeight.w500,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      highlightColor: Colors.yellow,
+                      highlightColor: highlightColor,
                     ),
                     SizedBox(height: 2),
                     // Product Name
@@ -115,13 +116,13 @@ class ProductCardWidget extends StatelessWidget {
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        highlightColor: Colors.yellow,
+                        highlightColor: highlightColor,
                       ),
                     ),
                     // Size
                     Text(
                       _getDisplaySize(context),
-                      style: TextStyle(fontSize: 10, color: Colors.grey.shade600),
+                      style: TextStyle(fontSize: 10, color: colorScheme.onSurface.withOpacity(0.6)),
                     ),
                     SizedBox(height: 4),
                     // Price and Rating with info icon

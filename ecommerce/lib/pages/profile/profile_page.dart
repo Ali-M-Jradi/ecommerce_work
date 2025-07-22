@@ -23,20 +23,13 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   
   // Background colors for animated gradient (same as login page for consistency)
   List<List<Color>> get _backgroundColors {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return isDark
-        ? [
-            [const Color(0xFF232336), const Color(0xFF181824)],
-            [const Color(0xFF232336), const Color(0xFF232336)],
-            [const Color(0xFF232336), const Color(0xFF181824)],
-            [const Color(0xFF181824), const Color(0xFF232336)],
-          ]
-        : [
-            [const Color(0xFF667eea), const Color(0xFF764ba2)],
-            [const Color(0xFF6B73FF), const Color(0xFF000DFF)],
-            [const Color(0xFF9D50BB), const Color(0xFF6E48AA)],
-            [const Color(0xFF4776E6), const Color(0xFF8E54E9)],
-          ];
+    final colorScheme = Theme.of(context).colorScheme;
+    return [
+      [colorScheme.surface, colorScheme.surfaceVariant],
+      [colorScheme.primary, colorScheme.secondary],
+      [colorScheme.secondary, colorScheme.primary],
+      [colorScheme.background, colorScheme.surface],
+    ];
   }
 
   // Controller for the tab view
@@ -185,6 +178,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   Widget _buildProfileAppBar(bool isRTL) {
     final localizations = AppLocalizations.of(context)!;
     
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
@@ -193,20 +187,20 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
           IconButton(
             icon: Icon(
               isRTL ? Icons.arrow_forward : Icons.arrow_back,
-              color: Colors.white,
+              color: colorScheme.onSurface,
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),
           Text(
             localizations.myProfile,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: colorScheme.onSurface,
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.edit, color: Colors.white),
+            icon: Icon(Icons.edit, color: colorScheme.onSurface),
             onPressed: () {
               // Handle profile editing
               HapticFeedback.lightImpact();
@@ -218,6 +212,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   Widget _buildProfileHeader(User user) {
+    final colorScheme = Theme.of(context).colorScheme;
     return FadeTransition(
       opacity: _fadeAnimation,
       child: Container(
@@ -230,14 +225,14 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.2),
+                color: colorScheme.surface.withOpacity(0.2),
                 border: Border.all(
-                  color: Colors.white,
+                  color: colorScheme.onSurface,
                   width: 3,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: colorScheme.shadow.withOpacity(0.1),
                     blurRadius: 15,
                     spreadRadius: 5,
                   ),

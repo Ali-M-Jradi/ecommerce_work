@@ -25,7 +25,7 @@ class SortControlsWidget extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      color: isDark ? colorScheme.surface : colorScheme.secondaryContainer,
+      color: isDark ? colorScheme.surface : colorScheme.surface,
       child: Row(
         children: [
           // Sort by dropdown
@@ -34,7 +34,7 @@ class SortControlsWidget extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
-                border: Border.all(color: isDark ? colorScheme.outline : Colors.deepPurple.shade300),
+                border: Border.all(color: isDark ? colorScheme.outline : colorScheme.outlineVariant),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: DropdownButtonHideUnderline(
@@ -42,40 +42,40 @@ class SortControlsWidget extends StatelessWidget {
                   value: sortBy,
                   icon: Icon(
                     Icons.arrow_drop_down,
-                    color: isDark ? colorScheme.primary : Colors.deepPurple.shade700,
+                    color: isDark ? colorScheme.primary : colorScheme.primary,
                   ),
                   style: TextStyle(
-                    color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700,
+                    color: isDark ? colorScheme.onSurface : colorScheme.onSurface,
                     fontSize: 14,
                   ),
-                  dropdownColor: isDark ? colorScheme.surface : colorScheme.secondaryContainer,
+                  dropdownColor: isDark ? colorScheme.surface : colorScheme.surface,
                   items: [
                     DropdownMenuItem(
                       value: 'A to Z',
                       child: Text(
                         AppLocalizationsHelper.of(context).sortAtoZ,
-                        style: TextStyle(color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                        style: TextStyle(color: isDark ? colorScheme.onSurface : colorScheme.onSurface),
                       ),
                     ),
                     DropdownMenuItem(
                       value: 'Z to A',
                       child: Text(
                         AppLocalizationsHelper.of(context).sortZtoA,
-                        style: TextStyle(color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                        style: TextStyle(color: isDark ? colorScheme.onSurface : colorScheme.onSurface),
                       ),
                     ),
                     DropdownMenuItem(
                       value: 'Price Low',
                       child: Text(
                         AppLocalizationsHelper.of(context).sortPriceLow,
-                        style: TextStyle(color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                        style: TextStyle(color: isDark ? colorScheme.onSurface : colorScheme.onSurface),
                       ),
                     ),
                     DropdownMenuItem(
                       value: 'Price High',
                       child: Text(
                         AppLocalizationsHelper.of(context).sortPriceHigh,
-                        style: TextStyle(color: isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                        style: TextStyle(color: isDark ? colorScheme.onSurface : colorScheme.onSurface),
                       ),
                     ),
                   ],
@@ -90,14 +90,14 @@ class SortControlsWidget extends StatelessWidget {
             flex: 2,
             child: Row(
               children: [
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: isGridView
-                          ? Colors.deepPurple.shade700
-                          : Colors.deepPurple.shade300,
-                      borderRadius: BorderRadiusDirectional.only(
+              Expanded(
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: isGridView
+                        ? (isDark ? colorScheme.primary : colorScheme.primary)
+                        : (isDark ? colorScheme.secondary : colorScheme.secondaryContainer),
+                    borderRadius: BorderRadiusDirectional.only(
                         topStart: Radius.circular(8.0),
                         bottomStart: Radius.circular(8.0),
                       ),
@@ -145,9 +145,9 @@ class SortControlsWidget extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
               color: hasActiveFilters
-                  ? (isDark ? colorScheme.primary : Colors.deepPurple.shade700)
-                  : (isDark ? colorScheme.surface : Colors.white),
-              border: Border.all(color: isDark ? colorScheme.outline : Colors.deepPurple.shade300),
+                  ? (isDark ? colorScheme.primary : colorScheme.primary)
+                  : (isDark ? colorScheme.surface : colorScheme.surface),
+              border: Border.all(color: isDark ? colorScheme.outline : colorScheme.outlineVariant),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Stack(
@@ -157,7 +157,7 @@ class SortControlsWidget extends StatelessWidget {
                     Icons.filter_list,
                     color: hasActiveFilters
                         ? colorScheme.onPrimary
-                        : (isDark ? colorScheme.onSurface : Colors.deepPurple.shade700),
+                        : (isDark ? colorScheme.onSurface : colorScheme.onSurface),
                     size: 20,
                   ),
                   tooltip: AppLocalizationsHelper.of(context).filtersTooltip,

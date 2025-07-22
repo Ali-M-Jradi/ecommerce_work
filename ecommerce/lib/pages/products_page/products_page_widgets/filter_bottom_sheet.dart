@@ -135,7 +135,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: isDark ? colorScheme.surface : colorScheme.surfaceVariant,
+        color: isDark ? colorScheme.surface : colorScheme.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
@@ -151,7 +151,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? colorScheme.onSurface : colorScheme.primary,
+                  color: isDark ? colorScheme.onSurface : colorScheme.onSurface,
                 ),
               ),
               TextButton(

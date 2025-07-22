@@ -6,13 +6,15 @@ class FooterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.deepPurpleAccent.shade700,
-            Colors.deepPurple.shade800,
+            isDark ? colorScheme.surface : colorScheme.primaryContainer,
+            isDark ? colorScheme.surfaceVariant : colorScheme.secondaryContainer,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -23,7 +25,7 @@ class FooterWidget extends StatelessWidget {
           // Background women silhouette image
           Positioned.fill(
             child: Opacity(
-              opacity: 0.225,
+              opacity: isDark ? 0.18 : 0.14,
               child: Image.asset(
                 'assets/images/digital-art-style-mental-health-day-awareness-illustration.png',
                 fit: BoxFit.contain,
@@ -49,11 +51,11 @@ class FooterWidget extends StatelessWidget {
                       'assets/images/three_leaves.png',
                       height: 25,
                       width: 25,
-                      color: Colors.white,
+                      color: isDark ? colorScheme.primary : colorScheme.primary,
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           Icons.eco,
-                          color: Colors.white,
+                          color: isDark ? colorScheme.primary : colorScheme.primary,
                           size: 25,
                         );
                       },
@@ -61,8 +63,8 @@ class FooterWidget extends StatelessWidget {
                     SizedBox(width: 8),
                     Text(
                       AppLocalizationsHelper.of(context).appTitle,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: isDark ? colorScheme.onSurface : colorScheme.onPrimary,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -72,8 +74,8 @@ class FooterWidget extends StatelessWidget {
                 SizedBox(height: 5),
                 Text(
                   AppLocalizationsHelper.of(context).appSubtitle,
-                  style: const TextStyle(
-                    color: Colors.white70,
+                  style: TextStyle(
+                    color: isDark ? colorScheme.onSurface.withOpacity(0.7) : colorScheme.onPrimary.withOpacity(0.7),
                     fontSize: 12,
                     fontWeight: FontWeight.w300,
                   ),
@@ -130,8 +132,8 @@ class FooterWidget extends StatelessWidget {
                   children: [
                     Text(
                       AppLocalizationsHelper.of(context).followUs,
-                      style: const TextStyle(
-                        color: Colors.white70,
+                      style: TextStyle(
+                        color: colorScheme.onPrimary.withOpacity(0.7),
                         fontSize: 14,
                       ),
                     ),
@@ -150,41 +152,25 @@ class FooterWidget extends StatelessWidget {
                       },
                     ),
                     SizedBox(width: 8),
-                    CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.white,
-                      child: Image.asset(
-                        'assets/images/whatsapp_icon.jpg',
-                        width: 20,
-                        height: 20,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            Icons.chat,
-                            color: Colors.deepPurpleAccent.shade700,
-                            size: 18,
-                          );
-                        },
-                      ),
-                    ),
                   ],
                 ),
                 
                 SizedBox(height: 15),
                 
                 // Copyright Section
-                Divider(color: Colors.white24),
+                Divider(color: isDark ? colorScheme.onSurface.withOpacity(0.18) : colorScheme.onPrimary.withOpacity(0.18)),
                 SizedBox(height: 10),
                 Text(
                   AppLocalizationsHelper.of(context).copyrightText,
-                  style: const TextStyle(
-                    color: Colors.white60,
+                  style: TextStyle(
+                    color: isDark ? colorScheme.onSurface.withOpacity(0.6) : colorScheme.onPrimary.withOpacity(0.6),
                     fontSize: 12,
                   ),
                 ),
                 Text(
                   AppLocalizationsHelper.of(context).allRightsReserved,
-                  style: const TextStyle(
-                    color: Colors.white60,
+                  style: TextStyle(
+                    color: isDark ? colorScheme.onSurface.withOpacity(0.5) : colorScheme.onPrimary.withOpacity(0.5),
                     fontSize: 10,
                   ),
                 ),
@@ -217,14 +203,14 @@ class _FooterLink extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             size: 20,
           ),
           SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimary,
               fontSize: 10,
             ),
           ),
@@ -249,10 +235,10 @@ class _SocialButton extends StatelessWidget {
       onTap: onTap,
       child: CircleAvatar(
         radius: 15,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         child: Icon(
           icon,
-          color: Colors.deepPurpleAccent.shade700,
+          color: Theme.of(context).colorScheme.primary,
           size: 18,
         ),
       ),
