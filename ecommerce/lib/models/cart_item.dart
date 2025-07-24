@@ -122,7 +122,7 @@ class CartItem {
   // Create CartItem from Map
   factory CartItem.fromMap(Map<String, dynamic> map) {
     return CartItem(
-      id: map['id'] ?? '',
+      id: map['id']?.toString() ?? '',
       productId: map['productId'] ?? '',
       name: map['name'] ?? 'Unknown Product',
       brand: map['brand'] ?? 'Unknown Brand',

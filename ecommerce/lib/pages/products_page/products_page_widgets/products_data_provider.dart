@@ -4,6 +4,7 @@ class ProductsDataProvider {
   static List<Map<String, dynamic>> getDemoProducts() {
     return [
       {
+        'id': '5287002102122',
         'brand': 'Avène',
         'name': {
           'en': 'Thermal Spring Water Face Mist',
@@ -23,9 +24,11 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
+        'id': '2345678901234',
         'brand': 'La Roche-Posay',
         'name': {
           'en': 'Toleriane Double Repair Face Moisturizer with SPF 30',
+        'id': 'eucerin-daily-protection-face-lotion-spf-30',
           'ar': 'مرطب الوجه المضاعف الإصلاح مع عامل حماية من الشمس 30'
         },
         'category': 'face_care',
@@ -42,7 +45,9 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
+        'id': '3456789012345',
         'brand': 'Vichy',
+        'id': 'avene-gentle-milk-cleanser-sensitive-skin',
         'name': {
           'en': 'Mineral 89 Hyaluronic Acid Face Serum',
           'ar': 'سيروم الوجه بحمض الهيالورونيك المينرال 89'
@@ -61,6 +66,7 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
+        'id': 'bioderma-sensibio-h2o-micellar-cleansing-water',
         'brand': 'Eucerin', // Keep brand name in English
         'name': {
           'en': 'Daily Protection Face Lotion SPF 30',
@@ -79,6 +85,7 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
+        'id': 'la-roche-posay-lipikar-balm-ap-plus-body-moisturizer',
         'brand': 'Avène', // Keep brand name in English
         'name': {
           'en': 'Gentle Milk Cleanser for Sensitive Skin',
@@ -97,6 +104,7 @@ class ProductsDataProvider {
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
       {
+        'id': 'eucerin-advanced-repair-hand-cream',
         'brand': 'Bioderma', // Keep brand name in English
         'name': {
           'en': 'Sensibio H2O Micellar Cleansing Water',
