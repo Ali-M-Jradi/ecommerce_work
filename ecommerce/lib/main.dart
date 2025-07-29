@@ -81,8 +81,26 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {
+          if (languageProvider.isLoading) {
+            // Show a loading indicator until language is loaded
+            return const MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              ),
+            );
+          }
           return Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
+              if (themeProvider.isLoading) {
+                // Show a loading indicator until theme is loaded
+                return const MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  home: Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  ),
+                );
+              }
               return MaterialApp(
                 navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,

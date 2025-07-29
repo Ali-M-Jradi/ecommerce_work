@@ -5,6 +5,78 @@ import 'models/product.dart';
 import 'models/cart_item.dart';
 
 class DatabaseHelper {
+  // Save user theme preference
+  Future<void> setUserTheme(String themeMode) async {
+    final db = await database;
+    print('[DatabaseHelper] Saving theme: $themeMode');
+    int count = await db.update(
+      'user_preferences',
+      {'value': themeMode},
+      where: 'key = ?',
+      whereArgs: ['theme'],
+    );
+    if (count == 0) {
+      await db.insert(
+        'user_preferences',
+        {'key': 'theme', 'value': themeMode},
+      );
+    }
+  }
+
+  // Get user theme preference
+  Future<String?> getUserTheme() async {
+    final db = await database;
+    final result = await db.query(
+      'user_preferences',
+      where: 'key = ?',
+      whereArgs: ['theme'],
+      limit: 1,
+    );
+    print('[DatabaseHelper] Loaded theme result: $result');
+    if (result.isNotEmpty) {
+      print('[DatabaseHelper] Returning theme: ${result.first['value']}');
+      return result.first['value'] as String?;
+    }
+    print('[DatabaseHelper] No theme found, returning null');
+    return null;
+  }
+  // Save user language preference
+  Future<void> setUserLanguage(String languageCode) async {
+    final db = await database;
+    print('[DatabaseHelper] Saving language: $languageCode');
+    // Try to update first
+    int count = await db.update(
+      'user_preferences',
+      {'value': languageCode},
+      where: 'key = ?',
+      whereArgs: ['language'],
+    );
+    if (count == 0) {
+      // If no row was updated, insert new
+      await db.insert(
+        'user_preferences',
+        {'key': 'language', 'value': languageCode},
+      );
+    }
+  }
+
+  // Get user language preference
+  Future<String?> getUserLanguage() async {
+    final db = await database;
+    final result = await db.query(
+      'user_preferences',
+      where: 'key = ?',
+      whereArgs: ['language'],
+      limit: 1,
+    );
+    print('[DatabaseHelper] Loaded language result: $result');
+    if (result.isNotEmpty) {
+      print('[DatabaseHelper] Returning language: ${result.first['value']}');
+      return result.first['value'] as String?;
+    }
+    print('[DatabaseHelper] No language found, returning null');
+    return null;
+  }
   // Clear all items from cart table (for schema/data reset)
   Future<void> clearCartTable() async {
     final db = await database;

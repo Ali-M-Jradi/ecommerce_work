@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/language_provider.dart';
 
 class LanguageSwitcher extends StatelessWidget {
-  const LanguageSwitcher({Key? key}) : super(key: key);
+  const LanguageSwitcher({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -93,7 +93,7 @@ class CartPage extends StatelessWidget {
                         // Capture all required data and localized string before removal
                         final removedProduct = cartItem.originalProduct ?? {
                           'id': cartItem.productId,
-                          'name': cartItem.name,
+                          'name': cartItem.getLocalizedName(context),
                           'brand': cartItem.brand,
                           'price': cartItem.price,
                           'image': cartItem.image,
@@ -102,7 +102,7 @@ class CartPage extends StatelessWidget {
                           'description': cartItem.description,
                         };
                         final removedQuantity = cartItem.quantity;
-                        final removedName = cartItem.name;
+                        final removedName = cartItem.getLocalizedName(context);
                         final removedLocalizedMsg = AppLocalizationsHelper.of(context).itemRemovedFromCart(removedName);
                         final undoLabel = AppLocalizationsHelper.of(context).undo;
                         final theme = Theme.of(context);

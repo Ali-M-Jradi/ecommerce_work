@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../models/cart_item.dart';
+import '../pages/products_page/products_page_widgets/products_data_provider.dart';
 import '../database_helper.dart';
 class CartProvider extends ChangeNotifier {
   // Utility: Clear cart table in database (for schema/data reset)
@@ -60,7 +61,11 @@ class CartProvider extends ChangeNotifier {
   // Add item to cart
   Future<void> addItem(Map<String, dynamic> product, {int quantity = 1, BuildContext? context}) async {
     final productId = product['id']?.toString() ?? '';
-    final name = product['name']?.toString() ?? '';
+    // Require context for localization
+    if (context == null) {
+      throw ArgumentError('BuildContext is required for localized name');
+    }
+    final name = ProductsDataProvider.getLocalizedName(product, context);
     final brand = product['brand']?.toString() ?? '';
     final price = product['price'] is num ? (product['price'] as num).toDouble() : double.tryParse(product['price']?.toString() ?? '') ?? 0.0;
     final image = product['image']?.toString() ?? '';
@@ -85,6 +90,7 @@ class CartProvider extends ChangeNotifier {
         category: category,
         quantity: quantity,
         description: description,
+        originalProduct: product, // <-- Set originalProduct for localization
       );
       final id = await _dbHelper.insertCartItem(newItem);
       // Use the id returned from SQLite
