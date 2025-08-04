@@ -290,10 +290,10 @@ class ProductsDataProvider {
       case 'A to Z':
         products.sort((a, b) {
           String nameA = context != null
-              ? getLocalizedName(a, context!)
+              ? getLocalizedName(a, context)
               : (a['name']['en'] ?? a['name'] ?? 'Unknown Product').toString();
           String nameB = context != null
-              ? getLocalizedName(b, context!)
+              ? getLocalizedName(b, context)
               : (b['name']['en'] ?? b['name'] ?? 'Unknown Product').toString();
           return nameA.toLowerCase().compareTo(nameB.toLowerCase());
         });
@@ -301,10 +301,10 @@ class ProductsDataProvider {
       case 'Z to A':
         products.sort((a, b) {
           String nameA = context != null
-              ? getLocalizedName(a, context!)
+              ? getLocalizedName(a, context)
               : (a['name']['en'] ?? a['name'] ?? 'Unknown Product').toString();
           String nameB = context != null
-              ? getLocalizedName(b, context!)
+              ? getLocalizedName(b, context)
               : (b['name']['en'] ?? b['name'] ?? 'Unknown Product').toString();
           return nameB.toLowerCase().compareTo(nameA.toLowerCase());
         });
@@ -329,7 +329,7 @@ class ProductsDataProvider {
           (a, b) => getLocalizedName(
             a,
             context!,
-          ).toLowerCase().compareTo(getLocalizedName(b, context!).toLowerCase()),
+          ).toLowerCase().compareTo(getLocalizedName(b, context).toLowerCase()),
         );
     }
 

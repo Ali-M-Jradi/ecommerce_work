@@ -21,13 +21,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
+          // User Profile Header
           Consumer<UserProvider>(
             builder: (context, userProvider, _) {
               final bool isLoggedIn = userProvider.isLoggedIn;
               final String displayEmail = isLoggedIn 
                 ? userProvider.currentUser!.email 
                 : AppLocalizationsHelper.of(context).notLoggedIn;
-              
               final colorScheme = Theme.of(context).colorScheme;
               return DrawerHeader(
                 decoration: BoxDecoration(
@@ -67,6 +67,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
               );
             }
+          ),
+          // Currencies
+         ListTile(
+            leading: Icon(Icons.dashboard, color: Theme.of(context).colorScheme.primary),
+            title: Text('Admin Dashboard'),
+            onTap: () {
+              Navigator.of(context).pushNamed('/admin/dashboard');
+            },
           ),
           // Shop by Category
           ExpansionTile(
@@ -122,17 +130,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
             ],
           ),
-          
-          // Loyalty Program
-          ListTile(
-            leading: Icon(Icons.card_giftcard, color: Theme.of(context).colorScheme.primary),
-            title: Text(AppLocalizationsHelper.of(context).loyaltyProgram),
-            subtitle: Text(AppLocalizationsHelper.of(context).earnPointsRewards),
-            onTap: () {
-              widget.onNavigationTap?.call('loyalty_program');
-            },
-          ),
-          
+                 
           // Special Offers
           ListTile(
             leading: Icon(Icons.local_offer, color: Theme.of(context).colorScheme.primary),
@@ -147,7 +145,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           
           // Contact Us
           ListTile(
-            leading: Icon(Icons.contact_support, color: Colors.deepPurpleAccent.shade700),
+            leading: Icon(Icons.contact_support, color: Theme.of(context).colorScheme.primary),
             title: Text(AppLocalizationsHelper.of(context).contactUs),
             onTap: () {
               widget.onNavigationTap?.call('contact_us');
@@ -156,19 +154,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           
           // About Us
           ListTile(
-            leading: Icon(Icons.info, color: Colors.deepPurpleAccent.shade700),
+            leading: Icon(Icons.info, color: Theme.of(context).colorScheme.primary),
             title: Text(AppLocalizationsHelper.of(context).aboutUs),
             onTap: () {
               widget.onNavigationTap?.call('about_us');
             },
           ),
+          // Admin Customization (for testing)
           
           // Notifications
           Consumer<MockNotificationProvider>(
             builder: (context, notificationProvider, _) {
               final unreadCount = notificationProvider.unreadCount;
               return ListTile(
-                leading: Icon(Icons.notifications, color: Colors.deepPurpleAccent.shade700),
+                leading: Icon(Icons.notifications, color: Theme.of(context).colorScheme.primary),
                 title: Text(AppLocalizationsHelper.of(context).notifications),
                 trailing: unreadCount > 0
                     ? Container(
@@ -199,7 +198,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           
           // Account Settings
           ListTile(
-            leading: Icon(Icons.settings, color: Colors.deepPurpleAccent.shade700),
+            leading: Icon(Icons.settings, color: Theme.of(context).colorScheme.primary),
             title: Text(AppLocalizationsHelper.of(context).accountSettings),
             subtitle: Text(AppLocalizationsHelper.of(context).profilePreferences),
             onTap: () {
@@ -212,7 +211,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             builder: (context, userProvider, _) {
               return userProvider.isLoggedIn
                 ? ListTile(
-                    leading: Icon(Icons.person, color: Colors.deepPurpleAccent.shade700),
+                    leading: Icon(Icons.person, color: Theme.of(context).colorScheme.primary),
                     title: Text(AppLocalizationsHelper.of(context).myProfile),
                     onTap: () {
                       Navigator.of(context).pushNamed('/profile');
@@ -228,7 +227,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               return ListTile(
                 leading: Icon(
                   userProvider.isLoggedIn ? Icons.logout : Icons.login,
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 title: Text(
                   userProvider.isLoggedIn 
@@ -271,7 +270,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.language, color: Colors.deepPurpleAccent.shade700, size: 24),
+                        Icon(Icons.language, color: Theme.of(context).colorScheme.primary, size: 24),
                         SizedBox(width: 12),
                         Text(
                           isEnglish ? 'Language' : 'اللغة',
@@ -309,11 +308,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                 duration: Duration(milliseconds: 200),
                                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                                 decoration: BoxDecoration(
-                                  color: isEnglish ? Colors.deepPurpleAccent.shade700 : Colors.transparent,
+                                  color: isEnglish ? Theme.of(context).colorScheme.primary : Colors.transparent,
                                   borderRadius: BorderRadius.circular(25),
                                   boxShadow: isEnglish ? [
                                     BoxShadow(
-                                      color: Colors.deepPurpleAccent.shade700.withOpacity(0.3),
+                                      color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                                       blurRadius: 8,
                                       offset: Offset(0, 2),
                                     ),
@@ -349,11 +348,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                 duration: Duration(milliseconds: 200),
                                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                                 decoration: BoxDecoration(
-                                  color: !isEnglish ? Colors.deepPurpleAccent.shade700 : Colors.transparent,
+                                  color: !isEnglish ? Theme.of(context).colorScheme.primary : Colors.transparent,
                                   borderRadius: BorderRadius.circular(25),
                                   boxShadow: !isEnglish ? [
                                     BoxShadow(
-                                      color: Colors.deepPurpleAccent.shade700.withOpacity(0.3),
+                                      color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                                       blurRadius: 8,
                                       offset: Offset(0, 2),
                                     ),

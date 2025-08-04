@@ -5,7 +5,7 @@ import 'package:ecommerce/localization/app_localizations_helper.dart';
 import 'package:ecommerce/services/order_service.dart';
 
 class NotificationsPage extends StatefulWidget {
-  const NotificationsPage({Key? key}) : super(key: key);
+  const NotificationsPage({super.key});
 
   @override
   State<NotificationsPage> createState() => _NotificationsPageState();
@@ -375,7 +375,7 @@ class _NotificationsPageState extends State<NotificationsPage> with TickerProvid
 
 // Notification Settings Page
 class NotificationSettingsPage extends StatelessWidget {
-  const NotificationSettingsPage({Key? key}) : super(key: key);
+  const NotificationSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

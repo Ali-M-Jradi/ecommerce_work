@@ -6,7 +6,7 @@ import 'package:ecommerce/utils/auth_localizations.dart';
 import 'package:ecommerce/providers/user_provider.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();

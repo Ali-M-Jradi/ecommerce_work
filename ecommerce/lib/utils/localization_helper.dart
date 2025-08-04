@@ -42,9 +42,9 @@ class LocalizationHelper {
     final isRightToLeft = isRTL(context);
     
     if (isRightToLeft) {
-      return '${price.trim()} ${currencySymbol}';
+      return '${price.trim()} $currencySymbol';
     } else {
-      return '${currencySymbol}${price.trim()}';
+      return '$currencySymbol${price.trim()}';
     }
   }
   

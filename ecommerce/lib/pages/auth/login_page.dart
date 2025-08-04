@@ -6,7 +6,7 @@ import 'package:ecommerce/utils/auth_localizations.dart';
 import 'package:ecommerce/providers/user_provider.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     children: [
                       // Top decorative section - reduce space when keyboard is visible
                       keyboardHeight > 0
-                          ? Container(
+                          ? SizedBox(
                               height: availableHeight * 0.15,
                               child: _buildTopSection(),
                             )

@@ -4,7 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class BarcodeScannerPage extends StatefulWidget {
   final void Function(String barcode)? onScanned;
-  const BarcodeScannerPage({Key? key, this.onScanned}) : super(key: key);
+  const BarcodeScannerPage({super.key, this.onScanned});
 
   @override
   State<BarcodeScannerPage> createState() => _BarcodeScannerPageState();

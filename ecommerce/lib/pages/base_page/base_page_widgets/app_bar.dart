@@ -13,11 +13,11 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final Function(int) onNavigationTap;
 
   const AppBarWidget({
-    Key? key,
+    super.key,
     this.widgetKey,
     this.selectedIndex = -1,
     required this.onNavigationTap,
-  }) : super(key: key);
+  });
 
   // Expose a public method to show the login/register dialog from outside
   void showLoginRegisterDialog() {

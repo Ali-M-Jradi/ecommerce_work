@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce/pages/contact_us_page.dart';
 
 class AboutUsPage extends StatelessWidget {
-  const AboutUsPage({Key? key}) : super(key: key);
+  const AboutUsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

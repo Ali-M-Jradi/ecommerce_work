@@ -8,9 +8,9 @@ class ConfirmationStepWidget extends StatelessWidget {
   final Order? order;
 
   const ConfirmationStepWidget({
-    Key? key,
+    super.key,
     this.order,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

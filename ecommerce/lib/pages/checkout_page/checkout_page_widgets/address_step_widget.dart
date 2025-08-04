@@ -13,14 +13,14 @@ class AddressStepWidget extends StatefulWidget {
   final Function(bool) onUseSameAddressChanged;
 
   const AddressStepWidget({
-    Key? key,
+    super.key,
     this.selectedShippingAddress,
     this.selectedBillingAddress,
     required this.useSameAddressForBilling,
     required this.onShippingAddressChanged,
     required this.onBillingAddressChanged,
     required this.onUseSameAddressChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<AddressStepWidget> createState() => _AddressStepWidgetState();
@@ -29,19 +29,7 @@ class AddressStepWidget extends StatefulWidget {
 class _AddressStepWidgetState extends State<AddressStepWidget> {
   final AddressService _addressService = AddressService();
 
-  bool _canContinue() {
-    // You can add more validation logic here if needed
-    if (!_addressService.hasAddresses) return false;
-    if (widget.selectedShippingAddress == null) return false;
-    if (!widget.useSameAddressForBilling && widget.selectedBillingAddress == null) return false;
-    return true;
-  }
 
-  void _onContinuePressed() {
-    // Implement what should happen when continue is pressed
-    // For example, you might want to call a callback or navigate to the next step
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Continue pressed')));
-  }
 
   @override
   void initState() {
@@ -524,10 +512,10 @@ class AddressFormDialog extends StatefulWidget {
   final Function(Address) onAddressAdded;
 
   const AddressFormDialog({
-    Key? key,
+    super.key,
     this.address,
     required this.onAddressAdded,
-  }) : super(key: key);
+  });
 
   @override
   State<AddressFormDialog> createState() => _AddressFormDialogState();

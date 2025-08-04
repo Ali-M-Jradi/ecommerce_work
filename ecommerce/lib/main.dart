@@ -1,3 +1,11 @@
+import 'pages/admin/parameters_page.dart';
+import 'pages/admin/attributes_page.dart';
+import 'pages/admin/categories_page.dart';
+import 'pages/admin/products_page.dart';
+import 'pages/admin/users_page.dart';
+import 'pages/admin/brands_page.dart';
+import 'pages/admin/prices_page.dart';
+import 'pages/admin/orders_page.dart';
 import 'package:ecommerce/pages/base_page/base_page.dart';
 import 'package:ecommerce/pages/checkout_page/checkout_page.dart';
 import 'package:ecommerce/pages/auth/login_page.dart';
@@ -12,6 +20,11 @@ import 'package:ecommerce/providers/language_provider.dart';
 import 'package:ecommerce/providers/mock_notification_provider.dart';
 import 'package:ecommerce/providers/user_provider.dart';
 import 'package:ecommerce/providers/theme_provider.dart';
+import 'package:ecommerce/providers/admin/settings_provider.dart';
+import 'package:ecommerce/pages/admin/settings/customization_page.dart';
+import 'package:ecommerce/pages/admin/settings/currencies_page.dart';
+import 'package:ecommerce/pages/admin/settings/loyalty_program_page.dart';
+import 'package:ecommerce/pages/admin/admin_dashboard_page.dart';
 import 'package:ecommerce/services/notification_scheduler_service.dart';
 import 'package:ecommerce/services/order_service.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +32,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ecommerce/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
+import 'pages/admin/settings_page.dart';
 
 // Global navigator key for reliable navigation
 
@@ -78,6 +92,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => MockNotificationProvider()),
         ChangeNotifierProvider(create: (context) => EnhancedNotificationProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {
@@ -114,10 +129,12 @@ class MyApp extends StatelessWidget {
                 locale: languageProvider.currentLocale,
                 title: 'DERMOCOSMETIQUE',
                 theme: ThemeData(
-                  colorScheme: lightColorScheme,
+                  colorScheme: lightColorScheme.copyWith(
+                    primary: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
+                  ),
                   scaffoldBackgroundColor: lightColorScheme.background,
                   appBarTheme: AppBarTheme(
-                    backgroundColor: lightColorScheme.primary,
+                    backgroundColor: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
                     foregroundColor: lightColorScheme.onPrimary,
                     titleTextStyle: const TextStyle(
                       color: Colors.white,
@@ -129,17 +146,22 @@ class MyApp extends StatelessWidget {
                   ),
                   elevatedButtonTheme: ElevatedButtonThemeData(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: lightColorScheme.primary,
+                      backgroundColor: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
                       foregroundColor: lightColorScheme.onPrimary,
                     ),
+                  ),
+                  snackBarTheme: SnackBarThemeData(
+                    actionTextColor: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
                   ),
                   fontFamily: mainFontFamily,
                 ),
                 darkTheme: ThemeData(
-                  colorScheme: darkColorScheme,
+                  colorScheme: darkColorScheme.copyWith(
+                    primary: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
+                  ),
                   scaffoldBackgroundColor: darkColorScheme.background,
                   appBarTheme: AppBarTheme(
-                    backgroundColor: darkColorScheme.primary,
+                    backgroundColor: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
                     foregroundColor: darkColorScheme.onPrimary,
                     titleTextStyle: const TextStyle(
                       color: Colors.white,
@@ -151,9 +173,12 @@ class MyApp extends StatelessWidget {
                   ),
                   elevatedButtonTheme: ElevatedButtonThemeData(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: darkColorScheme.primary,
+                      backgroundColor: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
                       foregroundColor: darkColorScheme.onPrimary,
                     ),
+                  ),
+                  snackBarTheme: SnackBarThemeData(
+                    actionTextColor: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
                   ),
                   fontFamily: mainFontFamily,
                 ),
@@ -173,6 +198,20 @@ class MyApp extends StatelessWidget {
                       orderId: args['orderId'] as String?,
                     );
                   },
+                  // Admin dashboard
+                  '/admin/dashboard': (context) => const AdminDashboardPage(),
+                  '/admin/customization': (context) => const CustomizationPage(),
+                  '/admin/currencies': (context) => const CurrenciesPage(),
+                  '/admin/loyalty': (context) => const LoyaltyProgramPage(),
+                  '/admin/parameters': (context) => const ParametersPage(),
+                  '/admin/settings': (context) => const SettingsPage(),
+                  '/admin/attributes': (context) => const AttributesPage(),
+                  '/admin/categories': (context) => const CategoriesPage(),
+                  '/admin/products': (context) => const ProductsPage(),
+                  '/admin/users': (context) => const UsersPage(),
+                  '/admin/brands': (context) => const BrandsPage(),
+                  '/admin/prices': (context) => const PricesPage(),
+                  '/admin/orders': (context) => const OrdersPage(),
                 },
               );
             },

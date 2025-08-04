@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 class LoyaltyProgramPage extends StatelessWidget {
-  const LoyaltyProgramPage({Key? key}) : super(key: key);
+  const LoyaltyProgramPage({super.key});
 
   @override
   Widget build(BuildContext context) {

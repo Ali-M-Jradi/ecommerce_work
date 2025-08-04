@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
 
 class SpecialOffersPage extends StatelessWidget {
-  const SpecialOffersPage({Key? key}) : super(key: key);
+  const SpecialOffersPage({super.key});
 
   @override
   Widget build(BuildContext context) {

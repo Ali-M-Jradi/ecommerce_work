@@ -1,4 +1,5 @@
 
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'models/product.dart';
@@ -8,7 +9,6 @@ class DatabaseHelper {
   // Save user theme preference
   Future<void> setUserTheme(String themeMode) async {
     final db = await database;
-    print('[DatabaseHelper] Saving theme: $themeMode');
     int count = await db.update(
       'user_preferences',
       {'value': themeMode},
@@ -32,12 +32,44 @@ class DatabaseHelper {
       whereArgs: ['theme'],
       limit: 1,
     );
-    print('[DatabaseHelper] Loaded theme result: $result');
     if (result.isNotEmpty) {
-      print('[DatabaseHelper] Returning theme: ${result.first['value']}');
       return result.first['value'] as String?;
     }
-    print('[DatabaseHelper] No theme found, returning null');
+    return null;
+  }
+  // Save user custom primary color hex string
+  Future<void> setUserPrimaryColor(String? colorHex) async {
+    final db = await database;
+    print('[DatabaseHelper] Saving primary color: $colorHex');
+    int count = await db.update(
+      'user_preferences',
+      {'value': colorHex ?? ''},
+      where: 'key = ?',
+      whereArgs: ['primaryColor'],
+    );
+    if (count == 0) {
+      await db.insert(
+        'user_preferences',
+        {'key': 'primaryColor', 'value': colorHex ?? ''},
+      );
+    }
+  }
+
+  // Get user custom primary color hex string
+  Future<String?> getUserPrimaryColor() async {
+    final db = await database;
+    final result = await db.query(
+      'user_preferences',
+      where: 'key = ?',
+      whereArgs: ['primaryColor'],
+      limit: 1,
+    );
+    print('[DatabaseHelper] Loaded primary color result: $result');
+    if (result.isNotEmpty) {
+      print('[DatabaseHelper] Returning primary color: ${result.first['value']}');
+      return result.first['value'] as String?;
+    }
+    print('[DatabaseHelper] No primary color found, returning null');
     return null;
   }
   // Save user language preference

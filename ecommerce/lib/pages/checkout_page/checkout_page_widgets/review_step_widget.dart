@@ -15,7 +15,7 @@ class ReviewStepWidget extends StatefulWidget {
   final VoidCallback onEditPayment;
 
   const ReviewStepWidget({
-    Key? key,
+    super.key,
     this.shippingAddress,
     this.billingAddress,
     this.paymentMethod,
@@ -23,7 +23,7 @@ class ReviewStepWidget extends StatefulWidget {
     required this.onNotesChanged,
     required this.onEditAddress,
     required this.onEditPayment,
-  }) : super(key: key);
+  });
 
   @override
   State<ReviewStepWidget> createState() => _ReviewStepWidgetState();

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:ecommerce/providers/theme_provider.dart';
 
 class AccountSettingsPage extends StatelessWidget {
-  const AccountSettingsPage({Key? key}) : super(key: key);
+  const AccountSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

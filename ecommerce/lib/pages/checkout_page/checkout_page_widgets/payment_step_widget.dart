@@ -7,10 +7,10 @@ class PaymentStepWidget extends StatefulWidget {
   final Function(PaymentMethod) onPaymentMethodChanged;
 
   const PaymentStepWidget({
-    Key? key,
+    super.key,
     this.selectedPaymentMethod,
     required this.onPaymentMethodChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<PaymentStepWidget> createState() => _PaymentStepWidgetState();
@@ -394,10 +394,10 @@ class PaymentMethodFormDialog extends StatefulWidget {
   final Function(PaymentMethod) onPaymentMethodAdded;
 
   const PaymentMethodFormDialog({
-    Key? key,
+    super.key,
     this.paymentMethod,
     required this.onPaymentMethodAdded,
-  }) : super(key: key);
+  });
 
   @override
   State<PaymentMethodFormDialog> createState() => _PaymentMethodFormDialogState();

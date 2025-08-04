@@ -6,9 +6,9 @@ class CustomerSupportSection extends StatefulWidget {
   final String orderId;
 
   const CustomerSupportSection({
-    Key? key,
+    super.key,
     required this.orderId,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomerSupportSection> createState() => _CustomerSupportSectionState();
