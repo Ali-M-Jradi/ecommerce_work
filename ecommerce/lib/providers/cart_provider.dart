@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/cart_item.dart';
 import '../pages/products_page/products_page_widgets/products_data_provider.dart';
 import '../database_helper.dart';
+import '../services/parameter_service.dart';
 class CartProvider extends ChangeNotifier {
   // Utility: Clear cart table in database (for schema/data reset)
   Future<void> clearCartTable() async {
@@ -58,22 +59,39 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  // Add item to cart
+  // Add item to cart with parameter validation
   Future<void> addItem(Map<String, dynamic> product, {int quantity = 1, BuildContext? context}) async {
     final productId = product['id']?.toString() ?? '';
     // Require context for localization
     if (context == null) {
       throw ArgumentError('BuildContext is required for localized name');
     }
+
+    // Check cart size limit from parameters
+    final newTotalItems = itemCount + quantity;
+    if (!ParameterService.isCartSizeValid(context, newTotalItems)) {
+      throw Exception(ParameterService.getCartSizeErrorMessage(context));
+    }
+
     final name = ProductsDataProvider.getLocalizedName(product, context);
     final brand = product['brand']?.toString() ?? '';
-    final price = product['price'] is num ? (product['price'] as num).toDouble() : double.tryParse(product['price']?.toString() ?? '') ?? 0.0;
+    var price = product['price'] is num ? (product['price'] as num).toDouble() : double.tryParse(product['price']?.toString() ?? '') ?? 0.0;
+    
+    // Apply global discount from parameters
+    price = ParameterService.applyGlobalDiscount(context, price);
+    
     final image = product['image']?.toString() ?? '';
     final size = product['size']?.toString();
     final category = product['category']?.toString();
     final description = product['description']?.toString();
     final existingItemIndex = _items.indexWhere((item) => item.productId == productId);
     if (existingItemIndex >= 0) {
+      // Check cart size limit for quantity increase
+      final newQuantity = _items[existingItemIndex].quantity + quantity;
+      if (!ParameterService.isCartSizeValid(context, (itemCount - _items[existingItemIndex].quantity) + newQuantity)) {
+        throw Exception(ParameterService.getCartSizeErrorMessage(context));
+      }
+      
       _items[existingItemIndex].quantity += quantity;
       await _dbHelper.updateCartItem(_items[existingItemIndex]);
       print('[CartProvider] Updated item in DB: ${_items[existingItemIndex]}');
@@ -175,14 +193,74 @@ class CartProvider extends ChangeNotifier {
     return '\$${totalAmount.toStringAsFixed(2)}';
   }
 
-  // Get cart summary
-  Map<String, dynamic> getCartSummary() {
+  // Get cart summary with parameter-driven calculations
+  Map<String, dynamic> getCartSummary([BuildContext? context]) {
+    final subtotal = totalAmount;
+    final shipping = context != null ? ParameterService.calculateShipping(context, subtotal) : 0.0;
+    final total = subtotal + shipping;
+    final isOrderValid = context != null ? ParameterService.isOrderValueValid(context, subtotal) : true;
+    
     return {
       'itemCount': itemCount,
-      'totalAmount': totalAmount,
-      'formattedTotal': formattedTotalAmount,
+      'subtotal': subtotal,
+      'shipping': shipping,
+      'totalAmount': total,
+      'formattedSubtotal': '\$${subtotal.toStringAsFixed(2)}',
+      'formattedShipping': shipping == 0.0 ? 'Free' : '\$${shipping.toStringAsFixed(2)}',
+      'formattedTotal': '\$${total.toStringAsFixed(2)}',
       'isEmpty': isEmpty,
+      'isOrderValid': isOrderValid,
+      'minOrderError': context != null && !isOrderValid ? ParameterService.getMinOrderErrorMessage(context) : null,
+      'freeShippingThreshold': context != null ? ParameterService.getFreeShippingThreshold(context) : 0.0,
     };
+  }
+
+  // Get shipping cost using parameters
+  double getShippingCost([BuildContext? context]) {
+    if (context == null) return 0.0;
+    return ParameterService.calculateShipping(context, totalAmount);
+  }
+
+  // Get total with shipping
+  double getTotalWithShipping([BuildContext? context]) {
+    return totalAmount + getShippingCost(context);
+  }
+
+  // Check if free shipping threshold is met
+  bool isFreeShippingEligible([BuildContext? context]) {
+    if (context == null) return false;
+    return totalAmount >= ParameterService.getFreeShippingThreshold(context);
+  }
+
+  // Get amount needed for free shipping
+  double getAmountNeededForFreeShipping([BuildContext? context]) {
+    if (context == null) return 0.0;
+    final threshold = ParameterService.getFreeShippingThreshold(context);
+    final needed = threshold - totalAmount;
+    return needed > 0 ? needed : 0.0;
+  }
+
+  // Validate cart against parameters
+  bool isCartValid([BuildContext? context]) {
+    if (context == null) return true;
+    return ParameterService.isCartSizeValid(context, itemCount) && 
+           ParameterService.isOrderValueValid(context, totalAmount);
+  }
+
+  // Get cart validation errors
+  List<String> getCartValidationErrors([BuildContext? context]) {
+    final errors = <String>[];
+    if (context == null) return errors;
+    
+    if (!ParameterService.isCartSizeValid(context, itemCount)) {
+      errors.add(ParameterService.getCartSizeErrorMessage(context));
+    }
+    
+    if (!ParameterService.isOrderValueValid(context, totalAmount)) {
+      errors.add(ParameterService.getMinOrderErrorMessage(context));
+    }
+    
+    return errors;
   }
 
   // Debug: Print cart contents

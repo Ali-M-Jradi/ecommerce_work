@@ -35,10 +35,10 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_267ad068.jpg',
           'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_33c0f20c.jpg',
         ],
-        'backgroundColor': isDark ? colorScheme.primaryContainer : colorScheme.background,
-        'textColor': isDark ? colorScheme.onPrimaryContainer : colorScheme.onBackground,
-        'subtitleColor': isDark ? colorScheme.onPrimary : colorScheme.onBackground.withOpacity(0.85),
-        'descColor': isDark ? colorScheme.onPrimary.withOpacity(0.8) : colorScheme.onBackground.withOpacity(0.7),
+        'backgroundColor': isDark ? colorScheme.primaryContainer : colorScheme.surface,
+        'textColor': isDark ? colorScheme.onPrimaryContainer : colorScheme.onSurface,
+        'subtitleColor': isDark ? colorScheme.onPrimary : colorScheme.onSurface.withOpacity(0.85),
+        'descColor': isDark ? colorScheme.onPrimary.withOpacity(0.8) : colorScheme.onSurface.withOpacity(0.7),
         'buttonColor': isDark ? colorScheme.secondary : colorScheme.primary,
         'action': () {
           // Navigate to La Roche-Posay products
@@ -124,7 +124,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 400,
       width: double.infinity,
       child: Stack(
@@ -363,7 +363,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                             width: 80,
                             height: 80,
                             decoration: BoxDecoration(
-                              color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+                              color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
                               borderRadius: BorderRadius.circular(8),
                               boxShadow: [
                                 BoxShadow(
@@ -406,7 +406,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
                               width: 120,
                               height: 120,
                               decoration: BoxDecoration(
-                                color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+                                color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
                                 borderRadius: BorderRadius.circular(8),
                                 boxShadow: [
                                   BoxShadow(

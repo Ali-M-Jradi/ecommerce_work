@@ -137,7 +137,7 @@ class NotificationService {
       _notificationsEnabled = settings.authorizationStatus == AuthorizationStatus.authorized ||
                              settings.authorizationStatus == AuthorizationStatus.provisional;
       
-      print('User granted permission: ${_notificationsEnabled}');
+      print('User granted permission: $_notificationsEnabled');
     } else {
       // On Android, permissions are granted by default
       _notificationsEnabled = true;

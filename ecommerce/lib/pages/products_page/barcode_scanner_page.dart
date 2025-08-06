@@ -197,11 +197,11 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
                     _torchOn = !_torchOn;
                   });
                 },
+                tooltip: _torchOn ? 'Turn off flashlight' : 'Turn on flashlight',
                 child: Icon(
                   _torchOn ? Icons.flash_on : Icons.flash_off,
                   color: Colors.white,
                 ),
-                tooltip: _torchOn ? 'Turn off flashlight' : 'Turn on flashlight',
               ),
             ),
           // User guidance overlay

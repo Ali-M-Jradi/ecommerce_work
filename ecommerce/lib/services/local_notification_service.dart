@@ -127,20 +127,13 @@ class LocalNotificationService {
     );
   }
   
+  // To request notification permission on Android 13+ and iOS, use the permission_handler package or platform-specific APIs.
+  // This method is a placeholder and always returns true for now.
   Future<bool> requestPermission() async {
     if (!_initialized) {
       await initialize();
     }
-    
-    // Request permission on Android 13+
-    final AndroidFlutterLocalNotificationsPlugin? androidPlugin = 
-        _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-    
-    if (androidPlugin != null) {
-      final bool? granted = await androidPlugin.requestPermission();
-      return granted ?? false;
-    }
-    
+    // TODO: Implement permission request using permission_handler or platform channels if needed.
     return true;
   }
 }

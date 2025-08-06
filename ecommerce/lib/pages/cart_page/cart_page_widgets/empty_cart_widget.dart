@@ -48,7 +48,7 @@ class EmptyCartWidget extends StatelessWidget {
                   final theme = Theme.of(rootContext);
                   final colorScheme = theme.colorScheme;
                   final isDark = theme.brightness == Brightness.dark;
-                  final snackBgColor = isDark ? colorScheme.surfaceVariant : colorScheme.surface;
+                  final snackBgColor = isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface;
                   final snackTextColor = colorScheme.onSurface;
                   ScaffoldMessenger.of(rootContext).showSnackBar(
                     SnackBar(

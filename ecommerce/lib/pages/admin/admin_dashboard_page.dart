@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../utils/parameter_test_helper.dart';
 
 class AdminDashboardPage extends StatelessWidget {
   const AdminDashboardPage({super.key});
@@ -11,10 +12,17 @@ class AdminDashboardPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Admin Dashboard'),
         automaticallyImplyLeading: false,
-        backgroundColor: colorScheme.surface,
+        backgroundColor: Colors.deepOrange, // Changed for visibility
         elevation: 0,
         toolbarHeight: 80,
         actions: [
+          // Quick Test Button
+          IconButton(
+            icon: const Icon(Icons.science),
+            tooltip: 'Test Parameters',
+            onPressed: () => ParameterTestHelper.showTestDialog(context),
+          ),
+          const SizedBox(width: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ElevatedButton.icon(
@@ -54,12 +62,6 @@ class AdminDashboardPage extends StatelessWidget {
               label: 'Currencies',
               color: colorScheme.primary,
               onTap: () => Navigator.of(context).pushNamed('/admin/currencies'),
-            ),
-            _AdminTile(
-              icon: Icons.admin_panel_settings,
-              label: 'Customization',
-              color: colorScheme.tertiary,
-              onTap: () => Navigator.of(context).pushNamed('/admin/customization'),
             ),
             _AdminTile(
               icon: Icons.card_giftcard,

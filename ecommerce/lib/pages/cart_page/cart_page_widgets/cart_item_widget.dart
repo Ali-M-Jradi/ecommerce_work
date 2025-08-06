@@ -21,7 +21,7 @@ class CartItemWidget extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 12.0),
       elevation: 2,
-      color: colorScheme.surfaceVariant,
+      color: colorScheme.surfaceContainerHighest,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),

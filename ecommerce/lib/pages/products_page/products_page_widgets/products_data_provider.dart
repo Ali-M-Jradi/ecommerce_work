@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
 
 class ProductsDataProvider {
+  // Map category IDs to relevant keywords for broader matching
+  static const Map<String, List<String>> categoryKeywords = {
+    'face_care': [
+      'face', 'cleanser', 'moisturizer', 'serum', 'mask', 'cream', 'toner', 'mist', 'spf', 'sunscreen', 'acne', 'anti-aging', 'eye', 'lips', 'peel', 'scrub', 'makeup remover', 'micellar', 'hydration', 'sensitive', 'balm', 'milk', 'exfoliator', 'spot', 'whitening', 'brightening', 'vitamin c', 'retinol', 'collagen', 'wrinkle', 'pore', 'essence', 'ampoule', 'patch', 'sheet', 'sunblock', 'sun', 'uv', 'day cream', 'night cream', 'gel', 'foam', 'clay', 'mud', 'facial', 'anti-wrinkle', 'anti-spot', 'blemish', 'soothing', 'repair', 'recovery', 'rejuvenating', 'rejuvenation', 'anti-redness', 'anti-pollution', 'makeup', 'remover', 'water', 'thermal', 'spring', 'thermal water', 'thermal spring', 'thermal mist', 'thermal spray', 'thermal face', 'thermal cleanser', 'thermal cream', 'thermal mask', 'thermal serum', 'thermal toner', 'thermal moisturizer', 'thermal balm', 'thermal milk', 'thermal exfoliator', 'thermal spot', 'thermal whitening', 'thermal brightening', 'thermal vitamin c', 'thermal retinol', 'thermal collagen', 'thermal wrinkle', 'thermal pore', 'thermal essence', 'thermal ampoule', 'thermal patch', 'thermal sheet', 'thermal sunblock', 'thermal sun', 'thermal uv', 'thermal day cream', 'thermal night cream', 'thermal gel', 'thermal foam', 'thermal clay', 'thermal mud', 'thermal facial', 'thermal anti-wrinkle', 'thermal anti-spot', 'thermal blemish', 'thermal soothing', 'thermal repair', 'thermal recovery', 'thermal rejuvenating', 'thermal rejuvenation', 'thermal anti-redness', 'thermal anti-pollution'
+    ],
+    'body_care': [
+      'body', 'lotion', 'butter', 'scrub', 'wash', 'shower', 'deodorant', 'hand', 'foot', 'soap', 'oil', 'cream', 'gel', 'moisturizer', 'balm', 'milk', 'exfoliator', 'sensitive', 'hydration', 'repair', 'soothing', 'recovery', 'rejuvenating', 'rejuvenation', 'anti-redness', 'anti-pollution', 'spf', 'sunscreen', 'sunblock', 'sun', 'uv', 'day cream', 'night cream', 'anti-aging', 'anti-wrinkle', 'anti-spot', 'blemish', 'whitening', 'brightening', 'vitamin c', 'retinol', 'collagen', 'wrinkle', 'pore', 'essence', 'ampoule', 'patch', 'sheet', 'thermal', 'thermal water', 'thermal spring', 'thermal mist', 'thermal spray', 'thermal body', 'thermal cleanser', 'thermal cream', 'thermal mask', 'thermal serum', 'thermal toner', 'thermal moisturizer', 'thermal balm', 'thermal milk', 'thermal exfoliator', 'thermal spot', 'thermal whitening', 'thermal brightening', 'thermal vitamin c', 'thermal retinol', 'thermal collagen', 'thermal wrinkle', 'thermal pore', 'thermal essence', 'thermal ampoule', 'thermal patch', 'thermal sheet', 'thermal sunblock', 'thermal sun', 'thermal uv', 'thermal day cream', 'thermal night cream', 'thermal gel', 'thermal foam', 'thermal clay', 'thermal mud', 'thermal anti-wrinkle', 'thermal anti-spot', 'thermal blemish', 'thermal soothing', 'thermal repair', 'thermal recovery', 'thermal rejuvenating', 'thermal rejuvenation', 'thermal anti-redness', 'thermal anti-pollution'
+    ],
+    'hair_care': [
+      'hair', 'shampoo', 'conditioner', 'scalp', 'serum', 'oil', 'mask', 'spray', 'treatment', 'styling', 'leave-in', 'anti-dandruff', 'volume', 'curl', 'moisturizer', 'balm', 'milk', 'exfoliator', 'sensitive', 'hydration', 'repair', 'soothing', 'recovery', 'rejuvenating', 'rejuvenation', 'anti-redness', 'anti-pollution', 'spf', 'sunscreen', 'sunblock', 'sun', 'uv', 'day cream', 'night cream', 'anti-aging', 'anti-wrinkle', 'anti-spot', 'blemish', 'whitening', 'brightening', 'vitamin c', 'retinol', 'collagen', 'wrinkle', 'pore', 'essence', 'ampoule', 'patch', 'sheet', 'thermal', 'thermal water', 'thermal spring', 'thermal mist', 'thermal spray', 'thermal hair', 'thermal cleanser', 'thermal cream', 'thermal mask', 'thermal serum', 'thermal toner', 'thermal moisturizer', 'thermal balm', 'thermal milk', 'thermal exfoliator', 'thermal spot', 'thermal whitening', 'thermal brightening', 'thermal vitamin c', 'thermal retinol', 'thermal collagen', 'thermal wrinkle', 'thermal pore', 'thermal essence', 'thermal ampoule', 'thermal patch', 'thermal sheet', 'thermal sunblock', 'thermal sun', 'thermal uv', 'thermal day cream', 'thermal night cream', 'thermal gel', 'thermal foam', 'thermal clay', 'thermal mud', 'thermal anti-wrinkle', 'thermal anti-spot', 'thermal blemish', 'thermal soothing', 'thermal repair', 'thermal recovery', 'thermal rejuvenating', 'thermal rejuvenation', 'thermal anti-redness', 'thermal anti-pollution'
+    ],
+    'fragrance': [
+      'fragrance', 'perfume', 'eau de parfum', 'eau de toilette', 'cologne', 'body spray', 'mist', 'deodorant', 'scent', 'aroma', 'parfum', 'aftershave', 'body mist', 'body fragrance', 'body cologne', 'body perfume', 'body scent', 'body aroma', 'body aftershave', 'thermal', 'thermal fragrance', 'thermal perfume', 'thermal eau de parfum', 'thermal eau de toilette', 'thermal cologne', 'thermal body spray', 'thermal mist', 'thermal deodorant', 'thermal scent', 'thermal aroma', 'thermal parfum', 'thermal aftershave', 'thermal body mist', 'thermal body fragrance', 'thermal body cologne', 'thermal body perfume', 'thermal body scent', 'thermal body aroma', 'thermal body aftershave'
+    ],
+    'makeup': [
+      'makeup', 'foundation', 'concealer', 'powder', 'blush', 'bronzer', 'highlighter', 'contour', 'primer', 'setting spray', 'setting powder', 'eyeshadow', 'mascara', 'eyeliner', 'brow', 'lipstick', 'lip gloss', 'lip liner', 'lip balm', 'tint', 'palette', 'face', 'eye', 'lip', 'cheek', 'brow', 'lash', 'base', 'complexion', 'color', 'cosmetic', 'cosmetics', 'thermal', 'thermal makeup', 'thermal foundation', 'thermal concealer', 'thermal powder', 'thermal blush', 'thermal bronzer', 'thermal highlighter', 'thermal contour', 'thermal primer', 'thermal setting spray', 'thermal setting powder', 'thermal eyeshadow', 'thermal mascara', 'thermal eyeliner', 'thermal brow', 'thermal lipstick', 'thermal lip gloss', 'thermal lip liner', 'thermal lip balm', 'thermal tint', 'thermal palette', 'thermal face', 'thermal eye', 'thermal lip', 'thermal cheek', 'thermal brow', 'thermal lash', 'thermal base', 'thermal complexion', 'thermal color', 'thermal cosmetic', 'thermal cosmetics'
+    ],
+    'baby_care': [
+      'baby', 'infant', 'toddler', 'child', 'kids', 'children', 'baby lotion', 'baby oil', 'baby cream', 'baby shampoo', 'baby wash', 'baby soap', 'baby powder', 'baby wipes', 'baby balm', 'baby moisturizer', 'baby sunscreen', 'baby spf', 'baby sunblock', 'baby sun', 'baby uv', 'baby day cream', 'baby night cream', 'baby anti-aging', 'baby anti-wrinkle', 'baby anti-spot', 'baby blemish', 'baby whitening', 'baby brightening', 'baby vitamin c', 'baby retinol', 'baby collagen', 'baby wrinkle', 'baby pore', 'baby essence', 'baby ampoule', 'baby patch', 'baby sheet', 'baby thermal', 'baby thermal water', 'baby thermal spring', 'baby thermal mist', 'baby thermal spray', 'baby thermal cleanser', 'baby thermal cream', 'baby thermal mask', 'baby thermal serum', 'baby thermal toner', 'baby thermal moisturizer', 'baby thermal balm', 'baby thermal milk', 'baby thermal exfoliator', 'baby thermal spot', 'baby thermal whitening', 'baby thermal brightening', 'baby thermal vitamin c', 'baby thermal retinol', 'baby thermal collagen', 'baby thermal wrinkle', 'baby thermal pore', 'baby thermal essence', 'baby thermal ampoule', 'baby thermal patch', 'baby thermal sheet', 'baby thermal sunblock', 'baby thermal sun', 'baby thermal uv', 'baby thermal day cream', 'baby thermal night cream', 'baby thermal gel', 'baby thermal foam', 'baby thermal clay', 'baby thermal mud', 'baby thermal anti-wrinkle', 'baby thermal anti-spot', 'baby thermal blemish', 'baby thermal soothing', 'baby thermal repair', 'baby thermal recovery', 'baby thermal rejuvenating', 'baby thermal rejuvenation', 'baby thermal anti-redness', 'baby thermal anti-pollution'
+    ],
+    // Add more categories and keywords as needed
+  };
   static List<Map<String, dynamic>> getDemoProducts() {
     return [
       {
@@ -248,9 +270,25 @@ class ProductsDataProvider {
 
     // Then apply other filters
     if (category != null && category.isNotEmpty && category != 'all') {
-      products = products
-          .where((product) => product['category'] == category)
-          .toList();
+      final categoryLower = category.toLowerCase();
+      final keywords = categoryKeywords[categoryLower] ?? [categoryLower];
+      products = products.where((product) {
+        // Direct match on category field
+        if ((product['category']?.toString().toLowerCase() ?? '') == categoryLower) return true;
+        // Check if product fields contain any of the keywords
+        final name = product['name'] is String
+            ? product['name']
+            : (product['name']?['en'] ?? '');
+        final description = product['description'] is String
+            ? product['description']
+            : (product['description']?['en'] ?? '');
+        final brand = product['brand']?.toString() ?? '';
+        final allFields = ('$name $description $brand').toLowerCase();
+        for (final keyword in keywords) {
+          if (allFields.contains(keyword.toLowerCase())) return true;
+        }
+        return false;
+      }).toList();
     }
 
     if (brand != null && brand.isNotEmpty) {
@@ -365,8 +403,24 @@ class ProductsDataProvider {
   }
 
   static List<Map<String, dynamic>> getProductsByCategory(String category) {
+    final categoryLower = category.toLowerCase();
+    final keywords = categoryKeywords[categoryLower] ?? [categoryLower];
     return getDemoProducts()
-        .where((product) => product['category'] == category)
+        .where((product) {
+          if ((product['category']?.toString().toLowerCase() ?? '') == categoryLower) return true;
+          final name = product['name'] is String
+              ? product['name']
+              : (product['name']?['en'] ?? '');
+          final description = product['description'] is String
+              ? product['description']
+              : (product['description']?['en'] ?? '');
+          final brand = product['brand']?.toString() ?? '';
+          final allFields = ('$name $description $brand').toLowerCase();
+          for (final keyword in keywords) {
+            if (allFields.contains(keyword.toLowerCase())) return true;
+          }
+          return false;
+        })
         .toList();
   }
 

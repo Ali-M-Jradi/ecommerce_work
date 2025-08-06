@@ -1,7 +1,8 @@
+/// Model for admin customization settings (theme, color, logo, etc.)
 class CustomizationSettings {
-  final String themeMode; // e.g. 'light', 'dark', 'system'
-  final String? primaryColor; // hex string, e.g. '#673AB7'
-  final String? logoUrl; // URL or asset path
+  final String themeMode;
+  final String? primaryColor;
+  final String? logoUrl;
 
   CustomizationSettings({
     required this.themeMode,
@@ -22,4 +23,16 @@ class CustomizationSettings {
         'primaryColor': primaryColor,
         'logoUrl': logoUrl,
       };
+
+  CustomizationSettings copyWith({
+    String? themeMode,
+    String? primaryColor,
+    String? logoUrl,
+  }) {
+    return CustomizationSettings(
+      themeMode: themeMode ?? this.themeMode,
+      primaryColor: primaryColor ?? this.primaryColor,
+      logoUrl: logoUrl ?? this.logoUrl,
+    );
+  }
 }

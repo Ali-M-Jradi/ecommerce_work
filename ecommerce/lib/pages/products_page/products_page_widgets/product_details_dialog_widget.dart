@@ -55,7 +55,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                   height: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.0),
-                    color: colorScheme.surfaceVariant,
+                    color: colorScheme.surfaceContainerHighest,
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
@@ -234,38 +234,53 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _isSoldOut() ? null : () {
-                    // Add to cart using CartProvider
-                    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-                    cartProvider.addItem(widget.product, context: context);
-                    
-                    // Pop the dialog first
-                    Navigator.of(context).pop();
-                    
-                    // Show snackbar with simple navigation
-                    final colorScheme = Theme.of(context).colorScheme;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          AppLocalizationsHelper.of(context).addedToCart(ProductsDataProvider.getLocalizedName(widget.product, context)),
-                          style: TextStyle(color: colorScheme.onSurface),
+                  onPressed: _isSoldOut() ? null : () async {
+                    try {
+                      // Add to cart using CartProvider with parameter validation
+                      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+                      await cartProvider.addItem(widget.product, context: context);
+                      
+                      // Pop the dialog first
+                      Navigator.of(context).pop();
+                      
+                      // Show success snackbar
+                      final colorScheme = Theme.of(context).colorScheme;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            AppLocalizationsHelper.of(context).addedToCart(ProductsDataProvider.getLocalizedName(widget.product, context)),
+                            style: TextStyle(color: colorScheme.onSurface),
+                          ),
+                          backgroundColor: colorScheme.surface,
+                          duration: const Duration(seconds: 4),
+                          action: SnackBarAction(
+                            label: AppLocalizationsHelper.of(context).viewCart,
+                            textColor: colorScheme.primary,
+                            onPressed: () {
+                              // Use the global navigator key for guaranteed navigation
+                              navigatorKey.currentState?.push(
+                                MaterialPageRoute(
+                                  builder: (context) => const CartPage(),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                        backgroundColor: colorScheme.surface,
-                        duration: const Duration(seconds: 4),
-                        action: SnackBarAction(
-                          label: AppLocalizationsHelper.of(context).viewCart,
-                          textColor: colorScheme.primary,
-                          onPressed: () {
-                            // Use the global navigator key for guaranteed navigation
-                            navigatorKey.currentState?.push(
-                              MaterialPageRoute(
-                                builder: (context) => const CartPage(),
-                              ),
-                            );
-                          },
+                      );
+                    } catch (e) {
+                      // Show parameter validation error
+                      final colorScheme = Theme.of(context).colorScheme;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            e.toString(),
+                            style: TextStyle(color: colorScheme.onError),
+                          ),
+                          backgroundColor: colorScheme.error,
+                          duration: const Duration(seconds: 3),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isSoldOut() 

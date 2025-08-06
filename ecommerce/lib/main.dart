@@ -1,11 +1,9 @@
-import 'pages/admin/parameters_page.dart';
-import 'pages/admin/attributes_page.dart';
-import 'pages/admin/categories_page.dart';
-import 'pages/admin/products_page.dart';
-import 'pages/admin/users_page.dart';
-import 'pages/admin/brands_page.dart';
-import 'pages/admin/prices_page.dart';
-import 'pages/admin/orders_page.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:ecommerce/l10n/app_localizations.dart';
+import 'package:ecommerce/localization/app_localizations_helper.dart';
 import 'package:ecommerce/pages/base_page/base_page.dart';
 import 'package:ecommerce/pages/checkout_page/checkout_page.dart';
 import 'package:ecommerce/pages/auth/login_page.dart';
@@ -14,6 +12,21 @@ import 'package:ecommerce/pages/notifications/notification_test_page.dart';
 import 'package:ecommerce/pages/notifications/notifications_page.dart';
 import 'package:ecommerce/pages/profile/profile_page.dart';
 import 'package:ecommerce/pages/orders/order_tracking_page.dart';
+import 'package:ecommerce/pages/products_page/products_page_widgets/wishlist_page.dart';
+import 'package:ecommerce/pages/admin/admin_dashboard_page.dart';
+import 'package:ecommerce/pages/admin/admin_settings_page.dart';
+import 'package:ecommerce/pages/admin/parameters_page.dart';
+import 'package:ecommerce/pages/admin/attributes_page.dart';
+import 'package:ecommerce/pages/admin/categories_page.dart';
+import 'package:ecommerce/pages/admin/products_page.dart';
+import 'package:ecommerce/pages/admin/users_page.dart';
+import 'package:ecommerce/pages/admin/brands_page.dart';
+import 'package:ecommerce/pages/admin/prices_page.dart';
+import 'package:ecommerce/pages/admin/orders_page.dart';
+import 'package:ecommerce/pages/admin/currencies_page.dart';
+import 'package:ecommerce/pages/loyalty_program_page.dart';
+import 'package:ecommerce/services/notification_scheduler_service.dart';
+import 'package:ecommerce/services/order_service.dart';
 import 'package:ecommerce/providers/cart_provider.dart';
 import 'package:ecommerce/providers/enhanced_notification_provider.dart';
 import 'package:ecommerce/providers/language_provider.dart';
@@ -21,18 +34,13 @@ import 'package:ecommerce/providers/mock_notification_provider.dart';
 import 'package:ecommerce/providers/user_provider.dart';
 import 'package:ecommerce/providers/theme_provider.dart';
 import 'package:ecommerce/providers/admin/settings_provider.dart';
-import 'package:ecommerce/pages/admin/settings/customization_page.dart';
-import 'package:ecommerce/pages/admin/settings/currencies_page.dart';
-import 'package:ecommerce/pages/admin/settings/loyalty_program_page.dart';
-import 'package:ecommerce/pages/admin/admin_dashboard_page.dart';
-import 'package:ecommerce/services/notification_scheduler_service.dart';
-import 'package:ecommerce/services/order_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:ecommerce/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:ecommerce/localization/app_localizations_helper.dart';
-import 'pages/admin/settings_page.dart';
+import 'package:ecommerce/providers/category_provider.dart';
+import 'package:ecommerce/providers/wishlist_provider.dart';
+import 'package:ecommerce/providers/order_provider.dart';
+import 'package:ecommerce/providers/parameter_provider.dart';
+import 'package:ecommerce/providers/currency_provider.dart';
+import 'package:ecommerce/providers/brand_provider.dart';
+import 'package:ecommerce/providers/admin_user_provider.dart';
 
 // Global navigator key for reliable navigation
 
@@ -44,8 +52,6 @@ final ColorScheme lightColorScheme = ColorScheme.light(
   onPrimary: Colors.white,
   secondary: Colors.deepPurple,
   onSecondary: Colors.white,
-  background: const Color(0xFFFFFBFF),
-  onBackground: Colors.black,
   surface: Colors.white,
   onSurface: Colors.black,
   error: Colors.red.shade700,
@@ -57,8 +63,6 @@ final ColorScheme darkColorScheme = ColorScheme.dark(
   onPrimary: Colors.white,
   secondary: Colors.deepPurple,
   onSecondary: Colors.white,
-  background: const Color(0xFF181824),
-  onBackground: Colors.white,
   surface: const Color(0xFF232336),
   onSurface: Colors.white,
   error: Colors.red.shade400,
@@ -93,6 +97,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => EnhancedNotificationProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
+        ChangeNotifierProvider(create: (context) => CategoryProvider()),
+        ChangeNotifierProvider(create: (context) => WishlistProvider()),
+        ChangeNotifierProvider(create: (context) => OrderProvider()),
+        ChangeNotifierProvider(create: (context) => ParameterProvider()),
+        ChangeNotifierProvider(create: (context) => CurrencyProvider()),
+        ChangeNotifierProvider(create: (context) => BrandProvider()),
+        ChangeNotifierProvider(create: (context) => AdminUserProvider()),
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {
@@ -132,7 +143,7 @@ class MyApp extends StatelessWidget {
                   colorScheme: lightColorScheme.copyWith(
                     primary: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
                   ),
-                  scaffoldBackgroundColor: lightColorScheme.background,
+                  scaffoldBackgroundColor: lightColorScheme.surface,
                   appBarTheme: AppBarTheme(
                     backgroundColor: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
                     foregroundColor: lightColorScheme.onPrimary,
@@ -159,7 +170,7 @@ class MyApp extends StatelessWidget {
                   colorScheme: darkColorScheme.copyWith(
                     primary: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
                   ),
-                  scaffoldBackgroundColor: darkColorScheme.background,
+                  scaffoldBackgroundColor: darkColorScheme.surface,
                   appBarTheme: AppBarTheme(
                     backgroundColor: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
                     foregroundColor: darkColorScheme.onPrimary,
@@ -185,6 +196,7 @@ class MyApp extends StatelessWidget {
                 themeMode: themeProvider.themeMode,
                 home: const BasePage(title: 'DERMOCOSMETIQUE'),
                 routes: {
+                  '/wishlist': (context) => const WishlistPage(),
                   '/checkout': (context) => const CheckoutPage(),
                   '/login': (context) => const LoginPage(),
                   '/signup': (context) => const SignUpPage(),
@@ -200,11 +212,11 @@ class MyApp extends StatelessWidget {
                   },
                   // Admin dashboard
                   '/admin/dashboard': (context) => const AdminDashboardPage(),
-                  '/admin/customization': (context) => const CustomizationPage(),
+                  // '/admin/customization': (context) => const CustomizationPage(),
                   '/admin/currencies': (context) => const CurrenciesPage(),
                   '/admin/loyalty': (context) => const LoyaltyProgramPage(),
                   '/admin/parameters': (context) => const ParametersPage(),
-                  '/admin/settings': (context) => const SettingsPage(),
+                  '/admin/settings': (context) => const AdminSettingsPage(),
                   '/admin/attributes': (context) => const AttributesPage(),
                   '/admin/categories': (context) => const CategoriesPage(),
                   '/admin/products': (context) => const ProductsPage(),

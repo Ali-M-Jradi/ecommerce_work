@@ -170,8 +170,7 @@ class NotificationSchedulerService {
       body,
       _nextInstanceOfTime(reminderDate.hour, reminderDate.minute, reminderDate.day, reminderDate.month, reminderDate.year),
       notificationDetails,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: jsonEncode({
         'type': 'order',
         'action': 'delivery_reminder',
@@ -254,8 +253,7 @@ class NotificationSchedulerService {
       body,
       _nextInstanceOfTime(reviewRequestDate.hour, reviewRequestDate.minute, reviewRequestDate.day, reviewRequestDate.month, reviewRequestDate.year),
       notificationDetails,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: jsonEncode({
         'type': 'order',
         'action': 'review_request',

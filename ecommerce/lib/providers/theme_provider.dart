@@ -54,8 +54,7 @@ class ThemeProvider extends ChangeNotifier {
     _customPrimaryColor = color;
     String? hex;
     if (color != null) {
-      hex = '#'
-          + color.value.toRadixString(16).padLeft(8, '0').substring(2).toUpperCase();
+      hex = '#${color.value.toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
     }
     await DatabaseHelper().setUserPrimaryColor(hex);
     notifyListeners();

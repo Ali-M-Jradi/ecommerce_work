@@ -67,7 +67,7 @@ class _AttributesPageState extends State<AttributesPage> {
                         width: 1.2,
                       ),
                     ),
-                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -145,7 +145,7 @@ class _AttributesPageState extends State<AttributesPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.surface,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -156,7 +156,7 @@ class _AttributesPageState extends State<AttributesPage> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 17,
-                          color: Theme.of(context).colorScheme.onBackground,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -167,10 +167,10 @@ class _AttributesPageState extends State<AttributesPage> {
                           border: const OutlineInputBorder(),
                           isDense: true,
                           labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
-                        style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z0-9\s]'),
@@ -183,7 +183,7 @@ class _AttributesPageState extends State<AttributesPage> {
                           Text(
                             'Type:',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -234,7 +234,7 @@ class _AttributesPageState extends State<AttributesPage> {
                           Text(
                             'Display Style:',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -327,7 +327,7 @@ class _AttributeChip extends StatelessWidget {
           color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
-      backgroundColor: color ?? Theme.of(context).colorScheme.surfaceVariant,
+      backgroundColor: color ?? Theme.of(context).colorScheme.surfaceContainerHighest,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
     );

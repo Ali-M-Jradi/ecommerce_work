@@ -11,6 +11,10 @@ import 'package:ecommerce/pages/contact_us_page.dart'; // Import ContactUsPage h
 import 'package:ecommerce/pages/account_settings_page.dart'; // Import AccountSettingsPage here
 import 'package:ecommerce/pages/loyalty_program_page.dart'; // Import LoyaltyProgramPage
 import 'package:ecommerce/pages/special_offers_page.dart'; // Import SpecialOffersPage
+import 'package:ecommerce/pages/orders/order_history_page.dart'; // Import OrderHistoryPage
+import 'package:ecommerce/services/parameter_service.dart';
+import 'package:ecommerce/providers/parameter_provider.dart';
+import 'package:provider/provider.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key, required this.title});
@@ -35,6 +39,14 @@ class _BasePageState extends State<BasePage> {
     Navigator.pop(context); // Close drawer first
 
     switch (route) {
+      case 'order_history':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const OrderHistoryPage(),
+          ),
+        );
+        break;
       case 'face_care':
         setState(() {
           _bottomNavIndex = 2; // Products index
@@ -249,7 +261,39 @@ class _BasePageState extends State<BasePage> {
         selectedIndex: _bottomNavIndex,
         onNavigationTap: _handleBottomNavigation,
       ),
-      body: const HomePage(),
+      body: Consumer<ParameterProvider>(
+        builder: (context, paramProvider, _) {
+          return Column(
+            children: [
+              // Maintenance banner (shown if maintenance mode is enabled)
+              if (ParameterService.isMaintenanceModeEnabled(context))
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  color: Colors.orange.shade700,
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning, color: Colors.white, size: 20),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Maintenance Mode: Some features may be temporarily unavailable',
+                          style: const TextStyle(
+                            color: Colors.white, 
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              // Main content
+              Expanded(child: HomePage()),
+            ],
+          );
+        },
+      ),
       // FAB is now handled by HomePage, not BasePage
       drawer: DrawerWidget(
         onNavigationTap: _handleDrawerNavigation,

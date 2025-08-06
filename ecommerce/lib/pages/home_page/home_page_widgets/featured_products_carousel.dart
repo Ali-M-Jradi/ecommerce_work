@@ -179,7 +179,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                  color: isDark ? colorScheme.surfaceVariant : colorScheme.background,
+                  color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
                 ),
                 child: Stack(
                   children: [

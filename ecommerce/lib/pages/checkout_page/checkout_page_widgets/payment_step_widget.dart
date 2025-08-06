@@ -103,7 +103,7 @@ class _PaymentStepWidgetState extends State<PaymentStepWidget> {
             borderRadius: BorderRadius.circular(12),
             color: isSelected
                 ? colorScheme.primary.withOpacity(isDark ? 0.10 : 0.05)
-                : (isDark ? colorScheme.surfaceVariant : colorScheme.surface),
+                : (isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface),
           ),
           child: InkWell(
             onTap: () {

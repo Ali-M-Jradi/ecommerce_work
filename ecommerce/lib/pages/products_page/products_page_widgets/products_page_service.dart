@@ -10,7 +10,7 @@ class ProductsPageService {
   ProductsPageService._internal();
 
   // Cache for sorted products
-  Map<String, List<Map<String, dynamic>>> _sortedProductsCache = {};
+  final Map<String, List<Map<String, dynamic>>> _sortedProductsCache = {};
 
   /// Get products sorted by the specified criteria
   List<Map<String, dynamic>> getSortedProducts(String sortBy) {

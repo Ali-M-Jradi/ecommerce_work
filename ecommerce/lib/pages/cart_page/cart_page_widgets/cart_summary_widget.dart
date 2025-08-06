@@ -17,6 +17,9 @@ class CartSummaryWidget extends StatelessWidget {
       builder: (context, cart, child) {
         final theme = Theme.of(context);
         final colorScheme = theme.colorScheme;
+        final cartSummary = cart.getCartSummary(context);
+        final validationErrors = cart.getCartValidationErrors(context);
+        
         return Container(
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
@@ -33,6 +36,50 @@ class CartSummaryWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Validation errors (if any)
+                if (validationErrors.isNotEmpty) ...[
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: colorScheme.errorContainer,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: validationErrors.map((error) => Text(
+                        error,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onErrorContainer,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )).toList(),
+                    ),
+                  ),
+                ],
+                
+                // Free shipping progress (if not eligible and has amount needed)
+                if (!cart.isFreeShippingEligible(context) && cart.getAmountNeededForFreeShipping(context) > 0) ...[
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primaryContainer.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      'Add \$${cart.getAmountNeededForFreeShipping(context).toStringAsFixed(2)} more for free shipping!',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+                
                 // Order Summary
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,7 +92,7 @@ class CartSummaryWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      cart.formattedTotalAmount,
+                      cartSummary['formattedSubtotal'],
                       style: theme.textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onSurface,
@@ -55,7 +102,7 @@ class CartSummaryWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                // Shipping (placeholder)
+                // Shipping
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -67,10 +114,10 @@ class CartSummaryWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      AppLocalizationsHelper.of(context).free,
+                      cartSummary['formattedShipping'],
                       style: theme.textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: colorScheme.tertiary,
+                        color: cartSummary['shipping'] == 0.0 ? colorScheme.tertiary : colorScheme.onSurface,
                         fontSize: 16,
                       ),
                     ),
@@ -88,7 +135,7 @@ class CartSummaryWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      AppLocalizationsHelper.of(context).total,
+                      AppLocalizationsHelper.of(context).totalAmount,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onSurface,
@@ -96,7 +143,7 @@ class CartSummaryWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      cart.formattedTotalAmount,
+                      cartSummary['formattedTotal'],
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.primary,
@@ -110,7 +157,7 @@ class CartSummaryWidget extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: cart.isEmpty ? null : onCheckout,
+                    onPressed: (cart.isEmpty || !cartSummary['isOrderValid']) ? null : onCheckout,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colorScheme.primary,
                       foregroundColor: colorScheme.onPrimary,

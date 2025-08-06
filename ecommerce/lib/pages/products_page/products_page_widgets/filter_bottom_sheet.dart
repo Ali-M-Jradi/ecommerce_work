@@ -198,7 +198,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   });
                 },
                 selectedColor: isDark ? colorScheme.primary : colorScheme.primary,
-                backgroundColor: isDark ? colorScheme.surfaceVariant : colorScheme.surfaceVariant,
+                backgroundColor: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surfaceContainerHighest,
                 checkmarkColor: isDark ? colorScheme.onPrimary : colorScheme.onPrimary,
               );
             }).toList(),
@@ -235,7 +235,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   });
                 },
                 selectedColor: isDark ? colorScheme.primary : colorScheme.primary,
-                backgroundColor: isDark ? colorScheme.surfaceVariant : colorScheme.surfaceVariant,
+                backgroundColor: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surfaceContainerHighest,
                 checkmarkColor: isDark ? colorScheme.onPrimary : colorScheme.onPrimary,
               );
             }).toList(),

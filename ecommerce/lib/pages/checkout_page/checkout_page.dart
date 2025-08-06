@@ -92,7 +92,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       final theme = Theme.of(context);
       final colorScheme = theme.colorScheme;
       final isDark = theme.brightness == Brightness.dark;
-      final snackBgColor = isDark ? colorScheme.surfaceVariant : colorScheme.surface;
+      final snackBgColor = isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface;
       final snackTextColor = colorScheme.onSurface;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -248,7 +248,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           // Step indicator
           Container(
             padding: const EdgeInsets.all(16),
-            color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+            color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
             child: Row(
               children: CheckoutStep.values.map((step) {
                 final isActive = step == currentStep;
@@ -367,7 +367,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+                color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
                 boxShadow: [
                   BoxShadow(
                     color: isDark
@@ -411,13 +411,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: _canProceedFromCurrentStep()
                             ? colorScheme.primary
-                            : (isDark ? colorScheme.surfaceVariant : colorScheme.surface),
+                            : (isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface),
                         foregroundColor: _canProceedFromCurrentStep()
                             ? colorScheme.onPrimary
                             : colorScheme.onSurface,
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),
                         elevation: 2,
-                        disabledBackgroundColor: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+                        disabledBackgroundColor: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
                         disabledForegroundColor: colorScheme.onSurface,
                       ),
                       child: Text(

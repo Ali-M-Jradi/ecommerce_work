@@ -25,10 +25,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   List<List<Color>> get _backgroundColors {
     final colorScheme = Theme.of(context).colorScheme;
     return [
-      [colorScheme.surface, colorScheme.surfaceVariant],
+      [colorScheme.surface, colorScheme.surfaceContainerHighest],
       [colorScheme.primary, colorScheme.secondary],
       [colorScheme.secondary, colorScheme.primary],
-      [colorScheme.background, colorScheme.surface],
+      [colorScheme.surface, colorScheme.surface],
     ];
   }
 
@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     final isRTL = LocalizationHelper.isRTL(context);
     
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Consumer<UserProvider>(
         builder: (context, userProvider, _) {
           final user = userProvider.currentUser;

@@ -35,10 +35,10 @@ class _SignUpPageState extends State<SignUpPage>
   List<List<Color>> get _backgroundColors {
     final colorScheme = Theme.of(context).colorScheme;
     return [
-      [colorScheme.surface, colorScheme.surfaceVariant],
+      [colorScheme.surface, colorScheme.surfaceContainerHighest],
       [colorScheme.primary, colorScheme.secondary],
       [colorScheme.secondary, colorScheme.primary],
-      [colorScheme.background, colorScheme.surface],
+      [colorScheme.surface, colorScheme.surface],
     ];
   }
 

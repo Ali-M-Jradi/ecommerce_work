@@ -194,7 +194,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
                     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                     decoration: BoxDecoration(
-                      color: isDark ? colorScheme.surfaceVariant.withOpacity(0.7) : colorScheme.surface.withOpacity(0.7),
+                      color: isDark ? colorScheme.surfaceContainerHighest.withOpacity(0.7) : colorScheme.surface.withOpacity(0.7),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: OrderStatusTimeline(order: order),
@@ -240,7 +240,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+        color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -312,7 +312,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> with SingleTicker
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark ? colorScheme.surfaceVariant : colorScheme.surface,
+        color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(

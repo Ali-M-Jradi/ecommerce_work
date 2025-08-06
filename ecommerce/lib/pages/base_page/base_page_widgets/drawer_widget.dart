@@ -1,9 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../localization/app_localizations_helper.dart';
 import '../../../providers/language_provider.dart';
 import '../../../providers/mock_notification_provider.dart';
+
 import '../../../providers/user_provider.dart';
+import '../../../providers/category_provider.dart';
 
 class DrawerWidget extends StatefulWidget {
   final Function(String)? onNavigationTap;
@@ -76,61 +79,52 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               Navigator.of(context).pushNamed('/admin/dashboard');
             },
           ),
-          // Shop by Category
-          ExpansionTile(
-            leading: Icon(Icons.category, color: Theme.of(context).colorScheme.primary),
-            title: Text(
-              AppLocalizationsHelper.of(context).shopByCategoryMenu,
-              style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-            ),
-            children: [
-              ListTile(
-                leading: SizedBox(width: 20),
+         // Order History
+         ListTile(
+           leading: Icon(Icons.receipt_long, color: Theme.of(context).colorScheme.primary),
+           title: Text('Order History'),
+           onTap: () {
+             widget.onNavigationTap?.call('order_history');
+           },
+         ),
+          // Shop by Category (Dynamic)
+          Consumer<CategoryProvider>(
+            builder: (context, categoryProvider, _) {
+              return ExpansionTile(
+                leading: Icon(Icons.category, color: Theme.of(context).colorScheme.primary),
                 title: Text(
-                  AppLocalizationsHelper.of(context).faceCare,
+                  AppLocalizationsHelper.of(context).shopByCategoryMenu,
                   style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
                 ),
-                onTap: () {
-                  widget.onNavigationTap?.call('face_care');
-                },
-              ),
-              ListTile(
-                leading: SizedBox(width: 20),
-                title: Text(
-                  AppLocalizationsHelper.of(context).bodyCare,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-                ),
-                onTap: () {
-                  widget.onNavigationTap?.call('body_care');
-                },
-              ),
-              ListTile(
-                leading: SizedBox(width: 20),
-                title: Text(
-                  AppLocalizationsHelper.of(context).hairCareCategory,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-                ),
-                onTap: () {
-                  widget.onNavigationTap?.call('hair_care');
-                },
-              ),
-              ListTile(
-                leading: SizedBox(width: 20),
-                title: Text(
-                  AppLocalizationsHelper.of(context).allBrands,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-                ),
-                subtitle: Text(
-                  AppLocalizationsHelper.of(context).brandExamples,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
-                ),
-                onTap: () {
-                  widget.onNavigationTap?.call('brands');
-                },
-              ),
-            ],
+                children: [
+                  ...categoryProvider.categories.map((cat) => ListTile(
+                        leading: Icon(cat.icon, color: Theme.of(context).colorScheme.primary),
+                        title: Text(
+                          // Show localized name based on current language
+                          Localizations.localeOf(context).languageCode == 'ar'
+                              ? cat.ar
+                              : Localizations.localeOf(context).languageCode == 'fr'
+                                  ? cat.fr
+                                  : cat.en,
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+                        ),
+                        onTap: () {
+                          widget.onNavigationTap?.call(cat.id.toString());
+                        },
+                      ))
+                ],
+              );
+            },
           ),
                  
+          // Wishlist / Favorites
+          ListTile(
+            leading: Icon(Icons.favorite, color: Colors.redAccent),
+            title: Text('Wishlist'),
+            onTap: () {
+              Navigator.of(context).pushNamed('/wishlist');
+            },
+          ),
           // Special Offers
           ListTile(
             leading: Icon(Icons.local_offer, color: Theme.of(context).colorScheme.primary),
@@ -160,7 +154,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               widget.onNavigationTap?.call('about_us');
             },
           ),
-          // Admin Customization (for testing)
+
           
           // Notifications
           Consumer<MockNotificationProvider>(
@@ -392,5 +386,4 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ],
       ),
     );
-  }
-}
+  }}

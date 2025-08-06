@@ -11,7 +11,7 @@ class SpecialOffersPage extends StatelessWidget {
         title: Text(AppLocalizationsHelper.of(context).specialOffersMenu),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).colorScheme.primary,
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(

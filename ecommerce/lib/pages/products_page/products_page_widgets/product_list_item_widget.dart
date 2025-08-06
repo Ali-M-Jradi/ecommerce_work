@@ -37,7 +37,7 @@ class ProductListItemWidget extends StatelessWidget {
                     height: 80,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: isDark ? colorScheme.surfaceVariant : colorScheme.secondaryContainer,
+                      color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.secondaryContainer,
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
