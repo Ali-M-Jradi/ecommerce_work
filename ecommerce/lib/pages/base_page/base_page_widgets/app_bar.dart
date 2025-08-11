@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/cart_provider.dart';
-import '../../../providers/user_provider.dart';
+import '../../../pages/auth/auth_provider.dart'; // Use AuthProvider instead of UserProvider
 import '../../../providers/mock_notification_provider.dart';
 import '../../../localization/app_localizations_helper.dart';
 // Make sure this import points to the file where NotificationsPage is defined
@@ -90,52 +90,109 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(20),
           ),
-          title: Row(
+          title: Column(
             children: [
-              Icon(
-                Icons.person_outline,
-                color: Theme.of(context).colorScheme.primary,
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.person_outline,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 30,
+                ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(height: 16),
               Text(
                 AppLocalizationsHelper.of(context).accessProfile,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),
-          content: Text(
-            AppLocalizationsHelper.of(context).loginRegisterPrompt,
-            style: const TextStyle(fontSize: 14),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                AppLocalizationsHelper.of(context).loginRegisterPrompt,
+                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              // Login button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/login');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    AppLocalizationsHelper.of(context).loginButton,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Register button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/signup');
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    AppLocalizationsHelper.of(context).register,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/signup');
               },
               child: Text(
-                AppLocalizationsHelper.of(context).register,
+                'Cancel',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/login');
-              },
-              child: Text(
-                AppLocalizationsHelper.of(context).loginButton,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -148,8 +205,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   void _onNavigationTap(int index) {
     // Handle profile navigation specially
     if (index == 3) { // Profile tab
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-      if (userProvider.isLoggedIn) {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      if (authProvider.isLoggedIn) {
         // Navigate to profile page
         Navigator.of(context).pushNamed('/profile');
       } else {
@@ -276,11 +333,31 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               label: AppLocalizationsHelper.of(context).productsLabel,
             ),
             NavigationDestination(
-              icon: Consumer<UserProvider>(
-                builder: (context, userProvider, child) {
-                  return Icon(
-                    userProvider.isLoggedIn ? Icons.person : Icons.person_outline,
-                    color: Theme.of(context).colorScheme.primary,
+              icon: Consumer<AuthProvider>(
+                builder: (context, authProvider, child) {
+                  return Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: authProvider.isLoggedIn 
+                        ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                        : Colors.transparent,
+                      border: authProvider.isLoggedIn 
+                        ? Border.all(
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                            width: 2,
+                          )
+                        : null,
+                    ),
+                    child: Icon(
+                      authProvider.isLoggedIn 
+                        ? Icons.person 
+                        : Icons.person_add_outlined,
+                      color: authProvider.isLoggedIn 
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                      size: authProvider.isLoggedIn ? 24 : 26,
+                    ),
                   );
                 },
               ),

@@ -174,7 +174,7 @@ class _CurrenciesPageState extends State<CurrenciesPage> {
               DataCell(Text(currency.nameEn)),
               DataCell(Text(currency.nameAr)),
               DataCell(Text(currency.nameFr)),
-              DataCell(Text('${currency.exchangeRate.toStringAsFixed(4)}')),
+              DataCell(Text(currency.exchangeRate.toStringAsFixed(4))),
               DataCell(
                 Chip(
                   label: Text(

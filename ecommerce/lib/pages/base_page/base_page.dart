@@ -12,8 +12,10 @@ import 'package:ecommerce/pages/account_settings_page.dart'; // Import AccountSe
 import 'package:ecommerce/pages/loyalty_program_page.dart'; // Import LoyaltyProgramPage
 import 'package:ecommerce/pages/special_offers_page.dart'; // Import SpecialOffersPage
 import 'package:ecommerce/pages/orders/order_history_page.dart'; // Import OrderHistoryPage
+import 'package:ecommerce/pages/profile/profile_page.dart'; // Import ProfilePage
 import 'package:ecommerce/services/parameter_service.dart';
 import 'package:ecommerce/providers/parameter_provider.dart';
+import 'package:ecommerce/pages/auth/auth_provider.dart'; // Import AuthProvider
 import 'package:provider/provider.dart';
 
 class BasePage extends StatefulWidget {
@@ -155,52 +157,109 @@ class _BasePageState extends State<BasePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(20),
           ),
-          title: Row(
+          title: Column(
             children: [
-              Icon(
-                Icons.person_outline,
-                color: Theme.of(context).colorScheme.primary,
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.person_outline,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 30,
+                ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(height: 16),
               Text(
                 AppLocalizationsHelper.of(context).accessProfile,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),
-          content: Text(
-            AppLocalizationsHelper.of(context).loginRegisterPrompt,
-            style: const TextStyle(fontSize: 14),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                AppLocalizationsHelper.of(context).loginRegisterPrompt,
+                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              // Login button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/login');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    AppLocalizationsHelper.of(context).loginButton,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Register button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/signup');
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    AppLocalizationsHelper.of(context).register,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/signup');
               },
               child: Text(
-                AppLocalizationsHelper.of(context).register,
+                'Cancel',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/login');
-              },
-              child: Text(
-                AppLocalizationsHelper.of(context).loginButton,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -247,7 +306,19 @@ class _BasePageState extends State<BasePage> {
         );
         break;
       case 3: // Profile
-        _showLoginRegisterDialog();
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        if (authProvider.isLoggedIn) {
+          // Navigate to profile page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfilePage(),
+            ),
+          );
+        } else {
+          // Show login/register dialog
+          _showLoginRegisterDialog();
+        }
         break;
     }
   }

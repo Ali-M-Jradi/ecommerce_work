@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../database_helper.dart';
+import '../models/content_item.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.light;
@@ -28,6 +29,8 @@ class ThemeProvider extends ChangeNotifier {
     } else {
       _themeMode = ThemeMode.light;
     }
+
+    // First try to load color from database (user preference)
     if (savedColorHex != null && savedColorHex.isNotEmpty && savedColorHex.startsWith('#')) {
       try {
         _customPrimaryColor = Color(int.parse(savedColorHex.replaceFirst('#', '0xff')));
@@ -35,10 +38,40 @@ class ThemeProvider extends ChangeNotifier {
         _customPrimaryColor = null;
       }
     } else {
-      _customPrimaryColor = null;
+      // If no user preference, try to load from ContentManager (API)
+      if (ContentManager.hasContent) {
+        try {
+          final apiColorHex = ContentManager.getColor('MainColor', '#056099');
+          if (apiColorHex.isNotEmpty && apiColorHex.startsWith('#')) {
+            _customPrimaryColor = Color(int.parse(apiColorHex.replaceFirst('#', '0xff')));
+          }
+        } catch (_) {
+          _customPrimaryColor = null;
+        }
+      } else {
+        _customPrimaryColor = null;
+      }
     }
     _isLoading = false;
     notifyListeners();
+  }
+
+  /// Load colors from API content (call this when ContentProvider loads)
+  void loadColorsFromContent() {
+    if (ContentManager.hasContent) {
+      try {
+        // Only update if user hasn't set a custom color
+        if (_customPrimaryColor == null) {
+          final apiColorHex = ContentManager.getColor('MainColor', '#056099');
+          if (apiColorHex.isNotEmpty && apiColorHex.startsWith('#')) {
+            _customPrimaryColor = Color(int.parse(apiColorHex.replaceFirst('#', '0xff')));
+            notifyListeners();
+          }
+        }
+      } catch (_) {
+        // Ignore errors, keep default
+      }
+    }
   }
 
   Future<void> setThemeMode(ThemeMode mode) async {

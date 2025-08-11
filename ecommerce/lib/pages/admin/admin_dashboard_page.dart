@@ -111,6 +111,18 @@ class AdminDashboardPage extends StatelessWidget {
               color: colorScheme.primary,
               onTap: () => Navigator.of(context).pushNamed('/admin/orders'),
             ),
+            _AdminTile(
+              icon: Icons.content_paste,
+              label: 'Content Management',
+              color: colorScheme.secondary,
+              onTap: () => Navigator.of(context).pushNamed('/admin/content'),
+            ),
+            _AdminTile(
+              icon: Icons.bug_report,
+              label: 'Content Test',
+              color: colorScheme.tertiary,
+              onTap: () => Navigator.of(context).pushNamed('/admin/content-test'),
+            ),
           ],
         ),
       ),

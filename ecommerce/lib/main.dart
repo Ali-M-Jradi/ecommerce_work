@@ -23,6 +23,8 @@ import 'package:ecommerce/pages/admin/users_page.dart';
 import 'package:ecommerce/pages/admin/brands_page.dart';
 import 'package:ecommerce/pages/admin/prices_page.dart';
 import 'package:ecommerce/pages/admin/orders_page.dart';
+import 'package:ecommerce/pages/admin/content_management_page.dart';
+import 'package:ecommerce/pages/admin/content_test_widget.dart';
 import 'package:ecommerce/pages/admin/currencies_page.dart';
 import 'package:ecommerce/pages/loyalty_program_page.dart';
 import 'package:ecommerce/services/notification_scheduler_service.dart';
@@ -41,6 +43,10 @@ import 'package:ecommerce/providers/parameter_provider.dart';
 import 'package:ecommerce/providers/currency_provider.dart';
 import 'package:ecommerce/providers/brand_provider.dart';
 import 'package:ecommerce/providers/admin_user_provider.dart';
+import 'package:ecommerce/providers/product_provider.dart';
+import 'package:ecommerce/providers/content_provider.dart';
+import 'package:ecommerce/pages/auth/auth_provider.dart';
+import 'package:ecommerce/pages/debug_image_page.dart';
 
 // Global navigator key for reliable navigation
 
@@ -104,6 +110,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CurrencyProvider()),
         ChangeNotifierProvider(create: (context) => BrandProvider()),
         ChangeNotifierProvider(create: (context) => AdminUserProvider()),
+        ChangeNotifierProvider(create: (context) => ProductProvider()), // <-- Added for product sync
+        ChangeNotifierProvider(create: (context) => ContentProvider()), // <-- Added for dynamic content
+        ChangeNotifierProvider(create: (context) => AuthProvider()), // <-- Added for API authentication
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {
@@ -127,7 +136,17 @@ class MyApp extends StatelessWidget {
                   ),
                 );
               }
-              return MaterialApp(
+              
+              return Consumer<ContentProvider>(
+                builder: (context, contentProvider, child) {
+                  // Sync content with theme when content is loaded
+                  if (contentProvider.hasContent && !contentProvider.isLoading) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      themeProvider.loadColorsFromContent();
+                    });
+                  }
+                  
+                  return MaterialApp(
                 navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
                 localizationsDelegates: [
@@ -224,6 +243,11 @@ class MyApp extends StatelessWidget {
                   '/admin/brands': (context) => const BrandsPage(),
                   '/admin/prices': (context) => const PricesPage(),
                   '/admin/orders': (context) => const OrdersPage(),
+                  '/admin/content': (context) => const AdminContentManagementPage(),
+                  '/admin/content-test': (context) => const ContentTestWidget(),
+                  '/debug/images': (context) => const ImageDebugPage(),
+                },
+              );
                 },
               );
             },

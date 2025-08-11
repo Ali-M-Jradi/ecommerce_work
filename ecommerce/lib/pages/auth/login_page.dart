@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/utils/localization_helper.dart';
 import 'package:ecommerce/utils/auth_localizations.dart';
-import 'package:ecommerce/providers/user_provider.dart';
+import 'package:ecommerce/services/auth_service.dart';
+import 'auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -111,30 +112,76 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     // Haptic feedback
     HapticFeedback.lightImpact();
 
-    // Simulate login delay
-    await Future.delayed(Duration(seconds: 2));
-
-    // Get the user's email from the controller
+    // Get form data
     final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
 
-    // Update user provider with logged in user
-    Provider.of<UserProvider>(context, listen: false).login(email);
+    // Attempt login using AuthProvider (includes automatic URL testing and fallback)
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final success = await authProvider.login(email, password);
 
     setState(() {
       _isLoading = false;
     });
 
-    // Navigate to home page
-    Navigator.pushReplacementNamed(context, '/');
+    if (success) {
+      // Navigate to home page on success
+      Navigator.pushReplacementNamed(context, '/');
 
-    // Show success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AuthLocalizations.loginSuccessful(context)),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AuthLocalizations.loginSuccessful(context)),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } else {
+      // Determine error type and show appropriate message
+      String errorMessage;
+      Color backgroundColor;
+      
+      final error = authProvider.error ?? '';
+      
+      // Check for specific error types
+      if (error.toLowerCase().contains('unauthorized') || 
+          error.toLowerCase().contains('invalid credentials') ||
+          error.toLowerCase().contains('wrong password') ||
+          error.toLowerCase().contains('incorrect') ||
+          error.contains('401')) {
+        errorMessage = '❌ Incorrect credentials: Please check your email and password';
+        backgroundColor = Colors.orange.shade600;
+      } else if (error.toLowerCase().contains('connection') ||
+                 error.toLowerCase().contains('network') ||
+                 error.toLowerCase().contains('timeout') ||
+                 error.toLowerCase().contains('server') ||
+                 error.toLowerCase().contains('unreachable') ||
+                 error.contains('500') ||
+                 error.contains('502') ||
+                 error.contains('503')) {
+        errorMessage = '🌐 Connection error: Cannot reach server. Please check your internet connection';
+        backgroundColor = Colors.red.shade700;
+      } else if (error.isEmpty) {
+        errorMessage = '⚠️ Login failed: Unknown error occurred';
+        backgroundColor = Colors.grey.shade600;
+      } else {
+        errorMessage = '⚠️ Error: $error';
+        backgroundColor = Colors.red.shade600;
+      }
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: backgroundColor,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 4),
+        ),
+      );
+      
+      // Also log the error for debugging
+      print('LOGIN ERROR: $error');
+      print('LOGIN ERROR TYPE: ${error.toLowerCase().contains('unauthorized') ? 'CREDENTIALS' : 'CONNECTION'}');
+    }
   }
 
   @override
@@ -437,6 +484,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 // Login button
                 _buildLoginButton(),
 
+                SizedBox(height: 15),
+
+                // Connection test button (debug only)
+                _buildConnectionTestButton(),
+
                 SizedBox(height: 25),
 
                 // Divider
@@ -655,6 +707,62 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   color: Colors.white,
                 ),
               ),
+      ),
+    );
+  }
+
+  Widget _buildConnectionTestButton() {
+    return Container(
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: TextButton(
+        onPressed: () async {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('🔍 Testing connection to server...'),
+              backgroundColor: Colors.blue.shade600,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
+            ),
+          );
+          
+          // Run the connection debug
+          await AuthService.debugConnection();
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('✅ Connection test complete - check console for details'),
+              backgroundColor: Colors.green.shade600,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 3),
+            ),
+          );
+        },
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.wifi_find, color: Colors.grey.shade600, size: 16),
+            SizedBox(width: 6),
+            Text(
+              'Test Connection',
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

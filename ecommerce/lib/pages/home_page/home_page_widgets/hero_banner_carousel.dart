@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:ecommerce/localization/app_localizations_helper.dart';
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import '../../../providers/content_provider.dart';
+import '../../../services/content_service.dart';
 
 class HeroBannerCarousel extends StatefulWidget {
   const HeroBannerCarousel({super.key});
@@ -13,6 +17,7 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
   Timer? _autoPlayTimer;
+  bool _bannersInitialized = false;
 
   // Banner data with featured product campaigns based on your website
   late List<Map<String, dynamic>> banners;
@@ -21,66 +26,28 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     
-    // Initialize banners with localized strings
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
-    banners = [
-      {
-        'title': AppLocalizationsHelper.of(context).laRochePosay,
-        'subtitle': AppLocalizationsHelper.of(context).laboratoireDermatologique,
-        'description': AppLocalizationsHelper.of(context).tolerianeEffaclar,
-        'buttonText': AppLocalizationsHelper.of(context).shopCollection,
-        'products': [
-          'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_267ad068.jpg',
-          'assets/images/WhatsApp Image 2025-07-01 at 12.15.01_33c0f20c.jpg',
-        ],
-        'backgroundColor': isDark ? colorScheme.primaryContainer : colorScheme.surface,
-        'textColor': isDark ? colorScheme.onPrimaryContainer : colorScheme.onSurface,
-        'subtitleColor': isDark ? colorScheme.onPrimary : colorScheme.onSurface.withOpacity(0.85),
-        'descColor': isDark ? colorScheme.onPrimary.withOpacity(0.8) : colorScheme.onSurface.withOpacity(0.7),
-        'buttonColor': isDark ? colorScheme.secondary : colorScheme.primary,
-        'action': () {
-          // Navigate to La Roche-Posay products
-        },
-      },
-      {
-        'title': AppLocalizationsHelper.of(context).dermocosmetique,
-        'subtitle': AppLocalizationsHelper.of(context).byPhMariam,
-        'description': AppLocalizationsHelper.of(context).premiumFrenchPharmacy,
-        'buttonText': AppLocalizationsHelper.of(context).exploreBrands,
-        'products': [
-          'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_1f1fc92c.jpg',
-          'assets/images/WhatsApp Image 2025-07-01 at 12.15.02_21a37162.jpg',
-        ],
-        'backgroundColor': isDark ? colorScheme.tertiaryContainer : colorScheme.secondaryContainer,
-        'textColor': isDark ? colorScheme.onTertiaryContainer : colorScheme.onSecondaryContainer,
-        'subtitleColor': isDark ? colorScheme.onTertiary : colorScheme.onSecondaryContainer.withOpacity(0.85),
-        'descColor': isDark ? colorScheme.onTertiary.withOpacity(0.8) : colorScheme.onSecondaryContainer.withOpacity(0.7),
-        'buttonColor': isDark ? colorScheme.primary : colorScheme.tertiary,
-        'action': () {
-          // Navigate to all products
-        },
-      },
-      {
-        'title': AppLocalizationsHelper.of(context).specialOffers,
-        'subtitle': AppLocalizationsHelper.of(context).limitedTimeOnly,
-        'description': AppLocalizationsHelper.of(context).specialOffersDesc,
-        'buttonText': AppLocalizationsHelper.of(context).viewOffers,
-        'products': [
-          'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
-          'assets/images/three_leaves.png',
-        ],
-        'backgroundColor': isDark ? colorScheme.surface : colorScheme.tertiaryContainer,
-        'textColor': isDark ? colorScheme.onSurface : colorScheme.onTertiaryContainer,
-        'subtitleColor': isDark ? colorScheme.onSurface : colorScheme.onTertiaryContainer.withOpacity(0.85),
-        'descColor': isDark ? colorScheme.onSurface.withOpacity(0.8) : colorScheme.onTertiaryContainer.withOpacity(0.7),
-        'buttonColor': isDark ? colorScheme.error : colorScheme.secondary,
-        'action': () {
-          // Navigate to offers page
-        },
-      },
-    ];
+    // Get dynamic carousel images from ContentProvider - ONLY use API images
+    final contentProvider = Provider.of<ContentProvider>(context, listen: false);
+    final dynamicImages = contentProvider.getCarouselImages();
+    
+    print('didChangeDependencies: Found ${dynamicImages.length} carousel images');
+    for (var img in dynamicImages) {
+      print('  - $img');
+    }
+    
+    // Initialize banners if not yet set
+    if (!_bannersInitialized) {
+      if (dynamicImages.isEmpty) {
+        banners = [];
+        print('No carousel images found, using empty banners');
+      } else {
+        banners = dynamicImages.map((imageUrl) => {
+          'imageUrl': imageUrl,
+        }).toList();
+        print('Initialized ${banners.length} banners from API images');
+      }
+      _bannersInitialized = true;
+    }
   }
 
   @override
@@ -124,402 +91,447 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 400,
-      width: double.infinity,
-      child: Stack(
-        children: [
-          // Page View for banners
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            itemCount: banners.length,
-            itemBuilder: (context, index) {
-              return _buildBannerSlide(context, banners[index]);
-            },
-          ),
-
-          // Navigation dots
-          Positioned(
-            bottom: 20,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                banners.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    _stopAutoPlay();
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.easeInOut,
-                    );
-                    _resumeAutoPlay();
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: _currentIndex == index ? 32 : 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: _currentIndex == index
-                          ? banners[_currentIndex]['buttonColor']
-                          : Color.alphaBlend(
-                              banners[_currentIndex]['buttonColor'].withAlpha((0.3 * 255).round()),
-                              Theme.of(context).colorScheme.surface,
-                            ),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                ),
-              ),
+    return Consumer<ContentProvider>(
+      builder: (context, contentProvider, child) {
+        // Rebuild when content changes and update banners dynamically
+        final dynamicImages = contentProvider.getCarouselImages();
+        
+        print('🔄 Consumer rebuild triggered');
+        print('📸 Found ${dynamicImages.length} carousel images:');
+        for (int i = 0; i < dynamicImages.length; i++) {
+          print('  ${i + 1}. ${dynamicImages[i]}');
+        }
+        
+        // Update banners when images change
+        if (dynamicImages.length != banners.length || 
+            (dynamicImages.isNotEmpty && banners.isEmpty)) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            setState(() {
+              // Recreate banners from new images
+              if (dynamicImages.isEmpty) {
+                banners = [];
+              } else {
+                banners = dynamicImages.map((imageUrl) => {
+                  'imageUrl': imageUrl,
+                }).toList();
+              }
+              
+              // Reset current index if needed
+              if (_currentIndex >= banners.length) {
+                _currentIndex = 0;
+              }
+            });
+          });
+        }
+        
+        // If no banners (no API images), show a placeholder or empty container
+        if (banners.isEmpty) {
+          return Container(
+            height: 400,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(12),
             ),
-          ),
-
-          // Manual navigation arrows
-          Positioned(
-            left: 16,
-            top: 0,
-            bottom: 0,
             child: Center(
-              child: GestureDetector(
-                onTap: () {
-                  _stopAutoPlay();
-                  if (_currentIndex > 0) {
-                    _pageController.previousPage(
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.easeInOut,
-                    );
-                  } else {
-                    _pageController.animateToPage(
-                      banners.length - 1,
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.easeInOut,
-                    );
-                  }
-                  _resumeAutoPlay();
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Color.alphaBlend(Colors.black.withAlpha((0.3 * 255).round()), Theme.of(context).colorScheme.surface),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.chevron_left,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            right: 16,
-            top: 0,
-            bottom: 0,
-            child: Center(
-              child: GestureDetector(
-                onTap: () {
-                  _stopAutoPlay();
-                  if (_currentIndex < banners.length - 1) {
-                    _pageController.nextPage(
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.easeInOut,
-                    );
-                  } else {
-                    _pageController.animateToPage(
-                      0,
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.easeInOut,
-                    );
-                  }
-                  _resumeAutoPlay();
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Color.alphaBlend(Colors.black.withAlpha((0.3 * 255).round()), Theme.of(context).colorScheme.surface),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.chevron_right,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBannerSlide(BuildContext context, Map<String, dynamic> banner) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
-    return Container(
-      decoration: BoxDecoration(
-        color: banner['backgroundColor'],
-      ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          bool isSmallScreen = constraints.maxWidth < 600;
-          if (isSmallScreen) {
-            return SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          banner['title'],
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: banner['textColor'],
-                            letterSpacing: 1,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          banner['subtitle'],
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: banner['subtitleColor'],
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          banner['description'],
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: banner['descColor'],
-                            height: 1.4,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: banner['action'],
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: banner['buttonColor'],
-                            foregroundColor: banner['backgroundColor'],
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 10,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            elevation: 0,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                banner['buttonText'],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: banner['backgroundColor'],
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              Icon(
-                                Icons.chevron_right,
-                                size: 14,
-                                color: banner['backgroundColor'],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                  Icon(
+                    Icons.image_not_supported,
+                    size: 64,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No carousel images available',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
+                      fontSize: 16,
                     ),
                   ),
-                  if (banner['products'] != null && banner['products'].isNotEmpty)
-                    Container(
-                      height: 120,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: banner['products'].take(2).map<Widget>((product) => 
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 8),
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: isDark
-                                      ? Color.alphaBlend(Colors.black.withAlpha((0.18 * 255).round()), colorScheme.surface)
-                                      : Color.alphaBlend(Colors.black.withAlpha((0.08 * 255).round()), colorScheme.surface),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                product,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ).toList(),
-                      ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Add images via Content Management',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+                      fontSize: 14,
                     ),
+                  ),
                 ],
               ),
-            );
-          } else {
-            return Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (banner['products'] != null && banner['products'].isNotEmpty)
-                          ...banner['products'].take(2).map<Widget>((product) => 
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              width: 120,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surface,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: isDark
-                                        ? Color.alphaBlend(Colors.black.withAlpha((0.18 * 255).round()), colorScheme.surface)
-                                        : Color.alphaBlend(Colors.black.withAlpha((0.08 * 255).round()), colorScheme.surface),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.asset(
-                                  product,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ).toList(),
-                      ],
+            ),
+          );
+        }
+        
+        return SizedBox(
+          height: 400,
+          width: double.infinity,
+          child: Stack(
+            children: [
+              // Page View for banners
+              PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                itemCount: banners.length,
+                itemBuilder: (context, index) {
+                  return _buildBannerSlide(context, banners[index]);
+                },
+              ),
+
+              // Simple navigation dots
+              Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    banners.length,
+                    (index) => GestureDetector(
+                      onTap: () {
+                        _stopAutoPlay();
+                        _pageController.animateToPage(
+                          index,
+                          duration: const Duration(milliseconds: 350),
+                          curve: Curves.easeInOut,
+                        );
+                        _resumeAutoPlay();
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        width: _currentIndex == index ? 24 : 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: _currentIndex == index
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    padding: const EdgeInsets.all(32),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            banner['title'],
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: banner['textColor'],
-                              letterSpacing: 1,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
+              ),
+
+              // Simple navigation arrows (only show if we have multiple banners)
+              if (banners.length > 1) ...[
+                Positioned(
+                  left: 16,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        _stopAutoPlay();
+                        if (_currentIndex > 0) {
+                          _pageController.previousPage(
+                            duration: const Duration(milliseconds: 350),
+                            curve: Curves.easeInOut,
+                          );
+                        } else {
+                          _pageController.animateToPage(
+                            banners.length - 1,
+                            duration: const Duration(milliseconds: 350),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                        _resumeAutoPlay();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        const SizedBox(height: 8),
-                        Flexible(
-                          child: Text(
-                            banner['subtitle'],
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: banner['subtitleColor'],
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
+                        child: const Icon(
+                          Icons.chevron_left,
+                          color: Colors.white,
+                          size: 24,
                         ),
-                        const SizedBox(height: 20),
-                        Flexible(
-                          child: Text(
-                            banner['description'],
-                            style: TextStyle(
-                              height: 1.5,
-                              color: banner['descColor'],
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                          ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  right: 16,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        _stopAutoPlay();
+                        if (_currentIndex < banners.length - 1) {
+                          _pageController.nextPage(
+                            duration: const Duration(milliseconds: 350),
+                            curve: Curves.easeInOut,
+                          );
+                        } else {
+                          _pageController.animateToPage(
+                            0,
+                            duration: const Duration(milliseconds: 350),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                        _resumeAutoPlay();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        const SizedBox(height: 30),
-                        ElevatedButton(
-                          onPressed: banner['action'],
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: banner['buttonColor'],
-                            foregroundColor: banner['backgroundColor'],
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            elevation: 0,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                banner['buttonText'],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: banner['backgroundColor'],
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              Icon(
-                                Icons.chevron_right,
-                                size: 16,
-                                color: banner['backgroundColor'],
-                              ),
-                            ],
-                          ),
+                        child: const Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                          size: 24,
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ],
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBannerSlide(BuildContext context, Map<String, dynamic> banner) {
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: _buildCarouselImage(banner['imageUrl']),
+      ),
+    );
+  }
+
+  /// Build carousel image - loads from API endpoint with HTTP client to avoid HandshakeException
+  Widget _buildCarouselImage(String imagePath) {
+    // Debug output
+    print('🖼️ Building carousel image for: $imagePath');
+    
+    // Check if it's a network image (API filename) or empty
+    if (imagePath.isNotEmpty) {
+      // Use your API's image URL structure
+      final imageUrl = imagePath.contains('http') 
+          ? imagePath  // Full URL
+          : '${ContentService.imageBaseUrl}$imagePath'; // Construct URL from filename
+      
+      print('🌐 Final image URL: $imageUrl'); // Debug log
+      
+      // Use FutureBuilder with custom HTTP client to avoid HandshakeException
+      return FutureBuilder<Uint8List?>(
+        future: _loadImageBytes(imageUrl),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              color: Theme.of(context).colorScheme.surface,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Loading image...',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      imagePath.split('_').last, // Show filename
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else if (snapshot.hasError || !snapshot.hasData) {
+            print('❌ Error loading image: $imageUrl - Error: ${snapshot.error}'); // Debug log
+            
+            // Fallback to placeholder on error
+            return Container(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.broken_image,
+                      size: 64,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Image not available',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Check server connection',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'URL: $imageUrl',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Error: ${snapshot.error ?? 'Unknown'}',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Theme.of(context).colorScheme.error.withOpacity(0.6),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            print('✅ Successfully loaded image: $imageUrl (${snapshot.data!.length} bytes)');
+            
+            // Successfully loaded image bytes
+            return Image.memory(
+              snapshot.data!,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+              errorBuilder: (context, error, stackTrace) {
+                print('❌ Image.memory error: $error');
+                return Container(
+                  color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error,
+                          size: 64,
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Memory loading error',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             );
           }
         },
-      ),
-    );
+      );
+    } else {
+      // Empty image placeholder
+      return Container(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.image_not_supported,
+                size: 64,
+                color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No image specified',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  /// Load image bytes using HTTP client (avoids HandshakeException for localhost)
+  Future<Uint8List?> _loadImageBytes(String imageUrl) async {
+    print('🚀 Starting image load: $imageUrl');
+    
+    try {
+      // Create a new client for each request
+      final client = http.Client();
+      
+      print('📡 Sending HTTP GET request...');
+      
+      final response = await client.get(
+        Uri.parse(imageUrl),
+        headers: {
+          'Accept': 'image/*',
+          'User-Agent': 'Flutter App/1.0',
+        },
+      ).timeout(const Duration(seconds: 15));
+      
+      client.close();
+      
+      print('📊 Response status: ${response.statusCode}');
+      print('📝 Response headers: ${response.headers}');
+      print('📏 Response body length: ${response.bodyBytes.length} bytes');
+      
+      if (response.statusCode == 200) {
+        print('✅ Successfully loaded image: $imageUrl (${response.bodyBytes.length} bytes)');
+        return response.bodyBytes;
+      } else {
+        print('❌ HTTP Error: Status ${response.statusCode}');
+        print('❌ Response body: ${response.body}');
+        return null;
+      }
+      
+    } on http.ClientException catch (e) {
+      print('❌ HTTP Client Exception: $e');
+      return null;
+    } on FormatException catch (e) {
+      print('❌ URL Format Exception: $e');
+      return null;
+    } on TimeoutException catch (e) {
+      print('❌ Timeout Exception: $e (URL: $imageUrl)');
+      return null;
+    } catch (e, stackTrace) {
+      print('❌ Unexpected Exception loading image: $imageUrl');
+      print('❌ Error: $e');
+      print('❌ Stack trace: $stackTrace');
+      return null;
+    }
   }
 }

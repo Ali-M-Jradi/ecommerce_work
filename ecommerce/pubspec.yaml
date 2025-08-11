@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   provider: ^6.1.2
   intl: ^0.20.2
+  http: ^1.2.0
   firebase_core: ^4.0.0
   firebase_messaging: ^16.0.0
   flutter_local_notifications: ^19.4.0 # Downgraded to avoid bigLargeIcon ambiguity

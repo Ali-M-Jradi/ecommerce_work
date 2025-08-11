@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../localization/app_localizations_helper.dart';
 import '../../../providers/language_provider.dart';
 import '../../../providers/mock_notification_provider.dart';
-
-import '../../../providers/user_provider.dart';
+import '../../auth/auth_provider.dart'; // Use AuthProvider instead
 import '../../../providers/category_provider.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -25,12 +24,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         padding: EdgeInsets.zero,
         children: [
           // User Profile Header
-          Consumer<UserProvider>(
-            builder: (context, userProvider, _) {
-              final bool isLoggedIn = userProvider.isLoggedIn;
+          Consumer<AuthProvider>(
+            builder: (context, authProvider, _) {
+              final bool isLoggedIn = authProvider.isLoggedIn;
               final String displayEmail = isLoggedIn 
-                ? userProvider.currentUser!.email 
+                ? authProvider.user?.email ?? 'User'
                 : AppLocalizationsHelper.of(context).notLoggedIn;
+              
+              // Extract admin name from email (part before @)
+              final String displayName = isLoggedIn && authProvider.user?.email != null
+                ? authProvider.user!.email.split('@')[0] // Get the part before @
+                : authProvider.user?.name ?? 'Guest';
+              
               final colorScheme = Theme.of(context).colorScheme;
               return DrawerHeader(
                 decoration: BoxDecoration(
@@ -39,31 +44,58 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: colorScheme.surface,
-                      child: Icon(
-                        isLoggedIn ? Icons.person : Icons.person_outline,
-                        size: 35,
-                        color: colorScheme.primary,
+                    GestureDetector(
+                      onTap: isLoggedIn ? () {
+                        Navigator.of(context).pop(); // Close drawer first
+                        Navigator.of(context).pushNamed('/profile');
+                      } : null,
+                      child: CircleAvatar(
+                        radius: 30,
+                        backgroundColor: colorScheme.surface,
+                        child: Text(
+                          isLoggedIn && displayName.isNotEmpty 
+                            ? displayName.substring(0, 1).toUpperCase()
+                            : 'G',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.primary,
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      isLoggedIn 
-                        ? AppLocalizationsHelper.welcomeUser(context, userProvider.currentUser!.displayName) 
-                        : AppLocalizationsHelper.of(context).welcome,
-                      style: TextStyle(
-                        color: colorScheme.onPrimary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    GestureDetector(
+                      onTap: isLoggedIn ? () {
+                        Navigator.of(context).pop(); // Close drawer first
+                        Navigator.of(context).pushNamed('/profile');
+                      } : null,
+                      child: Text(
+                        isLoggedIn 
+                          ? 'Welcome, $displayName'
+                          : AppLocalizationsHelper.of(context).welcome,
+                        style: TextStyle(
+                          color: colorScheme.onPrimary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Text(
-                      displayEmail,
-                      style: TextStyle(
-                        color: colorScheme.onPrimary.withOpacity(0.7),
-                        fontSize: 14,
+                    GestureDetector(
+                      onTap: isLoggedIn ? () {
+                        Navigator.of(context).pop(); // Close drawer first
+                        Navigator.of(context).pushNamed('/profile');
+                      } : null,
+                      child: Text(
+                        displayEmail,
+                        style: TextStyle(
+                          color: colorScheme.onPrimary.withOpacity(0.7),
+                          fontSize: 14,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
@@ -201,13 +233,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           
           // Profile Page - Only shown when logged in
-          Consumer<UserProvider>(
-            builder: (context, userProvider, _) {
-              return userProvider.isLoggedIn
+          Consumer<AuthProvider>(
+            builder: (context, authProvider, _) {
+              return authProvider.isLoggedIn
                 ? ListTile(
                     leading: Icon(Icons.person, color: Theme.of(context).colorScheme.primary),
                     title: Text(AppLocalizationsHelper.of(context).myProfile),
                     onTap: () {
+                      Navigator.of(context).pop(); // Close drawer first
                       Navigator.of(context).pushNamed('/profile');
                     },
                   )
@@ -216,31 +249,33 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           
           // Login/Logout based on user status
-          Consumer<UserProvider>(
-            builder: (context, userProvider, _) {
+          Consumer<AuthProvider>(
+            builder: (context, authProvider, _) {
               return ListTile(
                 leading: Icon(
-                  userProvider.isLoggedIn ? Icons.logout : Icons.login,
+                  authProvider.isLoggedIn ? Icons.logout : Icons.login,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: Text(
-                  userProvider.isLoggedIn 
+                  authProvider.isLoggedIn 
                     ? AppLocalizationsHelper.logout(context) 
                     : AppLocalizationsHelper.loginRegister(context)
                 ),
-                onTap: () {
-                  if (userProvider.isLoggedIn) {
+                onTap: () async {
+                  if (authProvider.isLoggedIn) {
                     // Log the user out
-                    userProvider.logout();
+                    await authProvider.logout();
                     
                     // Show success message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppLocalizationsHelper.logoutSuccessful(context)),
-                        backgroundColor: Colors.green,
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(AppLocalizationsHelper.logoutSuccessful(context)),
+                          backgroundColor: Colors.green,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    }
                   } else {
                     // Navigate to login page
                     Navigator.of(context).pushNamed('/login');

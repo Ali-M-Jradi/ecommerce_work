@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/utils/localization_helper.dart';
-import 'package:ecommerce/providers/user_provider.dart';
+import 'package:ecommerce/pages/auth/auth_provider.dart'; // Use AuthProvider
 import 'package:ecommerce/providers/language_provider.dart';
 import 'package:ecommerce/l10n/app_localizations.dart';
+import 'package:ecommerce/services/auth_service.dart'; // Import User model
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -108,17 +109,26 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     super.dispose();
   }
 
+  // Helper method to format dates
+  String _formatDate(DateTime date) {
+    final months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return '${months[date.month - 1]} ${date.day}, ${date.year}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final isRTL = LocalizationHelper.isRTL(context);
     
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Consumer<UserProvider>(
-        builder: (context, userProvider, _) {
-          final user = userProvider.currentUser;
+      body: Consumer<AuthProvider>(
+        builder: (context, authProvider, _) {
+          final user = authProvider.user;
           
-          if (user == null) {
+          if (user == null || !authProvider.isLoggedIn) {
             // Redirect to login if not logged in
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushReplacementNamed(context, '/login');
@@ -213,26 +223,41 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
 
   Widget _buildProfileHeader(User user) {
     final colorScheme = Theme.of(context).colorScheme;
+    
+    // Extract admin name from email (part before @)
+    final String adminName = user.email.isNotEmpty 
+      ? user.email.split('@')[0] 
+      : user.name.isNotEmpty 
+        ? user.name 
+        : 'Admin';
+    
     return FadeTransition(
       opacity: _fadeAnimation,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           children: [
-            // Profile Avatar
+            // Profile Avatar with admin name initial
             Container(
               width: 100,
               height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: colorScheme.surface.withOpacity(0.2),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.deepPurple.shade400,
+                    Colors.deepPurple.shade700,
+                  ],
+                ),
                 border: Border.all(
-                  color: colorScheme.onSurface,
+                  color: Colors.white,
                   width: 3,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: colorScheme.shadow.withOpacity(0.1),
+                    color: colorScheme.shadow.withOpacity(0.3),
                     blurRadius: 15,
                     spreadRadius: 5,
                   ),
@@ -240,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               ),
               child: Center(
                 child: Text(
-                  user.displayName.substring(0, 1).toUpperCase(),
+                  adminName.isNotEmpty ? adminName.substring(0, 1).toUpperCase() : 'A',
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -250,13 +275,31 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               ),
             ),
             const SizedBox(height: 16),
-            // User Name
+            // Admin Name (extracted from email)
             Text(
-              user.displayName,
+              adminName,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 4),
+            // Admin label
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                'Administrator',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white.withOpacity(0.9),
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1,
+                ),
               ),
             ),
             const SizedBox(height: 8),
@@ -323,6 +366,13 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   Widget _buildPersonalInfoSection(User user) {
     final localizations = AppLocalizations.of(context)!;
     
+    // Extract admin name from email (part before @)
+    final String adminName = user.email.isNotEmpty 
+      ? user.email.split('@')[0] 
+      : user.name.isNotEmpty 
+        ? user.name 
+        : 'Admin';
+    
     return SlideTransition(
       position: _slideAnimation,
       child: Container(
@@ -347,9 +397,13 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildInfoRow(localizations.profileDisplayName, user.displayName),
+                  _buildInfoRow('Admin Name', adminName),
+                  _buildInfoRow('Full Name', user.name.isNotEmpty ? user.name : adminName),
                   _buildInfoRow(localizations.email, user.email),
-                  _buildInfoRow(localizations.profilePhone, '+1 (555) 123-4567'), // Placeholder
+                  _buildInfoRow('Role', 'Administrator'),
+                  _buildInfoRow('Status', 'Active'),
+                  if (user.createdAt != null)
+                    _buildInfoRow('Member Since', _formatDate(user.createdAt!)),
                 ],
               ),
             ),
@@ -621,9 +675,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                       _buildActionButton(
                         localizations.logout,
                         Icons.exit_to_app,
-                        () {
+                        () async {
                           // Handle logout
-                          Provider.of<UserProvider>(context, listen: false).logout();
+                          final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                          await authProvider.logout();
                           Navigator.pushReplacementNamed(context, '/');
                         },
                         color: Colors.red.shade400,
