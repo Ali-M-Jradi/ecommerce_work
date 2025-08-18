@@ -1,6 +1,7 @@
 import 'package:ecommerce/models/admin/customization_settings.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'dart:convert';
 
 class SettingsService {
   static final SettingsService instance = SettingsService._internal();
@@ -33,9 +34,11 @@ class SettingsService {
 
   Future<void> saveCustomizationSettings(CustomizationSettings settings) async {
     final db = await database;
+    final jsonData = jsonEncode(settings.toJson()); // Properly serialize JSON
+    print('[SettingsService] Saving settings: $jsonData');
     await db.insert(
       'customization_settings',
-      {'key': 'customization', 'value': settings.toJson().toString()},
+      {'key': 'customization', 'value': jsonData},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -49,10 +52,17 @@ class SettingsService {
       limit: 1,
     );
     if (result.isNotEmpty) {
-      final value = result.first['value'] as String;
-      // Parse the string to Map
-      final Map<String, dynamic> map = _parseStringToMap(value);
-      return CustomizationSettings.fromJson(map);
+      try {
+        final jsonData = jsonDecode(result.first['value'] as String);
+        print('[SettingsService] Loaded settings: $jsonData');
+        return CustomizationSettings.fromJson(jsonData);
+      } catch (e) {
+        print('[SettingsService] Error parsing settings: $e');
+        // Fallback to old parsing method if needed
+        final value = result.first['value'] as String;
+        final Map<String, dynamic> map = _parseStringToMap(value);
+        return CustomizationSettings.fromJson(map);
+      }
     }
     return null;
   }

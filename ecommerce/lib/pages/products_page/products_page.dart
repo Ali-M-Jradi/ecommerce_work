@@ -51,6 +51,8 @@ class _ProductsPageState extends State<ProductsPage> with ScanHistoryMixin, Unif
         _controller.focusSearch();
       });
     }
+    
+    // ProductProvider automatically loads demo products at initialization
   }
 
   // Use showScanOptionsModal from UnifiedScanFabMixin

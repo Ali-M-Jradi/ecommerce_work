@@ -122,9 +122,9 @@ class AuthService {
     final client = _createHttpClient();
     final List<String> testUrls = [
       'https://localhost:7184/api',
-      'http://localhost:89/api',
+      'http://localhost:3000/api',
       'https://localhost:7184',
-      'http://localhost:89',
+      'http://localhost:3000',
     ];
     
     String results = 'Connection Test Results:\n\n';

@@ -69,7 +69,7 @@ class ContentTestWidget extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text('Total Items: ${contentProvider.items.length}'),
                         Text('Has Content: ${contentProvider.hasContent}'),
-                        Text('API Endpoint: http://localhost:89/api/site-content'),
+                        Text('API Endpoint: https://localhost:7184/api/site-content'),
                         const SizedBox(height: 8),
                         Container(
                           padding: const EdgeInsets.all(8),
@@ -228,7 +228,7 @@ class ContentTestWidget extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'URL: http://localhost:89/images/$image',
+                                  'URL: https://localhost:7184/images/$image',
                                   style: TextStyle(
                                     fontSize: 10,
                                     color: Theme.of(context).colorScheme.primary,

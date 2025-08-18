@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/brand_provider.dart';
 import '../../models/brand.dart';
+import '../../utils/app_colors.dart';
 
 class BrandsPage extends StatefulWidget {
   const BrandsPage({super.key});
@@ -57,12 +58,35 @@ class _BrandsPageState extends State<BrandsPage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showBrandModal(context),
-        icon: const Icon(Icons.add),
-        label: const Text('Add Brand'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+            ),
+          ],
+        ),
+        child: FloatingActionButton.extended(
+          onPressed: () => _showBrandModal(context),
+          icon: Icon(Icons.store_mall_directory, size: 24),
+          label: Text(
+            'Add Brand',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              letterSpacing: 0.5,
+            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          elevation: 8,
+          highlightElevation: 12,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+        ),
       ),
     );
   }
@@ -228,18 +252,18 @@ class _BrandsPageState extends State<BrandsPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: brand.isActive 
-                          ? Colors.green.withOpacity(0.1)
-                          : Colors.red.withOpacity(0.1),
+                          ? AppColors.success(context).withOpacity(0.1)
+                          : AppColors.error(context).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: brand.isActive ? Colors.green : Colors.red,
+                        color: brand.isActive ? AppColors.success(context) : AppColors.error(context),
                         width: 1,
                       ),
                     ),
                     child: Text(
                       brand.isActive ? 'Active' : 'Inactive',
                       style: TextStyle(
-                        color: brand.isActive ? Colors.green.shade700 : Colors.red.shade700,
+                        color: brand.isActive ? AppColors.success(context) : AppColors.error(context),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),

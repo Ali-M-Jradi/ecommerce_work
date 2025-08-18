@@ -360,7 +360,7 @@ class _BasePageState extends State<BasePage> {
                   ),
                 ),
               // Main content
-              Expanded(child: HomePage()),
+              Expanded(child: const HomePage()),
             ],
           );
         },

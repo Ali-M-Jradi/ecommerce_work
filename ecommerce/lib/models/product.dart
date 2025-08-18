@@ -41,16 +41,32 @@ class Product {
 
   // Extract a Product object from a Map.
   factory Product.fromMap(Map<String, dynamic> map) {
+    // Helper function to extract localized string
+    String getLocalizedString(dynamic value, [String defaultLang = 'en']) {
+      if (value is String) {
+        return value;
+      } else if (value is Map) {
+        // Try to get English first, then Arabic, then any available language
+        return value[defaultLang] ?? 
+               value['ar'] ?? 
+               value.values.first?.toString() ?? 
+               '';
+      }
+      return value?.toString() ?? '';
+    }
+
     return Product(
-      id: map['id'].toString(),
-      name: map['name'],
-      price: map['price'] is int ? (map['price'] as int).toDouble() : map['price'],
-      image: map['image'],
-      brand: map['brand'],
-      category: map['category'],
-      description: map['description'],
-      size: map['size'],
-      rating: map['rating'] is int ? (map['rating'] as int).toDouble() : map['rating'],
+      id: map['id']?.toString() ?? '',
+      name: getLocalizedString(map['name']),
+      price: map['price'] is int ? (map['price'] as int).toDouble() : 
+             double.tryParse(map['price']?.toString() ?? '0') ?? 0.0,
+      image: map['image']?.toString() ?? '',
+      brand: map['brand']?.toString() ?? '',
+      category: map['category']?.toString() ?? '',
+      description: getLocalizedString(map['description']),
+      size: map['size']?.toString() ?? '',
+      rating: map['rating'] is int ? (map['rating'] as int).toDouble() : 
+              double.tryParse(map['rating']?.toString() ?? '0') ?? 0.0,
       soldOut: map['soldOut'] ?? false,
     );
   }

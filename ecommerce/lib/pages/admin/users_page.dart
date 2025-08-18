@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/admin_user_provider.dart';
 import '../../models/user.dart';
+import '../../utils/app_colors.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -53,9 +54,35 @@ class _UsersPageState extends State<UsersPage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showUserModal(context),
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary(context).withOpacity(0.3),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+            ),
+          ],
+        ),
+        child: FloatingActionButton.extended(
+          onPressed: () => _showUserModal(context),
+          backgroundColor: AppColors.primary(context),
+          foregroundColor: Colors.white,
+          elevation: 8,
+          highlightElevation: 12,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+          icon: Icon(Icons.person_add, size: 24),
+          label: Text(
+            'Add User',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -354,144 +381,190 @@ class _UsersPageState extends State<UsersPage> {
                   )
                 : SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: const [
-                        DataColumn(label: Text('User')),
-                        DataColumn(label: Text('Email')),
-                        DataColumn(label: Text('Role')),
-                        DataColumn(label: Text('Status')),
-                        DataColumn(label: Text('Last Login')),
-                        DataColumn(label: Text('Created')),
-                        DataColumn(label: Text('Actions')),
-                      ],
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+                      child: DataTable(
+                        columnSpacing: 16,
+                        headingRowHeight: 48,
+                        dataRowMinHeight: 56,
+                        dataRowMaxHeight: 72,
+                        columns: const [
+                          DataColumn(label: Text('User', overflow: TextOverflow.ellipsis)),
+                          DataColumn(label: Text('Email', overflow: TextOverflow.ellipsis)),
+                          DataColumn(label: Text('Role', overflow: TextOverflow.ellipsis)),
+                          DataColumn(label: Text('Status', overflow: TextOverflow.ellipsis)),
+                          DataColumn(label: Text('Last Login', overflow: TextOverflow.ellipsis)),
+                          DataColumn(label: Text('Created', overflow: TextOverflow.ellipsis)),
+                          DataColumn(label: Text('Actions', overflow: TextOverflow.ellipsis)),
+                        ],
                       rows: filteredUsers.map((user) => DataRow(
                         cells: [
                           DataCell(
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CircleAvatar(
-                                  radius: 16,
-                                  backgroundColor: Theme.of(context).colorScheme.primary,
-                                  child: Text(
-                                    user.initials,
-                                    style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onPrimary,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 180),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 16,
+                                    backgroundColor: Theme.of(context).colorScheme.primary,
+                                    child: Text(
+                                      user.initials,
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.onPrimary,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        user.fullName,
-                                        style: const TextStyle(fontWeight: FontWeight.w500),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      if (user.phoneNumber != null)
+                                  const SizedBox(width: 8),
+                                  Flexible(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
                                         Text(
-                                          user.phoneNumber!,
-                                          style: Theme.of(context).textTheme.bodySmall,
+                                          user.fullName,
+                                          style: const TextStyle(fontWeight: FontWeight.w500),
                                           overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                         ),
-                                    ],
+                                        if (user.phoneNumber != null)
+                                          Text(
+                                            user.phoneNumber!,
+                                            style: Theme.of(context).textTheme.bodySmall,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          DataCell(
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    user.email,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                if (user.emailVerified)
-                                  Icon(
-                                    Icons.verified,
-                                    size: 16,
-                                    color: Colors.green,
-                                  ),
-                              ],
-                            ),
-                          ),
-                          DataCell(
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: _getRoleColor(user.role),
-                                borderRadius: BorderRadius.circular(12),
+                                ],
                               ),
+                            ),
+                          ),
+                          DataCell(
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 200),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      user.email,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  if (user.emailVerified)
+                                    Icon(
+                                      Icons.verified,
+                                      size: 16,
+                                      color: Colors.green,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 100),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: _getRoleColor(user.role),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  user.roleDisplayName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 100),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: _getStatusColor(user.status),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  user.statusDisplayName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 120),
                               child: Text(
-                                user.roleDisplayName,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                user.lastLoginAt != null
+                                    ? _formatDate(user.lastLoginAt!)
+                                    : 'Never',
+                                style: Theme.of(context).textTheme.bodySmall,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                             ),
                           ),
                           DataCell(
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: _getStatusColor(user.status),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 120),
                               child: Text(
-                                user.statusDisplayName,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                _formatDate(user.createdAt),
+                                style: Theme.of(context).textTheme.bodySmall,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                             ),
                           ),
                           DataCell(
-                            Text(
-                              user.lastLoginAt != null
-                                  ? _formatDate(user.lastLoginAt!)
-                                  : 'Never',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ),
-                          DataCell(
-                            Text(
-                              _formatDate(user.createdAt),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ),
-                          DataCell(
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit, size: 18),
-                                  onPressed: () => _showUserModal(context, user: user),
-                                  tooltip: 'Edit',
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete, size: 18),
-                                  onPressed: () => _showDeleteConfirmation(context, user, provider),
-                                  tooltip: 'Delete',
-                                ),
-                              ],
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 100),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, size: 18),
+                                    onPressed: () => _showUserModal(context, user: user),
+                                    tooltip: 'Edit',
+                                    padding: const EdgeInsets.all(4),
+                                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, size: 18),
+                                    onPressed: () => _showDeleteConfirmation(context, user, provider),
+                                    tooltip: 'Delete',
+                                    padding: const EdgeInsets.all(4),
+                                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       )).toList(),
+                      ),
                     ),
                   ),
           ),
@@ -524,9 +597,12 @@ class _UsersPageState extends State<UsersPage> {
             title: Text(
               user.fullName,
               style: const TextStyle(fontWeight: FontWeight.w500),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
@@ -534,6 +610,7 @@ class _UsersPageState extends State<UsersPage> {
                       child: Text(
                         user.email,
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ),
                     if (user.emailVerified)
@@ -617,24 +694,24 @@ class _UsersPageState extends State<UsersPage> {
   Color _getRoleColor(UserRole role) {
     switch (role) {
       case UserRole.admin:
-        return Colors.red;
+        return AppColors.error(context);
       case UserRole.moderator:
-        return Colors.orange;
+        return AppColors.warning(context);
       case UserRole.customer:
-        return Colors.blue;
+        return AppColors.info(context);
     }
   }
 
   Color _getStatusColor(UserStatus status) {
     switch (status) {
       case UserStatus.active:
-        return Colors.green;
+        return AppColors.success(context);
       case UserStatus.inactive:
         return Colors.grey;
       case UserStatus.suspended:
-        return Colors.red;
+        return AppColors.error(context);
       case UserStatus.pending:
-        return Colors.orange;
+        return AppColors.warning(context);
     }
   }
 
@@ -756,6 +833,11 @@ class _UserFormDialogState extends State<_UserFormDialog> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height * 0.5,
+              ),
+              child: IntrinsicHeight(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -997,6 +1079,8 @@ class _UserFormDialogState extends State<_UserFormDialog> {
                   ],
                 ),
               ],
+            ),
+              ),
             ),
           ),
         ),

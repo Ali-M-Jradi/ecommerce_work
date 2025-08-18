@@ -72,6 +72,72 @@ class DatabaseHelper {
     print('[DatabaseHelper] No primary color found, returning null');
     return null;
   }
+
+  // Save user custom secondary color hex string
+  Future<void> setUserSecondaryColor(String? colorHex) async {
+    final db = await database;
+    print('[DatabaseHelper] Saving secondary color: $colorHex');
+    int count = await db.update(
+      'user_preferences',
+      {'value': colorHex ?? ''},
+      where: 'key = ?',
+      whereArgs: ['secondaryColor'],
+    );
+    if (count == 0) {
+      await db.insert(
+        'user_preferences',
+        {'key': 'secondaryColor', 'value': colorHex ?? ''},
+      );
+    }
+  }
+
+  // Get user custom secondary color hex string
+  Future<String?> getUserSecondaryColor() async {
+    final db = await database;
+    final result = await db.query(
+      'user_preferences',
+      where: 'key = ?',
+      whereArgs: ['secondaryColor'],
+      limit: 1,
+    );
+    if (result.isNotEmpty) {
+      return result.first['value'] as String?;
+    }
+    return null;
+  }
+
+  // Save user custom tertiary color hex string
+  Future<void> setUserTertiaryColor(String? colorHex) async {
+    final db = await database;
+    print('[DatabaseHelper] Saving tertiary color: $colorHex');
+    int count = await db.update(
+      'user_preferences',
+      {'value': colorHex ?? ''},
+      where: 'key = ?',
+      whereArgs: ['tertiaryColor'],
+    );
+    if (count == 0) {
+      await db.insert(
+        'user_preferences',
+        {'key': 'tertiaryColor', 'value': colorHex ?? ''},
+      );
+    }
+  }
+
+  // Get user custom tertiary color hex string
+  Future<String?> getUserTertiaryColor() async {
+    final db = await database;
+    final result = await db.query(
+      'user_preferences',
+      where: 'key = ?',
+      whereArgs: ['tertiaryColor'],
+      limit: 1,
+    );
+    if (result.isNotEmpty) {
+      return result.first['value'] as String?;
+    }
+    return null;
+  }
   // Save user language preference
   Future<void> setUserLanguage(String languageCode) async {
     final db = await database;

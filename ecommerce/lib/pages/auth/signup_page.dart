@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/utils/localization_helper.dart';
 import 'package:ecommerce/utils/auth_localizations.dart';
+import 'package:ecommerce/utils/app_colors.dart';
 import 'package:ecommerce/providers/user_provider.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -31,22 +32,37 @@ class _SignUpPageState extends State<SignUpPage>
   bool _agreeToTerms = false;
   int _currentBackgroundIndex = 0;
   
-  // Background colors for animated gradient - similar to login page
-  List<List<Color>> get _backgroundColors {
-    final colorScheme = Theme.of(context).colorScheme;
-    return [
-      [colorScheme.surface, colorScheme.surfaceContainerHighest],
-      [colorScheme.primary, colorScheme.secondary],
-      [colorScheme.secondary, colorScheme.primary],
-      [colorScheme.surface, colorScheme.surface],
+  // Background colors for animated gradient - theme-based like login page
+  List<List<Color>> _backgroundColors = [];
+
+  void _generateThemeBasedColors() {
+    final primaryColor = AppColors.primary(context);
+    final secondaryColor = AppColors.secondary(context);
+    final accentColor = AppColors.accent(context);
+    
+    // Create gradient variations based on theme colors
+    _backgroundColors = [
+      [primaryColor, secondaryColor],
+      [primaryColor.withOpacity(0.8), accentColor],
+      [secondaryColor, primaryColor.withOpacity(0.9)],
+      [accentColor.withOpacity(0.7), primaryColor],
     ];
   }
+
+  // Helper method to get consistent theme color
+  Color get _themeColor => AppColors.primary(context);
 
   @override
   void initState() {
     super.initState();
     _setupAnimations();
     _startBackgroundAnimation();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _generateThemeBasedColors();
   }
 
   void _setupAnimations() {
@@ -363,7 +379,7 @@ class _SignUpPageState extends State<SignUpPage>
         widthFactor: 0.7, // Simulate progress
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.deepPurpleAccent.shade700,
+            color: _themeColor,
             borderRadius: BorderRadius.circular(2),
           ),
         ),
@@ -529,7 +545,7 @@ class _SignUpPageState extends State<SignUpPage>
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon, 
-            color: Colors.deepPurpleAccent.shade700,
+            color: _themeColor,
             size: keyboardVisible ? 18 : 20, // Smaller icon when keyboard is visible
           ),
           suffixIcon: suffixIcon,
@@ -570,7 +586,7 @@ class _SignUpPageState extends State<SignUpPage>
                   _agreeToTerms = value ?? false;
                 });
               },
-              activeColor: Colors.deepPurpleAccent.shade700,
+              activeColor: _themeColor,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // More compact
             ),
           ),
@@ -588,7 +604,7 @@ class _SignUpPageState extends State<SignUpPage>
                   TextSpan(
                     text: AuthLocalizations.termsOfService(context),
                     style: TextStyle(
-                      color: Colors.deepPurpleAccent.shade700,
+                      color: _themeColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -596,7 +612,7 @@ class _SignUpPageState extends State<SignUpPage>
                   TextSpan(
                     text: AuthLocalizations.privacyPolicy(context),
                     style: TextStyle(
-                      color: Colors.deepPurpleAccent.shade700,
+                      color: _themeColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -615,14 +631,14 @@ class _SignUpPageState extends State<SignUpPage>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.deepPurpleAccent.shade700,
-            Colors.deepPurpleAccent.shade400,
+            _themeColor,
+            _themeColor.withOpacity(0.7),
           ],
         ),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.deepPurpleAccent.shade700.withOpacity(0.3),
+            color: _themeColor.withOpacity(0.3),
             blurRadius: 8,
             offset: Offset(0, 4),
           ),
@@ -678,7 +694,7 @@ class _SignUpPageState extends State<SignUpPage>
           child: Text(
             AuthLocalizations.signIn(context),
             style: TextStyle(
-              color: Colors.deepPurpleAccent.shade700,
+              color: _themeColor,
               fontWeight: FontWeight.w600,
               fontSize: 14,
             ),

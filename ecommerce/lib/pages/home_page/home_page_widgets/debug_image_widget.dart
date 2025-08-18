@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:typed_data';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import '../../../services/content_service.dart';
 
+// Debug widget for testing image assets
 class DebugImageWidget extends StatefulWidget {
   final String imagePath;
   
@@ -40,53 +39,32 @@ class _DebugImageWidgetState extends State<DebugImageWidget> {
     setState(() {
       _isLoading = true;
       _status = 'Loading...';
-      _details = 'Testing image: ${widget.imagePath}';
+      _details = 'Testing local asset: ${widget.imagePath}';
     });
 
-    final imageUrl = widget.imagePath.contains('http') 
+    final assetPath = widget.imagePath.contains('assets/') 
         ? widget.imagePath  
-        : '${ContentService.imageBaseUrl}${widget.imagePath}';
+        : 'assets/images/${widget.imagePath}';
 
     try {
-      final client = http.Client();
-      
       setState(() {
-        _details = 'Requesting: $imageUrl';
+        _details = 'Loading asset: $assetPath';
       });
       
-      final response = await client.get(
-        Uri.parse(imageUrl),
-        headers: {
-          'Accept': 'image/*',
-          'User-Agent': 'Flutter Debug/1.0',
-        },
-      ).timeout(const Duration(seconds: 10));
-      
-      client.close();
-      
-      if (response.statusCode == 200) {
-        setState(() {
-          _status = 'Success ✅';
-          _details = 'Status: ${response.statusCode}\n'
-                    'Size: ${response.bodyBytes.length} bytes\n'
-                    'Content-Type: ${response.headers['content-type'] ?? 'Unknown'}\n'
-                    'URL: $imageUrl';
-          _imageBytes = response.bodyBytes;
-          _isLoading = false;
-        });
-      } else {
-        setState(() {
-          _status = 'HTTP Error ❌';
-          _details = 'Status: ${response.statusCode}\n'
-                    'URL: $imageUrl\n'
-                    'Response: ${response.body.length > 200 ? '${response.body.substring(0, 200)}...' : response.body}';
-          _isLoading = false;
-        });
-      }
+      final byteData = await rootBundle.load(assetPath);
+      final bytes = byteData.buffer.asUint8List();
+
+      setState(() {
+        _status = 'Success';
+        _details = 'Asset loaded: $assetPath\nSize: ${bytes.length} bytes';
+        _imageBytes = bytes;
+        _isLoading = false;
+      });
+
     } catch (e) {
       setState(() {
-        _status = 'Exception ❌';
-        _details = 'Error: $e\nURL: $imageUrl';
+        _status = 'Failed';
+        _details = 'Asset not found: $assetPath\nError: $e';
         _isLoading = false;
       });
     }
@@ -94,112 +72,154 @@ class _DebugImageWidgetState extends State<DebugImageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: _status.contains('Success') 
-              ? Colors.green 
-              : _status.contains('Error') || _status.contains('Exception')
-                  ? Colors.red
-                  : Colors.orange,
-          width: 2,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Status row
-          Row(
-            children: [
-              Text(
-                _status,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: _status.contains('Success') 
-                      ? Colors.green 
-                      : _status.contains('Error') || _status.contains('Exception')
-                          ? Colors.red
-                          : Colors.orange,
-                ),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Debug: ${widget.imagePath}',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
-              const Spacer(),
-              if (_isLoading)
-                const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-            ],
-          ),
-          
-          const SizedBox(height: 8),
-          
-          // Image filename
-          Text(
-            'Image: ${widget.imagePath}',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.onSurface,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-          ),
-          
-          const SizedBox(height: 8),
-          
-          // Details
-          Expanded(
-            child: SingleChildScrollView(
+            const SizedBox(height: 8),
+            
+            // Status indicator
+            Row(
+              children: [
+                Container(
+                  width: 12,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  _status,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: _getStatusColor(),
+                  ),
+                ),
+                const Spacer(),
+                if (_isLoading)
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+              ],
+            ),
+            
+            const SizedBox(height: 8),
+            
+            // Details
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(4),
+              ),
               child: Text(
                 _details,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontFamily: 'monospace',
                 ),
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-          ),
-          
-          // Show image preview if loaded successfully
-          if (_imageBytes != null) ...[
+            
             const SizedBox(height: 8),
-            Container(
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.green, width: 1),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.memory(
-                  _imageBytes!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.red.withOpacity(0.1),
-                      child: Center(
-                        child: Text(
-                          'Image decode error',
-                          style: TextStyle(
-                            fontSize: 10,
+            
+            // Image preview
+            if (_imageBytes != null) ...[
+              Container(
+                height: 120,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.memory(
+                    _imageBytes!,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.red.withOpacity(0.1),
+                        child: const Center(
+                          child: Icon(
+                            Icons.broken_image,
                             color: Colors.red,
+                            size: 32,
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
+            ] else if (_status == 'Failed') ...[
+              Container(
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.1),
+                  border: Border.all(
+                    color: Colors.red.withOpacity(0.3),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.broken_image,
+                        color: Colors.red,
+                        size: 24,
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Asset not found',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
+  }
+
+  Color _getStatusColor() {
+    switch (_status) {
+      case 'Success':
+        return Colors.green;
+      case 'Failed':
+      case 'Empty path':
+        return Colors.red;
+      case 'Loading...':
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
   }
 }

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:ecommerce/providers/category_provider.dart';
 import 'package:ecommerce/services/parameter_service.dart';
 import 'package:ecommerce/providers/parameter_provider.dart';
+import 'package:ecommerce/providers/content_provider.dart';
 
 import 'package:ecommerce/shared/scan_utils.dart';
 import 'package:ecommerce/shared/unified_scan_fab.dart';
@@ -29,6 +30,11 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    
+    // Load content from API
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ContentProvider>().loadContent();
+    });
   }
 
   @override
@@ -76,6 +82,57 @@ class _HomePageState extends State<HomePage>
         slivers: [
           // Hero Banner Carousel
           SliverToBoxAdapter(child: const HeroBannerCarousel()),
+          
+          // Moving Banner from API Content
+          SliverToBoxAdapter(
+            child: Consumer<ContentProvider>(
+              builder: (context, contentProvider, child) {
+                final bannerTexts = contentProvider.getMovingBannerTexts();
+                
+                if (bannerTexts.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+                
+                return Container(
+                  height: 45,
+                  margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                  decoration: BoxDecoration(
+                    color: contentProvider.getThirdColor(),
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: PageView.builder(
+                    itemCount: bannerTexts.length,
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            bannerTexts[index],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          
           // Welcome Message (parameter-driven, listens to parameter changes)
           SliverToBoxAdapter(
             child: Consumer<ParameterProvider>(
@@ -374,26 +431,6 @@ class _HomePageState extends State<HomePage>
         ),
       ),
     );
-  }
-
-  /// Map UI-friendly category titles to their corresponding IDs used in the product data
-  String _getCategoryIdFromTitle(String title) {
-    // Get context-aware localizations
-    final localizations = AppLocalizationsHelper.of(context);
-
-    // Map localized UI titles to backend category IDs
-    if (title == localizations.skincare) {
-      return 'face_care'; // Face care is our skincare category
-    } else if (title == localizations.makeup) {
-      return 'makeup';
-    } else if (title == localizations.hairCare) {
-      return 'hair_care';
-    } else if (title == localizations.fragrance) {
-      return 'fragrance';
-    }
-
-    // Default case: convert the title to a slug format
-    return title.toLowerCase().replaceAll(' ', '_');
   }
 
   Widget _buildFeatureItem(IconData icon, String title, String description) {

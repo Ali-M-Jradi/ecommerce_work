@@ -1,18 +1,69 @@
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import '../models/content_item.dart';
 
 class ContentService {
-  static const String baseUrl = 'http://localhost:89/api'; // Your actual API URL
-  static const String imageBaseUrl = 'http://localhost:89/images/'; // Your image server URL
+  static const String baseUrl = 'https://localhost:7184/api'; // Your actual API server for content data
+  static const String imageBaseUrl = 'https://localhost:7184/api/images/'; // API endpoint for serving images
+  static const String imageBaseUrlFallback = 'assets/images/'; // Use local assets for images until API server has images endpoint
   static const Duration timeoutDuration = Duration(seconds: 30);
 
-  /// Create HTTP client that can handle insecure connections for localhost
+  /// Get the full URL for an image from the API server
+  static String getImageUrl(String filename) {
+    if (filename.isEmpty) return '';
+    
+    // Try API server first
+    return '$imageBaseUrl$filename';
+  }
+
+  /// Check if this is a WebP format image
+  static bool isWebPImage(String filename) {
+    return filename.toLowerCase().endsWith('.webp');
+  }
+
+  /// Map UUID-based filenames to available local assets - ONLY for essential UI elements like footer logos
+  static final Map<String, String> _imageAssetMap = {
+    // Footer logos only - these are essential UI elements
+    '503075a9-9071-4067-9b48-d810bd386328_logo 5.png': 'three_leaves.png',
+    'e513003e-ad81-4267-8021-7316fbd1a6fd_logo 4.png': 'three_leaves.png',
+    '95801e9a-5ca8-4089-b80a-86a2fc7eddb3_LOGO 1 WITHOUT BACKGROUND.png': 'three_leaves.png',
+    'WebsiteIcon.png': 'three_leaves.png',
+    
+    // DO NOT add carousel images here - they should show as unavailable if not served by API
+  };
+
+  /// Get the actual asset path for an image filename
+  /// Returns the API URL for carousel/content images, asset path for UI elements like logos
+  static String? getImageAssetPath(String filename) {
+    // For carousel images and dynamic content - return API URL instead of asset path
+    if (filename.contains('-') && (filename.contains('.webp') || filename.contains('.jpg') || filename.contains('.png'))) {
+      // This is a dynamic content image from API - return the full API URL
+      print('🌐 Dynamic content image, will load from API: $filename');
+      return getImageUrl(filename);
+    }
+    
+    // Only map essential UI elements like logos to local assets
+    if (_imageAssetMap.containsKey(filename)) {
+      return 'assets/images/${_imageAssetMap[filename]}';
+    }
+    
+    // For simple filenames that are actually meant to be assets (like WebsiteIcon.png)
+    if (!filename.contains('-') || filename.startsWith('IMG-') || filename == 'WebsiteIcon.png') {
+      return 'assets/images/$filename';
+    }
+    
+    // Unknown format - return API URL as fallback
+    print('🌐 Unknown format, trying API URL: $filename');
+    return getImageUrl(filename);
+  }
+
+  /// Create HTTP client with SSL bypass for localhost (same as auth service)
   static http.Client _createHttpClient() {
-    final client = http.Client();
-    return client;
+    final client = HttpClient()
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return IOClient(client);
   }
 
   /// Fetch all content items from the API
@@ -20,22 +71,29 @@ class ContentService {
     final client = _createHttpClient();
     
     try {
-      // Use your actual API endpoint
+      print('🚀 Fetching content from: $baseUrl/site-content');
+      
       final response = await client.get(
         Uri.parse('$baseUrl/site-content'),
         headers: {
+          'accept': '*/*',
           'Content-Type': 'application/json',
         },
       ).timeout(timeoutDuration);
 
+      print('📊 Content API Response Status: ${response.statusCode}');
+
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = json.decode(response.body);
+        print('✅ Loaded ${jsonData.length} content items from API');
         return jsonData.map<ContentItem>((json) => ContentItem.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load content: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching content items: $e');
+      print('❌ Error fetching content items: $e');
+      print('🔧 Falling back to mock data for testing');
+      
       // Return mock data as fallback if API fails
       final mockData = await _getMockData();
       return mockData.map<ContentItem>((json) => ContentItem.fromJson(json)).toList();
@@ -86,6 +144,30 @@ class ContentService {
     } catch (e) {
       print('Error creating content item: $e');
       return null;
+    } finally {
+      client.close();
+    }
+  }
+
+  /// Test API image server connectivity
+  static Future<bool> testImageServerConnection() async {
+    final client = _createHttpClient();
+    
+    try {
+      // Test if image server is reachable (you'll need to implement this endpoint)
+      print('Testing image server connection to: $baseUrl/images/health');
+      final response = await client.get(
+        Uri.parse('$baseUrl/images/health'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      ).timeout(const Duration(seconds: 5));
+
+      print('Image server test response: ${response.statusCode}');
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Image server connection test failed: $e');
+      return false;
     } finally {
       client.close();
     }

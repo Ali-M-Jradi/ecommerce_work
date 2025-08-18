@@ -1,7 +1,6 @@
 
 
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'highlighted_text_widget.dart';
 import '../../../localization/app_localizations_helper.dart';
@@ -88,32 +87,7 @@ class ProductCardWidget extends StatelessWidget {
                           colorFilter: product['soldOut'] == true
                               ? const ColorFilter.mode(Colors.grey, BlendMode.saturation)
                               : const ColorFilter.mode(Colors.transparent, BlendMode.multiply),
-                          child: Image.asset(
-                            product['image'],
-                            fit: BoxFit.cover,
-                            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                              if (wasSynchronouslyLoaded || frame != null) {
-                                return child;
-                              } else {
-                                return Shimmer.fromColors(
-                                  baseColor: colorScheme.surface.withOpacity(0.2),
-                                  highlightColor: colorScheme.surface.withOpacity(0.1),
-                                  child: Container(
-                                    color: colorScheme.surface.withOpacity(0.2),
-                                    width: double.infinity,
-                                    height: 120,
-                                  ),
-                                );
-                              }
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.image,
-                                size: 40,
-                                color: colorScheme.onSurface.withOpacity(0.3),
-                              );
-                            },
-                          ),
+                          child: _buildProductImage(product['image'], colorScheme),
                         ),
                       ),
                     ),
@@ -321,6 +295,8 @@ class ProductCardWidget extends StatelessWidget {
                     Text(
                       _getDisplaySize(context),
                       style: TextStyle(fontSize: 10, color: colorScheme.onSurface.withOpacity(0.6)),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                     const SizedBox(height: 4),
                     // Price and Rating with info icon
@@ -335,6 +311,8 @@ class ProductCardWidget extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: isDark ? colorScheme.primary : colorScheme.primary,
                             ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
                         Row(
@@ -344,6 +322,7 @@ class ProductCardWidget extends StatelessWidget {
                             Text(
                               '${product['rating']}',
                               style: const TextStyle(fontSize: 10),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(width: 4),
                             Tooltip(
@@ -375,5 +354,40 @@ class ProductCardWidget extends StatelessWidget {
       return AppLocalizationsHelper.of(context).notSpecified;
     }
     return size.toString();
+  }
+
+  // Helper method to build product image (asset images only)
+  Widget _buildProductImage(String imagePath, ColorScheme colorScheme) {
+    // Use asset image (network images removed)
+    return Image.asset(
+      imagePath.startsWith('assets/') ? imagePath : 'assets/images/$imagePath',
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: 120,
+      errorBuilder: (context, error, stackTrace) => Container(
+        width: double.infinity,
+        height: 120,
+        color: colorScheme.surfaceContainerHighest,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.image_not_supported,
+              size: 40,
+              color: colorScheme.onSurface.withOpacity(0.3),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Image not available',
+              style: TextStyle(
+                fontSize: 10,
+                color: colorScheme.onSurface.withOpacity(0.5),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ));
+    // <-- Add this closing parenthesis to fix the error
   }
 }

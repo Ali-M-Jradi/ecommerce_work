@@ -89,6 +89,7 @@ class SortControlsWidget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
               Expanded(
                 child: Container(

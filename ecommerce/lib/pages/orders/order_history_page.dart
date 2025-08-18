@@ -153,7 +153,7 @@ class OrderHistoryPage extends StatelessWidget {
                     children: [
                       Icon(Icons.shopping_bag, size: 16, color: colorScheme.primary),
                       const SizedBox(width: 6),
-                      Expanded(child: Text('${item.quantity} x ${item.name}', style: TextStyle(color: textColor))),
+                      Expanded(child: Text('${item.quantity} x ${item.name}', style: TextStyle(color: textColor), overflow: TextOverflow.ellipsis, maxLines: 1)),
                       Text('4${item.price}', style: TextStyle(color: textColor.withOpacity(0.8))),
                     ],
                   ),
@@ -167,7 +167,7 @@ class OrderHistoryPage extends StatelessWidget {
                   children: [
                     Icon(Icons.local_shipping, color: colorScheme.primary, size: 18),
                     const SizedBox(width: 6),
-                    Expanded(child: Text('Tracking #: ${order.trackingNumber}', style: TextStyle(color: textColor))),
+                    Expanded(child: Text('Tracking #: ${order.trackingNumber}', style: TextStyle(color: textColor), overflow: TextOverflow.ellipsis, maxLines: 1)),
                     TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: colorScheme.primary,

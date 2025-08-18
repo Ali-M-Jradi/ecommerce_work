@@ -49,31 +49,7 @@ import 'package:ecommerce/pages/auth/auth_provider.dart';
 import 'package:ecommerce/pages/debug_image_page.dart';
 
 // Global navigator key for reliable navigation
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-// Main theme variables for easy access and extension
-final ColorScheme lightColorScheme = ColorScheme.light(
-  primary: Colors.deepPurpleAccent.shade700,
-  onPrimary: Colors.white,
-  secondary: Colors.deepPurple,
-  onSecondary: Colors.white,
-  surface: Colors.white,
-  onSurface: Colors.black,
-  error: Colors.red.shade700,
-  onError: Colors.white,
-);
-
-final ColorScheme darkColorScheme = ColorScheme.dark(
-  primary: Colors.deepPurpleAccent,
-  onPrimary: Colors.white,
-  secondary: Colors.deepPurple,
-  onSecondary: Colors.white,
-  surface: const Color(0xFF232336),
-  onSurface: Colors.white,
-  error: Colors.red.shade400,
-  onError: Colors.black,
-);
 
 const String mainFontFamily = 'Roboto';
 
@@ -111,7 +87,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => BrandProvider()),
         ChangeNotifierProvider(create: (context) => AdminUserProvider()),
         ChangeNotifierProvider(create: (context) => ProductProvider()), // <-- Added for product sync
-        ChangeNotifierProvider(create: (context) => ContentProvider()), // <-- Added for dynamic content
+        ChangeNotifierProvider(create: (context) => ContentProvider()), // <-- Added for content management
         ChangeNotifierProvider(create: (context) => AuthProvider()), // <-- Added for API authentication
       ],
       child: Consumer<LanguageProvider>(
@@ -137,16 +113,7 @@ class MyApp extends StatelessWidget {
                 );
               }
               
-              return Consumer<ContentProvider>(
-                builder: (context, contentProvider, child) {
-                  // Sync content with theme when content is loaded
-                  if (contentProvider.hasContent && !contentProvider.isLoading) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      themeProvider.loadColorsFromContent();
-                    });
-                  }
-                  
-                  return MaterialApp(
+              return MaterialApp(
                 navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
                 localizationsDelegates: [
@@ -158,60 +125,8 @@ class MyApp extends StatelessWidget {
                 supportedLocales: AppLocalizationsHelper.supportedLocales,
                 locale: languageProvider.currentLocale,
                 title: 'DERMOCOSMETIQUE',
-                theme: ThemeData(
-                  colorScheme: lightColorScheme.copyWith(
-                    primary: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
-                  ),
-                  scaffoldBackgroundColor: lightColorScheme.surface,
-                  appBarTheme: AppBarTheme(
-                    backgroundColor: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
-                    foregroundColor: lightColorScheme.onPrimary,
-                    titleTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    iconTheme: const IconThemeData(color: Colors.white),
-                    actionsIconTheme: const IconThemeData(color: Colors.white),
-                  ),
-                  elevatedButtonTheme: ElevatedButtonThemeData(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
-                      foregroundColor: lightColorScheme.onPrimary,
-                    ),
-                  ),
-                  snackBarTheme: SnackBarThemeData(
-                    actionTextColor: themeProvider.customPrimaryColor ?? lightColorScheme.primary,
-                  ),
-                  fontFamily: mainFontFamily,
-                ),
-                darkTheme: ThemeData(
-                  colorScheme: darkColorScheme.copyWith(
-                    primary: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
-                  ),
-                  scaffoldBackgroundColor: darkColorScheme.surface,
-                  appBarTheme: AppBarTheme(
-                    backgroundColor: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
-                    foregroundColor: darkColorScheme.onPrimary,
-                    titleTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    iconTheme: const IconThemeData(color: Colors.white),
-                    actionsIconTheme: const IconThemeData(color: Colors.white),
-                  ),
-                  elevatedButtonTheme: ElevatedButtonThemeData(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
-                      foregroundColor: darkColorScheme.onPrimary,
-                    ),
-                  ),
-                  snackBarTheme: SnackBarThemeData(
-                    actionTextColor: themeProvider.customPrimaryColor ?? darkColorScheme.primary,
-                  ),
-                  fontFamily: mainFontFamily,
-                ),
+                theme: _buildTheme(themeProvider, false),
+                darkTheme: _buildTheme(themeProvider, true),
                 themeMode: themeProvider.themeMode,
                 home: const BasePage(title: 'DERMOCOSMETIQUE'),
                 routes: {
@@ -248,11 +163,115 @@ class MyApp extends StatelessWidget {
                   '/debug/images': (context) => const ImageDebugPage(),
                 },
               );
-                },
-              );
             },
           );
         },
+      ),
+    );
+  }
+
+  /// Build theme data with custom colors
+  ThemeData _buildTheme(ThemeProvider themeProvider, bool isDark) {
+    final primaryColor = themeProvider.customPrimaryColor ?? 
+        (isDark ? Colors.deepPurpleAccent : Colors.deepPurpleAccent.shade700);
+    final secondaryColor = themeProvider.customSecondaryColor ?? 
+        (isDark ? Colors.deepPurple : Colors.deepPurple);
+
+    final colorScheme = isDark 
+        ? ColorScheme.dark(
+            primary: primaryColor,
+            secondary: secondaryColor,
+          )
+        : ColorScheme.light(
+            primary: primaryColor,
+            secondary: secondaryColor,
+          );
+
+    return ThemeData(
+      colorScheme: colorScheme,
+      fontFamily: mainFontFamily,
+      appBarTheme: AppBarTheme(
+        backgroundColor: primaryColor,
+        foregroundColor: colorScheme.onPrimary,
+        elevation: 4,
+        shadowColor: primaryColor.withOpacity(0.3),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: colorScheme.onPrimary,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          fontFamily: mainFontFamily,
+          letterSpacing: 0.5,
+        ),
+        iconTheme: IconThemeData(color: colorScheme.onPrimary, size: 24),
+        actionsIconTheme: IconThemeData(color: colorScheme.onPrimary, size: 24),
+        toolbarHeight: 64,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(16),
+          ),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: colorScheme.onPrimary,
+          elevation: 4,
+          shadowColor: primaryColor.withOpacity(0.3),
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          textStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: primaryColor,
+        foregroundColor: colorScheme.onPrimary,
+        elevation: 8,
+        highlightElevation: 12,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+        ),
+        sizeConstraints: BoxConstraints.tightFor(
+          width: 56,
+          height: 56,
+        ),
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: primaryColor,
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          return states.contains(WidgetState.selected) ? primaryColor : null;
+        }),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          return states.contains(WidgetState.selected) ? primaryColor : null;
+        }),
+      ),
+      cardTheme: CardThemeData(
+        elevation: 4,
+        shadowColor: Colors.black.withOpacity(0.1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: primaryColor, width: 2),
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
     );
   }

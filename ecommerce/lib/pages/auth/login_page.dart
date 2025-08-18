@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/utils/localization_helper.dart';
 import 'package:ecommerce/utils/auth_localizations.dart';
+import 'package:ecommerce/utils/app_colors.dart';
 import 'package:ecommerce/services/auth_service.dart';
 import 'auth_provider.dart';
 
@@ -30,13 +31,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   bool _rememberMe = false;
   int _currentBackgroundIndex = 0;
 
-  // Background colors for animated gradient
-  final List<List<Color>> _backgroundColors = [
-    [Color(0xFF667eea), Color(0xFF764ba2)],
-    [Color(0xFF6B73FF), Color(0xFF000DFF)],
-    [Color(0xFF9D50BB), Color(0xFF6E48AA)],
-    [Color(0xFF4776E6), Color(0xFF8E54E9)],
-  ];
+  // Background colors for animated gradient - will be generated from theme
+  List<List<Color>> _backgroundColors = [];
 
   @override
   void initState() {
@@ -44,6 +40,29 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _setupAnimations();
     _startBackgroundAnimation();
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _generateThemeBasedColors();
+  }
+
+  void _generateThemeBasedColors() {
+    final primaryColor = AppColors.primary(context);
+    final secondaryColor = AppColors.secondary(context);
+    final accentColor = AppColors.accent(context);
+    
+    // Create gradient variations based on theme colors
+    _backgroundColors = [
+      [primaryColor, secondaryColor],
+      [primaryColor.withOpacity(0.8), accentColor],
+      [secondaryColor, primaryColor.withOpacity(0.9)],
+      [accentColor.withOpacity(0.7), primaryColor],
+    ];
+  }
+
+  // Helper method to get theme-based primary color
+  Color get _themeColor => AppColors.primary(context);
 
   void _setupAnimations() {
     _animationController = AnimationController(
@@ -132,7 +151,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AuthLocalizations.loginSuccessful(context)),
-          backgroundColor: Colors.green,
+          backgroundColor: AppColors.success(context),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -150,7 +169,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           error.toLowerCase().contains('incorrect') ||
           error.contains('401')) {
         errorMessage = '❌ Incorrect credentials: Please check your email and password';
-        backgroundColor = Colors.orange.shade600;
+        backgroundColor = AppColors.warning(context);
       } else if (error.toLowerCase().contains('connection') ||
                  error.toLowerCase().contains('network') ||
                  error.toLowerCase().contains('timeout') ||
@@ -160,13 +179,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                  error.contains('502') ||
                  error.contains('503')) {
         errorMessage = '🌐 Connection error: Cannot reach server. Please check your internet connection';
-        backgroundColor = Colors.red.shade700;
+        backgroundColor = AppColors.error(context);
       } else if (error.isEmpty) {
         errorMessage = '⚠️ Login failed: Unknown error occurred';
-        backgroundColor = Colors.grey.shade600;
+        backgroundColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
       } else {
         errorMessage = '⚠️ Error: $error';
-        backgroundColor = Colors.red.shade600;
+        backgroundColor = AppColors.error(context);
       }
       
       ScaffoldMessenger.of(context).showSnackBar(
@@ -410,7 +429,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               AuthLocalizations.forgotPassword(context),
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.deepPurpleAccent.shade700,
+                                color: AppColors.primary(context),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -433,7 +452,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       _rememberMe = value ?? false;
                                     });
                                   },
-                                  activeColor: Colors.deepPurpleAccent.shade700,
+                                  activeColor: _themeColor,
                                 ),
                               ),
                             ],
@@ -451,7 +470,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       _rememberMe = value ?? false;
                                     });
                                   },
-                                  activeColor: Colors.deepPurpleAccent.shade700,
+                                  activeColor: _themeColor,
                                 ),
                               ),
                               Text(
@@ -471,7 +490,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               AuthLocalizations.forgotPassword(context),
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.deepPurpleAccent.shade700,
+                                color: _themeColor,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -535,7 +554,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       child: Text(
                         AuthLocalizations.signUp(context),
                         style: TextStyle(
-                          color: Colors.deepPurpleAccent.shade700,
+                          color: _themeColor,
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
                         ),
@@ -570,12 +589,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ? null
               : Icon(
                   Icons.email_outlined,
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: _themeColor,
                 ),
           suffixIcon: isRTL
               ? Icon(
                   Icons.email_outlined,
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: _themeColor,
                 )
               : null,
           hintText: AuthLocalizations.email(context),
@@ -615,7 +634,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ? null
               : Icon(
                   Icons.lock_outline,
-                  color: Colors.deepPurpleAccent.shade700,
+                  color: _themeColor,
                 ),
           prefixIconConstraints: BoxConstraints(minWidth: 40),
           suffixIcon: Row(
@@ -637,7 +656,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   padding: EdgeInsets.only(left: 12),
                   child: Icon(
                     Icons.lock_outline,
-                    color: Colors.deepPurpleAccent.shade700,
+                    color: _themeColor,
                   ),
                 ),
             ],
@@ -668,14 +687,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.deepPurpleAccent.shade700,
-            Colors.deepPurpleAccent.shade400,
+            _themeColor,
+            _themeColor.withOpacity(0.7),
           ],
         ),
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.deepPurpleAccent.shade700.withOpacity(0.3),
+            color: _themeColor.withOpacity(0.3),
             blurRadius: 10,
             offset: Offset(0, 5),
           ),
@@ -724,7 +743,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('🔍 Testing connection to server...'),
-              backgroundColor: Colors.blue.shade600,
+              backgroundColor: AppColors.info(context),
               behavior: SnackBarBehavior.floating,
               duration: Duration(seconds: 2),
             ),
@@ -736,7 +755,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('✅ Connection test complete - check console for details'),
-              backgroundColor: Colors.green.shade600,
+              backgroundColor: AppColors.success(context),
               behavior: SnackBarBehavior.floating,
               duration: Duration(seconds: 3),
             ),
