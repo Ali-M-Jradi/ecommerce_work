@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     // Attempt login using AuthProvider (includes automatic URL testing and fallback)
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final success = await authProvider.login(email, password);
+  final success = await authProvider.login(email, password, rememberMe: _rememberMe);
 
     setState(() {
       _isLoading = false;

@@ -1,497 +1,250 @@
 import 'package:flutter/material.dart';
-import '../models/content_item.dart';
-import '../services/site_images_api_service.dart';
+import 'package:ecommerce/models/content_item.dart';
+import 'package:ecommerce/services/site_images_api_service.dart';
 
+/// Provides app content and carousel images (mock content; real images via API)
 class ContentProvider extends ChangeNotifier {
-  List<ContentItem> _items = [];
-  bool _isLoading = false;
-  String? _error;
-  
-  // API Carousel state
-  List<String> _apiCarouselImages = [];
-  bool _isLoadingCarousel = false;
-  String? _carouselError;
+	// Content state (mocked)
+	List<ContentItem> _items = [];
+	bool _isLoading = false;
+	String? _error;
 
-  // Getters
-  List<ContentItem> get items => List.unmodifiable(_items);
-  bool get isLoading => _isLoading;
-  String? get error => _error;
-  bool get hasContent => _items.isNotEmpty;
-  
-  // API Carousel getters
-  List<String> get apiCarouselImages => List.unmodifiable(_apiCarouselImages);
-  bool get isLoadingCarousel => _isLoadingCarousel;
-  String? get carouselError => _carouselError;
-  bool get hasApiCarouselImages => _apiCarouselImages.isNotEmpty;
+	// API carousel state
+	List<String> _apiCarouselImages = [];
+	bool _isLoadingCarousel = false;
+	String? _carouselError;
 
-  ContentProvider() {
-    loadContent();
-    loadApiCarouselImages(); // Load API carousel images on init
-  }
+	// Getters
+	List<ContentItem> get items => List.unmodifiable(_items);
+	bool get isLoading => _isLoading;
+	String? get error => _error;
+	bool get hasContent => _items.isNotEmpty;
 
-  /// Load content from mock data (no API)
-  Future<void> loadContent() async {
-    if (_isLoading) return;
+	List<String> get apiCarouselImages => List.unmodifiable(_apiCarouselImages);
+	bool get isLoadingCarousel => _isLoadingCarousel;
+	String? get carouselError => _carouselError;
+	bool get hasApiCarouselImages => _apiCarouselImages.isNotEmpty;
 
-    _isLoading = true;
-    _error = null;
-    notifyListeners();
+	ContentProvider() {
+		// Load basic content (mock) and API carousel images on startup
+		loadContent();
+		loadApiCarouselImages();
+	}
 
-    try {
-      // Simulate loading delay
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      final contentItems = await _getMockData();
-      _items = contentItems.map<ContentItem>((json) => ContentItem.fromJson(json)).toList();
-      
-      // Update the ContentManager with new items
-      ContentManager.setItems(_items);
-      
-      _error = null;
-      print('Loaded ${_items.length} content items from mock data');
-      
-      // Notify theme provider about new colors if available
-      _notifyThemeProviderOfColors();
-      
-    } catch (e) {
-      print('Error loading content: $e');
-      _error = 'Failed to load content: $e';
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
+	// ----- Content (mock) -----
+	Future<void> loadContent() async {
+		if (_isLoading) return;
+		_isLoading = true;
+		_error = null;
+		notifyListeners();
+		try {
+			await Future.delayed(const Duration(milliseconds: 200));
+			final data = await _mockData();
+			_items = data.map((j) => ContentItem.fromJson(j)).toList();
+			ContentManager.setItems(_items);
+		} catch (e) {
+			_error = 'Failed to load content: $e';
+		} finally {
+			_isLoading = false;
+			notifyListeners();
+		}
+	}
 
-  /// Notify theme provider about API colors (call this after loading content)
-  void _notifyThemeProviderOfColors() {
-    // This will be called from main app to sync theme colors
-    // We'll implement this connection in the main app
-  }
+	Future<void> refreshContent() async {
+		_items.clear();
+		await loadContent();
+	}
 
-  /// Load carousel images from API
-  Future<void> loadApiCarouselImages() async {
-    if (_isLoadingCarousel) return;
-    
-    _isLoadingCarousel = true;
-    _carouselError = null;
-    notifyListeners();
+	// Accessors used around the app/admin pages
+	String getContent(String page, String section, String description, [String defaultValue = '']) {
+		return ContentManager.getContent(page, section, description, defaultValue);
+	}
 
-    try {
-      print('🔄 Loading carousel images from API...');
-      final apiImages = await SiteImagesApiService.getCarouselImages();
-      _apiCarouselImages = apiImages;
-      _carouselError = null;
-      print('✅ Successfully loaded ${_apiCarouselImages.length} carousel images from API');
-    } catch (e) {
-      print('❌ Error loading carousel images from API: $e');
-      _carouselError = 'Failed to load carousel images: $e';
-      _apiCarouselImages = []; // Clear on error
-    } finally {
-      _isLoadingCarousel = false;
-      notifyListeners();
-    }
-  }
+	List<ContentItem> getPageContent(String page) => ContentManager.getPageContent(page);
+	List<ContentItem> getSectionContent(String page, String section) => ContentManager.getSectionContent(page, section);
+	String getColor(String colorType, [String defaultValue = '#056099']) => ContentManager.getColor(colorType, defaultValue);
+	String getSocialMedia(String platform, [String defaultValue = '']) => ContentManager.getSocialMedia(platform, defaultValue);
+	String getHomeContent(String section, String description, [String defaultValue = '']) => ContentManager.getHomeContent(section, description, defaultValue);
+	List<String> getMovingBannerTexts() => ContentManager.getMovingBannerTexts();
 
-  /// Refresh carousel images from API
-  Future<void> refreshApiCarouselImages() async {
-    _apiCarouselImages.clear();
-    await loadApiCarouselImages();
-  }
+	// UI helpers
+	Color getPrimaryColor() {
+		final hex = getColor('MainColor', '#056099');
+		return _parseHexColor(hex, const Color(0xff056099));
+	}
+	Color getSecondaryColor() {
+		final hex = getColor('SecondaryColor', '#ffffff');
+		return _parseHexColor(hex, const Color(0xffffffff));
+	}
+	Color getThirdColor() {
+		final hex = getColor('ThirdColor', '#222022');
+		return _parseHexColor(hex, const Color(0xff222022));
+	}
+	String getFooterLogo(bool isLight) {
+		return isLight
+				? getContent('footer', 'lightLogo', 'lightLogo', 'assets/images/logo_light.png')
+				: getContent('footer', 'Logo', 'Logo image', 'assets/images/logo.png');
+	}
+	Map<String, String> getSocialMediaLinks() => {
+				'facebook': getSocialMedia('FaceBook', ''),
+				'instagram': getSocialMedia('Instagram', ''),
+				'whatsapp': getSocialMedia('Whatsapp', ''),
+				'email': getSocialMedia('Email', ''),
+			};
 
-  /// Refresh content (force reload)
-  Future<void> refreshContent() async {
-    _items.clear();
-    await loadContent();
-  }
+		Map<String, String> getContactInfo() => {
+					'phone': getHomeContent('UpperBanner', 'PhoneNumber', ''),
+					'location': getHomeContent('UpperBanner', 'Location', ''),
+					'email': getSocialMedia('Email', ''),
+				};
 
-  /// Get content by criteria
-  String getContent(String page, String section, String description, [String defaultValue = '']) {
-    return ContentManager.getContent(page, section, description, defaultValue);
-  }
+	// CRUD (mock only)
+	Future<bool> updateContentItem(ContentItem item) async {
+		try {
+			final i = _items.indexWhere((x) => x.id == item.id);
+			if (i != -1) {
+				_items[i] = item;
+				ContentManager.setItems(_items);
+				notifyListeners();
+				return true;
+			}
+			return false;
+		} catch (_) {
+			return false;
+		}
+	}
 
-  /// Get page content
-  List<ContentItem> getPageContent(String page) {
-    return ContentManager.getPageContent(page);
-  }
+	Future<bool> addContentItem(ContentItem item) async {
+		try {
+			final newId = _items.isNotEmpty ? _items.map((e) => e.id).reduce((a, b) => a > b ? a : b) + 1 : 1;
+			final newItem = ContentItem(
+				id: newId,
+				contentData: item.contentData,
+				pageName: item.pageName,
+				section: item.section,
+				description: item.description,
+			);
+			_items.add(newItem);
+			ContentManager.setItems(_items);
+			notifyListeners();
+			return true;
+		} catch (_) {
+			return false;
+		}
+	}
 
-  /// Get section content
-  List<ContentItem> getSectionContent(String page, String section) {
-    return ContentManager.getSectionContent(page, section);
-  }
+	Future<bool> deleteContentItem(int itemId) async {
+		try {
+			_items.removeWhere((x) => x.id == itemId);
+			ContentManager.setItems(_items);
+			notifyListeners();
+			return true;
+		} catch (_) {
+			return false;
+		}
+	}
 
-  /// Get color content
-  String getColor(String colorType, [String defaultValue = '#056099']) {
-    return ContentManager.getColor(colorType, defaultValue);
-  }
+	// ----- Carousel images (API) -----
+	Future<void> loadApiCarouselImages() async {
+		if (_isLoadingCarousel) return;
+		_isLoadingCarousel = true;
+		_carouselError = null;
+		notifyListeners();
+		try {
+			final urls = await SiteImagesApiService.getCarouselImages();
+			_apiCarouselImages = urls;
+		} catch (e) {
+			_carouselError = 'Failed to load carousel images: $e';
+			_apiCarouselImages = [];
+		} finally {
+			_isLoadingCarousel = false;
+			notifyListeners();
+		}
+	}
 
-  /// Get social media content
-  String getSocialMedia(String platform, [String defaultValue = '']) {
-    return ContentManager.getSocialMedia(platform, defaultValue);
-  }
+	Future<void> refreshApiCarouselImages() async {
+		_apiCarouselImages.clear();
+		await loadApiCarouselImages();
+	}
 
-  /// Get home page content
-  String getHomeContent(String section, String description, [String defaultValue = '']) {
-    return ContentManager.getHomeContent(section, description, defaultValue);
-  }
+	List<String> getCarouselImages() => _apiCarouselImages;
 
-  /// Get carousel images (API only)
-  List<String> getCarouselImages() {
-    print('📸 Returning ${_apiCarouselImages.length} carousel images from API');
-    return _apiCarouselImages;
-  }
+	// ----- Helpers -----
+	Color _parseHexColor(String hex, Color fallback) {
+		try {
+			return Color(int.parse(hex.replaceFirst('#', '0xff')));
+		} catch (_) {
+			return fallback;
+		}
+	}
 
-  /// Get moving banner texts
-  List<String> getMovingBannerTexts() {
-    return ContentManager.getMovingBannerTexts();
-  }
-
-  /// Update content item (mock implementation)
-  Future<bool> updateContentItem(ContentItem item) async {
-    try {
-      // Mock update - just update locally
-      final index = _items.indexWhere((i) => i.id == item.id);
-      if (index != -1) {
-        _items[index] = item;
-        ContentManager.setItems(_items);
-        notifyListeners();
-        return true;
-      }
-      return false;
-    } catch (e) {
-      print('Error updating content item: $e');
-      return false;
-    }
-  }
-
-  /// Add content item (mock implementation)
-  Future<bool> addContentItem(ContentItem item) async {
-    try {
-      // Mock add - just add locally with new ID
-      final newItem = ContentItem(
-        id: _items.isNotEmpty ? _items.map((e) => e.id).reduce((a, b) => a > b ? a : b) + 1 : 1,
-        contentData: item.contentData,
-        pageName: item.pageName,
-        section: item.section,
-        description: item.description,
-      );
-      _items.add(newItem);
-      ContentManager.setItems(_items);
-      notifyListeners();
-      return true;
-    } catch (e) {
-      print('Error adding content item: $e');
-      return false;
-    }
-  }
-
-  /// Delete content item (mock implementation)
-  Future<bool> deleteContentItem(int itemId) async {
-    try {
-      // Mock delete - just remove locally
-      _items.removeWhere((item) => item.id == itemId);
-      ContentManager.setItems(_items);
-      notifyListeners();
-      return true;
-    } catch (e) {
-      print('Error deleting content item: $e');
-      return false;
-    }
-  }
-
-  /// Helper methods for specific content types
-
-  /// Get primary theme color
-  Color getPrimaryColor() {
-    final colorString = getColor('MainColor', '#056099');
-    try {
-      return Color(int.parse(colorString.replaceFirst('#', '0xff')));
-    } catch (e) {
-      return const Color(0xff056099); // Default blue
-    }
-  }
-
-  /// Get secondary theme color
-  Color getSecondaryColor() {
-    final colorString = getColor('SecondaryColor', '#ffffff');
-    try {
-      return Color(int.parse(colorString.replaceFirst('#', '0xff')));
-    } catch (e) {
-      return const Color(0xffffffff); // Default white
-    }
-  }
-
-  /// Get third theme color
-  Color getThirdColor() {
-    final colorString = getColor('ThirdColor', '#222022');
-    try {
-      return Color(int.parse(colorString.replaceFirst('#', '0xff')));
-    } catch (e) {
-      return const Color(0xff222022); // Default dark
-    }
-  }
-
-  /// Get footer logo
-  String getFooterLogo(bool isLight) {
-    if (isLight) {
-      return getContent('footer', 'lightLogo', 'lightLogo', 'assets/images/logo_light.png');
-    } else {
-      return getContent('footer', 'Logo', 'Logo image', 'assets/images/logo.png');
-    }
-  }
-
-  /// Get contact info
-  Map<String, String> getContactInfo() {
-    return {
-      'phone': getHomeContent('UpperBanner', 'PhoneNumber', ''),
-      'location': getHomeContent('UpperBanner', 'Location', ''),
-      'email': getSocialMedia('Email', ''),
-    };
-  }
-
-  /// Get social media links
-  Map<String, String> getSocialMediaLinks() {
-    return {
-      'facebook': getSocialMedia('FaceBook', ''),
-      'instagram': getSocialMedia('Instagram', ''),
-      'whatsapp': getSocialMedia('Whatsapp', ''),
-      'email': getSocialMedia('Email', ''),
-    };
-  }
-  
-  /// Mock data for testing without API
-  Future<List<Map<String, dynamic>>> _getMockData() async {
-    return [
-      {
-        "id": 1,
-        "contentData": "03815860 - 01275019",
-        "pageName": "home",
-        "section": "UpperBanner",
-        "description": "PhoneNumber"
-      },
-      {
-        "id": 2,
-        "contentData": "Beirut, Lebanon",
-        "pageName": "home",
-        "section": "UpperBanner",
-        "description": "Location"
-      },
-      {
-        "id": 3,
-        "contentData": "Test1",
-        "pageName": "footer",
-        "section": "SocialMedia",
-        "description": "FaceBook"
-      },
-      {
-        "id": 4,
-        "contentData": "ifj",
-        "pageName": "footer",
-        "section": "SocialMedia",
-        "description": "Instagram"
-      },
-      {
-        "id": 5,
-        "contentData": "geeg",
-        "pageName": "footer",
-        "section": "SocialMedia",
-        "description": "Whatsapp"
-      },
-      {
-        "id": 6,
-        "contentData": "three_leaves.png",
-        "pageName": "footer",
-        "section": "Logo",
-        "description": "Logo image"
-      },
-      {
-        "id": 8,
-        "contentData": "banner2.jpg",
-        "pageName": "home",
-        "section": "UpperBanner",
-        "description": "UpperBannerPhoto"
-      },
-      {
-        "id": 9,
-        "contentData": "Free Shipping",
-        "pageName": "home",
-        "section": "MovingBanner",
-        "description": "MovingText1"
-      },
-      {
-        "id": 10,
-        "contentData": "24/7 Support",
-        "pageName": "home",
-        "section": "MovingBanner",
-        "description": "MovingText2"
-      },
-      {
-        "id": 11,
-        "contentData": "Money Back Warranty",
-        "pageName": "home",
-        "section": "MovingBanner",
-        "description": "MovingText3"
-      },
-      {
-        "id": 12,
-        "contentData": "All Products is Eco",
-        "pageName": "home",
-        "section": "MovingBanner",
-        "description": "MovingText4"
-      },
-      {
-        "id": 13,
-        "contentData": "pback2.jpg",
-        "pageName": "home",
-        "section": "MovingBanner",
-        "description": "LandingImage"
-      },
-      {
-        "id": 14,
-        "contentData": "Test it",
-        "pageName": "home",
-        "section": "NumberOne",
-        "description": "NumberOneText1"
-      },
-      {
-        "id": 15,
-        "contentData": "Pellentesque in ipsum id orci porta dapibus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus.",
-        "pageName": "home",
-        "section": "NumberOne",
-        "description": "NumberOneText2"
-      },
-      {
-        "id": 16,
-        "contentData": "Pellentesque in ipsum id orci porta dapibus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus.",
-        "pageName": "home",
-        "section": "NumberOne",
-        "description": "NumberOneText3"
-      },
-      {
-        "id": 17,
-        "contentData": "cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif",
-        "pageName": "home",
-        "section": "CarouselImage",
-        "description": "image1"
-      },
-      {
-        "id": 18,
-        "contentData": "digital-art-style-mental-health-day-awareness-illustration.png",
-        "pageName": "home",
-        "section": "CarouselImage",
-        "description": "image2"
-      },
-      {
-        "id": 19,
-        "contentData": "gift_icon.jpg",
-        "pageName": "home",
-        "section": "CarouselImage",
-        "description": "image3"
-      },
-      {
-        "id": 20,
-        "contentData": "three_leaves.png",
-        "pageName": "home",
-        "section": "CarouselImage",
-        "description": "image4"
-      },
-      {
-        "id": 21,
-        "contentData": "whatsapp_icon.jpg",
-        "pageName": "home",
-        "section": "CarouselImage",
-        "description": "image5"
-      },
-      {
-        "id": 22,
-        "contentData": "cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif",
-        "pageName": "home",
-        "section": "CarouselImage",
-        "description": "image6"
-      },
-      {
-        "id": 23,
-        "contentData": "#056099",
-        "pageName": "AllPages",
-        "section": "Color",
-        "description": "MainColor"
-      },
-      {
-        "id": 24,
-        "contentData": "#ffffff",
-        "pageName": "AllPages",
-        "section": "Color",
-        "description": "SecondaryColor"
-      },
-      {
-        "id": 25,
-        "contentData": "wereg",
-        "pageName": "AboutUS",
-        "section": "Paragraphs",
-        "description": "Main"
-      },
-      {
-        "id": 26,
-        "contentData": "regregr",
-        "pageName": "AboutUS",
-        "section": "Paragraphs",
-        "description": "Second"
-      },
-      {
-        "id": 27,
-        "contentData": "three_leaves.png",
-        "pageName": "AboutUS",
-        "section": "Logo",
-        "description": "LogoAboutUS"
-      },
-      {
-        "id": 28,
-        "contentData": "WebsiteIcon.png",
-        "pageName": "Home",
-        "section": "Icon",
-        "description": "WebsiteIcon"
-      },
-      {
-        "id": 31,
-        "contentData": "hh",
-        "pageName": "home",
-        "section": "NumberOne",
-        "description": "NumberOneHeader1"
-      },
-      {
-        "id": 32,
-        "contentData": "hh",
-        "pageName": "home",
-        "section": "NumberOne",
-        "description": "NumberOneHeader2"
-      },
-      {
-        "id": 33,
-        "contentData": "hh",
-        "pageName": "home",
-        "section": "NumberOne",
-        "description": "NumberOneHeader3"
-      },
-      {
-        "id": 34,
-        "contentData": "hadi70612300@gmail.com",
-        "pageName": "footer",
-        "section": "SocialMedia",
-        "description": "Email"
-      },
-      {
-        "id": 35,
-        "contentData": "#222022",
-        "pageName": "AllPages",
-        "section": "Color",
-        "description": "ThirdColor"
-      },
-      {
-        "id": 36,
-        "contentData": "three_leaves.png",
-        "pageName": "footer",
-        "section": "lightLogo",
-        "description": "lightLogo"
-      }
-    ];
-  }
+	// Minimal mock dataset used throughout the app
+	Future<List<Map<String, dynamic>>> _mockData() async {
+		return [
+			{
+				'id': 1,
+				'contentData': '03815860 - 01275019',
+				'pageName': 'home',
+				'section': 'UpperBanner',
+				'description': 'PhoneNumber'
+			},
+			{
+				'id': 2,
+				'contentData': 'Beirut, Lebanon',
+				'pageName': 'home',
+				'section': 'UpperBanner',
+				'description': 'Location'
+			},
+			{
+				'id': 23,
+				'contentData': '#056099',
+				'pageName': 'AllPages',
+				'section': 'Color',
+				'description': 'MainColor'
+			},
+			{
+				'id': 24,
+				'contentData': '#ffffff',
+				'pageName': 'AllPages',
+				'section': 'Color',
+				'description': 'SecondaryColor'
+			},
+			{
+				'id': 35,
+				'contentData': '#222022',
+				'pageName': 'AllPages',
+				'section': 'Color',
+				'description': 'ThirdColor'
+			},
+			{
+				'id': 34,
+				'contentData': 'hadi70612300@gmail.com',
+				'pageName': 'footer',
+				'section': 'SocialMedia',
+				'description': 'Email'
+			},
+			{
+				'id': 3,
+				'contentData': 'Test1',
+				'pageName': 'footer',
+				'section': 'SocialMedia',
+				'description': 'FaceBook'
+			},
+			{
+				'id': 4,
+				'contentData': 'ifj',
+				'pageName': 'footer',
+				'section': 'SocialMedia',
+				'description': 'Instagram'
+			},
+			{
+				'id': 5,
+				'contentData': 'geeg',
+				'pageName': 'footer',
+				'section': 'SocialMedia',
+				'description': 'Whatsapp'
+			},
+		];
+	}
 }
+

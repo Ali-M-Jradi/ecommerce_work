@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../localization/app_localizations_helper.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/content_provider.dart';
+import 'package:ecommerce/providers/content_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FooterWidget extends StatelessWidget {
