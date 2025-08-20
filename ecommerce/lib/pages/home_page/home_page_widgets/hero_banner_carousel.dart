@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:provider/provider.dart';
 import 'package:extended_image/extended_image.dart';
-import '../../../services/site_images_api_service.dart';
+import '../../../providers/content_provider.dart';
 
 class HeroBannerCarousel extends StatefulWidget {
   const HeroBannerCarousel({super.key});
@@ -14,9 +15,6 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
   final PageController _pageController = PageController();
   Timer? _timer;
   int _currentPage = 0;
-  bool _isLoading = true;
-  String? _error;
-  List<String> _carouselImages = [];
 
   // Helper function to check if filename indicates WebP format
   bool _isWebPImage(String filename) {
@@ -26,7 +24,6 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
   @override
   void initState() {
     super.initState();
-  _loadCachedThenRefresh();
     _startAutoPlay();
   }
 
@@ -40,8 +37,12 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
   void _startAutoPlay() {
     _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
       if (_pageController.hasClients) {
-        if (_carouselImages.isNotEmpty) {
-          _currentPage = (_currentPage + 1) % _carouselImages.length;
+        // Get carousel images count from provider
+        final contentProvider = Provider.of<ContentProvider>(context, listen: false);
+        final carouselImages = contentProvider.getCarouselImages();
+        
+        if (carouselImages.isNotEmpty) {
+          _currentPage = (_currentPage + 1) % carouselImages.length;
           _pageController.animateToPage(
             _currentPage,
             duration: const Duration(milliseconds: 300),
@@ -52,92 +53,36 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
     });
   }
 
-  Future<void> _fetchImages() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-    try {
-      final images = await SiteImagesApiService.getCarouselImages();
-      setState(() {
-        _carouselImages = images;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _error = 'Failed to load carousel images: $e';
-        _carouselImages = [];
-        _isLoading = false;
-      });
-    }
-  }
-
-  // Show cached URLs instantly (if any), then refresh from network in background.
-  Future<void> _loadCachedThenRefresh() async {
-    try {
-      final cached = await SiteImagesApiService.getCachedCarouselImages();
-      if (mounted && cached.isNotEmpty) {
-        setState(() {
-          _carouselImages = cached;
-          _isLoading = false; // show immediately
-          _error = null;
-        });
-      }
-    } catch (_) {}
-
-    // Network refresh in background
-    try {
-      final fresh = await SiteImagesApiService.getCarouselImages();
-      if (!mounted) return;
-      // Update only if changed (length or any element differs)
-      final changed = fresh.length != _carouselImages.length ||
-          fresh.asMap().entries.any((e) => e.value != _carouselImages[e.key]);
-      if (changed) {
-        setState(() {
-          _carouselImages = fresh;
-          _isLoading = false;
-          _error = null;
-        });
-      } else if (_carouselImages.isEmpty) {
-        // If no cached images were available, ensure we show network ones
-        setState(() {
-          _carouselImages = fresh;
-          _isLoading = false;
-          _error = null;
-        });
-      }
-    } catch (e) {
-      if (!mounted) return;
-      if (_carouselImages.isEmpty) {
-        setState(() {
-          _error = 'Failed to load carousel images: $e';
-          _isLoading = false;
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    print('🔄 HeroBannerCarousel rebuild');
-    print('📸 Found ${_carouselImages.length} carousel images');
+    return Consumer<ContentProvider>(
+      builder: (context, contentProvider, child) {
+        final carouselImages = contentProvider.getCarouselImages();
+        
+        print('🔄 Consumer rebuild triggered');
+        print('📸 Found ${carouselImages.length} carousel images:');
+        for (int i = 0; i < carouselImages.length; i++) {
+          print('  ${i + 1}. ${carouselImages[i]}');
+        }
 
-    // Loading state
-    if (_isLoading) {
-      return _buildLoadingState();
-    }
+        // Show loading state if API carousel is still loading
+        if (contentProvider.isLoadingCarousel) {
+          return _buildLoadingState();
+        }
 
-    // Error state
-    if (_error != null) {
-      return _buildErrorState(_error!);
-    }
+        // Show error state if there's a carousel-specific error
+        if (contentProvider.carouselError != null) {
+          return _buildErrorState(contentProvider.carouselError!);
+        }
 
-    // Empty state
-    if (_carouselImages.isEmpty) {
-      return _buildEmptyState();
-    }
+        // Show empty state if no API images are available
+        if (carouselImages.isEmpty) {
+          return _buildEmptyState();
+        }
 
-    return _buildCarousel(_carouselImages);
+        return _buildCarousel(carouselImages);
+      },
+    );
   }
 
   Widget _buildLoadingState() {
@@ -156,12 +101,19 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Loading images...',
+              'Loading images from API...',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
+            Text(
+              'Connecting to http://127.0.0.1:89/api/site-images',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
+                fontSize: 12,
+              ),
+            ),
           ],
         ),
       ),
@@ -242,7 +194,8 @@ class _HeroBannerCarouselState extends State<HeroBannerCarousel> {
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () {
-                _fetchImages();
+                final contentProvider = Provider.of<ContentProvider>(context, listen: false);
+                contentProvider.refreshApiCarouselImages();
               },
               icon: const Icon(Icons.refresh),
               label: const Text('Retry API Call'),

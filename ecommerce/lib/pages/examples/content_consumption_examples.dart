@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ecommerce/providers/content_provider.dart';
+import '../../../providers/content_provider.dart';
 
 /// Example of how to consume different content types in widgets
 class ContentConsumptionExamples extends StatelessWidget {

@@ -43,7 +43,6 @@ dependencies:
   firebase_messaging: ^16.0.0
   flutter_local_notifications: ^19.4.0 # Downgraded to avoid bigLargeIcon ambiguity
   shared_preferences: ^2.2.2
-  flutter_secure_storage: ^9.2.2
   timezone: ^0.10.1
   url_launcher: ^6.2.5
   mobile_scanner: ^7.0.1

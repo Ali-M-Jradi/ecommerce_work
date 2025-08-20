@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ecommerce/providers/content_provider.dart';
+import '../../providers/content_provider.dart';
 import 'package:extended_image/extended_image.dart';
 
 /// Complete Home Page with API content consumption

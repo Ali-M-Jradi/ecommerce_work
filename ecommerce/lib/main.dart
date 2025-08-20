@@ -86,8 +86,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CurrencyProvider()),
         ChangeNotifierProvider(create: (context) => BrandProvider()),
         ChangeNotifierProvider(create: (context) => AdminUserProvider()),
-  ChangeNotifierProvider(create: (context) => ProductProvider()), // <-- Added for product sync
-  ChangeNotifierProvider<ContentProvider>(create: (context) => ContentProvider()), // <-- Added for content management
+        ChangeNotifierProvider(create: (context) => ProductProvider()), // <-- Added for product sync
+        ChangeNotifierProvider(create: (context) => ContentProvider()), // <-- Added for content management
         ChangeNotifierProvider(create: (context) => AuthProvider()), // <-- Added for API authentication
       ],
       child: Consumer<LanguageProvider>(
