@@ -13,7 +13,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Forgot Password')),
-      body: Center(child: Text('Forgot Password Form Here')),
+      body: const Center(child: Text('Forgot Password Form Here')),
     );
   }
 }

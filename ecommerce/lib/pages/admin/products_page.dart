@@ -72,7 +72,7 @@ class _ProductsPageState extends State<ProductsPage> {
           ),
           Expanded(
             child: products.isEmpty
-                ? Center(child: Text('No products found.'))
+                ? const Center(child: Text('No products found.'))
                 : _isGridView
                     ? GridView.builder(
                         padding: const EdgeInsets.all(16.0),
@@ -185,9 +185,11 @@ class _ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: product.image.isNotEmpty
-                  ? Image.network(product.image, fit: BoxFit.cover, width: double.infinity)
-                  : Container(color: Colors.grey.shade200, child: const Icon(Icons.image, size: 48)),
+              child: _buildSafeImage(
+                product.image,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
             ),
             const SizedBox(height: 8),
             Text(product.name, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -216,9 +218,7 @@ class _ProductListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: product.image.isNotEmpty
-            ? Image.network(product.image, width: 48, height: 48, fit: BoxFit.cover)
-            : const Icon(Icons.image, size: 48),
+  leading: _buildSafeImage(product.image, width: 48, height: 48, fit: BoxFit.cover),
         title: Text(product.name),
         subtitle: Text('${product.brand} • ${product.category}'),
         trailing: Row(
@@ -231,4 +231,23 @@ class _ProductListItem extends StatelessWidget {
       ),
     );
   }
+}
+
+// Helper to safely render image from URL or assets
+Widget _buildSafeImage(String path, {double? width, double? height, BoxFit fit = BoxFit.cover}) {
+  final p = path.trim();
+  if (p.isEmpty) {
+    return const Icon(Icons.image, size: 48);
+  }
+  final isUrl = p.startsWith('http://') || p.startsWith('https://');
+  final ImageProvider provider = isUrl
+      ? NetworkImage(p)
+      : AssetImage(p.startsWith('assets/') ? p : 'assets/images/$p');
+  return Image(
+    image: provider,
+    width: width,
+    height: height,
+    fit: fit,
+    errorBuilder: (_, __, ___) => const Icon(Icons.image, size: 48),
+  );
 }

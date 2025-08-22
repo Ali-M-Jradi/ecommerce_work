@@ -645,10 +645,10 @@ class ParametersPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Row(
+        title: const Row(
           children: [
-            const Icon(Icons.info_outline, color: Colors.blue),
-            const SizedBox(width: 8),
+            Icon(Icons.info_outline, color: Colors.blue),
+            SizedBox(width: 8),
             Flexible(child: Text('Parameter Info')),
           ],
         ),

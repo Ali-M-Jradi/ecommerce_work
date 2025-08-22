@@ -23,7 +23,7 @@ class ContentConsumptionExamples extends StatelessWidget {
                 children: [
                   Icon(Icons.error, size: 64, color: Theme.of(context).colorScheme.error),
                   const SizedBox(height: 16),
-                  Text('Error loading content'),
+                  const Text('Error loading content'),
                   const SizedBox(height: 8),
                   Text(contentProvider.error!, textAlign: TextAlign.center),
                   const SizedBox(height: 16),

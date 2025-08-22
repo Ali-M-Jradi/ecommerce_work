@@ -60,7 +60,7 @@ class AdminDashboardPage extends StatelessWidget {
             children: [
               // Welcome section
               Container(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -68,14 +68,14 @@ class AdminDashboardPage extends StatelessWidget {
                     BoxShadow(
                       color: primaryColor.withOpacity(0.1),
                       blurRadius: 20,
-                      offset: Offset(0, 10),
+                      offset: const Offset(0, 10),
                     ),
                   ],
                 ),
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: primaryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(16),
@@ -86,7 +86,7 @@ class AdminDashboardPage extends StatelessWidget {
                         color: primaryColor,
                       ),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +99,7 @@ class AdminDashboardPage extends StatelessWidget {
                               color: primaryColor,
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             'Manage your ecommerce platform efficiently',
                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -112,7 +112,7 @@ class AdminDashboardPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               
               // Admin tiles grid
               Expanded(
@@ -228,7 +228,7 @@ class _AdminTileState extends State<_AdminTile>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       vsync: this,
     );
     _scaleAnimation = Tween<double>(
@@ -302,7 +302,7 @@ class _AdminTileState extends State<_AdminTile>
                       mainAxisSize: MainAxisSize.min, // Added to prevent overflow
                       children: [
                         Container(
-                          padding: EdgeInsets.all(16), // Reduced from 20
+                          padding: const EdgeInsets.all(16), // Reduced from 20
                           decoration: BoxDecoration(
                             color: _isHovered
                                 ? primaryColor.withOpacity(0.15)

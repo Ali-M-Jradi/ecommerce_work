@@ -26,7 +26,7 @@ class ProductListItemWidget extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(12.0),
         child: Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12.0),
           child: Row(
             children: [
               // Product Image
@@ -41,17 +41,7 @@ class ProductListItemWidget extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        product['image'],
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            Icons.image,
-                            size: 30,
-                            color: colorScheme.onSurface.withOpacity(0.3),
-                          );
-                        },
-                      ),
+                      child: _buildProductImage(product['image']?.toString() ?? '', colorScheme),
                     ),
                   ),
                   if (product['soldOut'])
@@ -59,14 +49,14 @@ class ProductListItemWidget extends StatelessWidget {
                       top: 4,
                       right: 4,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           AppLocalizationsHelper.of(context).soldOut,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 8,
                             fontWeight: FontWeight.bold,
@@ -76,7 +66,7 @@ class ProductListItemWidget extends StatelessWidget {
                     ),
                 ],
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               // Product Info
               Expanded(
                 child: Column(
@@ -92,16 +82,16 @@ class ProductListItemWidget extends StatelessWidget {
                       ),
                       highlightColor: Colors.yellow,
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     HighlightedText(
                       text: ProductsDataProvider.getLocalizedName(product, context),
                       highlight: searchQuery ?? '',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       highlightColor: Colors.yellow,
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     HighlightedText(
                       text: ProductsDataProvider.getLocalizedDescription(product, context),
                       highlight: searchQuery ?? '',
@@ -110,12 +100,12 @@ class ProductListItemWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       highlightColor: Colors.yellow,
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       _getDisplaySize(context),
                       style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -129,12 +119,12 @@ class ProductListItemWidget extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.star, color: Colors.orange, size: 14),
+                            const Icon(Icons.star, color: Colors.orange, size: 14),
                             Text(
                               '${product['rating']}',
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Icon(
                               Icons.info_outline,
                               size: 16,
@@ -161,5 +151,21 @@ class ProductListItemWidget extends StatelessWidget {
       return AppLocalizationsHelper.of(context).notSpecified;
     }
     return size.toString();
+  }
+
+  // Helper method to build product image from network
+  Widget _buildProductImage(String imagePath, ColorScheme colorScheme) {
+    return Image.network(
+      imagePath,
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+      },
+      errorBuilder: (context, error, stack) => Container(
+        color: colorScheme.surfaceContainerHighest,
+        child: Icon(Icons.image_not_supported, size: 30, color: colorScheme.onSurface.withOpacity(0.3)),
+      ),
+    );
   }
 }

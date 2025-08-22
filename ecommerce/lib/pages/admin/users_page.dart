@@ -60,7 +60,7 @@ class _UsersPageState extends State<UsersPage> {
             BoxShadow(
               color: AppColors.primary(context).withOpacity(0.3),
               blurRadius: 12,
-              offset: Offset(0, 6),
+              offset: const Offset(0, 6),
             ),
           ],
         ),
@@ -73,8 +73,8 @@ class _UsersPageState extends State<UsersPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
-          icon: Icon(Icons.person_add, size: 24),
-          label: Text(
+          icon: const Icon(Icons.person_add, size: 24),
+          label: const Text(
             'Add User',
             style: TextStyle(
               fontWeight: FontWeight.w600,
@@ -459,7 +459,7 @@ class _UsersPageState extends State<UsersPage> {
                                   ),
                                   const SizedBox(width: 4),
                                   if (user.emailVerified)
-                                    Icon(
+                                    const Icon(
                                       Icons.verified,
                                       size: 16,
                                       color: Colors.green,

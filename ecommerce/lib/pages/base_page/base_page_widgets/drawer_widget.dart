@@ -64,7 +64,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     GestureDetector(
                       onTap: isLoggedIn ? () {
                         Navigator.of(context).pop(); // Close drawer first
@@ -106,7 +106,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // Currencies
          ListTile(
             leading: Icon(Icons.dashboard, color: Theme.of(context).colorScheme.primary),
-            title: Text('Admin Dashboard'),
+            title: const Text('Admin Dashboard'),
             onTap: () {
               Navigator.of(context).pushNamed('/admin/dashboard');
             },
@@ -114,7 +114,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
          // Order History
          ListTile(
            leading: Icon(Icons.receipt_long, color: Theme.of(context).colorScheme.primary),
-           title: Text('Order History'),
+           title: const Text('Order History'),
            onTap: () {
              widget.onNavigationTap?.call('order_history');
            },
@@ -151,8 +151,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                  
           // Wishlist / Favorites
           ListTile(
-            leading: Icon(Icons.favorite, color: Colors.redAccent),
-            title: Text('Wishlist'),
+            leading: const Icon(Icons.favorite, color: Colors.redAccent),
+            title: const Text('Wishlist'),
             onTap: () {
               Navigator.of(context).pushNamed('/wishlist');
             },
@@ -167,7 +167,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
           ),
           
-          Divider(),
+          const Divider(),
           
           // Contact Us
           ListTile(
@@ -199,14 +199,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ? Container(
                         width: 24,
                         height: 24,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.red,
                           shape: BoxShape.circle,
                         ),
                         child: Center(
                           child: Text(
                             unreadCount > 9 ? '9+' : unreadCount.toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -244,7 +244,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       Navigator.of(context).pushNamed('/profile');
                     },
                   )
-                : SizedBox.shrink();
+                : const SizedBox.shrink();
             },
           ),
           
@@ -285,7 +285,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
           ),
           
-          Divider(),
+          const Divider(),
           
           // Language Switcher
           Consumer<LanguageProvider>(
@@ -293,17 +293,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               final isEnglish = languageProvider.currentLocale.languageCode == 'en';
               
               return Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         Icon(Icons.language, color: Theme.of(context).colorScheme.primary, size: 24),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         Text(
                           isEnglish ? 'Language' : 'اللغة',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Colors.black87,
@@ -311,7 +311,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
@@ -326,16 +326,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               onTap: !isEnglish ? () {
                                 languageProvider.setLocale(const Locale('en'));
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text('Language changed to English'),
-                                    duration: const Duration(seconds: 2),
+                                    duration: Duration(seconds: 2),
                                     behavior: SnackBarBehavior.floating,
                                   ),
                                 );
                               } : null,
                               child: AnimatedContainer(
-                                duration: Duration(milliseconds: 200),
-                                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                                duration: const Duration(milliseconds: 200),
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                                 decoration: BoxDecoration(
                                   color: isEnglish ? Theme.of(context).colorScheme.primary : Colors.transparent,
                                   borderRadius: BorderRadius.circular(25),
@@ -343,7 +343,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                     BoxShadow(
                                       color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                                       blurRadius: 8,
-                                      offset: Offset(0, 2),
+                                      offset: const Offset(0, 2),
                                     ),
                                   ] : [],
                                 ),
@@ -366,16 +366,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               onTap: isEnglish ? () {
                                 languageProvider.setLocale(const Locale('ar'));
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text('تم تغيير اللغة إلى العربية'),
-                                    duration: const Duration(seconds: 2),
+                                    duration: Duration(seconds: 2),
                                     behavior: SnackBarBehavior.floating,
                                   ),
                                 );
                               } : null,
                               child: AnimatedContainer(
-                                duration: Duration(milliseconds: 200),
-                                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                                duration: const Duration(milliseconds: 200),
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                                 decoration: BoxDecoration(
                                   color: !isEnglish ? Theme.of(context).colorScheme.primary : Colors.transparent,
                                   borderRadius: BorderRadius.circular(25),
@@ -383,7 +383,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                     BoxShadow(
                                       color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                                       blurRadius: 8,
-                                      offset: Offset(0, 2),
+                                      offset: const Offset(0, 2),
                                     ),
                                   ] : [],
                                 ),
@@ -403,7 +403,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Center(
                       child: Text(
                         isEnglish ? 'Arabic / English' : 'العربية / الإنجليزية',

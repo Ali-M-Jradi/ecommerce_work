@@ -248,7 +248,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   width: 24,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
-                SizedBox(width: 6),
+                const SizedBox(width: 6),
                 Flexible(
                   child: Text(
                     AppLocalizationsHelper.of(context).appTitle,

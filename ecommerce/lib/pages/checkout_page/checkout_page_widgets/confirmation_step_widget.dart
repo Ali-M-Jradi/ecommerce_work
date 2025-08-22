@@ -484,7 +484,7 @@ class ConfirmationStepWidget extends StatelessWidget {
     );
     
     final iconContent = _buildPaymentMethodIcon(context, paymentMethod);
-    final spacer = const SizedBox(width: 12);
+    const spacer = SizedBox(width: 12);
     
     return Row(
       // For RTL, we'll need to adjust the order of children

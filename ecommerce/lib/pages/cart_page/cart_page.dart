@@ -63,7 +63,7 @@ class CartPage extends StatelessWidget {
                   final cartProvider = Provider.of<CartProvider>(context, listen: false);
                   await cartProvider.clearCartTableAndReload();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Cart DB reset!')),
+                    const SnackBar(content: Text('Cart DB reset!')),
                   );
                 },
               ),

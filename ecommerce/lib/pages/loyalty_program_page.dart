@@ -40,7 +40,7 @@ class LoyaltyProgramPage extends StatelessWidget {
                 ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Loyalty program coming soon!')),
+                    const SnackBar(content: Text('Loyalty program coming soon!')),
                   );
                 },
                 child: Text('Join Now', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),

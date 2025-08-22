@@ -40,7 +40,7 @@ class SpecialOffersPage extends StatelessWidget {
                 ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('More offers coming soon!')),
+                    const SnackBar(content: Text('More offers coming soon!')),
                   );
                 },
                 child: Text('Shop Now', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),

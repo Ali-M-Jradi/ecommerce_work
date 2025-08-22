@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../localization/app_localizations_helper.dart';
-import 'products_page_service.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/api_product_provider.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final String? selectedCategory;
@@ -49,8 +50,14 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   void initState() {
     super.initState();
     
-    // Initialize categories list dynamically
-    final availableCategories = ProductsPageService().getAvailableCategories();
+    // Initialize categories list from API-backed products
+    final provider = context.read<ApiProductProvider>();
+    final availableCategories = provider.products
+        .map((p) => p.category)
+        .where((c) => c.isNotEmpty)
+        .toSet()
+        .toList()
+      ..sort();
     _categories = ['All Categories', ...availableCategories];
     
     _selectedCategory = widget.selectedCategory ?? 'All Categories';
@@ -323,7 +330,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ),
               child: Text(
                 AppLocalizationsHelper.of(context).applyFilters,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),

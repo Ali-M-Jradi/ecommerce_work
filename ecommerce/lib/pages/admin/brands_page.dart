@@ -64,14 +64,14 @@ class _BrandsPageState extends State<BrandsPage> {
             BoxShadow(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
               blurRadius: 12,
-              offset: Offset(0, 6),
+              offset: const Offset(0, 6),
             ),
           ],
         ),
         child: FloatingActionButton.extended(
           onPressed: () => _showBrandModal(context),
-          icon: Icon(Icons.store_mall_directory, size: 24),
-          label: Text(
+          icon: const Icon(Icons.store_mall_directory, size: 24),
+          label: const Text(
             'Add Brand',
             style: TextStyle(
               fontWeight: FontWeight.w600,

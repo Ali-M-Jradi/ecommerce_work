@@ -15,13 +15,13 @@ class LanguageSwitcher extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(isEnglish ? 'EN' : 'عربي', 
-               style: TextStyle(
+               style: const TextStyle(
                  fontSize: 14, 
                  fontWeight: FontWeight.bold,
                  color: Colors.white,
                )),
           const SizedBox(width: 4),
-          Icon(Icons.language, size: 18),
+          const Icon(Icons.language, size: 18),
         ],
       ),
       onPressed: () {

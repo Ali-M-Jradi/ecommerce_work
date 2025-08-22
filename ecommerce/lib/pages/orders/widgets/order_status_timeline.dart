@@ -16,7 +16,7 @@ class OrderStatusTimeline extends StatelessWidget {
     final localizations = AppLocalizations.of(context);
     
     // Define all possible statuses in order
-    final allStatuses = OrderStatus.values;
+    const allStatuses = OrderStatus.values;
     
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -143,7 +143,7 @@ class OrderStatusTimeline extends StatelessWidget {
                 : null,
           ),
           child: isActive 
-              ? Icon(
+              ? const Icon(
                   Icons.check,
                   color: Colors.white,
                   size: 16,

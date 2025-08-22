@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce/pages/base_page/base_page_widgets/footer_widget.dart';
 import 'product_card_widget.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/product_provider.dart';
+import '../../../providers/api_product_provider.dart';
 import '../../../models/product.dart';
 import 'no_products_found_widget.dart';
 
 class ProductsGridViewWidget extends StatelessWidget {
   final ScrollController scrollController;
   final String sortBy;
-  final Function(Map<String, dynamic>) onProductTap;
+  final Function(Product) onProductTap;
   final String? category;
   final String? searchQuery;
   final String? brand;
@@ -36,11 +36,14 @@ class ProductsGridViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProductProvider>(
+    return Consumer<ApiProductProvider>(
       builder: (context, provider, child) {
-        // ProductProvider doesn't have loading states like ApiProductProvider
-        // It uses local/demo data, so we just check if products are available
-        
+        if (provider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (provider.error != null) {
+          return Center(child: Text('Error: ${provider.error}'));
+        }
         final products = provider.getFilteredSortedProducts(
           searchQuery: searchQuery ?? '',
           sortBy: sortBy,
@@ -107,10 +110,9 @@ class ProductsGridViewWidget extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final product = filteredProducts[index];
-                    final productMap = product.toMap(); // Convert Product to Map
                     return ProductCardWidget(
-                      product: productMap,
-                      onTap: () => onProductTap(productMap),
+                      product: product,
+                      onTap: () => onProductTap(product),
                       searchQuery: searchQuery,
                     );
                   },

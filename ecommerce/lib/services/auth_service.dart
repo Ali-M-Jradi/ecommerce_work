@@ -135,7 +135,7 @@ class AuthService {
         final response = await client.get(
           Uri.parse(url),
           headers: {'Accept': 'application/json'},
-        ).timeout(Duration(seconds: 5));
+        ).timeout(const Duration(seconds: 5));
         
         results += '✅ $url - Status: ${response.statusCode}\n';
         if (response.body.isNotEmpty && response.body.length < 200) {

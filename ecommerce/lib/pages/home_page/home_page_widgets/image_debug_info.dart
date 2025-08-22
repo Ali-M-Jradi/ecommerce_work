@@ -28,7 +28,7 @@ class ImageDebugInfo extends StatelessWidget {
             const SizedBox(height: 16),
             Text('Total Images: ${imageFilenames.length}'),
             const SizedBox(height: 8),
-            Text('Image Source: Local Assets'),
+            const Text('Image Source: Local Assets'),
             const SizedBox(height: 16),
             ...imageFilenames.asMap().entries.map((entry) {
               final index = entry.key;

@@ -24,7 +24,7 @@ class ContentTestWidget extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.error, size: 64, color: Colors.red),
+                  const Icon(Icons.error, size: 64, color: Colors.red),
                   const SizedBox(height: 16),
                   Text('Error: ${contentProvider.error}'),
                   const SizedBox(height: 16),
@@ -69,7 +69,7 @@ class ContentTestWidget extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text('Total Items: ${contentProvider.items.length}'),
                         Text('Has Content: ${contentProvider.hasContent}'),
-                        Text('API Endpoint: https://localhost:7184/api/site-content'),
+                        const Text('API Endpoint: https://localhost:7184/api/site-content'),
                         const SizedBox(height: 8),
                         Container(
                           padding: const EdgeInsets.all(8),

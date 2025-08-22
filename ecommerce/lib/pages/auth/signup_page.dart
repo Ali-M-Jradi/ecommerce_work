@@ -67,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage>
 
   void _setupAnimations() {
     _animationController = AnimationController(
-      duration: Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
     
@@ -80,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage>
     ));
     
     _slideAnimation = Tween<Offset>(
-      begin: Offset(0, 0.3),
+      begin: const Offset(0, 0.3),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _animationController,
@@ -92,7 +92,7 @@ class _SignUpPageState extends State<SignUpPage>
   
   // Background color animation function - longer duration (6 seconds instead of 4)
   void _startBackgroundAnimation() {
-    Future.delayed(Duration(seconds: 6), () {
+    Future.delayed(const Duration(seconds: 6), () {
       if (mounted) {
         setState(() {
           _currentBackgroundIndex = (_currentBackgroundIndex + 1) % _backgroundColors.length;
@@ -134,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage>
     HapticFeedback.lightImpact();
     
     // Simulate signup delay
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     
     // Get user information from controllers
     final email = _emailController.text.trim();
@@ -174,7 +174,7 @@ class _SignUpPageState extends State<SignUpPage>
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: AnimatedContainer(
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -186,16 +186,16 @@ class _SignUpPageState extends State<SignUpPage>
           child: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     height: keyboardVisible ? 80 : null,
                     child: keyboardVisible
                       ? Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                           child: Row(
                             children: [
                               IconButton(
@@ -213,7 +213,7 @@ class _SignUpPageState extends State<SignUpPage>
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              SizedBox(width: 40),
+                              const SizedBox(width: 40),
                             ],
                           ),
                         )
@@ -234,7 +234,7 @@ class _SignUpPageState extends State<SignUpPage>
     return FadeTransition(
       opacity: _fadeAnimation,
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Row(
@@ -243,21 +243,21 @@ class _SignUpPageState extends State<SignUpPage>
                   icon: Icon(Icons.arrow_back_ios, color: colorScheme.onSurface),
                   onPressed: () => Navigator.pop(context),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   AuthLocalizations.signUp(context),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
                 ),
-                Spacer(),
-                SizedBox(width: 40), // Balance the back button
+                const Spacer(),
+                const SizedBox(width: 40), // Balance the back button
               ],
             ),
             
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             
             // Logo
             Container(
@@ -281,18 +281,18 @@ class _SignUpPageState extends State<SignUpPage>
               ),
             ),
             
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             
             Text(
               AuthLocalizations.createYourAccount(context),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
             ),
             
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             
             Text(
               AuthLocalizations.joinBeautyCommunity(context),
@@ -316,7 +316,7 @@ class _SignUpPageState extends State<SignUpPage>
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           ),
@@ -324,7 +324,7 @@ class _SignUpPageState extends State<SignUpPage>
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               blurRadius: 20,
-              offset: Offset(0, -5),
+              offset: const Offset(0, -5),
             ),
           ],
         ),
@@ -356,7 +356,7 @@ class _SignUpPageState extends State<SignUpPage>
                 
                 // Only show login link when keyboard is hidden to save space
                 if (!keyboardVisible) ...[
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildLoginLink(),
                 ],
               ],
@@ -410,7 +410,7 @@ class _SignUpPageState extends State<SignUpPage>
                 },
               ),
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Expanded(
               child: _buildTextField(
                 controller: _lastNameController,
@@ -427,7 +427,7 @@ class _SignUpPageState extends State<SignUpPage>
           ],
         ),
           
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
           
         // Email field
         _buildTextField(
@@ -446,7 +446,7 @@ class _SignUpPageState extends State<SignUpPage>
           },
         ),
           
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
           
         // Password field
         _buildTextField(
@@ -478,7 +478,7 @@ class _SignUpPageState extends State<SignUpPage>
           },
         ),
           
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
           
         // Confirm password field
         _buildTextField(
@@ -640,7 +640,7 @@ class _SignUpPageState extends State<SignUpPage>
           BoxShadow(
             color: _themeColor.withOpacity(0.3),
             blurRadius: 8,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -654,7 +654,7 @@ class _SignUpPageState extends State<SignUpPage>
           ),
         ),
         child: _isLoading
-            ? SizedBox(
+            ? const SizedBox(
                 height: 20,
                 width: 20,
                 child: CircularProgressIndicator(
@@ -664,7 +664,7 @@ class _SignUpPageState extends State<SignUpPage>
               )
             : Text(
                 AuthLocalizations.createAccount(context),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,

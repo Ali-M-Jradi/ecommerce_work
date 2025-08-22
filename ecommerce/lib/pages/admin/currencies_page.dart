@@ -62,7 +62,7 @@ class _CurrenciesPageState extends State<CurrenciesPage> {
                             if (provider.defaultCurrency != null)
                               Flexible(
                                 child: Chip(
-                                  avatar: Icon(Icons.star, size: 16, color: Colors.amber),
+                                  avatar: const Icon(Icons.star, size: 16, color: Colors.amber),
                                   label: Text('Default: ${provider.defaultCurrency!.code}'),
                                   backgroundColor: Colors.amber.shade50,
                                 ),
@@ -536,7 +536,7 @@ class _CurrencyDialogState extends State<_CurrencyDialog> {
                     hintText: 'e.g., 1.0',
                     border: OutlineInputBorder(),
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
                   ],

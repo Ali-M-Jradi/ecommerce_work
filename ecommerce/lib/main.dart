@@ -43,7 +43,7 @@ import 'package:ecommerce/providers/parameter_provider.dart';
 import 'package:ecommerce/providers/currency_provider.dart';
 import 'package:ecommerce/providers/brand_provider.dart';
 import 'package:ecommerce/providers/admin_user_provider.dart';
-import 'package:ecommerce/providers/product_provider.dart';
+import 'package:ecommerce/providers/api_product_provider.dart';
 import 'package:ecommerce/providers/content_provider.dart';
 import 'package:ecommerce/pages/auth/auth_provider.dart';
 import 'package:ecommerce/pages/debug_image_page.dart';
@@ -86,7 +86,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CurrencyProvider()),
         ChangeNotifierProvider(create: (context) => BrandProvider()),
         ChangeNotifierProvider(create: (context) => AdminUserProvider()),
-        ChangeNotifierProvider(create: (context) => ProductProvider()), // <-- Added for product sync
+  ChangeNotifierProvider(create: (context) => ApiProductProvider()), // Use API-backed products
         ChangeNotifierProvider(create: (context) => ContentProvider()), // <-- Added for content management
         ChangeNotifierProvider(create: (context) => AuthProvider()), // <-- Added for API authentication
       ],
@@ -116,7 +116,7 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
-                localizationsDelegates: [
+                localizationsDelegates: const [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
@@ -206,7 +206,7 @@ class MyApp extends StatelessWidget {
         iconTheme: IconThemeData(color: colorScheme.onPrimary, size: 24),
         actionsIconTheme: IconThemeData(color: colorScheme.onPrimary, size: 24),
         toolbarHeight: 64,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(16),
           ),
@@ -218,11 +218,11 @@ class MyApp extends StatelessWidget {
           foregroundColor: colorScheme.onPrimary,
           elevation: 4,
           shadowColor: primaryColor.withOpacity(0.3),
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,
             letterSpacing: 0.5,
@@ -237,7 +237,7 @@ class MyApp extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(28),
         ),
-        sizeConstraints: BoxConstraints.tightFor(
+        sizeConstraints: const BoxConstraints.tightFor(
           width: 56,
           height: 56,
         ),
@@ -261,7 +261,7 @@ class MyApp extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
@@ -271,7 +271,7 @@ class MyApp extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: primaryColor, width: 2),
         ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
     );
   }

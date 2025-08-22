@@ -1,94 +1,152 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Carries which base URL succeeded and its response
+class _HttpResult {
+  final String base;
+  final http.Response response;
+  _HttpResult(this.base, this.response);
+}
 
 class SiteImagesApiService {
-  static String baseUrl = 'http://192.168.100.54:89';
-  // Essential URLs only
+  static String baseUrl = 'https://localhost:7184';
+  // Use HTTP port 5000 for mobile dev (preferred) and HTTPS 7184 as fallback
   static const List<String> alternativeUrls = [
-    'http://192.168.100.54:89', // Your network IP
-    'http://10.0.2.2:89',       // Android emulator host
-    'http://127.0.0.1:89',      // Localhost
-    'http://localhost:89',      // Localhost alternate
+    'http://192.168.137.1:5000',   // Windows hotspot IP - HTTP (preferred for mobile)
+    'http://192.168.100.54:5000',  // Ethernet IP - HTTP (preferred for mobile)
+    'https://192.168.137.1:7184', // Windows hotspot IP - HTTPS fallback
+    'https://192.168.100.54:7184', // Ethernet IP - HTTPS fallback
+    'http://localhost:5000',       // HTTP localhost
+    'https://localhost:7184',      // HTTPS localhost fallback
+    'http://10.0.2.2:5000',        // Android emulator host - HTTP
+    'http://127.0.0.1:5000',       // Localhost IP - HTTP
   ];
-  static const String imagesEndpoint = '/api/site-images';
+  static const String imagesEndpoint = '/api/site-images'; // Can also use '/api/site-images/manifest' for caching/version checks
+  static const Duration _networkTimeout = Duration(seconds: 2);
+  static const String _prefsLastWorkingBaseUrlKey = 'last_working_base_url';
+
+  static Future<List<String>> _getPrioritizedUrls() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final last = prefs.getString(_prefsLastWorkingBaseUrlKey);
+      if (last == null || last.isEmpty) return List<String>.from(alternativeUrls);
+      final list = List<String>.from(alternativeUrls);
+      // Move last to front if present; otherwise prepend
+      list.remove(last);
+      return [last, ...list];
+    } catch (_) {
+      return List<String>.from(alternativeUrls);
+    }
+  }
+
+  /// Internal helper to carry which base responded
+  static Future<_HttpResult> _tryAllHosts(String endpoint, {Map<String, String>? headers}) async {
+    final urls = await _getPrioritizedUrls();
+    final completer = Completer<_HttpResult>();
+    int remaining = urls.length;
+    Exception? lastErr;
+
+    for (final url in urls) {
+      // Fire all attempts without awaiting (parallel)
+      () async {
+        final uri = Uri.parse('$url$endpoint');
+        if (!completer.isCompleted) {
+          print('🌐 DEBUG: Attempting to fetch from: $uri');
+        }
+        try {
+          final response = await http
+              .get(uri, headers: headers)
+              .timeout(_networkTimeout);
+          if (!completer.isCompleted || response.statusCode == 200) {
+            print('📡 DEBUG: Response status ${response.statusCode} from $url');
+          }
+          if (response.statusCode == 200 && !completer.isCompleted) {
+            // Persist last working base URL
+            try {
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setString(_prefsLastWorkingBaseUrlKey, url);
+            } catch (_) {}
+            completer.complete(_HttpResult(url, response));
+            return;
+          } else {
+            lastErr = Exception('HTTP ${response.statusCode} at $url');
+          }
+        } catch (e) {
+          if (!completer.isCompleted) {
+            print('❌ DEBUG: Connection failed to $url: $e');
+          }
+          lastErr = Exception('Failed $url: $e');
+        } finally {
+          remaining--;
+          if (remaining == 0 && !completer.isCompleted) {
+            completer.completeError(lastErr ?? Exception('All hosts failed'));
+          }
+        }
+      }();
+    }
+
+    return completer.future;
+  }
   
   /// Fetches site images from the API
   static Future<List<Map<String, dynamic>>> fetchSiteImages() async {
-    Exception? lastException;
-    
-    // Try each URL until one works
-    for (final url in alternativeUrls) {
-      try {
-        final uri = Uri.parse('$url$imagesEndpoint');
-        print('🌐 DEBUG: Attempting to fetch from: $uri');
-        
-        final response = await http.get(
-          uri,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'User-Agent': 'Flutter-Mobile-App/1.0',
-            'Origin': 'flutter-app',
-          },
-        ).timeout(const Duration(seconds: 5));
-        
-        print('📡 DEBUG: Response status: ${response.statusCode}');
-        print('📄 DEBUG: Response body: ${response.body}');
-        
-        if (response.statusCode == 200) {
-          // Update the base URL to the working one for image URL construction
-          baseUrl = url;
-          
-          final dynamic jsonData = json.decode(response.body);
-          
-          if (jsonData is List) {
-            // Check if it's a list of strings (your API format) or maps
-            if (jsonData.isNotEmpty) {
-              if (jsonData[0] is String) {
-                // Convert array of strings to array of maps with filename field
-                return jsonData.map<Map<String, dynamic>>((filename) => {
-                  'filename': filename.toString(),
-                }).toList();
-              } else {
-                // If response is directly a list of maps
-                return List<Map<String, dynamic>>.from(jsonData);
-              }
-            } else {
-              return []; // Empty list
-            }
-          } else if (jsonData is Map && jsonData.containsKey('data')) {
-            // If response has a 'data' wrapper
-            final List<dynamic> imagesList = jsonData['data'];
-            return List<Map<String, dynamic>>.from(imagesList);
-          } else if (jsonData is Map && jsonData.containsKey('images')) {
-            // If response has an 'images' wrapper
-            final List<dynamic> imagesList = jsonData['images'];
-            return List<Map<String, dynamic>>.from(imagesList);
+    try {
+      final result = await _tryAllHosts(
+        imagesEndpoint,
+        headers: const {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'User-Agent': 'Flutter-Mobile-App/1.0',
+          'Origin': 'flutter-app',
+        },
+      );
+
+  // Update working base URL for subsequent image URL construction
+  baseUrl = result.base;
+
+      final dynamic jsonData = json.decode(result.response.body);
+      if (jsonData is List) {
+        // Check if it's a list of strings (your API format) or maps
+        if (jsonData.isNotEmpty) {
+          if (jsonData[0] is String) {
+            // Convert array of strings to array of maps with filename field
+            return jsonData
+                .map<Map<String, dynamic>>((filename) => {
+                      'filename': filename.toString(),
+                    })
+                .toList();
           } else {
-            // Try to extract any array from the response
-            final Map<String, dynamic> dataMap = jsonData;
-            for (final value in dataMap.values) {
-              if (value is List) {
-                return List<Map<String, dynamic>>.from(value);
-              }
-            }
-            
-            // If it's a single object, wrap it in a list
-            return [Map<String, dynamic>.from(jsonData)];
+            // If response is directly a list of maps
+            return List<Map<String, dynamic>>.from(jsonData);
           }
         } else {
-          print('❌ DEBUG: HTTP Error ${response.statusCode}: ${response.body}');
-          lastException = Exception('Failed to load images from $url. Status: ${response.statusCode}');
+          return []; // Empty list
         }
-      } catch (e) {
-        print('❌ DEBUG: Connection failed to $url: $e');
-        lastException = Exception('Connection failed to $url: $e');
-        continue; // Try next URL
+      } else if (jsonData is Map && jsonData.containsKey('data')) {
+        // If response has a 'data' wrapper
+        final List<dynamic> imagesList = jsonData['data'];
+        return List<Map<String, dynamic>>.from(imagesList);
+      } else if (jsonData is Map && jsonData.containsKey('images')) {
+        // If response has an 'images' wrapper
+        final List<dynamic> imagesList = jsonData['images'];
+        return List<Map<String, dynamic>>.from(imagesList);
+      } else {
+        // Try to extract any array from the response
+        final Map<String, dynamic> dataMap = jsonData;
+        for (final value in dataMap.values) {
+          if (value is List) {
+            return List<Map<String, dynamic>>.from(value);
+          }
+        }
+
+        // If it's a single object, wrap it in a list
+        return [Map<String, dynamic>.from(jsonData)];
       }
+    } catch (e) {
+      throw Exception('Network error: All connection attempts failed: $e');
     }
-    
-    // If all URLs failed, throw the last exception
-    throw lastException ?? Exception('Network error: All connection attempts failed');
   }
   
   /// Extracts image URL from API response item and constructs full URL

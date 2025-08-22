@@ -109,21 +109,21 @@ class ProductsPageService {
   Future<bool> addToFavorites(Map<String, dynamic> product) async {
     // TODO: Implement actual favorites functionality
     // This could integrate with a local database or API
-    await Future.delayed(Duration(milliseconds: 500)); // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 500)); // Simulate network delay
     return true;
   }
 
   /// Remove product from favorites (placeholder for future implementation)
   Future<bool> removeFromFavorites(Map<String, dynamic> product) async {
     // TODO: Implement actual favorites functionality
-    await Future.delayed(Duration(milliseconds: 500)); // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 500)); // Simulate network delay
     return true;
   }
 
   /// Add product to cart (placeholder for future implementation)
   Future<bool> addToCart(Map<String, dynamic> product, int quantity) async {
     // TODO: Implement actual cart functionality
-    await Future.delayed(Duration(milliseconds: 500)); // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 500)); // Simulate network delay
     return true;
   }
 
@@ -131,7 +131,7 @@ class ProductsPageService {
   Future<bool> updateProductRating(Map<String, dynamic> product, double rating) async {
     // TODO: Implement actual rating functionality
     // This could integrate with a backend API
-    await Future.delayed(Duration(milliseconds: 500)); // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 500)); // Simulate network delay
     
     // Update local data for now
     product['rating'] = rating;

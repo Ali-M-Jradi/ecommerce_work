@@ -114,7 +114,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
                   borderRadius: BorderRadius.circular(16),
                   color: Colors.deepPurple.withOpacity(0.08),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Align barcode here',
                     style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
@@ -127,11 +127,11 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
             top: 24,
             left: 24,
             child: ElevatedButton.icon(
-              icon: Icon(Icons.settings, color: Colors.white),
-              label: Text('Settings', style: TextStyle(color: Colors.white)),
+              icon: const Icon(Icons.settings, color: Colors.white),
+              label: const Text('Settings', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black.withOpacity(0.7),
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 elevation: 0,
               ),

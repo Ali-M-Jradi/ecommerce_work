@@ -49,7 +49,7 @@ class FooterWidget extends StatelessWidget {
               // Main content
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -59,7 +59,7 @@ class FooterWidget extends StatelessWidget {
                       children: [
                         // Try to load dynamic logo first, fallback to asset
                         _buildLogo(footerLogo, isDark, colorScheme),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text(
                           AppLocalizationsHelper.of(context).appTitle,
                           style: TextStyle(
@@ -70,7 +70,7 @@ class FooterWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text(
                       AppLocalizationsHelper.of(context).appSubtitle,
                       style: TextStyle(
@@ -79,7 +79,7 @@ class FooterWidget extends StatelessWidget {
                         fontWeight: FontWeight.w300,
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     
                     // Quick Links Section
                     Row(
@@ -123,7 +123,7 @@ class FooterWidget extends StatelessWidget {
                       ],
                     ),
                     
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     
                     // Social Media Section with Dynamic Content
                     Row(
@@ -136,7 +136,7 @@ class FooterWidget extends StatelessWidget {
                             fontSize: 14,
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         // Facebook
                         if (socialMediaLinks['facebook']?.isNotEmpty == true)
                           Padding(
@@ -173,11 +173,11 @@ class FooterWidget extends StatelessWidget {
                       ],
                     ),
                     
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     
                     // Copyright Section
                     Divider(color: isDark ? colorScheme.onSurface.withOpacity(0.18) : colorScheme.onPrimary.withOpacity(0.18)),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       AppLocalizationsHelper.of(context).copyrightText,
                       style: TextStyle(
@@ -203,41 +203,39 @@ class FooterWidget extends StatelessWidget {
   }
 
   Widget _buildLogo(String logoPath, bool isDark, ColorScheme colorScheme) {
-    // Check if it's a network image (contains http/https or looks like a filename)
-    if (logoPath.isNotEmpty && !logoPath.startsWith('assets/')) {
-      // Assume it's a network image or file path
+    // Use network only for explicit http/https URLs
+    final isNetwork = logoPath.startsWith('http://') || logoPath.startsWith('https://');
+    if (isNetwork) {
       return SizedBox(
         width: 25,
         height: 25,
         child: Image.network(
           logoPath,
           color: isDark ? colorScheme.primary : colorScheme.primary,
-          errorBuilder: (context, error, stackTrace) {
-            // Fallback to default icon
-            return Icon(
-              Icons.eco,
-              color: isDark ? colorScheme.primary : colorScheme.primary,
-              size: 25,
-            );
-          },
-        ),
-      );
-    } else {
-      // Use asset image
-      return Image.asset(
-        'assets/images/three_leaves.png',
-        height: 25,
-        width: 25,
-        color: isDark ? colorScheme.primary : colorScheme.primary,
-        errorBuilder: (context, error, stackTrace) {
-          return Icon(
+          errorBuilder: (context, error, stackTrace) => Icon(
             Icons.eco,
             color: isDark ? colorScheme.primary : colorScheme.primary,
             size: 25,
-          );
-        },
+          ),
+        ),
       );
     }
+
+    // Otherwise load from assets (support both full assets/ path and filename only)
+    final assetPath = logoPath.isNotEmpty
+        ? (logoPath.startsWith('assets/') ? logoPath : 'assets/images/$logoPath')
+        : 'assets/images/three_leaves.png';
+    return Image.asset(
+      assetPath,
+      height: 25,
+      width: 25,
+      color: isDark ? colorScheme.primary : colorScheme.primary,
+      errorBuilder: (context, error, stackTrace) => Icon(
+        Icons.eco,
+        color: isDark ? colorScheme.primary : colorScheme.primary,
+        size: 25,
+      ),
+    );
   }
 
   void _launchURL(String url) async {
@@ -277,7 +275,7 @@ class _FooterLink extends StatelessWidget {
             color: Theme.of(context).colorScheme.onPrimary,
             size: 20,
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(

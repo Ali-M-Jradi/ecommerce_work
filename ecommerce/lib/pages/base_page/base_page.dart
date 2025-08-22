@@ -132,7 +132,7 @@ class _BasePageState extends State<BasePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AboutUsPage(),
+            builder: (context) => const AboutUsPage(),
           ),
         );
         break;
@@ -144,7 +144,7 @@ class _BasePageState extends State<BasePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AccountSettingsPage(),
+            builder: (context) => const AccountSettingsPage(),
           ),
         );
         break;
@@ -342,14 +342,14 @@ class _BasePageState extends State<BasePage> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   color: Colors.orange.shade700,
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.warning, color: Colors.white, size: 20),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           'Maintenance Mode: Some features may be temporarily unavailable',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white, 
                             fontWeight: FontWeight.bold,
                             fontSize: 13,
@@ -360,7 +360,7 @@ class _BasePageState extends State<BasePage> {
                   ),
                 ),
               // Main content
-              Expanded(child: const HomePage()),
+              const Expanded(child: HomePage()),
             ],
           );
         },

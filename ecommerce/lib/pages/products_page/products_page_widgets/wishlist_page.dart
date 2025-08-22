@@ -10,7 +10,7 @@ class WishlistPage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wishlist'),
+        title: const Text('Wishlist'),
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
       ),
@@ -18,7 +18,7 @@ class WishlistPage extends StatelessWidget {
         builder: (context, wishlistProvider, _) {
           final wishlist = wishlistProvider.wishlist;
           if (wishlist.isEmpty) {
-            return Center(child: Text('No favorites yet.'));
+            return const Center(child: Text('No favorites yet.'));
           }
           return ListView.builder(
             itemCount: wishlist.length,

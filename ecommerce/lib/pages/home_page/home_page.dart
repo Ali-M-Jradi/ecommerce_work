@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage>
         controller: _scrollController,
         slivers: [
           // Hero Banner Carousel
-          SliverToBoxAdapter(child: const HeroBannerCarousel()),
+          const SliverToBoxAdapter(child: HeroBannerCarousel()),
           
           // Moving Banner from API Content
           SliverToBoxAdapter(
@@ -236,8 +236,8 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: const Padding(
+          const SliverToBoxAdapter(
+            child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: FeaturedProductsCarousel(),
             ),
@@ -308,7 +308,7 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ),
-          SliverToBoxAdapter(child: const SizedBox(height: 30)),
+          const SliverToBoxAdapter(child: SizedBox(height: 30)),
           // About Section
           SliverToBoxAdapter(
             child: Container(
@@ -358,9 +358,9 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ),
-          SliverToBoxAdapter(child: const SizedBox(height: 40)),
+          const SliverToBoxAdapter(child: SizedBox(height: 40)),
           // Footer - Only appears when scrolling to the end
-          SliverToBoxAdapter(child: const FooterWidget()),
+          const SliverToBoxAdapter(child: FooterWidget()),
         ],
       ),
     );

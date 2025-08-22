@@ -4,12 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'highlighted_text_widget.dart';
 import '../../../localization/app_localizations_helper.dart';
-import 'products_data_provider.dart';
 import '../../../providers/wishlist_provider.dart';
 import '../../../models/product.dart';
 
 class ProductCardWidget extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final Product product;
   final VoidCallback onTap;
   final String? searchQuery;
 
@@ -25,8 +24,7 @@ class ProductCardWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final highlightColor = colorScheme.secondary;
-    // Generate a consistent fallback id for this widget instance
-    final fallbackId = product['id']?.toString() ?? (product.hashCode.toString());
+    
     // Category badge color map using theme-based colors for consistency
     final Map<String, Color> categoryColors = {
       'face_care': colorScheme.primaryContainer,
@@ -44,15 +42,8 @@ class ProductCardWidget extends StatelessWidget {
       'makeup': Icons.brush,
       'baby_care': Icons.child_friendly,
     };
-    final String category = (product['category'] ?? '').toString();
-    final Color badgeColor = categoryColors[category] ?? colorScheme.secondaryContainer;
-    final IconData? badgeIcon = categoryIcons[category];
-    final bool isBestSeller = product['bestSeller'] == true;
-    final bool isNew = product['isNew'] == true;
-    final double? oldPrice = product['oldPrice'] != null ? double.tryParse(product['oldPrice'].toString()) : null;
-    final double? price = double.tryParse(product['price']?.toString() ?? '');
-    final bool hasDiscount = oldPrice != null && price != null && oldPrice > price;
-    //
+    final Color badgeColor = categoryColors[product.category] ?? colorScheme.secondaryContainer;
+    final IconData? badgeIcon = categoryIcons[product.category];
 
     return Card(
       elevation: 4,
@@ -70,24 +61,24 @@ class ProductCardWidget extends StatelessWidget {
                 children: [
                   // Hero animation for product image, ColorFiltered only wraps the image
                   Hero(
-                    tag: 'product_image_$fallbackId',
+                    tag: 'product_image_${product.id}',
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(
+                        borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(12.0),
                         ),
                         color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.secondaryContainer,
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.vertical(
+                        borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(12.0),
                         ),
                         child: ColorFiltered(
-                          colorFilter: product['soldOut'] == true
+                          colorFilter: product.soldOut
                               ? const ColorFilter.mode(Colors.grey, BlendMode.saturation)
                               : const ColorFilter.mode(Colors.transparent, BlendMode.multiply),
-                          child: _buildProductImage(product['image'], colorScheme),
+                          child: _buildProductImage(product.image, colorScheme),
                         ),
                       ),
                     ),
@@ -111,21 +102,21 @@ class ProductCardWidget extends StatelessWidget {
                             const SizedBox(width: 2),
                           ],
                           Text(
-                            category.replaceAll('_', ' ').toUpperCase(),
+                            product.category.replaceAll('_', ' ').toUpperCase(),
                             style: TextStyle(
                               color: colorScheme.onSecondaryContainer,
                               fontSize: 9,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.5,
                             ),
-                            semanticsLabel: 'Category: ${category.replaceAll('_', ' ')}',
+                            semanticsLabel: 'Category: ${product.category.replaceAll('_', ' ')}',
                           ),
                         ],
                       ),
                     ),
                   ),
                   // Discount badge
-                  if (hasDiscount && oldPrice > 0)
+                  if (product.hasDiscount)
                     Positioned(
                       top: 6,
                       left: 38,
@@ -136,13 +127,13 @@ class ProductCardWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          '-${((100 * (oldPrice - price) / oldPrice).round())}%',
+                          '-${product.discountPercentage.round()}%',
                           style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
-                  // Best Seller/New badge
-                  if (isBestSeller)
+                  // Best Seller badge
+                  if (product.isBestSeller)
                     Positioned(
                       top: 30,
                       right: 6,
@@ -155,9 +146,10 @@ class ProductCardWidget extends StatelessWidget {
                         child: const Text('BEST SELLER', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
                       ),
                     ),
-                  if (isNew)
+                  // New badge
+                  if (product.isNew)
                     Positioned(
-                      top: isBestSeller ? 50 : 30,
+                      top: product.isBestSeller ? 50 : 30,
                       right: 6,
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -168,13 +160,27 @@ class ProductCardWidget extends StatelessWidget {
                         child: const Text('NEW', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
                       ),
                     ),
+                  // Stock status badge
+                  if (product.stock <= 5 && product.stock > 0 && !product.soldOut)
+                    Positioned(
+                      top: product.isNew ? (product.isBestSeller ? 70 : 50) : (product.isBestSeller ? 50 : 30),
+                      right: 6,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text('LOW STOCK (${product.stock})', style: const TextStyle(color: Colors.white, fontSize: 7, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
                   // Wishlist Icon Button
                   Positioned(
                     top: 6,
                     left: 6,
                     child: Consumer<WishlistProvider>(
                       builder: (context, wishlistProvider, _) {
-                        final isFavorite = wishlistProvider.wishlist.any((p) => p.id == fallbackId);
+                        final isFavorite = wishlistProvider.wishlist.any((p) => p.id == product.id);
                         return Semantics(
                           label: isFavorite ? 'Remove from wishlist' : 'Add to wishlist',
                           button: true,
@@ -185,24 +191,7 @@ class ProductCardWidget extends StatelessWidget {
                               size: 22,
                             ),
                             onPressed: () {
-                              String id = fallbackId;
-                              String name = product['name'] is String
-                                  ? product['name']
-                                  : (product['name']?['en'] ?? 'Unnamed Product');
-                              String description = product['description'] is String
-                                  ? product['description']
-                                  : (product['description']?['en'] ?? '');
-                              double price = double.tryParse(product['price']?.toString() ?? '') ?? 0.0;
-                              double rating = double.tryParse(product['rating']?.toString() ?? '') ?? 0.0;
-                              final prod = Product.fromMap({
-                                ...product,
-                                'id': id,
-                                'name': name,
-                                'description': description,
-                                'price': price,
-                                'rating': rating,
-                              });
-                              wishlistProvider.toggleWishlist(prod);
+                              wishlistProvider.toggleWishlist(product);
                             },
                             tooltip: isFavorite ? 'Remove from wishlist' : 'Add to wishlist',
                           ),
@@ -211,7 +200,7 @@ class ProductCardWidget extends StatelessWidget {
                     ),
                   ),
                   // Out-of-stock badge overlay
-                  if (product['soldOut'])
+                  if (product.soldOut)
                     Positioned(
                       bottom: 6,
                       right: 6,
@@ -241,10 +230,10 @@ class ProductCardWidget extends StatelessWidget {
                       child: IconButton(
                         icon: const Icon(Icons.add_shopping_cart, size: 18),
                         color: colorScheme.primary,
-                        onPressed: product['soldOut'] == true ? null : () {
+                        onPressed: product.soldOut ? null : () {
                           // TODO: Implement add to cart logic
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Added to cart!')),
+                            const SnackBar(content: Text('Added to cart!')),
                           );
                         },
                         tooltip: 'Add to cart',
@@ -265,7 +254,7 @@ class ProductCardWidget extends StatelessWidget {
                   children: [
                     // Brand
                     HighlightedText(
-                      text: product['brand'],
+                      text: product.brand,
                       highlight: searchQuery ?? '',
                       style: TextStyle(
                         fontSize: 11,
@@ -280,7 +269,7 @@ class ProductCardWidget extends StatelessWidget {
                     // Product Name
                     Expanded(
                       child: HighlightedText(
-                        text: ProductsDataProvider.getLocalizedName(product, context),
+                        text: product.name,
                         highlight: searchQuery ?? '',
                         style: const TextStyle(
                           fontSize: 12,
@@ -291,52 +280,99 @@ class ProductCardWidget extends StatelessWidget {
                         highlightColor: highlightColor,
                       ),
                     ),
-                    // Size
-                    Text(
-                      _getDisplaySize(context),
-                      style: TextStyle(fontSize: 10, color: colorScheme.onSurface.withOpacity(0.6)),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    const SizedBox(height: 4),
-                    // Price and Rating with info icon
+                    // Size and Stock info
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            '\$${product['price']}',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: isDark ? colorScheme.primary : colorScheme.primary,
-                            ),
+                            _getDisplaySize(context),
+                            style: TextStyle(fontSize: 10, color: colorScheme.onSurface.withOpacity(0.6)),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.star, color: Colors.orange, size: 11),
-                            Text(
-                              '${product['rating']}',
-                              style: const TextStyle(fontSize: 10),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(width: 4),
-                            Tooltip(
-                              message: ProductsDataProvider.getLocalizedDescription(product, context),
-                              child: Icon(
-                                Icons.info_outline,
-                                size: 14,
-                                color: colorScheme.onSurface.withOpacity(0.7),
+                        if (!product.soldOut && product.stock > 0)
+                          Text(
+                            '${product.stock} left',
+                            style: TextStyle(fontSize: 9, color: colorScheme.onSurface.withOpacity(0.5)),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    // Price and Rating with review count
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (product.hasDiscount) ...[
+                                Text(
+                                  '\$${product.originalPrice!.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: colorScheme.onSurface.withOpacity(0.5),
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                              ],
+                              Text(
+                                '\$${product.price.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: isDark ? colorScheme.primary : colorScheme.primary,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
+                            ],
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.star, color: Colors.orange, size: 11),
+                                Text(
+                                  '${product.rating.toStringAsFixed(1)}',
+                                  style: const TextStyle(fontSize: 10),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
+                            if (product.reviewCount > 0)
+                              Text(
+                                '(${product.reviewCount} reviews)',
+                                style: TextStyle(
+                                  fontSize: 8,
+                                  color: colorScheme.onSurface.withOpacity(0.5),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                           ],
                         ),
                       ],
                     ),
+                    // Key features preview (first feature if available)
+                    if (product.features.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(
+                          '• ${product.features.first}',
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: colorScheme.onSurface.withOpacity(0.6),
+                            fontStyle: FontStyle.italic,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -349,22 +385,26 @@ class ProductCardWidget extends StatelessWidget {
 
   // Helper method to get display size with localization
   String _getDisplaySize(BuildContext context) {
-    final size = product['size'];
-    if (size == null || size.toString().isEmpty || size.toString() == 'Not specified') {
+    if (product.size.isEmpty || product.size == 'Not specified') {
       return AppLocalizationsHelper.of(context).notSpecified;
     }
-    return size.toString();
+    return product.size;
   }
 
-  // Helper method to build product image (asset images only)
+  // Helper method to build product image
   Widget _buildProductImage(String imagePath, ColorScheme colorScheme) {
-    // Use asset image (network images removed)
-    return Image.asset(
-      imagePath.startsWith('assets/') ? imagePath : 'assets/images/$imagePath',
+    return Image.network(
+      imagePath,
       fit: BoxFit.cover,
       width: double.infinity,
       height: 120,
-      errorBuilder: (context, error, stackTrace) => Container(
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+      },
+      errorBuilder: (c, _, __) => _imageFallback(colorScheme),
+    );
+  }  Widget _imageFallback(ColorScheme colorScheme) => Container(
         width: double.infinity,
         height: 120,
         color: colorScheme.surfaceContainerHighest,
@@ -387,7 +427,5 @@ class ProductCardWidget extends StatelessWidget {
             ),
           ],
         ),
-      ));
-    // <-- Add this closing parenthesis to fix the error
-  }
+      );
 }

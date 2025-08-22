@@ -9,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 import '../pages/products_page/products_page_widgets/product_details_dialog_widget.dart';
 import 'scan_utils.dart';
 import '../../main.dart'; // Import navigatorKey for global navigation
+import '../models/product.dart';
 
 /// Controller/mixin for unified scan FAB logic
 /// Unified scan FAB logic with feedback
@@ -100,7 +101,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
     }
     // No loading indicator
     String? scanResult = await Navigator.of(context).push<String>(
-      MaterialPageRoute(builder: (context) => BarcodeScannerPage()),
+      MaterialPageRoute(builder: (context) => const BarcodeScannerPage()),
     );
     debugPrint('[Scan] BarcodeScannerPage returned result: $scanResult');
     final globalContext = navigatorKey.currentState?.context ?? context;
@@ -113,7 +114,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
         showDialog(
           context: globalContext,
           useRootNavigator: true,
-          builder: (context) => ProductDetailsDialogWidget(product: found),
+          builder: (context) => ProductDetailsDialogWidget(product: Product.fromMap(found)),
         );
       } else {
         debugPrint('[Scan] Showing Product Not Found dialog');
@@ -124,7 +125,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            title: Row(
+            title: const Row(
               children: [
                 Icon(Icons.error_outline, color: Colors.red, size: 32),
                 SizedBox(width: 12),
@@ -135,15 +136,15 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Barcode:',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SelectableText(
                   scanResult,
-                  style: TextStyle(color: Colors.deepPurple),
+                  style: const TextStyle(color: Colors.deepPurple),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Text(
                   'No product matches this barcode.',
                   style: TextStyle(color: Colors.grey[700]),
@@ -184,14 +185,14 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: Row(
+          title: const Row(
             children: [
               Icon(Icons.error_outline, color: Colors.red, size: 32),
               SizedBox(width: 12),
               Text('Scan Failed'),
             ],
           ),
-          content: Text('No barcode was detected. Please try again.'),
+          content: const Text('No barcode was detected. Please try again.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -209,7 +210,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()),
+        builder: (context) => const Center(child: CircularProgressIndicator()),
       );
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -235,7 +236,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
         if (found.isNotEmpty) {
           showDialog(
             context: context,
-            builder: (context) => ProductDetailsDialogWidget(product: found),
+            builder: (context) => ProductDetailsDialogWidget(product: Product.fromMap(found)),
           );
         } else {
           showDialog(
@@ -244,7 +245,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              title: Row(
+              title: const Row(
                 children: [
                   Icon(Icons.error_outline, color: Colors.red, size: 32),
                   SizedBox(width: 12),
@@ -255,15 +256,15 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Barcode:',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SelectableText(
                     result,
-                    style: TextStyle(color: Colors.deepPurple),
+                    style: const TextStyle(color: Colors.deepPurple),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Text(
                     'No product matches this barcode.',
                     style: TextStyle(color: Colors.grey[700]),

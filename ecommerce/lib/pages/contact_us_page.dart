@@ -35,7 +35,7 @@ class ContactUsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
+            const Center(
               child: Icon(Icons.support_agent, size: 64, color: Colors.deepPurple),
             ),
             const SizedBox(height: 24),
@@ -59,7 +59,7 @@ class ContactUsPage extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: _launchEmail,
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.email, color: Colors.deepPurple),
                           SizedBox(width: 8),
@@ -70,7 +70,7 @@ class ContactUsPage extends StatelessWidget {
                     const SizedBox(height: 16),
                     InkWell(
                       onTap: _launchPhone,
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.phone, color: Colors.deepPurple),
                           SizedBox(width: 8),
@@ -83,14 +83,14 @@ class ContactUsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            Center(
+            const Center(
               child: Text(
                 'Follow us on social media',
                 style: TextStyle(fontWeight: FontWeight.w600, color: Colors.deepPurple),
               ),
             ),
             const SizedBox(height: 12),
-            Center(
+            const Center(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

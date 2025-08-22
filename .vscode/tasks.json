@@ -10,6 +10,81 @@
 				"-Command",
 				"cd C:\\FlutterProjects\\ecommerce_work\\ecommerce; flutter --version; flutter pub get; flutter analyze"
 			]
+		},
+		{
+			"label": "Analyze Flutter project",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"cd C:\\FlutterProjects\\ecommerce_work\\ecommerce; flutter --version; flutter pub get; flutter analyze"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$flutter"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Analyze Flutter project",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"cd C:\\FlutterProjects\\ecommerce_work\\ecommerce; flutter --version; flutter pub get; flutter analyze"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$flutter"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Analyze Flutter project",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"cd C:\\FlutterProjects\\ecommerce_work\\ecommerce; flutter --version; flutter pub get; flutter analyze"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$flutter"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Analyze Flutter project",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"cd C:\\FlutterProjects\\ecommerce_work\\ecommerce; flutter --version; flutter pub get; flutter analyze"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$flutter"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Analyze Flutter project",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"cd C:\\FlutterProjects\\ecommerce_work\\ecommerce; flutter --version; flutter pub get; flutter analyze"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$flutter"
+			],
+			"group": "build"
 		}
 	]
 }

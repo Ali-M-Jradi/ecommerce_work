@@ -24,7 +24,7 @@ class SortControlsWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       color: isDark ? colorScheme.surface : colorScheme.surface,
       child: Row(
         children: [
@@ -32,7 +32,7 @@ class SortControlsWidget extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
                 border: Border.all(color: isDark ? colorScheme.outline : colorScheme.outlineVariant),
                 borderRadius: BorderRadius.circular(8.0),
@@ -84,7 +84,7 @@ class SortControlsWidget extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 12.0),
+          const SizedBox(width: 12.0),
           // View toggle buttons
           Expanded(
             flex: 2,
@@ -98,13 +98,13 @@ class SortControlsWidget extends StatelessWidget {
                     color: isGridView
                         ? (isDark ? colorScheme.primary : colorScheme.primary)
                         : (isDark ? colorScheme.secondary : colorScheme.secondaryContainer),
-                    borderRadius: BorderRadiusDirectional.only(
+                    borderRadius: const BorderRadiusDirectional.only(
                         topStart: Radius.circular(8.0),
                         bottomStart: Radius.circular(8.0),
                       ),
                     ),
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.grid_view,
                         color: Colors.white,
                         size: 20,
@@ -121,13 +121,13 @@ class SortControlsWidget extends StatelessWidget {
                       color: !isGridView
                           ? Colors.deepPurple.shade700
                           : Colors.deepPurple.shade300,
-                      borderRadius: BorderRadiusDirectional.only(
+                      borderRadius: const BorderRadiusDirectional.only(
                         topEnd: Radius.circular(8.0),
                         bottomEnd: Radius.circular(8.0),
                       ),
                     ),
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.list,
                         color: Colors.white,
                         size: 20,
@@ -140,7 +140,7 @@ class SortControlsWidget extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 12.0),
+          const SizedBox(width: 12.0),
           // Filter button
           Container(
             height: 40,
@@ -171,7 +171,7 @@ class SortControlsWidget extends StatelessWidget {
                     child: Container(
                       width: 8,
                       height: 8,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.orange,
                         shape: BoxShape.circle,
                       ),

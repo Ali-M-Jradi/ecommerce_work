@@ -157,9 +157,9 @@ class ParameterService {
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       color: Colors.orange,
-      child: Text(
+      child: const Text(
         'Maintenance Mode: Some features may be temporarily unavailable',
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       ),
     );
@@ -175,7 +175,7 @@ class ParameterService {
     }
     
     // Basic shipping cost with tax
-    final baseShipping = 5.99;
+    const baseShipping = 5.99;
     return baseShipping + (baseShipping * tax / 100);
   }
 

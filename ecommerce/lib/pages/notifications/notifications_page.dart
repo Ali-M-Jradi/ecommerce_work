@@ -358,14 +358,14 @@ class _NotificationsPageState extends State<NotificationsPage> with TickerProvid
       case NotificationType.promotion:
         // Navigate to promotions
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Navigating to promotions page')),
+          const SnackBar(content: Text('Navigating to promotions page')),
         );
         // In production: Navigator.push(context, MaterialPageRoute(builder: (_) => PromotionsPage()));
         break;
       case NotificationType.newArrival:
         // Navigate to new arrivals
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Navigating to new arrivals')),
+          const SnackBar(content: Text('Navigating to new arrivals')),
         );
         // In production: Navigator.push(context, MaterialPageRoute(builder: (_) => NewArrivalsPage()));
         break;

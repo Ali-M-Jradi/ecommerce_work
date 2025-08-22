@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/pages/base_page/base_page_widgets/footer_widget.dart';
 import 'product_list_item_widget.dart';
-import '../../../providers/product_provider.dart';
+import '../../../providers/api_product_provider.dart';
 import '../../../models/product.dart';
 import 'no_products_found_widget.dart';
 
 class ProductsListViewWidget extends StatelessWidget {
   final ScrollController scrollController;
   final String sortBy;
-  final Function(Map<String, dynamic>) onProductTap;
+  final Function(Product) onProductTap;
   final String? category;
   final String? searchQuery;
   final String? brand;
@@ -36,11 +36,14 @@ class ProductsListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProductProvider>(
+    return Consumer<ApiProductProvider>(
       builder: (context, provider, child) {
-        // ProductProvider doesn't have loading states like ApiProductProvider
-        // It uses local/demo data, so we just check if products are available
-        
+        if (provider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (provider.error != null) {
+          return Center(child: Text('Error: ${provider.error}'));
+        }
         final products = provider.getFilteredSortedProducts(
           searchQuery: searchQuery ?? '',
           sortBy: sortBy,
@@ -96,17 +99,16 @@ class ProductsListViewWidget extends StatelessWidget {
           controller: scrollController,
           slivers: [
             SliverPadding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final product = filteredProducts[index];
-                    final productMap = product.toMap(); // Convert Product to Map
                     return Padding(
-                      padding: EdgeInsets.only(bottom: 12.0),
+                      padding: const EdgeInsets.only(bottom: 12.0),
                       child: ProductListItemWidget(
-                        product: productMap,
-                        onTap: () => onProductTap(productMap),
+                        product: product.toMap(), // Keep as Map for now until we update ProductListItemWidget
+                        onTap: () => onProductTap(product),
                         searchQuery: searchQuery,
                       ),
                     );
@@ -116,7 +118,7 @@ class ProductsListViewWidget extends StatelessWidget {
               ),
             ),
             // Add footer as the last item
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(
               child: FooterWidget(),
             ),
           ],

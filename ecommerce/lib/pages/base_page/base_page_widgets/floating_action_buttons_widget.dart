@@ -29,7 +29,7 @@ class FloatingActionButtonsWidget extends StatelessWidget {
             heroTag: "${heroTagPrefix ?? 'default'}_loyalty_fab",
             onPressed: onLoyaltyPressed ?? () {},
             backgroundColor: AppColors.primary(context),
-            icon: CircleAvatar(
+            icon: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/gift_icon.jpg'),
               radius: 12.0,
             ),
@@ -41,7 +41,7 @@ class FloatingActionButtonsWidget extends StatelessWidget {
             heroTag: "${heroTagPrefix ?? 'default'}_scan_fab",
             onPressed: onScanBarcodePressed ?? () {},
             backgroundColor: AppColors.primary(context),
-            icon: Icon(Icons.qr_code_scanner, color: Colors.white),
+            icon: const Icon(Icons.qr_code_scanner, color: Colors.white),
             label: 'Scan',
             isPrimary: true,
           ),
@@ -51,7 +51,7 @@ class FloatingActionButtonsWidget extends StatelessWidget {
             heroTag: "${heroTagPrefix ?? 'default'}_contact_fab",
             onPressed: onContactPressed ?? () {},
             backgroundColor: AppColors.primary(context),
-            icon: CircleAvatar(
+            icon: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/whatsapp_icon.jpg'),
               radius: 12.0,
             ),
@@ -72,7 +72,7 @@ class FloatingActionButtonsWidget extends StatelessWidget {
     bool isPrimary = false,
   }) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       child: FloatingActionButton.extended(
         heroTag: heroTag,
         onPressed: onPressed,
@@ -93,7 +93,7 @@ class FloatingActionButtonsWidget extends StatelessWidget {
               BoxShadow(
                 color: backgroundColor.withOpacity(0.3),
                 blurRadius: 8,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ] : null,
           ),

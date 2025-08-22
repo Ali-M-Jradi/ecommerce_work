@@ -13,7 +13,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Register')),
-      body: Center(child: Text('Registration Form Here')),
+      body: const Center(child: Text('Registration Form Here')),
     );
   }
 }

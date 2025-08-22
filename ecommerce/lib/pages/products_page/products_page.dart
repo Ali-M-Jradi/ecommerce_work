@@ -4,6 +4,7 @@ import 'package:ecommerce/providers/language_provider.dart';
 
 import '../cart_page/cart_page.dart';
 import '../../../main.dart'; // Import for global navigator key
+import '../../models/product.dart';
 
 import 'products_page_widgets/products_app_bar_widget.dart';
 import 'products_page_widgets/products_grid_view_widget.dart';
@@ -172,7 +173,7 @@ class _ProductsPageState extends State<ProductsPage> with ScanHistoryMixin, Unif
     );
   }
 
-  void _showProductDetails(Map<String, dynamic> product) {
+  void _showProductDetails(Product product) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

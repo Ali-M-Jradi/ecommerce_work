@@ -79,7 +79,7 @@ class AboutUsPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ContactUsPage(),
+                        builder: (context) => const ContactUsPage(),
                       ),
                     );
                   },

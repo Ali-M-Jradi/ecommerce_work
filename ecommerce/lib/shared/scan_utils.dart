@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/products_page/products_page_widgets/products_data_provider.dart';
 import '../pages/products_page/products_page_widgets/product_details_dialog_widget.dart';
+import '../models/product.dart';
 
 
 mixin ScanHistoryMixin<T extends StatefulWidget> on State<T> {
@@ -29,7 +30,7 @@ mixin ScanHistoryMixin<T extends StatefulWidget> on State<T> {
       builder: (context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Row(
+          title: const Row(
             children: [
               Icon(Icons.history, color: Colors.deepPurple, size: 28),
               SizedBox(width: 10),
@@ -42,15 +43,15 @@ mixin ScanHistoryMixin<T extends StatefulWidget> on State<T> {
                 ? Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.info_outline, color: Colors.grey, size: 40),
-                      SizedBox(height: 12),
+                      const Icon(Icons.info_outline, color: Colors.grey, size: 40),
+                      const SizedBox(height: 12),
                       Text('No scans yet.', style: TextStyle(color: Colors.grey[700], fontSize: 16)),
                     ],
                   )
                 : ListView.separated(
                     shrinkWrap: true,
                     itemCount: scanHistory.length,
-                    separatorBuilder: (context, idx) => Divider(height: 1),
+                    separatorBuilder: (context, idx) => const Divider(height: 1),
                     itemBuilder: (context, index) {
                       final code = scanHistory[index];
                       final found = products.firstWhere(
@@ -62,19 +63,19 @@ mixin ScanHistoryMixin<T extends StatefulWidget> on State<T> {
                           found.isNotEmpty ? Icons.qr_code_2 : Icons.error_outline,
                           color: found.isNotEmpty ? Colors.deepPurple : Colors.red,
                         ),
-                        title: Text(code, style: TextStyle(fontWeight: FontWeight.bold)),
+                        title: Text(code, style: const TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: found.isNotEmpty
-                            ? Text(found['name'] is Map ? found['name']['en'] ?? '' : found['name'] ?? '', style: TextStyle(color: Colors.deepPurple))
-                            : Text('Not found', style: TextStyle(color: Colors.red)),
+                            ? Text(found['name'] is Map ? found['name']['en'] ?? '' : found['name'] ?? '', style: const TextStyle(color: Colors.deepPurple))
+                            : const Text('Not found', style: TextStyle(color: Colors.red)),
                         trailing: found.isNotEmpty
-                            ? Icon(Icons.chevron_right, color: Colors.deepPurple)
+                            ? const Icon(Icons.chevron_right, color: Colors.deepPurple)
                             : null,
                         onTap: found.isNotEmpty
                             ? () {
                                 Navigator.of(context).pop();
                                 showDialog(
                                   context: context,
-                                  builder: (context) => ProductDetailsDialogWidget(product: found),
+                                  builder: (context) => ProductDetailsDialogWidget(product: Product.fromMap(found)),
                                 );
                               }
                             : null,

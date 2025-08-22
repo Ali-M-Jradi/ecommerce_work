@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../products_page/products_page_widgets/product_details_dialog_widget.dart';
 import '../../products_page/products_page_widgets/products_data_provider.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
+import '../../../models/product.dart';
 
 class FeaturedProductsCarousel extends StatefulWidget {
   const FeaturedProductsCarousel({super.key});
@@ -340,7 +341,7 @@ class _FeaturedProductsCarouselState extends State<FeaturedProductsCarousel> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ProductDetailsDialogWidget(product: product);
+        return ProductDetailsDialogWidget(product: Product.fromMap(product));
       },
     );
   }
