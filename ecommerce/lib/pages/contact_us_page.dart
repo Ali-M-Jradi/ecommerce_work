@@ -35,8 +35,8 @@ class ContactUsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Center(
-              child: Icon(Icons.support_agent, size: 64, color: Colors.deepPurple),
+            Center(
+              child: Icon(Icons.support_agent, size: 64, color: Theme.of(context).colorScheme.primary),
             ),
             const SizedBox(height: 24),
             Text(
@@ -59,22 +59,22 @@ class ContactUsPage extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: _launchEmail,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.email, color: Colors.deepPurple),
-                          SizedBox(width: 8),
-                          Text('contact@yourstore.com', style: TextStyle(decoration: TextDecoration.underline)),
+                          Icon(Icons.email, color: Theme.of(context).colorScheme.primary),
+                          const SizedBox(width: 8),
+                          const Text('contact@yourstore.com', style: TextStyle(decoration: TextDecoration.underline)),
                         ],
                       ),
                     ),
                     const SizedBox(height: 16),
                     InkWell(
                       onTap: _launchPhone,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.phone, color: Colors.deepPurple),
-                          SizedBox(width: 8),
-                          Text('+1 234 567 8900', style: TextStyle(decoration: TextDecoration.underline)),
+                          Icon(Icons.phone, color: Theme.of(context).colorScheme.primary),
+                          const SizedBox(width: 8),
+                          const Text('+1 234 567 8900', style: TextStyle(decoration: TextDecoration.underline)),
                         ],
                       ),
                     ),
@@ -83,10 +83,10 @@ class ContactUsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            const Center(
+            Center(
               child: Text(
                 'Follow us on social media',
-                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.deepPurple),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primary),
               ),
             ),
             const SizedBox(height: 12),

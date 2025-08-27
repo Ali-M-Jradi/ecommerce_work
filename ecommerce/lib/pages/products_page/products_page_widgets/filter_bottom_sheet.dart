@@ -255,21 +255,34 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: isDark ? colorScheme.onSurface : colorScheme.onSurface,
+              color: colorScheme.onSurface,
             ),
           ),
-          RangeSlider(
-            values: _priceRange,
-            min: 0,
-            max: 100,
-            divisions: 20,
-            activeColor: isDark ? colorScheme.primary : colorScheme.primary,
-            inactiveColor: isDark ? colorScheme.outlineVariant : colorScheme.outlineVariant,
-            onChanged: (values) {
-              setState(() {
-                _priceRange = values;
-              });
-            },
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              activeTrackColor: colorScheme.primary,
+              inactiveTrackColor: colorScheme.surfaceVariant,
+              thumbColor: colorScheme.primary,
+              overlayColor: colorScheme.primary.withOpacity(0.12),
+              valueIndicatorColor: isDark ? colorScheme.primaryContainer : colorScheme.primary,
+              activeTickMarkColor: colorScheme.onPrimary.withOpacity(0.6),
+              inactiveTickMarkColor: colorScheme.onSurface.withOpacity(0.12),
+              trackHeight: 4,
+              rangeThumbShape: const RoundRangeSliderThumbShape(enabledThumbRadius: 10),
+              rangeValueIndicatorShape: const PaddleRangeSliderValueIndicatorShape(),
+            ),
+            child: RangeSlider(
+              values: _priceRange,
+              min: 0,
+              max: 100,
+              divisions: 20,
+              labels: RangeLabels('${_priceRange.start.round()}', '${_priceRange.end.round()}'),
+              onChanged: (values) {
+                setState(() {
+                  _priceRange = values;
+                });
+              },
+            ),
           ),
           const SizedBox(height: 20),
 
@@ -279,21 +292,54 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: isDark ? colorScheme.onSurface : Colors.grey.shade700,
+              color: colorScheme.onSurface,
             ),
           ),
-          Slider(
-            value: _minRating,
-            min: 0,
-            max: 5,
-            divisions: 10,
-            activeColor: isDark ? colorScheme.primary : colorScheme.primary,
-            inactiveColor: isDark ? colorScheme.outlineVariant : colorScheme.outlineVariant,
-            onChanged: (value) {
-              setState(() {
-                _minRating = value;
-              });
-            },
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              activeTrackColor: colorScheme.primary,
+              inactiveTrackColor: colorScheme.surfaceVariant,
+              thumbColor: colorScheme.primary,
+              overlayColor: colorScheme.primary.withOpacity(0.12),
+              valueIndicatorColor: isDark ? colorScheme.primaryContainer : colorScheme.primary,
+              activeTickMarkColor: colorScheme.onPrimary.withOpacity(0.6),
+              inactiveTickMarkColor: colorScheme.onSurface.withOpacity(0.12),
+              trackHeight: 4,
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+              valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Slider(
+                  value: _minRating,
+                  min: 0,
+                  max: 5,
+                  divisions: 10,
+                  label: _minRating.toStringAsFixed(1),
+                  onChanged: (value) {
+                    setState(() {
+                      _minRating = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 8),
+                // Visual star indicator for the selected minimum rating
+                Row(
+                  children: List.generate(5, (index) {
+                    final starIndex = index + 1;
+                    final filled = starIndex <= _minRating.round();
+                    return Icon(
+                      filled ? Icons.star : Icons.star_border,
+                      size: 20,
+                      color: filled
+                          ? colorScheme.primary
+                          : colorScheme.onSurface.withOpacity(0.28),
+                    );
+                  }),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 20),
 

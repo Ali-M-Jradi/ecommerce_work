@@ -135,15 +135,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
+    print('LoginPage: Attempting login with rememberMe: $_rememberMe (${_rememberMe ? "Permanent storage" : "Temporary session"})');
+
     // Attempt login using AuthProvider (includes automatic URL testing and fallback)
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final success = await authProvider.login(email, password);
+    final success = await authProvider.login(email, password, rememberMe: _rememberMe);
 
     setState(() {
       _isLoading = false;
     });
 
     if (success) {
+      print('LoginPage: Login successful, navigating to home');
       // Navigate to home page on success
       Navigator.pushReplacementNamed(context, '/');
 

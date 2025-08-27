@@ -29,118 +29,132 @@ class SortControlsWidget extends StatelessWidget {
       child: Row(
         children: [
           // Sort by dropdown
-          Expanded(
-            flex: 3,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: isDark ? colorScheme.outline : colorScheme.outlineVariant),
-                borderRadius: BorderRadius.circular(8.0),
+            Expanded(
+              flex: 3,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                decoration: BoxDecoration(
+                  color: colorScheme.primary,
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: colorScheme.primary.withOpacity(0.18)),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: sortBy,
+                    isExpanded: true,
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: colorScheme.onPrimary,
+                    ),
+                    style: TextStyle(
+                      color: colorScheme.onPrimary,
+                      fontSize: 14,
+                    ),
+                    dropdownColor: colorScheme.surface,
+                    // Ensure the displayed selected item (button label) uses onPrimary color and is left-aligned
+                    selectedItemBuilder: (context) => [
+                      Align(alignment: Alignment.centerLeft, child: Padding(padding: const EdgeInsets.only(left: 4.0), child: Text(AppLocalizationsHelper.of(context).sortAtoZ, style: TextStyle(color: colorScheme.onPrimary)))),
+                      Align(alignment: Alignment.centerLeft, child: Padding(padding: const EdgeInsets.only(left: 4.0), child: Text(AppLocalizationsHelper.of(context).sortZtoA, style: TextStyle(color: colorScheme.onPrimary)))),
+                      Align(alignment: Alignment.centerLeft, child: Padding(padding: const EdgeInsets.only(left: 4.0), child: Text(AppLocalizationsHelper.of(context).sortPriceLow, style: TextStyle(color: colorScheme.onPrimary)))),
+                      Align(alignment: Alignment.centerLeft, child: Padding(padding: const EdgeInsets.only(left: 4.0), child: Text(AppLocalizationsHelper.of(context).sortPriceHigh, style: TextStyle(color: colorScheme.onPrimary)))),
+                    ],
+                    items: [
+                      DropdownMenuItem(
+                        value: 'A to Z',
+                        child: Text(
+                          AppLocalizationsHelper.of(context).sortAtoZ,
+                          style: TextStyle(color: colorScheme.onSurface),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Z to A',
+                        child: Text(
+                          AppLocalizationsHelper.of(context).sortZtoA,
+                          style: TextStyle(color: colorScheme.onSurface),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Price Low',
+                        child: Text(
+                          AppLocalizationsHelper.of(context).sortPriceLow,
+                          style: TextStyle(color: colorScheme.onSurface),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Price High',
+                        child: Text(
+                          AppLocalizationsHelper.of(context).sortPriceHigh,
+                          style: TextStyle(color: colorScheme.onSurface),
+                        ),
+                      ),
+                    ],
+                    onChanged: onSortChanged,
+                  ),
+                ),
               ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: sortBy,
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    color: isDark ? colorScheme.primary : colorScheme.primary,
-                  ),
-                  style: TextStyle(
-                    color: isDark ? colorScheme.onSurface : colorScheme.onSurface,
-                    fontSize: 14,
-                  ),
-                  dropdownColor: isDark ? colorScheme.surface : colorScheme.surface,
-                  items: [
-                    DropdownMenuItem(
-                      value: 'A to Z',
-                      child: Text(
-                        AppLocalizationsHelper.of(context).sortAtoZ,
-                        style: TextStyle(color: isDark ? colorScheme.onSurface : colorScheme.onSurface),
+            ),
+          const SizedBox(width: 12.0),
+          // View toggle buttons
+            Expanded(
+              flex: 2,
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: colorScheme.outline),
+                  color: colorScheme.primaryContainer,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 220),
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: isGridView ? colorScheme.primary : colorScheme.surfaceVariant,
+                          borderRadius: const BorderRadiusDirectional.only(
+                            topStart: Radius.circular(8.0),
+                            bottomStart: Radius.circular(8.0),
+                          ),
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.grid_view,
+                            color: isGridView ? colorScheme.onPrimary : colorScheme.onSurface,
+                            size: 20,
+                          ),
+                          tooltip: AppLocalizationsHelper.of(context).gridViewTooltip,
+                          onPressed: () => onViewChanged(true),
+                        ),
                       ),
                     ),
-                    DropdownMenuItem(
-                      value: 'Z to A',
-                      child: Text(
-                        AppLocalizationsHelper.of(context).sortZtoA,
-                        style: TextStyle(color: isDark ? colorScheme.onSurface : colorScheme.onSurface),
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Price Low',
-                      child: Text(
-                        AppLocalizationsHelper.of(context).sortPriceLow,
-                        style: TextStyle(color: isDark ? colorScheme.onSurface : colorScheme.onSurface),
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Price High',
-                      child: Text(
-                        AppLocalizationsHelper.of(context).sortPriceHigh,
-                        style: TextStyle(color: isDark ? colorScheme.onSurface : colorScheme.onSurface),
+                    Expanded(
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 220),
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: !isGridView ? colorScheme.primary : colorScheme.surfaceVariant,
+                          borderRadius: const BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(8.0),
+                            bottomEnd: Radius.circular(8.0),
+                          ),
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.list,
+                            color: !isGridView ? colorScheme.onPrimary : colorScheme.onSurface,
+                            size: 20,
+                          ),
+                          tooltip: AppLocalizationsHelper.of(context).listViewTooltip,
+                          onPressed: () => onViewChanged(false),
+                        ),
                       ),
                     ),
                   ],
-                  onChanged: onSortChanged,
+                  ),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(width: 12.0),
-          // View toggle buttons
-          Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-              Expanded(
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: isGridView
-                        ? (isDark ? colorScheme.primary : colorScheme.primary)
-                        : (isDark ? colorScheme.secondary : colorScheme.secondaryContainer),
-                    borderRadius: const BorderRadiusDirectional.only(
-                        topStart: Radius.circular(8.0),
-                        bottomStart: Radius.circular(8.0),
-                      ),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.grid_view,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      tooltip: AppLocalizationsHelper.of(context).gridViewTooltip,
-                      onPressed: () => onViewChanged(true),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: !isGridView
-                          ? Colors.deepPurple.shade700
-                          : Colors.deepPurple.shade300,
-                      borderRadius: const BorderRadiusDirectional.only(
-                        topEnd: Radius.circular(8.0),
-                        bottomEnd: Radius.circular(8.0),
-                      ),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.list,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      tooltip: AppLocalizationsHelper.of(context).listViewTooltip,
-                      onPressed: () => onViewChanged(false),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12.0),
+            const SizedBox(width: 12.0),
           // Filter button
           Container(
             height: 40,

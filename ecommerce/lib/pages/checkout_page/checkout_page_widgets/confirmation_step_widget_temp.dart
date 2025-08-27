@@ -30,12 +30,12 @@ class ConfirmationStepWidget extends StatelessWidget {
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: Theme.of(context).colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(50),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.check,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
               size: 60,
             ),
           ),
@@ -46,7 +46,7 @@ class ConfirmationStepWidget extends StatelessWidget {
             AppLocalizations.of(context)!.orderConfirmedTitle,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.green,
+              color: Theme.of(context).colorScheme.primary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -166,7 +166,7 @@ class ConfirmationStepWidget extends StatelessWidget {
                     context,
                     Icons.inventory_2_outlined,
                     AppLocalizations.of(context)!.deliveryNotification,
-                    Colors.purple,
+                    Theme.of(context).colorScheme.secondary,
                   ),
                 ],
               ),
@@ -185,8 +185,8 @@ class ConfirmationStepWidget extends StatelessWidget {
                     _showOrderDetails(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: Text(

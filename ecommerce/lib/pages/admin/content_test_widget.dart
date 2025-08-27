@@ -69,7 +69,7 @@ class ContentTestWidget extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text('Total Items: ${contentProvider.items.length}'),
                         Text('Has Content: ${contentProvider.hasContent}'),
-                        const Text('API Endpoint: https://localhost:7184/api/site-content'),
+                        // API endpoint details removed - backend endpoint is configured in services
                         const SizedBox(height: 8),
                         Container(
                           padding: const EdgeInsets.all(8),

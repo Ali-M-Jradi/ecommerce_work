@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 /// Utility functions for the Products Page
 class ProductsPageUtils {
@@ -13,7 +14,7 @@ class ProductsPageUtils {
   }
 
   /// Get star icons for rating display
-  static List<Widget> getStarIcons(double rating, {double size = 16.0}) {
+  static List<Widget> getStarIcons(BuildContext context, double rating, {double size = 16.0}) {
     List<Widget> stars = [];
     int fullStars = rating.floor();
     bool hasHalfStar = (rating - fullStars) >= 0.5;
@@ -22,7 +23,7 @@ class ProductsPageUtils {
     for (int i = 0; i < fullStars; i++) {
       stars.add(Icon(
         Icons.star,
-        color: Colors.amber,
+        color: AppColors.warning(context),
         size: size,
       ));
     }
@@ -31,7 +32,7 @@ class ProductsPageUtils {
     if (hasHalfStar) {
       stars.add(Icon(
         Icons.star_half,
-        color: Colors.amber,
+        color: AppColors.warning(context),
         size: size,
       ));
     }
@@ -41,7 +42,7 @@ class ProductsPageUtils {
     for (int i = 0; i < remainingStars; i++) {
       stars.add(Icon(
         Icons.star_border,
-        color: Colors.grey,
+        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
         size: size,
       ));
     }
@@ -56,10 +57,10 @@ class ProductsPageUtils {
   }
 
   /// Get appropriate color for price based on value
-  static Color getPriceColor(double price) {
-    if (price > 100) return Colors.red.shade700;
-    if (price > 50) return Colors.orange.shade700;
-    return Colors.green.shade700;
+  static Color getPriceColor(BuildContext context, double price) {
+    if (price > 100) return AppColors.error(context);
+    if (price > 50) return AppColors.warning(context);
+    return AppColors.success(context);
   }
 
   /// Show snackbar with message
@@ -82,17 +83,17 @@ class ProductsPageUtils {
   }
 
   /// Get placeholder image widget
-  static Widget getPlaceholderImage({double? width, double? height}) {
+  static Widget getPlaceholderImage(BuildContext context, {double? width, double? height}) {
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: Theme.of(context).colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Icon(
         Icons.image_not_supported,
-        color: Colors.grey.shade400,
+        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
         size: 48.0,
       ),
     );

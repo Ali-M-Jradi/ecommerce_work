@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import 'highlighted_text_widget.dart';
 import '../../../localization/app_localizations_helper.dart';
 import 'products_data_provider.dart';
@@ -51,9 +52,9 @@ class ProductListItemWidget extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                              color: AppColors.error(context),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                         child: Text(
                           AppLocalizationsHelper.of(context).soldOut,
                           style: const TextStyle(
@@ -80,7 +81,7 @@ class ProductListItemWidget extends StatelessWidget {
                         color: isDark ? colorScheme.primary : colorScheme.primary,
                         fontWeight: FontWeight.w500,
                       ),
-                      highlightColor: Colors.yellow,
+                      highlightColor: AppColors.info(context),
                     ),
                     const SizedBox(height: 4),
                     HighlightedText(
@@ -89,16 +90,16 @@ class ProductListItemWidget extends StatelessWidget {
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      highlightColor: Colors.yellow,
+                      highlightColor: AppColors.info(context),
                     ),
                     const SizedBox(height: 4),
                     HighlightedText(
                       text: ProductsDataProvider.getLocalizedDescription(product, context),
                       highlight: searchQuery ?? '',
-                      style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                      style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      highlightColor: Colors.yellow,
+                      highlightColor: AppColors.info(context),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -119,7 +120,7 @@ class ProductListItemWidget extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            const Icon(Icons.star, color: Colors.orange, size: 14),
+                            Icon(Icons.star, color: AppColors.warning(context), size: 14),
                             Text(
                               '${product['rating']}',
                               style: const TextStyle(fontSize: 12),

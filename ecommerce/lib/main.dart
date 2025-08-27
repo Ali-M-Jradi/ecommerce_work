@@ -8,6 +8,7 @@ import 'package:ecommerce/pages/base_page/base_page.dart';
 import 'package:ecommerce/pages/checkout_page/checkout_page.dart';
 import 'package:ecommerce/pages/auth/login_page.dart';
 import 'package:ecommerce/pages/auth/signup_page.dart';
+import 'package:ecommerce/pages/auth/auth_debug_page.dart';
 import 'package:ecommerce/pages/notifications/notification_test_page.dart';
 import 'package:ecommerce/pages/notifications/notifications_page.dart';
 import 'package:ecommerce/pages/profile/profile_page.dart';
@@ -45,6 +46,7 @@ import 'package:ecommerce/providers/brand_provider.dart';
 import 'package:ecommerce/providers/admin_user_provider.dart';
 import 'package:ecommerce/providers/api_product_provider.dart';
 import 'package:ecommerce/providers/content_provider.dart';
+import 'package:ecommerce/providers/color_provider.dart';
 import 'package:ecommerce/pages/auth/auth_provider.dart';
 import 'package:ecommerce/pages/debug_image_page.dart';
 
@@ -72,7 +74,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProxyProvider<AuthProvider, CartProvider>(
+          create: (context) => CartProvider(),
+          update: (context, auth, previousCart) {
+            previousCart!.setCurrentUser(auth.user?.email);
+            return previousCart;
+          },
+        ),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => MockNotificationProvider()),
@@ -86,9 +95,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CurrencyProvider()),
         ChangeNotifierProvider(create: (context) => BrandProvider()),
         ChangeNotifierProvider(create: (context) => AdminUserProvider()),
-  ChangeNotifierProvider(create: (context) => ApiProductProvider()), // Use API-backed products
+        ChangeNotifierProvider(create: (context) => ApiProductProvider()), // Use API-backed products
         ChangeNotifierProvider(create: (context) => ContentProvider()), // <-- Added for content management
-        ChangeNotifierProvider(create: (context) => AuthProvider()), // <-- Added for API authentication
+        ChangeNotifierProvider(create: (context) => ColorProvider()), // <-- Added for color management
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {
@@ -125,16 +134,56 @@ class MyApp extends StatelessWidget {
                 supportedLocales: AppLocalizationsHelper.supportedLocales,
                 locale: languageProvider.currentLocale,
                 title: 'DERMOCOSMETIQUE',
+                // If ColorProvider has an API palette and no user-custom colors are set,
+                // apply the API palette as the app defaults (persisted).
+                // Use a microtask so we don't block the build.
+                builder: (context, child) {
+                  final colorProvider = Provider.of<ColorProvider>(context, listen: false);
+                  if (colorProvider.hasColors && themeProvider.customPrimaryColor == null) {
+                    final main = colorProvider.getMainThemeColors();
+                    final p = main['MainColor']?.color;
+                    final s = main['SecondaryColor']?.color;
+                    final t = main['ThirdColor']?.color;
+                    if (p != null || s != null || t != null) {
+                      Future.microtask(() => themeProvider.setAllThemeColors(
+                          primaryColor: p, secondaryColor: s, tertiaryColor: t));
+                    }
+                  }
+                  return child!;
+                },
                 theme: _buildTheme(themeProvider, false),
                 darkTheme: _buildTheme(themeProvider, true),
                 themeMode: themeProvider.themeMode,
-                home: const BasePage(title: 'DERMOCOSMETIQUE'),
+                home: Consumer<AuthProvider>(
+                  builder: (context, authProvider, child) {
+                    print('Main.dart: Building home with auth state - isLoading: ${authProvider.isLoading}, isLoggedIn: ${authProvider.isLoggedIn}');
+                    
+                    // Show loading while checking authentication state
+                    if (authProvider.isLoading) {
+                      print('Main.dart: Showing loading screen');
+                      return const Scaffold(
+                        body: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    
+                    // If user is logged in, go to home page
+                    if (authProvider.isLoggedIn) {
+                      print('Main.dart: User is logged in, showing BasePage');
+                      return const BasePage(title: 'DERMOCOSMETIQUE');
+                    }
+                    
+                    // If not logged in, go to login page
+                    print('Main.dart: User not logged in, showing LoginPage');
+                    return const LoginPage();
+                  },
+                ),
                 routes: {
                   '/wishlist': (context) => const WishlistPage(),
                   '/checkout': (context) => const CheckoutPage(),
                   '/login': (context) => const LoginPage(),
                   '/signup': (context) => const SignUpPage(),
                   '/profile': (context) => const ProfilePage(),
+                  '/auth-debug': (context) => const AuthDebugPage(),
                   '/notifications': (context) => const NotificationsPage(),
                   '/test-notifications': (context) => const NotificationTestPage(),
                   '/order-tracking': (context) {
@@ -172,19 +221,29 @@ class MyApp extends StatelessWidget {
 
   /// Build theme data with custom colors
   ThemeData _buildTheme(ThemeProvider themeProvider, bool isDark) {
-    final primaryColor = themeProvider.customPrimaryColor ?? 
-        (isDark ? Colors.deepPurpleAccent : Colors.deepPurpleAccent.shade700);
-    final secondaryColor = themeProvider.customSecondaryColor ?? 
-        (isDark ? Colors.deepPurple : Colors.deepPurple);
+  // Prefer API-provided/custom colors. If none available, fall back to a neutral blue
+  final primaryColor = themeProvider.customPrimaryColor ?? (isDark ? Colors.blueAccent : Colors.blue);
+  final secondaryColor = themeProvider.customSecondaryColor ?? (isDark ? Colors.blueGrey : Colors.blueGrey.shade700);
+  // If tertiary is not set by API/admin, derive a complementary tertiary from primary to avoid hard-coded non-API colors
+  Color _deriveTertiary(Color base) {
+    final hsl = HSLColor.fromColor(base);
+    final newHue = (hsl.hue + 60) % 360;
+    final newLightness = (hsl.lightness + 0.12).clamp(0.0, 1.0);
+    return hsl.withHue(newHue).withLightness(newLightness).toColor();
+  }
+
+  final tertiaryColor = themeProvider.customTertiaryColor ?? _deriveTertiary(primaryColor);
 
     final colorScheme = isDark 
         ? ColorScheme.dark(
             primary: primaryColor,
             secondary: secondaryColor,
+            tertiary: tertiaryColor,
           )
         : ColorScheme.light(
             primary: primaryColor,
             secondary: secondaryColor,
+            tertiary: tertiaryColor,
           );
 
     return ThemeData(

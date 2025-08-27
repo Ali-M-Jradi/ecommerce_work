@@ -138,6 +138,9 @@ class DatabaseHelper {
     }
     return null;
   }
+  
+  // Save whether semantic colors are locked to defaults (true/false)
+  // Semantic lock persistence removed from database helper
   // Save user language preference
   Future<void> setUserLanguage(String languageCode) async {
     final db = await database;
@@ -180,6 +183,21 @@ class DatabaseHelper {
     final db = await database;
     await db.delete('cart');
   }
+
+  // Clear persisted theme-related preferences (primary/secondary/tertiary/lockSemanticColors)
+  Future<void> clearUserThemePreferences() async {
+    final db = await database;
+    try {
+      await db.delete(
+        'user_preferences',
+        where: 'key IN (?, ?, ?)',
+        whereArgs: ['primaryColor', 'secondaryColor', 'tertiaryColor'],
+      );
+      print('[DatabaseHelper] Cleared user theme preferences');
+    } catch (e) {
+      print('[DatabaseHelper] Error clearing theme preferences: $e');
+    }
+  }
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   factory DatabaseHelper() => _instance;
   DatabaseHelper._internal();
@@ -197,8 +215,9 @@ class DatabaseHelper {
     final path = join(dbPath, 'ecommerce.db');
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // Incremented version for userId column
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -222,7 +241,8 @@ class DatabaseHelper {
         size TEXT,
         category TEXT,
         quantity INTEGER,
-        description TEXT
+        description TEXT,
+        userId TEXT
       )
     ''');
     await db.execute('''
@@ -260,6 +280,41 @@ class DatabaseHelper {
         date TEXT
       )
     ''');
+  }
+
+  // Wishlist CRUD
+  Future<void> addProductToWishlist(int productId) async {
+    final db = await database;
+    // prevent duplicates by checking existence
+    final existing = await db.query('wishlist', where: 'productId = ?', whereArgs: [productId], limit: 1);
+    if (existing.isEmpty) {
+      await db.insert('wishlist', {'productId': productId});
+    }
+  }
+
+  Future<void> removeProductFromWishlist(int productId) async {
+    final db = await database;
+    await db.delete('wishlist', where: 'productId = ?', whereArgs: [productId]);
+  }
+
+  Future<List<int>> getWishlistProductIds() async {
+    final db = await database;
+    final rows = await db.query('wishlist');
+    return rows.map<int>((r) => (r['productId'] as int)).toList();
+  }
+
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    print('DatabaseHelper: Upgrading database from version $oldVersion to $newVersion');
+    
+    if (oldVersion < 2) {
+      // Add userId column to cart table
+      await db.execute('ALTER TABLE cart ADD COLUMN userId TEXT');
+      print('DatabaseHelper: Added userId column to cart table');
+      
+      // Clear existing cart items since they don't have userId
+      await db.delete('cart');
+      print('DatabaseHelper: Cleared existing cart items (no userId association)');
+    }
   }
 
   // CRUD methods for Product model
@@ -307,13 +362,16 @@ class DatabaseHelper {
       'category': cartItem.category,
       'quantity': cartItem.quantity,
       'description': cartItem.description,
+      'userId': cartItem.userId,
     };
     return await db.insert('cart', map);
   }
 
-  Future<List<CartItem>> getCartItems() async {
+  Future<List<CartItem>> getCartItems({String? userId}) async {
     final db = await database;
-    final maps = await db.query('cart');
+    final maps = userId != null 
+        ? await db.query('cart', where: 'userId = ?', whereArgs: [userId])
+        : await db.query('cart');
     return List.generate(maps.length, (i) => CartItem.fromMap(maps[i]));
   }
 
@@ -329,6 +387,7 @@ class DatabaseHelper {
       'category': cartItem.category,
       'quantity': cartItem.quantity,
       'description': cartItem.description,
+      'userId': cartItem.userId,
     };
     return await db.update(
       'cart',

@@ -7,6 +7,8 @@ class ThemeProvider extends ChangeNotifier {
   bool _isLoading = true;
   Color? _customPrimaryColor;
   Color? _customSecondaryColor;
+  Color? _customTertiaryColor;
+  // semantic lock removed - semantic tokens always derive from brand/theme
 
   ThemeProvider() {
     _loadSavedThemeAndColors();
@@ -17,6 +19,8 @@ class ThemeProvider extends ChangeNotifier {
   ThemeMode get themeMode => _themeMode;
   Color? get customPrimaryColor => _customPrimaryColor;
   Color? get customSecondaryColor => _customSecondaryColor;
+  Color? get customTertiaryColor => _customTertiaryColor;
+  // lockSemanticColors removed
 
   /// Load saved theme and colors from database and API
   Future<void> _loadSavedThemeAndColors() async {
@@ -40,6 +44,8 @@ class ThemeProvider extends ChangeNotifier {
 
       // Load colors
       await _loadColorsFromDatabase();
+
+  // semantic lock flag removed; semantic tokens will derive dynamically
       
       // If no user preferences, try to load from ContentManager (API)
       if (_customPrimaryColor == null) {
@@ -70,6 +76,12 @@ class ThemeProvider extends ChangeNotifier {
         _customSecondaryColor = Color(int.parse(savedSecondaryHex.replaceFirst('#', '0xff')));
         print('[ThemeProvider] Loaded secondary color from DB: $savedSecondaryHex');
       }
+      // Load tertiary color
+      final savedTertiaryHex = await DatabaseHelper().getUserTertiaryColor();
+      if (savedTertiaryHex != null && savedTertiaryHex.isNotEmpty && savedTertiaryHex.startsWith('#')) {
+        _customTertiaryColor = Color(int.parse(savedTertiaryHex.replaceFirst('#', '0xff')));
+        print('[ThemeProvider] Loaded tertiary color from DB: $savedTertiaryHex');
+      }
     } catch (e) {
       print('[ThemeProvider] Error loading colors from database: $e');
     }
@@ -81,17 +93,23 @@ class ThemeProvider extends ChangeNotifier {
     
     try {
       // Load primary color from API
-      final apiPrimaryHex = ContentManager.getColor('MainColor', '#673AB7');
+  final apiPrimaryHex = ContentManager.getColor('MainColor', '');
       if (apiPrimaryHex.isNotEmpty && apiPrimaryHex.startsWith('#')) {
         _customPrimaryColor = Color(int.parse(apiPrimaryHex.replaceFirst('#', '0xff')));
         print('[ThemeProvider] Loaded primary color from API: $apiPrimaryHex');
       }
       
       // Load secondary color from API
-      final apiSecondaryHex = ContentManager.getColor('SecondaryColor', '#E91E63');
+  final apiSecondaryHex = ContentManager.getColor('SecondaryColor', '');
       if (apiSecondaryHex.isNotEmpty && apiSecondaryHex.startsWith('#')) {
         _customSecondaryColor = Color(int.parse(apiSecondaryHex.replaceFirst('#', '0xff')));
         print('[ThemeProvider] Loaded secondary color from API: $apiSecondaryHex');
+      }
+      // Load tertiary color from API
+  final apiTertiaryHex = ContentManager.getColor('ThirdColor', '');
+      if (apiTertiaryHex.isNotEmpty && apiTertiaryHex.startsWith('#')) {
+        _customTertiaryColor = Color(int.parse(apiTertiaryHex.replaceFirst('#', '0xff')));
+        print('[ThemeProvider] Loaded tertiary color from API: $apiTertiaryHex');
       }
     } catch (e) {
       print('[ThemeProvider] Error loading colors from API: $e');
@@ -105,7 +123,8 @@ class ThemeProvider extends ChangeNotifier {
         bool hasUpdates = false;
         
         if (_customPrimaryColor == null) {
-          final apiColorHex = ContentManager.getColor('MainColor', '#673AB7');
+          // Prefer API-provided color if available; don't fallback to hard-coded purple
+          final apiColorHex = ContentManager.getColor('MainColor', '');
           if (apiColorHex.isNotEmpty && apiColorHex.startsWith('#')) {
             try {
               _customPrimaryColor = Color(int.parse(apiColorHex.replaceFirst('#', '0xff')));
@@ -115,10 +134,20 @@ class ThemeProvider extends ChangeNotifier {
         }
         
         if (_customSecondaryColor == null) {
-          final apiSecondaryHex = ContentManager.getColor('SecondaryColor', '#E91E63');
+          // Don't provide a hard-coded pink fallback here; use API value if present
+          final apiSecondaryHex = ContentManager.getColor('SecondaryColor', '');
           if (apiSecondaryHex.isNotEmpty && apiSecondaryHex.startsWith('#')) {
             try {
               _customSecondaryColor = Color(int.parse(apiSecondaryHex.replaceFirst('#', '0xff')));
+              hasUpdates = true;
+            } catch (_) {}
+          }
+        }
+        if (_customTertiaryColor == null) {
+          final apiTertiaryHex = ContentManager.getColor('ThirdColor', '');
+          if (apiTertiaryHex.isNotEmpty && apiTertiaryHex.startsWith('#')) {
+            try {
+              _customTertiaryColor = Color(int.parse(apiTertiaryHex.replaceFirst('#', '0xff')));
               hasUpdates = true;
             } catch (_) {}
           }
@@ -165,10 +194,26 @@ class ThemeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Set custom tertiary color
+  Future<void> setCustomTertiaryColor(Color? color) async {
+    _customTertiaryColor = color;
+    String? hex;
+    if (color != null) {
+      hex = '#${color.value.toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
+    }
+    await DatabaseHelper().setUserTertiaryColor(hex);
+    print('[ThemeProvider] Saved tertiary color: $hex');
+    notifyListeners();
+  }
+
+  /// Set whether semantic colors should be locked to defaults
+  // setLockSemanticColors removed - semantic locking is no longer supported
+
   /// Set both colors at once (for admin settings)
   Future<void> setAllThemeColors({
     Color? primaryColor,
     Color? secondaryColor,
+  Color? tertiaryColor,
   }) async {
     bool hasChanges = false;
     
@@ -186,6 +231,13 @@ class ThemeProvider extends ChangeNotifier {
       hasChanges = true;
     }
 
+    if (tertiaryColor != null) {
+      _customTertiaryColor = tertiaryColor;
+      final hex = '#${tertiaryColor.value.toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
+      await DatabaseHelper().setUserTertiaryColor(hex);
+      hasChanges = true;
+    }
+
     if (hasChanges) {
       print('[ThemeProvider] Updated all theme colors');
       notifyListeners();
@@ -196,9 +248,11 @@ class ThemeProvider extends ChangeNotifier {
   Future<void> resetColors() async {
     _customPrimaryColor = null;
     _customSecondaryColor = null;
+  _customTertiaryColor = null;
 
     await DatabaseHelper().setUserPrimaryColor(null);
     await DatabaseHelper().setUserSecondaryColor(null);
+  await DatabaseHelper().setUserTertiaryColor(null);
 
     // Try to reload from API
     if (ContentManager.hasContent) {

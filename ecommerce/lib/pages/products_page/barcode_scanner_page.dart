@@ -110,14 +110,14 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> with WidgetsBin
                 width: 260,
                 height: 180,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.deepPurple, width: 4),
+                  border: Border.all(color: Theme.of(context).colorScheme.primary, width: 4),
                   borderRadius: BorderRadius.circular(16),
-                  color: Colors.deepPurple.withOpacity(0.08),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
                     'Align barcode here',
-                    style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

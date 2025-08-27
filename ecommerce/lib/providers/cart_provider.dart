@@ -4,6 +4,7 @@ import '../models/cart_item.dart';
 import '../pages/products_page/products_page_widgets/products_data_provider.dart';
 import '../database_helper.dart';
 import '../services/parameter_service.dart';
+
 class CartProvider extends ChangeNotifier {
   // Utility: Clear cart table in database (for schema/data reset)
   Future<void> clearCartTable() async {
@@ -19,18 +20,33 @@ class CartProvider extends ChangeNotifier {
 
   final List<CartItem> _items = [];
   final DatabaseHelper _dbHelper = DatabaseHelper();
+  String? _currentUserId; // Track current user
 
   // Load cart items from SQLite on initialization
   CartProvider() {
     _loadCartFromDb();
   }
 
+  /// Set the current user and reload cart
+  void setCurrentUser(String? userId) {
+    if (_currentUserId != userId) {
+      _currentUserId = userId;
+      print('CartProvider: Setting user to $userId');
+      _loadCartFromDb();
+    }
+  }
+
+  /// Get current user ID
+  String? get currentUserId => _currentUserId;
+
   Future<void> _loadCartFromDb() async {
-    final items = await _dbHelper.getCartItems();
+    final items = await _dbHelper.getCartItems(userId: _currentUserId);
     _items.clear();
-    // Ensure each loaded item has its id set from the database
-    _items.addAll(items.map((item) => item.copyWith(id: item.id.toString())));
-    print('[CartProvider] Loaded ${_items.length} items from DB: $_items');
+    // Ensure each loaded item has its id set from the database and is for current user
+    _items.addAll(items
+        .where((item) => _currentUserId == null || item.userId == _currentUserId)
+        .map((item) => item.copyWith(id: item.id.toString())));
+    print('CartProvider: Loaded ${_items.length} items for user $_currentUserId');
     notifyListeners();
   }
 
@@ -108,6 +124,7 @@ class CartProvider extends ChangeNotifier {
         category: category,
         quantity: quantity,
         description: description,
+        userId: _currentUserId, // Associate with current user
         originalProduct: product, // <-- Set originalProduct for localization
       );
       final id = await _dbHelper.insertCartItem(newItem);

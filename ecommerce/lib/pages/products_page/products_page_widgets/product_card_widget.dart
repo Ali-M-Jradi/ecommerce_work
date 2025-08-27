@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'highlighted_text_widget.dart';
 import '../../../localization/app_localizations_helper.dart';
 import '../../../providers/wishlist_provider.dart';
+import '../../../providers/cart_provider.dart';
 import '../../../models/product.dart';
+import '../../../utils/app_colors.dart';
 
 class ProductCardWidget extends StatelessWidget {
   final Product product;
@@ -70,14 +72,15 @@ class ProductCardWidget extends StatelessWidget {
                         ),
                         color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.secondaryContainer,
                       ),
-                      child: ClipRRect(
+                        child: ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(12.0),
                         ),
                         child: ColorFiltered(
+                          // use theme-derived tints instead of hard-coded greys
                           colorFilter: product.soldOut
-                              ? const ColorFilter.mode(Colors.grey, BlendMode.saturation)
-                              : const ColorFilter.mode(Colors.transparent, BlendMode.multiply),
+                              ? ColorFilter.mode(colorScheme.onSurface.withOpacity(0.3), BlendMode.saturation)
+                              : ColorFilter.mode(Colors.transparent, BlendMode.multiply),
                           child: _buildProductImage(product.image, colorScheme),
                         ),
                       ),
@@ -123,12 +126,12 @@ class ProductCardWidget extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.redAccent,
+                          color: Theme.of(context).colorScheme.error,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           '-${product.discountPercentage.round()}%',
-                          style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: colorScheme.onError, fontSize: 9, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -140,10 +143,10 @@ class ProductCardWidget extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.orangeAccent,
+                          color: AppColors.warning(context),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Text('BEST SELLER', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
+                        child: Text('BEST SELLER', style: TextStyle(color: colorScheme.onPrimary, fontSize: 8, fontWeight: FontWeight.bold)),
                       ),
                     ),
                   // New badge
@@ -154,10 +157,10 @@ class ProductCardWidget extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: AppColors.success(context),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Text('NEW', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
+                        child: Text('NEW', style: TextStyle(color: colorScheme.onPrimary, fontSize: 8, fontWeight: FontWeight.bold)),
                       ),
                     ),
                   // Stock status badge
@@ -168,10 +171,10 @@ class ProductCardWidget extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.orange,
+                          color: AppColors.warning(context),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text('LOW STOCK (${product.stock})', style: const TextStyle(color: Colors.white, fontSize: 7, fontWeight: FontWeight.bold)),
+                        child: Text('LOW STOCK (${product.stock})', style: TextStyle(color: colorScheme.onPrimary, fontSize: 7, fontWeight: FontWeight.bold)),
                       ),
                     ),
                   // Wishlist Icon Button
@@ -187,11 +190,28 @@ class ProductCardWidget extends StatelessWidget {
                           child: IconButton(
                             icon: Icon(
                               isFavorite ? Icons.favorite : Icons.favorite_border,
-                              color: isFavorite ? Colors.red : colorScheme.onSurface.withOpacity(0.7),
+                              color: isFavorite ? Theme.of(context).colorScheme.error : colorScheme.onSurface.withOpacity(0.7),
                               size: 22,
                             ),
                             onPressed: () {
                               wishlistProvider.toggleWishlist(product);
+                              
+                              // Show visual feedback
+                              final isNowFavorite = wishlistProvider.wishlist.any((p) => p.id == product.id);
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      isNowFavorite 
+                                          ? '${product.name} added to wishlist!' 
+                                          : '${product.name} removed from wishlist!',
+                                    ),
+                                    duration: const Duration(seconds: 2),
+                                    backgroundColor: isNowFavorite ? Theme.of(context).colorScheme.error : colorScheme.surfaceContainerHighest,
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              }
                             },
                             tooltip: isFavorite ? 'Remove from wishlist' : 'Add to wishlist',
                           ),
@@ -227,16 +247,40 @@ class ProductCardWidget extends StatelessWidget {
                     child: Semantics(
                       label: 'Add to cart',
                       button: true,
-                      child: IconButton(
-                        icon: const Icon(Icons.add_shopping_cart, size: 18),
-                        color: colorScheme.primary,
-                        onPressed: product.soldOut ? null : () {
-                          // TODO: Implement add to cart logic
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Added to cart!')),
+                      child: Consumer<CartProvider>(
+                        builder: (context, cartProvider, _) {
+                          return IconButton(
+                            icon: const Icon(Icons.add_shopping_cart, size: 18),
+                            color: colorScheme.primary,
+                            onPressed: product.soldOut ? null : () async {
+                              try {
+                                await cartProvider.addItem(product.toMap(), context: context);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('${product.name} added to cart!'),
+                                      duration: const Duration(seconds: 2),
+                                      backgroundColor: colorScheme.primary,
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Error: ${e.toString()}'),
+                                      duration: const Duration(seconds: 3),
+                                      backgroundColor: colorScheme.error,
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                            tooltip: 'Add to cart',
                           );
                         },
-                        tooltip: 'Add to cart',
                       ),
                     ),
                   ),
@@ -337,9 +381,9 @@ class ProductCardWidget extends StatelessWidget {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.star, color: Colors.orange, size: 11),
+                                Icon(Icons.star, color: AppColors.warning(context), size: 11),
                                 Text(
-                                  '${product.rating.toStringAsFixed(1)}',
+                                  product.rating.toStringAsFixed(1),
                                   style: const TextStyle(fontSize: 10),
                                   overflow: TextOverflow.ellipsis,
                                 ),

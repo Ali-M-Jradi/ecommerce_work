@@ -133,22 +133,38 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
                 leading: item.image.isNotEmpty
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image.asset(
+                        child: Image.network(
                           item.image,
                           width: 50,
                           height: 50,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
                             return Container(
                               width: 50,
                               height: 50,
                               decoration: BoxDecoration(
-                                color: Colors.grey[200],
+                                color: Theme.of(context).colorScheme.surfaceVariant,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Icon(
+                              child: const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surfaceVariant,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
                                 Icons.image,
-                                color: Colors.grey,
+                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                               ),
                             );
                           },
@@ -161,9 +177,9 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.image,
-                          color: Colors.grey,
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                         ),
                       ),
                 title: Text(
@@ -172,10 +188,10 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                subtitle: Text(
+                  subtitle: Text(
                   AppLocalizations.of(context)!.quantityLabel(item.quantity),
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                   ),
                 ),
                 trailing: Text(
@@ -197,7 +213,7 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
     return Card(
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
-        title: address != null
+  title: address != null
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -222,7 +238,7 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
                     Text(
                       address.phoneNumber!,
                       style: TextStyle(
-                        color: Colors.grey[600],
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                       ),
                     ),
                   ],
@@ -231,7 +247,7 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
             : Text(
                 fallbackText,
                 style: TextStyle(
-                  color: Colors.grey[600],
+                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                 ),
               ),
         trailing: IconButton(
@@ -266,8 +282,8 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
                     Text(
                       'Expires ${widget.paymentMethod!.expiryMonth}/${widget.paymentMethod!.expiryYear}',
                       style: TextStyle(
-                        color: Colors.grey[600],
-                      ),
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                        ),
                     ),
                   ],
                 ],
@@ -275,8 +291,8 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
             : Text(
                 AppLocalizations.of(context)!.noPaymentMethod,
                 style: TextStyle(
-                  color: Colors.grey[600],
-                ),
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                      ),
               ),
         trailing: IconButton(
           icon: const Icon(Icons.edit),
@@ -363,7 +379,7 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
           width: 40,
           height: 24,
           decoration: BoxDecoration(
-            color: Colors.grey[600],
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             borderRadius: BorderRadius.circular(4),
           ),
           child: const Center(
@@ -389,7 +405,7 @@ class _ReviewStepWidgetState extends State<ReviewStepWidget> {
       case 'discover':
         return const Color(0xFFFF6000);
       default:
-        return Colors.grey[600]!;
+        return Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
     }
   }
 

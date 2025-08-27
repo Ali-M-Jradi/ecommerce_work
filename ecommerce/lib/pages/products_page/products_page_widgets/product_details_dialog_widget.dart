@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/cart_provider.dart';
 import '../../cart_page/cart_page.dart';
@@ -100,20 +101,20 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.green,
+                            color: colorScheme.tertiary,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Text('NEW', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                          child: Text('NEW', style: TextStyle(color: colorScheme.onTertiary, fontSize: 10, fontWeight: FontWeight.bold)),
                         ),
                       if (widget.product.isBestSeller) ...[
                         const SizedBox(height: 4),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.orangeAccent,
+                            color: colorScheme.primary,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Text('BEST SELLER', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                          child: Text('BEST SELLER', style: TextStyle(color: colorScheme.onPrimary, fontSize: 10, fontWeight: FontWeight.bold)),
                         ),
                       ],
                       if (widget.product.isFeatured) ...[
@@ -124,7 +125,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                             color: colorScheme.secondary,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Text('FEATURED', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                          child: Text('FEATURED', style: TextStyle(color: colorScheme.onSecondary, fontSize: 10, fontWeight: FontWeight.bold)),
                         ),
                       ],
                     ],
@@ -191,13 +192,13 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.redAccent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '-${widget.product.discountPercentage.round()}%',
-                        style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                      ),
+                        color: colorScheme.error,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '-${widget.product.discountPercentage.round()}%',
+                          style: TextStyle(color: colorScheme.onError, fontSize: 12, fontWeight: FontWeight.bold),
+                        ),
                     ),
                     const SizedBox(width: 8),
                   ],
@@ -219,13 +220,13 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                   Row(
                     children: List.generate(5, (index) => Icon(
                       index < widget.product.rating.floor() ? Icons.star : Icons.star_border,
-                      color: Colors.orange,
+                      color: AppColors.warning(context),
                       size: 16,
                     )),
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${widget.product.rating.toStringAsFixed(1)}',
+                    widget.product.rating.toStringAsFixed(1),
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   if (widget.product.reviewCount > 0) ...[
@@ -245,11 +246,11 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
               // Stock Information
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
+                  decoration: BoxDecoration(
                   color: widget.product.soldOut 
                       ? colorScheme.errorContainer
                       : widget.product.stock <= 5 
-                          ? Colors.orange.withOpacity(0.1)
+                          ? AppColors.warning(context).withOpacity(0.12)
                           : colorScheme.primaryContainer.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -262,20 +263,20 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                               ? Icons.warning 
                               : Icons.check_circle,
                       size: 16,
-                      color: widget.product.soldOut 
-                          ? colorScheme.error 
+                    color: widget.product.soldOut 
+                          ? AppColors.error(context) 
                           : widget.product.stock <= 5 
-                              ? Colors.orange 
-                              : Colors.green,
+                            ? AppColors.warning(context) 
+                            : colorScheme.primary,
                     ),
                     const SizedBox(width: 8),
                     Text(
                       widget.product.stockStatus,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: widget.product.soldOut 
-                            ? colorScheme.error 
-                            : colorScheme.onSurface,
+            color: widget.product.soldOut 
+              ? AppColors.error(context) 
+              : colorScheme.onSurface,
                       ),
                     ),
                     if (!widget.product.soldOut && widget.product.stock > 0) ...[
@@ -477,7 +478,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple.shade700,
+                  color: colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -485,7 +486,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                 AppLocalizationsHelper.of(context).ratingInstructions,
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.grey.shade600,
+                  color: colorScheme.onSurface.withOpacity(0.6),
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -517,7 +518,7 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                         ),
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.deepPurple.shade600,
+                    color: colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -543,8 +544,8 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple.shade600,
-                      foregroundColor: Colors.white,
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -615,9 +616,9 @@ class _ProductDetailsDialogWidgetState extends State<ProductDetailsDialogWidget>
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: widget.product.soldOut 
-                        ? Colors.grey 
-                        : const Color(0xFF4A154B),
-                    foregroundColor: Colors.white,
+                        ? colorScheme.onSurface.withOpacity(0.12)
+                        : colorScheme.primary,
+                    foregroundColor: widget.product.soldOut ? colorScheme.onSurface : colorScheme.onPrimary,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

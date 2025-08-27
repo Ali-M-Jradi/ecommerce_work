@@ -30,11 +30,11 @@ mixin ScanHistoryMixin<T extends StatefulWidget> on State<T> {
       builder: (context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: const Row(
+          title: Row(
             children: [
-              Icon(Icons.history, color: Colors.deepPurple, size: 28),
-              SizedBox(width: 10),
-              Text('Scan History'),
+              Icon(Icons.history, color: Theme.of(context).colorScheme.primary, size: 28),
+              const SizedBox(width: 10),
+              const Text('Scan History'),
             ],
           ),
           content: SizedBox(
@@ -61,14 +61,14 @@ mixin ScanHistoryMixin<T extends StatefulWidget> on State<T> {
                       return ListTile(
                         leading: Icon(
                           found.isNotEmpty ? Icons.qr_code_2 : Icons.error_outline,
-                          color: found.isNotEmpty ? Colors.deepPurple : Colors.red,
+                          color: found.isNotEmpty ? Theme.of(context).colorScheme.primary : Colors.red,
                         ),
                         title: Text(code, style: const TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: found.isNotEmpty
-                            ? Text(found['name'] is Map ? found['name']['en'] ?? '' : found['name'] ?? '', style: const TextStyle(color: Colors.deepPurple))
+                            ? Text(found['name'] is Map ? found['name']['en'] ?? '' : found['name'] ?? '', style: TextStyle(color: Theme.of(context).colorScheme.onSurface))
                             : const Text('Not found', style: TextStyle(color: Colors.red)),
                         trailing: found.isNotEmpty
-                            ? const Icon(Icons.chevron_right, color: Colors.deepPurple)
+                            ? Icon(Icons.chevron_right, color: Theme.of(context).colorScheme.primary)
                             : null,
                         onTap: found.isNotEmpty
                             ? () {

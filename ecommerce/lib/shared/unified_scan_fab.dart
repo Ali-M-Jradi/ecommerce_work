@@ -132,7 +132,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
                 Text('Product Not Found'),
               ],
             ),
-            content: Column(
+                content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -140,10 +140,10 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
                   'Barcode:',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SelectableText(
-                  scanResult,
-                  style: const TextStyle(color: Colors.deepPurple),
-                ),
+                    SelectableText(
+                      scanResult,
+                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                    ),
                 const SizedBox(height: 12),
                 Text(
                   'No product matches this barcode.',
@@ -245,11 +245,11 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              title: const Row(
+                  title: Row(
                 children: [
-                  Icon(Icons.error_outline, color: Colors.red, size: 32),
-                  SizedBox(width: 12),
-                  Text('Product Not Found'),
+                  const Icon(Icons.error_outline, color: Colors.red, size: 32),
+                  const SizedBox(width: 12),
+                  const Text('Product Not Found'),
                 ],
               ),
               content: Column(
@@ -262,7 +262,7 @@ mixin UnifiedScanFabMixin<T extends StatefulWidget>
                   ),
                   SelectableText(
                     result,
-                    style: const TextStyle(color: Colors.deepPurple),
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
                   ),
                   const SizedBox(height: 12),
                   Text(

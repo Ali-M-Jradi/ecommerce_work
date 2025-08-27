@@ -83,8 +83,8 @@ class NoProductsFoundWidget extends StatelessWidget {
                       icon: const Icon(Icons.clear_all),
                       label: Text(AppLocalizationsHelper.of(context).clearAllFilters),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple.shade600,
-                        foregroundColor: Colors.white,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 12,

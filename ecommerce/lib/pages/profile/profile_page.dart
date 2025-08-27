@@ -247,9 +247,9 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.deepPurple.shade400,
-                    Colors.deepPurple.shade700,
-                  ],
+                      Theme.of(context).colorScheme.primary.withOpacity(0.85),
+                      Theme.of(context).colorScheme.primaryContainer.withOpacity(0.95),
+                    ],
                 ),
                 border: Border.all(
                   color: Colors.white,
@@ -264,12 +264,12 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 ],
               ),
               child: Center(
-                child: Text(
+                  child: Text(
                   adminName.isNotEmpty ? adminName.substring(0, 1).toUpperCase() : 'A',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
               ),
@@ -278,10 +278,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             // Admin Name (extracted from email)
             Text(
               adminName,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
             const SizedBox(height: 4),
@@ -289,14 +289,14 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.16),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 'Administrator',
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.92),
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1,
                 ),
@@ -308,7 +308,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               user.email,
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.white.withOpacity(0.8),
+                color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
               ),
             ),
           ],
@@ -341,17 +341,17 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               margin: const EdgeInsets.symmetric(horizontal: 4),
-              decoration: BoxDecoration(
-                color: isActive ? Colors.white : Colors.white.withOpacity(0.2),
+                decoration: BoxDecoration(
+                color: isActive ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Center(
                 child: Text(
                   sections[index],
-                  style: TextStyle(
+                    style: TextStyle(
                     fontSize: 16,
                     fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                    color: isActive ? Colors.deepPurple.shade700 : Colors.white,
+                    color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -515,10 +515,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 onPressed: () {
                   // Navigate to order history
                 },
-                child: Text(
+                  child: Text(
                   localizations.profileViewAllOrders,
                   style: TextStyle(
-                    color: Colors.deepPurple.shade700,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -728,7 +728,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 children: [
                   Icon(
                     icon,
-                    color: Colors.deepPurple.shade700,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   const SizedBox(width: 10),
                   Text(
@@ -748,12 +748,12 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                       horizontal: 12,
                       vertical: 6,
                     ),
-                    backgroundColor: Colors.deepPurple.shade50,
+                    backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.06),
                   ),
                   child: Text(
                     actionText,
                     style: TextStyle(
-                      color: Colors.deepPurple.shade700,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -846,13 +846,13 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               fontWeight: FontWeight.w500,
             ),
           ),
-          Switch(
+            Switch(
             value: value,
             onChanged: (newValue) {
               HapticFeedback.lightImpact();
               onChanged(newValue);
             },
-            activeColor: Colors.deepPurple.shade700,
+            activeColor: Theme.of(context).colorScheme.primary,
           ),
         ],
       ),
@@ -968,9 +968,9 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 child: Text(
                   localizations.profileViewDetails,
                   style: TextStyle(
-                    color: Colors.deepPurple.shade700,
-                    fontWeight: FontWeight.w600,
-                  ),
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
                 ),
               ),
             ],
@@ -1140,8 +1140,8 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                     // Add to cart
                     HapticFeedback.lightImpact();
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple.shade700,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                     minimumSize: const Size(double.infinity, 32),
                     padding: EdgeInsets.zero,
                   ),
@@ -1222,8 +1222,8 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               // Toggle language
               provider.toggleLanguage(); // Use the existing toggle method
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepPurple.shade700,
+              style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
               shape: const CircleBorder(),
               padding: const EdgeInsets.all(12),
             ),

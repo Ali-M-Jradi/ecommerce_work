@@ -152,13 +152,13 @@ class _NotificationsPageState extends State<NotificationsPage> with TickerProvid
   
   Widget _buildEmptyState() {
     return Center(
-      child: Column(
+    child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.notifications_off,
             size: 80,
-            color: Colors.grey.shade400,
+      color: Colors.grey.shade400,
           ),
           const SizedBox(height: 16),            Text(
             AppLocalizationsHelper.of(context).noNotifications,
@@ -218,7 +218,7 @@ class _NotificationsPageState extends State<NotificationsPage> with TickerProvid
       },
       child: Container(
         decoration: BoxDecoration(
-          color: notification.isRead ? null : Colors.deepPurple.shade50,
+          color: notification.isRead ? null : Theme.of(context).colorScheme.primary.withOpacity(0.08),
           border: Border(
             bottom: BorderSide(color: Colors.grey.shade200),
           ),
@@ -267,7 +267,7 @@ class _NotificationsPageState extends State<NotificationsPage> with TickerProvid
                   height: 12,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.deepPurple.shade700,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
         ),
@@ -286,7 +286,7 @@ class _NotificationsPageState extends State<NotificationsPage> with TickerProvid
         break;
       case NotificationType.promotion:
         iconData = Icons.discount_outlined;
-        iconColor = Colors.deepPurple;
+        iconColor = Theme.of(context).colorScheme.secondary;
         break;
       case NotificationType.newArrival:
         iconData = Icons.new_releases_outlined;
@@ -404,12 +404,12 @@ class NotificationSettingsPage extends StatelessWidget {
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.deepPurple.shade100,
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.12),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.notifications_active,
-                    color: Colors.deepPurple.shade700,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 trailing: Switch(

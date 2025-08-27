@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'products_page_config.dart';
 
 class ProductsPageConstants {
-  // Colors
-  static final Color primaryColor = Colors.deepPurpleAccent.shade700;
-  static final Color primaryDarkColor = Colors.deepPurple.shade800;
-  static final Color backgroundColor = Colors.grey.shade50;
+  // Colors (theme-driven helpers)
+  static Color primaryColor(BuildContext context) => Theme.of(context).colorScheme.primary;
+  static Color primaryDarkColor(BuildContext context) => Theme.of(context).colorScheme.primary;
+  static Color backgroundColor(BuildContext context) => Theme.of(context).colorScheme.background;
   static const Color whiteColor = Colors.white;
 
   // Spacing (using config values)
@@ -17,13 +17,13 @@ class ProductsPageConstants {
   static const double fabHidePercentage = 0.85; // Hide when 85% scrolled
 
   // Text Styles
-  static const TextStyle appBarTitleStyle = TextStyle(
-    color: Colors.white,
+  static TextStyle appBarTitleStyle(BuildContext context) => TextStyle(
+    color: Theme.of(context).colorScheme.onPrimary,
     fontSize: 20.0,
   );
 
-  static const TextStyle fabTextStyle = TextStyle(
-    color: Colors.white,
+  static TextStyle fabTextStyle(BuildContext context) => TextStyle(
+    color: Theme.of(context).colorScheme.onPrimary,
     fontSize: 14,
   );
 

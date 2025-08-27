@@ -12,6 +12,7 @@ class CartItem {
   final String? category;
   int quantity;
   final String? description;
+  final String? userId; // Add user ID for multi-user support
   final Map<String, dynamic>? originalProduct; // Store original product data for localization
 
   CartItem({
@@ -25,6 +26,7 @@ class CartItem {
     this.category,
     this.quantity = 1,
     this.description,
+    this.userId,
     this.originalProduct,
   });
 
@@ -48,7 +50,7 @@ class CartItem {
   }
 
   // Create CartItem from product data
-  factory CartItem.fromProduct(Map<String, dynamic> product, {int quantity = 1, BuildContext? context}) {
+  factory CartItem.fromProduct(Map<String, dynamic> product, {int quantity = 1, BuildContext? context, String? userId}) {
     // Handle price conversion from string or number
     double parsePrice(dynamic priceValue) {
       if (priceValue == null) return 0.0;
@@ -98,6 +100,7 @@ class CartItem {
       category: product['category'],
       quantity: quantity,
       description: productDescription,
+      userId: userId,
       originalProduct: product, // Store original product data for localization
     );
   }
@@ -115,6 +118,7 @@ class CartItem {
       'category': category,
       'quantity': quantity,
       'description': description,
+      'userId': userId,
       'originalProduct': originalProduct,
     };
   }
@@ -132,6 +136,7 @@ class CartItem {
       category: map['category'],
       quantity: map['quantity'] ?? 1,
       description: map['description'],
+      userId: map['userId'],
       originalProduct: map['originalProduct'],
     );
   }
@@ -148,6 +153,7 @@ class CartItem {
     String? category,
     int? quantity,
     String? description,
+    String? userId,
     Map<String, dynamic>? originalProduct,
   }) {
     return CartItem(
@@ -161,6 +167,7 @@ class CartItem {
       category: category ?? this.category,
       quantity: quantity ?? this.quantity,
       description: description ?? this.description,
+      userId: userId ?? this.userId,
       originalProduct: originalProduct ?? this.originalProduct,
     );
   }
