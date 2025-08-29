@@ -153,9 +153,9 @@ class CategoryProvider extends ChangeNotifier {
     return [
       Category(
         id: 1, 
-        en: 'FACE', 
+        en: 'FACE CARE', 
         fr: 'VISAGE', 
-        ar: 'وجه', 
+        ar: '\u0648\u062c\u0647', 
         icon: Icons.face,
       ),
       Category(

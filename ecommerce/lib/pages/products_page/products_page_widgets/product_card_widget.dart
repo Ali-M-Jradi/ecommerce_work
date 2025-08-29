@@ -31,7 +31,8 @@ class ProductCardWidget extends StatelessWidget {
     final Map<String, Color> categoryColors = {
       'face_care': colorScheme.primaryContainer,
       'body_care': colorScheme.secondaryContainer,
-      'hair_care': colorScheme.tertiaryContainer,
+      // Use the stronger tertiary color (not the container) for improved contrast
+      'hair_care': colorScheme.tertiary,
       'fragrance': colorScheme.surfaceContainerHighest,
       'makeup': colorScheme.errorContainer,
       'baby_care': colorScheme.inversePrimary,
@@ -46,6 +47,19 @@ class ProductCardWidget extends StatelessWidget {
     };
     final Color badgeColor = categoryColors[product.category] ?? colorScheme.secondaryContainer;
     final IconData? badgeIcon = categoryIcons[product.category];
+    // Pick a readable on-color for the badge text/icon. Compute high-contrast color for hair_care
+    Color badgeTextColor;
+    try {
+      if (product.category == 'hair_care') {
+        // Use luminance to pick white/black for adequate contrast
+        badgeTextColor = badgeColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+      } else {
+        badgeTextColor = colorScheme.onSecondaryContainer;
+      }
+    } catch (_) {
+      // Fallback in case computeLuminance isn't available for some reason
+      badgeTextColor = colorScheme.onSecondaryContainer;
+    }
 
     return Card(
       elevation: 4,
@@ -101,13 +115,13 @@ class ProductCardWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (badgeIcon != null) ...[
-                            Icon(badgeIcon, size: 12, color: colorScheme.onSecondaryContainer),
+                            Icon(badgeIcon, size: 12, color: badgeTextColor),
                             const SizedBox(width: 2),
                           ],
                           Text(
                             product.category.replaceAll('_', ' ').toUpperCase(),
                             style: TextStyle(
-                              color: colorScheme.onSecondaryContainer,
+                              color: badgeTextColor,
                               fontSize: 9,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.5,

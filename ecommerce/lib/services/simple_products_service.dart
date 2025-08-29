@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/product.dart';
+import 'category_classifier.dart';
 
 /// Simple service to fetch products from the API
 class SimpleProductsService {
@@ -88,13 +89,14 @@ class SimpleProductsService {
     mappedItem['name'] = item['Name'] ?? '';
     mappedItem['description'] = item['Notes'] ?? '';
     mappedItem['price'] = item['Price'] ?? 0.0;
-    mappedItem['category'] = 'Pharmaceutical'; // Default category for medical products
+  // Derive category from textual fields instead of a fixed placeholder
+  mappedItem['category'] = classifyCategory(item);
     
     // Use Symbol field as size/format (e.g., "Tube de 50 ml")
     mappedItem['size'] = item['Symbol'] ?? '';
     
-    // Map pharmaceutical-specific fields to appropriate Product fields
-    mappedItem['brand'] = 'Medical'; // Default brand for pharmaceutical products
+  // Map brand if present in the API item
+  mappedItem['brand'] = item['Brand'] ?? item['Manufacturer'] ?? '';
     mappedItem['barcode'] = item['Barcode'] ?? '';
     mappedItem['serialNumber'] = item['SerialNumber'] ?? '';
     
@@ -149,7 +151,7 @@ class SimpleProductsService {
     mappedItem['isFeatured'] = false;
     mappedItem['isBestSeller'] = false;
     
-    // Create pharmaceutical-specific features
+  // Create features from available medical fields (do not tag as pharmaceutical)
     List<String> features = [];
     if (item['UsedTo'] != null && item['UsedTo'].toString().isNotEmpty) {
       features.add('Medical Use: ${item['UsedTo']}');
@@ -160,14 +162,15 @@ class SimpleProductsService {
     if (item['Ingredients'] != null && item['Ingredients'].toString().isNotEmpty) {
       features.add('Active Ingredients Listed');
     }
-    features.addAll(['Prescription Item', 'Quality Assured', 'Pharmaceutical Grade']);
+  // Keep feature list factual based on available fields; avoid adding pharmaceutical labels
     mappedItem['features'] = features;
     
     // Create specifications from medical data
     Map<String, String> specifications = {};
     specifications['Product ID'] = productId;
     specifications['Format'] = item['Symbol'] ?? 'N/A';
-    specifications['Category'] = 'Pharmaceutical';
+  // Use the derived classifier category or fallback
+  specifications['Category'] = mappedItem['category']?.toString() ?? 'unknown';
     if (item['Barcode'] != null && item['Barcode'].toString().isNotEmpty) {
       specifications['Barcode'] = item['Barcode'].toString();
     }
@@ -176,7 +179,7 @@ class SimpleProductsService {
     }
     mappedItem['specifications'] = specifications;
     
-    // No colors/sizes for pharmaceutical products
+  // No colors/sizes for this type of product unless specified
     mappedItem['colors'] = [];
     mappedItem['sizes'] = [];
     

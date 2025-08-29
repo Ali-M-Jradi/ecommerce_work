@@ -11,6 +11,8 @@ class ProductsListViewWidget extends StatelessWidget {
   final String sortBy;
   final Function(Product) onProductTap;
   final String? category;
+  final List<String>? selectedCategories;
+  final List<String>? selectedBrands;
   final String? searchQuery;
   final String? brand;
   final double? minPrice;
@@ -24,7 +26,9 @@ class ProductsListViewWidget extends StatelessWidget {
     required this.scrollController,
     required this.sortBy,
     required this.onProductTap,
-    this.category,
+  this.category,
+  this.selectedCategories,
+  this.selectedBrands,
     this.searchQuery,
     this.brand,
     this.minPrice,
@@ -52,8 +56,18 @@ class ProductsListViewWidget extends StatelessWidget {
         // Apply additional filtering locally since ProductProvider doesn't support all filters
         List<Product> filteredProducts = products;
         
-        if (category != null && category!.isNotEmpty) {
+        if (selectedCategories != null && selectedCategories!.isNotEmpty) {
+          final lowerSet = selectedCategories!.map((s) => s.toLowerCase()).toSet();
+          filteredProducts = filteredProducts.where((p) => lowerSet.contains(p.category.toLowerCase())).toList();
+        } else if (category != null && category!.isNotEmpty) {
           filteredProducts = filteredProducts.where((p) => p.category.toLowerCase() == category!.toLowerCase()).toList();
+        }
+
+        if (selectedBrands != null && selectedBrands!.isNotEmpty) {
+          final brandSet = selectedBrands!.map((s) => s.toLowerCase()).toSet();
+          filteredProducts = filteredProducts.where((p) => brandSet.contains(p.brand.toLowerCase())).toList();
+        } else if (brand != null && brand!.isNotEmpty) {
+          filteredProducts = filteredProducts.where((p) => p.brand.toLowerCase().contains(brand!.toLowerCase())).toList();
         }
         
         if (brand != null && brand!.isNotEmpty) {

@@ -18,6 +18,7 @@ import 'products_page_widgets/products_page_constants.dart';
 
 import '../../shared/scan_utils.dart';
 import '../../shared/unified_scan_fab.dart';
+import '../../services/category_mapper.dart';
 
 class ProductsPage extends StatefulWidget {
   final String? category;
@@ -42,9 +43,19 @@ class _ProductsPageState extends State<ProductsPage> with ScanHistoryMixin, Unif
   @override
   void initState() {
     super.initState();
+    // If category is a numeric id passed as a string, try to convert to classifier key first
+    String? initialCategory = widget.category;
+    if (initialCategory != null && initialCategory.isNotEmpty && !initialCategory.contains('_')) {
+      try {
+        final rev = mapCategoryIdToClassifierKey(context, initialCategory);
+        if (rev != null && rev.isNotEmpty) initialCategory = rev;
+      } catch (_) {
+        // ignore
+      }
+    }
     _controller = ProductsPageController(
       onStateChanged: () => setState(() {}),
-      category: widget.category,
+      category: initialCategory,
     );
     // Auto-focus search if requested
     if (widget.autoFocusSearch) {
@@ -75,6 +86,8 @@ class _ProductsPageState extends State<ProductsPage> with ScanHistoryMixin, Unif
   Widget build(BuildContext context) {
     return Consumer<LanguageProvider>(
       builder: (context, languageProvider, child) {
+  // Use the category string supplied by the caller directly. It may be a
+  // classifier key (e.g. 'face_care') which matches Product.category values.
         return Scaffold(
           appBar: ProductsAppBarWidget(
             onBackPressed: () => Navigator.of(context).pop(),
@@ -118,11 +131,12 @@ class _ProductsPageState extends State<ProductsPage> with ScanHistoryMixin, Unif
           // Content area
           Expanded(
             child: _controller.isGridView 
-              ? ProductsGridViewWidget(
+        ? ProductsGridViewWidget(
                   scrollController: _controller.scrollController,
                   sortBy: _controller.sortBy,
                   onProductTap: _showProductDetails,
-                  category: _controller.category,
+          // pass multi-select categories
+          selectedCategories: _controller.selectedCategories,
                   searchQuery: _controller.searchQuery,
                   brand: _controller.selectedBrand,
                   minPrice: _controller.minPrice,
@@ -138,7 +152,7 @@ class _ProductsPageState extends State<ProductsPage> with ScanHistoryMixin, Unif
                   scrollController: _controller.scrollController,
                   sortBy: _controller.sortBy,
                   onProductTap: _showProductDetails,
-                  category: _controller.category,
+          selectedCategories: _controller.selectedCategories,
                   searchQuery: _controller.searchQuery,
                   brand: _controller.selectedBrand,
                   minPrice: _controller.minPrice,
@@ -191,8 +205,8 @@ class _ProductsPageState extends State<ProductsPage> with ScanHistoryMixin, Unif
       ),
       builder: (BuildContext context) {
         return FilterBottomSheet(
-          selectedCategory: _controller.category,
-          selectedBrand: _controller.selectedBrand,
+          selectedCategories: _controller.selectedCategories,
+          selectedBrands: _controller.selectedBrands,
           minPrice: _controller.minPrice,
           maxPrice: _controller.maxPrice,
           minRating: _controller.minRating,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../database_helper.dart';
-import 'package:collection/collection.dart';
 
 class WishlistProvider extends ChangeNotifier {
   final List<Product> _wishlist = [];
   final DatabaseHelper _db = DatabaseHelper();
+  // persisted ids loaded from the database; used to keep favorite state
+  // until Product instances are resolved in memory.
+  final Set<String> _wishlistIds = {};
 
   // NOTE: consumer of this provider is responsible for providing a way to
   // resolve productId -> Product when loading (simple approach: load all products
@@ -23,36 +25,65 @@ class WishlistProvider extends ChangeNotifier {
   Future<void> _loadFromDb() async {
     try {
       final ids = await _db.getWishlistProductIds();
-      // Attempt to resolve ids to Product objects using any loaded products in app
-      // If products aren't available yet, keep _wishlist empty — the UI will
-      // repopulate as products are loaded via normal flows.
-      // We'll store resolved IDs in a temp set so duplicate adds are prevented.
-      final idSet = ids.toSet();
-      // If you have a central ProductProvider, you'd resolve here. For now
-      // we'll keep this as productId placeholders (no-op).
-      // TODO: resolve ids -> Product once products loaded, or store snapshots.
-      // This keeps app-stored wishlist ids persisted across sessions.
+      _wishlistIds
+        ..clear()
+        ..addAll(ids);
+      // Try to resolve persisted ids to Product objects from local DB
+      // If products were persisted in the products table, load them and match by id.
+      try {
+        final products = await _db.getProducts();
+        final resolved = products.where((p) => _wishlistIds.contains(p.id)).toList();
+        if (resolved.isNotEmpty) {
+          _wishlist
+            ..clear()
+            ..addAll(resolved);
+        }
+      } catch (e) {
+        // ignore errors resolving products from local DB
+      }
+      // Note: if products are loaded from network (ProductProvider), call
+      // resolveSavedIds(...) from that provider once data is available.
     } catch (e) {
       // ignore DB errors silently for now
     }
   }
 
-  bool isInWishlist(Product product) {
-    return _wishlist.any((p) => p.id == product.id);
+  /// Resolve previously saved wishlist IDs against an in-memory product list.
+  /// Call this from ProductProvider after products are loaded so the UI shows
+  /// the full Product objects for persisted wishlist entries.
+  void resolveSavedIds(List<Product> products) {
+    final resolved = products.where((p) => _wishlistIds.contains(p.id)).toList();
+    if (resolved.isNotEmpty) {
+      // Preserve any in-memory wishlist entries and append resolved ones that
+      // are not already present.
+      for (final p in resolved) {
+        if (!_wishlist.any((w) => w.id == p.id)) {
+          _wishlist.add(p);
+        }
+      }
+      notifyListeners();
+    }
   }
+
+  bool isInWishlist(Product product) {
+    return _wishlist.any((p) => p.id == product.id) || _wishlistIds.contains(product.id);
+  }
+
   void addToWishlist(Product product) {
     if (!isInWishlist(product)) {
       _wishlist.add(product);
-      // persist
-      unawaited(_db.addProductToWishlist(product.id));
+      _wishlistIds.add(product.id);
+      // persist (fire-and-forget)
+      _db.addProductToWishlist(product.id);
       notifyListeners();
     }
   }
 
   void removeFromWishlist(Product product) {
     _wishlist.removeWhere((p) => p.id == product.id);
-    // persist
-    unawaited(_db.removeProductFromWishlist(product.id));
+    _wishlistIds.remove(product.id);
+    // persist (fire-and-forget)
+    _db.removeProductFromWishlist(product.id);
     notifyListeners();
   }
 

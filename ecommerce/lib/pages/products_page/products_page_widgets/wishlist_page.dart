@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/wishlist_provider.dart';
+import '../../../providers/cart_provider.dart';
 import 'product_details_dialog_widget.dart';
 
 class WishlistPage extends StatelessWidget {
@@ -137,9 +138,38 @@ class WishlistPage extends StatelessWidget {
                               runSpacing: 6,
                               children: [
                                 ElevatedButton.icon(
-                                  onPressed: () {
-                                    // Add to cart behavior - keep simple: pop and show snackbar
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Added to cart')));
+                                  onPressed: () async {
+                                    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+                                    // Build a simple product map to pass to cart provider
+                                    final productMap = {
+                                      'id': product.id,
+                                      'name': product.name,
+                                      'brand': product.brand,
+                                      'price': product.price,
+                                      'image': product.image,
+                                      'size': product.size,
+                                      'category': product.category,
+                                      'description': product.description,
+                                    };
+                                    try {
+                                      await cartProvider.addItem(productMap, context: context);
+                                      final messenger = ScaffoldMessenger.of(context);
+                                      messenger.clearSnackBars();
+                                      messenger.showSnackBar(
+                                        SnackBar(
+                                          content: Text('Added "${product.name}" to cart'),
+                                          action: SnackBarAction(
+                                            label: 'Undo',
+                                            onPressed: () async {
+                                              // Remove by productId from cart
+                                              await cartProvider.removeItemByProductId(product.id);
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not add to cart')));
+                                    }
                                   },
                                   icon: const Icon(Icons.shopping_cart_checkout, size: 16),
                                   label: const Text('Add to cart'),
@@ -151,7 +181,23 @@ class WishlistPage extends StatelessWidget {
                                   ),
                                 ),
                                 OutlinedButton(
-                                  onPressed: () => wishlistProvider.removeFromWishlist(product),
+                                  onPressed: () {
+                                    // Remove with undo
+                                    wishlistProvider.removeFromWishlist(product);
+                                    final messenger = ScaffoldMessenger.of(context);
+                                    messenger.clearSnackBars();
+                                    messenger.showSnackBar(
+                                      SnackBar(
+                                        content: Text('Removed "${product.name}" from wishlist'),
+                                        action: SnackBarAction(
+                                          label: 'Undo',
+                                          onPressed: () {
+                                            wishlistProvider.addToWishlist(product);
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   child: const Text('Remove'),
                                 ),
                               ],

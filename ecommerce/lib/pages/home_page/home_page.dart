@@ -6,12 +6,14 @@ import '../products_page/products_page.dart';
 import 'package:ecommerce/localization/app_localizations_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/providers/category_provider.dart';
+import 'package:ecommerce/providers/api_product_provider.dart';
 import 'package:ecommerce/services/parameter_service.dart';
 import 'package:ecommerce/providers/parameter_provider.dart';
 import 'package:ecommerce/providers/content_provider.dart';
 
 import 'package:ecommerce/shared/scan_utils.dart';
 import 'package:ecommerce/shared/unified_scan_fab.dart';
+import '../../services/category_mapper.dart';
 
 class HomePage extends StatefulWidget {
   final Function(bool)? onFloatingButtonVisibilityChanged;
@@ -262,10 +264,17 @@ class _HomePageState extends State<HomePage>
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Consumer<CategoryProvider>(
-                        builder: (context, provider, _) {
-                          final categories = provider.categories;
-                          if (categories.isEmpty) {
+                      Consumer2<ApiProductProvider, CategoryProvider>(
+                        builder: (context, apiProvider, catProvider, _) {
+                          final products = apiProvider.products;
+                          // Derive unique classifier keys from available products
+                          final keys = <String>{};
+                          for (final p in products) {
+                            final c = p.category.toString();
+                            if (c.isNotEmpty) keys.add(c);
+                          }
+
+                          if (keys.isEmpty) {
                             return Text(
                               'No categories available',
                               style: TextStyle(
@@ -273,23 +282,40 @@ class _HomePageState extends State<HomePage>
                               ),
                             );
                           }
+
+                          final list = keys.toList();
                           return Wrap(
                             spacing: 16,
                             runSpacing: 16,
-                            children: List.generate(categories.length, (idx) {
-                              final cat = categories[idx];
+                            children: List.generate(list.length, (idx) {
+                              final classifierKey = list[idx];
+                              // Try to find a friendly localized title via CategoryProvider
+                              String title = classifierKey.replaceAll('_', ' ').toUpperCase();
+                              try {
+                                final mappedId = mapClassifierKeyToCategoryId(context, classifierKey);
+                                if (mappedId != null) {
+                                  final cat = catProvider.getCategoryById(mappedId);
+                                  if (cat != null) title = cat.en;
+                                }
+                              } catch (_) {}
+
+                              // Override the display text for the face classifier key to match CategoryProvider
+                              if (classifierKey == 'face_care') {
+                                title = 'FACE CARE';
+                              }
+
                               return SizedBox(
                                 width: (constraints.maxWidth - 16) / 2,
                                 child: _buildCategoryCard(
-                                  cat.en,
+                                  title,
                                   '',
-
-                                  // Optionally add image path to Category model later
+                                  // Use a neutral background; visual styling can be refined later
                                   theme.brightness == Brightness.dark
                                       ? colorScheme.surfaceContainerHighest
                                       : colorScheme.secondaryContainer,
-                                  icon: cat.icon,
-                                  categoryId: cat.id.toString(),
+                                  icon: null,
+                                  // Pass classifierKey directly to ProductsPage
+                                  categoryId: classifierKey,
                                 ),
                               );
                             }),
@@ -378,12 +404,22 @@ class _HomePageState extends State<HomePage>
     final isDark = theme.brightness == Brightness.dark;
     final cardBackground = backgroundColor;
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        String targetCategory = categoryId ?? '';
+        // If caller provided a classifier key (contains underscore) pass it through directly.
+        // If caller provided a numeric category id, try to convert it to a classifier key for filtering.
+        if (targetCategory.isNotEmpty && !targetCategory.contains('_')) {
+          try {
+            final rev = mapCategoryIdToClassifierKey(context, targetCategory);
+            if (rev != null && rev.isNotEmpty) targetCategory = rev;
+          } catch (_) {
+            // ignore mapping errors and pass original
+          }
+        }
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                ProductsPage(category: categoryId ?? '', categoryTitle: title),
+            builder: (context) => ProductsPage(category: targetCategory, categoryTitle: title),
           ),
         );
       },

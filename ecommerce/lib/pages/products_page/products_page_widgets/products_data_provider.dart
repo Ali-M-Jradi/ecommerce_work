@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../../services/category_classifier.dart';
 
 class ProductsDataProvider {
   // Map category IDs to relevant keywords for broader matching
-  static const Map<String, List<String>> categoryKeywords = {
+  static Map<String, List<String>> categoryKeywords = {
     'face_care': [
       'face', 'cleanser', 'moisturizer', 'serum', 'mask', 'cream', 'toner', 'mist', 'spf', 'sunscreen', 'acne', 'anti-aging', 'eye', 'lips', 'peel', 'scrub', 'makeup remover', 'micellar', 'hydration', 'sensitive', 'balm', 'milk', 'exfoliator', 'spot', 'whitening', 'brightening', 'vitamin c', 'retinol', 'collagen', 'wrinkle', 'pore', 'essence', 'ampoule', 'patch', 'sheet', 'sunblock', 'sun', 'uv', 'day cream', 'night cream', 'gel', 'foam', 'clay', 'mud', 'facial', 'anti-wrinkle', 'anti-spot', 'blemish', 'soothing', 'repair', 'recovery', 'rejuvenating', 'rejuvenation', 'anti-redness', 'anti-pollution', 'makeup', 'remover', 'water', 'thermal', 'spring', 'thermal water', 'thermal spring', 'thermal mist', 'thermal spray', 'thermal face', 'thermal cleanser', 'thermal cream', 'thermal mask', 'thermal serum', 'thermal toner', 'thermal moisturizer', 'thermal balm', 'thermal milk', 'thermal exfoliator', 'thermal spot', 'thermal whitening', 'thermal brightening', 'thermal vitamin c', 'thermal retinol', 'thermal collagen', 'thermal wrinkle', 'thermal pore', 'thermal essence', 'thermal ampoule', 'thermal patch', 'thermal sheet', 'thermal sunblock', 'thermal sun', 'thermal uv', 'thermal day cream', 'thermal night cream', 'thermal gel', 'thermal foam', 'thermal clay', 'thermal mud', 'thermal facial', 'thermal anti-wrinkle', 'thermal anti-spot', 'thermal blemish', 'thermal soothing', 'thermal repair', 'thermal recovery', 'thermal rejuvenating', 'thermal rejuvenation', 'thermal anti-redness', 'thermal anti-pollution'
     ],
@@ -16,8 +17,13 @@ class ProductsDataProvider {
       'fragrance', 'perfume', 'eau de parfum', 'eau de toilette', 'cologne', 'body spray', 'mist', 'deodorant', 'scent', 'aroma', 'parfum', 'aftershave', 'body mist', 'body fragrance', 'body cologne', 'body perfume', 'body scent', 'body aroma', 'body aftershave', 'thermal', 'thermal fragrance', 'thermal perfume', 'thermal eau de parfum', 'thermal eau de toilette', 'thermal cologne', 'thermal body spray', 'thermal mist', 'thermal deodorant', 'thermal scent', 'thermal aroma', 'thermal parfum', 'thermal aftershave', 'thermal body mist', 'thermal body fragrance', 'thermal body cologne', 'thermal body perfume', 'thermal body scent', 'thermal body aroma', 'thermal body aftershave'
     ],
     'makeup': [
-      'makeup', 'foundation', 'concealer', 'powder', 'blush', 'bronzer', 'highlighter', 'contour', 'primer', 'setting spray', 'setting powder', 'eyeshadow', 'mascara', 'eyeliner', 'brow', 'lipstick', 'lip gloss', 'lip liner', 'lip balm', 'tint', 'palette', 'face', 'eye', 'lip', 'cheek', 'brow', 'lash', 'base', 'complexion', 'color', 'cosmetic', 'cosmetics', 'thermal', 'thermal makeup', 'thermal foundation', 'thermal concealer', 'thermal powder', 'thermal blush', 'thermal bronzer', 'thermal highlighter', 'thermal contour', 'thermal primer', 'thermal setting spray', 'thermal setting powder', 'thermal eyeshadow', 'thermal mascara', 'thermal eyeliner', 'thermal brow', 'thermal lipstick', 'thermal lip gloss', 'thermal lip liner', 'thermal lip balm', 'thermal tint', 'thermal palette', 'thermal face', 'thermal eye', 'thermal lip', 'thermal cheek', 'thermal brow', 'thermal lash', 'thermal base', 'thermal complexion', 'thermal color', 'thermal cosmetic', 'thermal cosmetics'
-    ],
+      // Makeup-specific tokens only. Avoid generic terms like 'face' that overlap with face_care.
+      'makeup', 'foundation', 'concealer', 'powder', 'blush', 'bronzer', 'highlighter', 'contour', 'primer',
+      'setting spray', 'setting powder', 'eyeshadow', 'mascara', 'eyeliner', 'brow', 'lipstick', 'lip gloss',
+      'lip liner', 'lip balm', 'tint', 'palette', 'eyebrow', 'eyebrow pencil', 'lash', 'false lashes',
+      // French terms (common makeup phrases)
+  'maquillage', 'fond de teint', 'anticerne', 'fard', 'fard a paupieres', 'rouge a levres', 'rouge', 'levres'
+],
     'baby_care': [
       'baby', 'infant', 'toddler', 'child', 'kids', 'children', 'baby lotion', 'baby oil', 'baby cream', 'baby shampoo', 'baby wash', 'baby soap', 'baby powder', 'baby wipes', 'baby balm', 'baby moisturizer', 'baby sunscreen', 'baby spf', 'baby sunblock', 'baby sun', 'baby uv', 'baby day cream', 'baby night cream', 'baby anti-aging', 'baby anti-wrinkle', 'baby anti-spot', 'baby blemish', 'baby whitening', 'baby brightening', 'baby vitamin c', 'baby retinol', 'baby collagen', 'baby wrinkle', 'baby pore', 'baby essence', 'baby ampoule', 'baby patch', 'baby sheet', 'baby thermal', 'baby thermal water', 'baby thermal spring', 'baby thermal mist', 'baby thermal spray', 'baby thermal cleanser', 'baby thermal cream', 'baby thermal mask', 'baby thermal serum', 'baby thermal toner', 'baby thermal moisturizer', 'baby thermal balm', 'baby thermal milk', 'baby thermal exfoliator', 'baby thermal spot', 'baby thermal whitening', 'baby thermal brightening', 'baby thermal vitamin c', 'baby thermal retinol', 'baby thermal collagen', 'baby thermal wrinkle', 'baby thermal pore', 'baby thermal essence', 'baby thermal ampoule', 'baby thermal patch', 'baby thermal sheet', 'baby thermal sunblock', 'baby thermal sun', 'baby thermal uv', 'baby thermal day cream', 'baby thermal night cream', 'baby thermal gel', 'baby thermal foam', 'baby thermal clay', 'baby thermal mud', 'baby thermal anti-wrinkle', 'baby thermal anti-spot', 'baby thermal blemish', 'baby thermal soothing', 'baby thermal repair', 'baby thermal recovery', 'baby thermal rejuvenating', 'baby thermal rejuvenation', 'baby thermal anti-redness', 'baby thermal anti-pollution'
     ],
@@ -155,6 +161,44 @@ class ProductsDataProvider {
         'image':
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
+      // Makeup products
+      {
+        'id': 'loreal-true-match-liquid-foundation',
+        'brand': "L'Or\u00e9al",
+        'name': {
+          'en': 'True Match Liquid Foundation - Natural Beige',
+          'ar': 'مؤسس سائل ترو ماتش - بيج طبيعي',
+        },
+        'category': 'makeup',
+        'description': {
+          'en': 'Lightweight foundation that blends seamlessly for natural coverage. Ideal for everyday makeup routines.',
+          'ar': 'كريم أساس خفيف الوزن يمتزج بسلاسة لتغطية طبيعية. مثالي للروتين اليومي للمكياج.',
+        },
+        'size': '30ml',
+        'price': '14.50',
+        'rating': '4.2',
+        'soldOut': false,
+        'image':
+            'assets/images/makeup-foundation.avif',
+      },
+      {
+        'id': 'maybelline-volum-express-mascara',
+        'brand': 'Maybelline',
+        'name': {
+          'en': 'Volum Express Mascara - Black',
+          'ar': 'ماسكارا فولوم اكسبريس - اسود',
+        },
+        'category': 'makeup',
+        'description': {
+          'en': 'Creates dramatic volume and long-lasting wear. Ophthalmologist-tested and suitable for sensitive eyes.',
+          'ar': 'تمنح حجمًا دراماتيكيًا وثباتًا طويل الأمد. مختبرة من قبل اختصاصي العيون ومناسبة للعيون الحساسة.',
+        },
+        'size': '10ml',
+        'price': '8.99',
+        'rating': '4.4',
+        'soldOut': false,
+        'image': 'assets/images/makeup-mascara.avif',
+      },
       // Add some Body Care products
       {
         'brand': 'La Roche-Posay', // Keep brand name in English
@@ -217,7 +261,15 @@ class ProductsDataProvider {
         'image':
             'assets/images/cosmetics-beauty-products-skincare-social-media-instagram-post-square-banner-template_611904-184.avif',
       },
-    ];
+    ]
+    // Normalize/derive category for every demo product using the classifier
+    ..forEach((p) {
+      try {
+        p['category'] = classifyCategory(p);
+      } catch (_) {
+        // keep existing category on any error
+      }
+    });
   }
 
   // Helper method to get localized product name

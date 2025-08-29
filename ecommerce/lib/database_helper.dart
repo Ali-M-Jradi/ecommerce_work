@@ -179,10 +179,7 @@ class DatabaseHelper {
     return null;
   }
   // Clear all items from cart table (for schema/data reset)
-  Future<void> clearCartTable() async {
-    final db = await database;
-    await db.delete('cart');
-  }
+  // Note: cart-clear helper intentionally removed to prevent accidental DB wipes.
 
   // Clear persisted theme-related preferences (primary/secondary/tertiary/lockSemanticColors)
   Future<void> clearUserThemePreferences() async {
@@ -255,7 +252,7 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE wishlist (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        productId INTEGER
+        productId TEXT
       )
     ''');
     await db.execute('''
@@ -283,7 +280,7 @@ class DatabaseHelper {
   }
 
   // Wishlist CRUD
-  Future<void> addProductToWishlist(int productId) async {
+  Future<void> addProductToWishlist(String productId) async {
     final db = await database;
     // prevent duplicates by checking existence
     final existing = await db.query('wishlist', where: 'productId = ?', whereArgs: [productId], limit: 1);
@@ -292,15 +289,15 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> removeProductFromWishlist(int productId) async {
+  Future<void> removeProductFromWishlist(String productId) async {
     final db = await database;
     await db.delete('wishlist', where: 'productId = ?', whereArgs: [productId]);
   }
 
-  Future<List<int>> getWishlistProductIds() async {
+  Future<List<String>> getWishlistProductIds() async {
     final db = await database;
     final rows = await db.query('wishlist');
-    return rows.map<int>((r) => (r['productId'] as int)).toList();
+    return rows.map<String>((r) => (r['productId']?.toString() ?? '')).where((s) => s.isNotEmpty).toList();
   }
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {

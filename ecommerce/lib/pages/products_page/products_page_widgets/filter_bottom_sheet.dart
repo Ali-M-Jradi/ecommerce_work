@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import '../../../providers/api_product_provider.dart';
 
 class FilterBottomSheet extends StatefulWidget {
-  final String? selectedCategory;
-  final String? selectedBrand;
+  final List<String>? selectedCategories;
+  final List<String>? selectedBrands;
   final double? minPrice;
   final double? maxPrice;
   final double? minRating;
@@ -14,8 +14,8 @@ class FilterBottomSheet extends StatefulWidget {
 
   const FilterBottomSheet({
     super.key,
-    this.selectedCategory,
-    this.selectedBrand,
+    this.selectedCategories,
+    this.selectedBrands,
     this.minPrice,
     this.maxPrice,
     this.minRating,
@@ -28,8 +28,10 @@ class FilterBottomSheet extends StatefulWidget {
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  String? _selectedCategory;
-  String? _selectedBrand;
+  // Support multiple selected categories
+  late Set<String> _selectedCategories;
+  // Support multiple selected brands
+  late Set<String> _selectedBrands;
   RangeValues _priceRange = const RangeValues(0, 100);
   double _minRating = 0;
   bool _showOnlyInStock = false;
@@ -60,8 +62,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       ..sort();
     _categories = ['All Categories', ...availableCategories];
     
-    _selectedCategory = widget.selectedCategory ?? 'All Categories';
-    _selectedBrand = widget.selectedBrand ?? 'All Brands';
+  _selectedCategories = (widget.selectedCategories != null && widget.selectedCategories!.isNotEmpty)
+  ? widget.selectedCategories!.toSet()
+  : <String>{};
+  _selectedBrands = (widget.selectedBrands != null && widget.selectedBrands!.isNotEmpty)
+  ? widget.selectedBrands!.toSet()
+  : <String>{};
     _priceRange = RangeValues(
       widget.minPrice ?? 0,
       widget.maxPrice ?? 100,
@@ -109,12 +115,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   void _applyFilters() {
     final filters = <String, dynamic>{
-      'category': _selectedCategory == 'All Categories' || _selectedCategory == null 
-          ? null 
-          : _getCategoryValue(_selectedCategory!),
-      'brand': _selectedBrand == 'All Brands' || _selectedBrand == null 
-          ? null 
-          : _selectedBrand,
+      // Provide list of selected categories (empty -> none selected)
+      'categories': _selectedCategories.contains('All Categories') || _selectedCategories.isEmpty
+          ? <String>[]
+          : _selectedCategories.map((c) => _getCategoryValue(c)).where((s) => s.isNotEmpty).toList(),
+    'brands': _selectedBrands.contains('All Brands') || _selectedBrands.isEmpty
+      ? <String>[]
+      : _selectedBrands.map((b) => b).where((s) => s.isNotEmpty).toList(),
       'minPrice': _priceRange.start,
       'maxPrice': _priceRange.end,
       'minRating': _minRating,
@@ -127,8 +134,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   void _clearFilters() {
     setState(() {
-      _selectedCategory = 'All Categories';
-      _selectedBrand = 'All Brands';
+  _selectedCategories.clear();
+  _selectedBrands.clear();
       _priceRange = const RangeValues(0, 100);
       _minRating = 0;
       _showOnlyInStock = false;
@@ -188,7 +195,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           Wrap(
             spacing: 8,
             children: _categories.map((category) {
-              final isSelected = _selectedCategory == category;
+              final isSelected = _selectedCategories.contains(category);
               return FilterChip(
                 label: Text(
                   _getCategoryDisplayName(context, category),
@@ -201,7 +208,19 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 selected: isSelected,
                 onSelected: (selected) {
                   setState(() {
-                    _selectedCategory = category;
+                    if (category == 'All Categories') {
+                      // Selecting 'All Categories' clears other selections
+                      _selectedCategories.clear();
+                    } else {
+                      // Toggling selection
+                      if (selected) {
+                        _selectedCategories.add(category);
+                        // If any specific category is selected, ensure 'All Categories' is not selected
+                        _selectedCategories.remove('All Categories');
+                      } else {
+                        _selectedCategories.remove(category);
+                      }
+                    }
                   });
                 },
                 selectedColor: isDark ? colorScheme.primary : colorScheme.primary,
@@ -225,7 +244,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           Wrap(
             spacing: 8,
             children: _brands.map((brand) {
-              final isSelected = _selectedBrand == brand;
+              final isSelected = _selectedBrands.contains(brand);
               return FilterChip(
                 label: Text(
                   _getBrandDisplayName(context, brand),
@@ -238,7 +257,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 selected: isSelected,
                 onSelected: (selected) {
                   setState(() {
-                    _selectedBrand = brand;
+                    if (brand == 'All Brands') {
+                      _selectedBrands.clear();
+                    } else {
+                      if (selected) {
+                        _selectedBrands.add(brand);
+                        _selectedBrands.remove('All Brands');
+                      } else {
+                        _selectedBrands.remove(brand);
+                      }
+                    }
                   });
                 },
                 selectedColor: isDark ? colorScheme.primary : colorScheme.primary,

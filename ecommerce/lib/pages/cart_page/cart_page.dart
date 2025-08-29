@@ -55,18 +55,7 @@ class CartPage extends StatelessWidget {
                   return const SizedBox.shrink();
                 },
               ),
-              // Debug button to clear cart table and reload
-              IconButton(
-                icon: Icon(Icons.refresh, color: theme.colorScheme.primary),
-                tooltip: 'Reset Cart DB',
-                onPressed: () async {
-                  final cartProvider = Provider.of<CartProvider>(context, listen: false);
-                  await cartProvider.clearCartTableAndReload();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Cart DB reset!')),
-                  );
-                },
-              ),
+              // Debug reset button removed: clearing the DB from UI was unsafe
             ],
           ),
           body: Consumer<CartProvider>(

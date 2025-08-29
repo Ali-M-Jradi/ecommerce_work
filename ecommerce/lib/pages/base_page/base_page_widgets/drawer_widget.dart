@@ -6,6 +6,9 @@ import '../../../providers/language_provider.dart';
 import '../../../providers/mock_notification_provider.dart';
 import '../../auth/auth_provider.dart'; // Use AuthProvider instead
 import '../../../providers/category_provider.dart';
+import '../../../providers/api_product_provider.dart';
+import '../../../services/category_mapper.dart';
+import '../../products_page/products_page.dart';
 
 class DrawerWidget extends StatefulWidget {
   final Function(String)? onNavigationTap;
@@ -119,32 +122,42 @@ class _DrawerWidgetState extends State<DrawerWidget> {
              widget.onNavigationTap?.call('order_history');
            },
          ),
-          // Shop by Category (Dynamic)
-          Consumer<CategoryProvider>(
-            builder: (context, categoryProvider, _) {
+          // Shop by Category (Dynamic) - derive from available products so it matches ProductsPage
+          Consumer2<ApiProductProvider, CategoryProvider>(
+            builder: (context, apiProvider, categoryProvider, _) {
+              final products = apiProvider.products;
+              final keys = <String>{};
+              for (final p in products) {
+                final c = p.category.toString();
+                if (c.isNotEmpty) keys.add(c);
+              }
+
+              final items = keys.toList();
               return ExpansionTile(
                 leading: Icon(Icons.category, color: Theme.of(context).colorScheme.primary),
                 title: Text(
                   AppLocalizationsHelper.of(context).shopByCategoryMenu,
                   style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
                 ),
-                children: [
-                  ...categoryProvider.categories.map((cat) => ListTile(
-                        leading: Icon(cat.icon, color: Theme.of(context).colorScheme.primary),
-                        title: Text(
-                          // Show localized name based on current language
-                          Localizations.localeOf(context).languageCode == 'ar'
-                              ? cat.ar
-                              : Localizations.localeOf(context).languageCode == 'fr'
-                                  ? cat.fr
-                                  : cat.en,
-                          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-                        ),
-                        onTap: () {
-                          widget.onNavigationTap?.call(cat.id.toString());
-                        },
-                      ))
-                ],
+                children: items.map((classifierKey) {
+                  String title = classifierKey.replaceAll('_', ' ').toUpperCase();
+                  try {
+                    final mappedId = mapClassifierKeyToCategoryId(context, classifierKey);
+                    if (mappedId != null) {
+                      final cat = categoryProvider.getCategoryById(mappedId);
+                      if (cat != null) title = cat.en;
+                    }
+                  } catch (_) {}
+                  return ListTile(
+                    leading: const Icon(Icons.label),
+                    title: Text(title, style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      // Navigate to products page with classifier key
+                      Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ProductsPage(category: classifierKey, categoryTitle: title)));
+                    },
+                  );
+                }).toList(),
               );
             },
           ),

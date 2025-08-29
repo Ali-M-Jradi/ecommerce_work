@@ -6,17 +6,7 @@ import '../database_helper.dart';
 import '../services/parameter_service.dart';
 
 class CartProvider extends ChangeNotifier {
-  // Utility: Clear cart table in database (for schema/data reset)
-  Future<void> clearCartTable() async {
-    await _dbHelper.clearCartTable();
-    _items.clear();
-    notifyListeners();
-  }
-  // Utility: Clear cart table in database (for schema/data reset)
-  Future<void> clearCartTableAndReload() async {
-    await _dbHelper.clearCartTable();
-    await _loadCartFromDb();
-  }
+  // Debug DB-clear utilities were removed to prevent accidental wipes.
 
   final List<CartItem> _items = [];
   final DatabaseHelper _dbHelper = DatabaseHelper();

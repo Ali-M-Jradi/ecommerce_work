@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'wishlist_provider.dart';
 import '../models/product.dart';
 import '../pages/products_page/products_page_widgets/products_data_provider.dart';
 
@@ -15,6 +17,19 @@ class ProductProvider extends ChangeNotifier {
   }
 
   List<Product> get products => List.unmodifiable(_products);
+
+  /// Called by the app after providers are registered so dependent providers
+  /// (like WishlistProvider) can resolve saved IDs against loaded products.
+  void notifyProductsReady(BuildContext context) {
+    try {
+      final wishlistProvider = Provider.of<WishlistProvider?>(context, listen: false);
+      if (wishlistProvider != null) {
+        wishlistProvider.resolveSavedIds(_products);
+      }
+    } catch (e) {
+      // ignore if wishlist provider isn't available
+    }
+  }
 
   List<Product> getFilteredSortedProducts({String searchQuery = '', String sortBy = 'A to Z'}) {
     List<Product> filtered = _products;

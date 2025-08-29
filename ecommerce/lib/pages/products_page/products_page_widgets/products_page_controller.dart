@@ -13,6 +13,9 @@ class ProductsPageController {
   bool _isGridView = true;
   bool _showFloatingButtons = true;
   String? _category;
+  // Support multiple categories
+  Set<String> _selectedCategories = {};
+  Set<String> _selectedBrands = {};
   String _searchQuery = '';
   
   // Additional filter properties
@@ -27,6 +30,8 @@ class ProductsPageController {
   bool get isGridView => _isGridView;
   bool get showFloatingButtons => _showFloatingButtons;
   String? get category => _category;
+  List<String> get selectedCategories => List.unmodifiable(_selectedCategories);
+  List<String> get selectedBrands => List.unmodifiable(_selectedBrands);
   String get searchQuery => _searchQuery;
   String? get selectedBrand => _selectedBrand;
   double? get minPrice => _minPrice;
@@ -47,7 +52,17 @@ class ProductsPageController {
 
   ProductsPageController({VoidCallback? onStateChanged, String? category}) {
     _onStateChanged = onStateChanged;
-    _category = category;
+    // If caller provided a classifier key (contains underscore), treat it as an initial selected category
+    if (category != null && category.isNotEmpty) {
+      // If category is non-numeric (e.g. 'makeup' or 'face_care'), treat it as a classifier key
+      final parsed = int.tryParse(category);
+      if (parsed == null) {
+        _selectedCategories = {category};
+        _category = null;
+      } else {
+        _category = category;
+      }
+    }
     scrollController.addListener(_scrollListener);
   }
 
@@ -130,8 +145,27 @@ class ProductsPageController {
   void updateFilters(Map<String, dynamic> filters) {
     bool hasChanges = false;
     
-    if (_category != filters['category']) {
-      _category = filters['category'];
+    // Handle backward compatible 'category' (single) or 'categories' (multi)
+    final newCategories = <String>{};
+    if (filters.containsKey('categories') && filters['categories'] is List) {
+      newCategories.addAll((filters['categories'] as List).map((e) => e?.toString() ?? '').where((s) => s.isNotEmpty));
+    } else if (filters['category'] != null && (filters['category'] as String).isNotEmpty) {
+      newCategories.add(filters['category'] as String);
+    }
+    if (!_setEquals(_selectedCategories, newCategories)) {
+      _selectedCategories = newCategories;
+      hasChanges = true;
+    }
+
+    // Handle brands (multi-select)
+    final newBrands = <String>{};
+    if (filters.containsKey('brands') && filters['brands'] is List) {
+      newBrands.addAll((filters['brands'] as List).map((e) => e?.toString() ?? '').where((s) => s.isNotEmpty));
+    } else if (filters['brand'] != null && (filters['brand'] as String).isNotEmpty) {
+      newBrands.add(filters['brand'] as String);
+    }
+    if (!_setEquals(_selectedBrands, newBrands)) {
+      _selectedBrands = newBrands;
       hasChanges = true;
     }
     
@@ -168,6 +202,11 @@ class ProductsPageController {
   void clearAllFilters() {
     bool hasChanges = false;
     
+    if (_selectedCategories.isNotEmpty) {
+      _selectedCategories.clear();
+      hasChanges = true;
+    }
+
     if (_selectedBrand != null) {
       _selectedBrand = null;
       hasChanges = true;
@@ -196,5 +235,13 @@ class ProductsPageController {
     if (hasChanges) {
       _onStateChanged?.call();
     }
+  }
+
+  bool _setEquals(Set a, Set b) {
+    if (a.length != b.length) return false;
+    for (final v in a) {
+      if (!b.contains(v)) return false;
+    }
+    return true;
   }
 }

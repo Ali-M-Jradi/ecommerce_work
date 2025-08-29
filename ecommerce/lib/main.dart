@@ -149,6 +149,18 @@ class MyApp extends StatelessWidget {
                           primaryColor: p, secondaryColor: s, tertiaryColor: t));
                     }
                   }
+                  // Notify product provider that products are ready so other providers
+                  // (e.g. WishlistProvider) can resolve saved IDs to Product objects.
+                  Future.microtask(() {
+                    try {
+                      final productProvider = Provider.of(context, listen: false);
+                      if (productProvider != null && productProvider.notifyProductsReady is Function) {
+                        productProvider.notifyProductsReady(context);
+                      }
+                    } catch (e) {
+                      // ignore
+                    }
+                  });
                   return child!;
                 },
                 theme: _buildTheme(themeProvider, false),
